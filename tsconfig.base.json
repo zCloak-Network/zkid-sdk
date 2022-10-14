@@ -5,7 +5,14 @@
     "noUnusedLocals": false,
     "composite": false,
     "jsx": "react-jsx",
-    "paths": {},
+    "paths": {
+      "@zcloak/did": ["did/src"],
+      "@zcloak/did/*": ["did/src/*"],
+      "@zcloak/did-resolver": ["did-resolver/src"],
+      "@zcloak/did-resolver/*": ["did-resolver/src/*"],
+      "@zcloak/keyring": ["keyring/src"],
+      "@zcloak/keyring/*": ["keyring/src/*"],
+    },
     "skipLibCheck": true
   }
 }

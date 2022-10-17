@@ -1,46 +1,75 @@
-import type { KeypairType, KeyringInstance, KeyringPair, KeyringPair$Json } from './types';
+import type {
+  HexString,
+  KeypairType,
+  KeyringInstance,
+  KeyringPair,
+  KeyringPair$Json
+} from './types';
+
+import { assert, isHex } from '@polkadot/util';
+
+import { Pairs } from './pairs';
 
 export class Keyring implements KeyringInstance {
-  public pairs: KeyringPair[] = [];
-  public publicKeys: Uint8Array[] = [];
+  readonly #pairs: Pairs;
 
-  addPair(pair: KeyringPair): KeyringPair {
+  constructor() {
+    this.#pairs = new Pairs();
+  }
+
+  public get pairs(): KeyringPair[] {
+    return this.getPairs();
+  }
+
+  public get publicKeys(): Uint8Array[] {
+    return this.getPublicKeys();
+  }
+
+  public addPair(pair: KeyringPair): KeyringPair {
+    return this.#pairs.add(pair);
+  }
+
+  public addFromJson(json: KeyringPair$Json): KeyringPair {
+    return this.addPair(this.createFromJson(json));
+  }
+
+  public addFromMnemonic(mnemonic: string, type?: KeypairType): KeyringPair {
+    return this.addPair(this.createFromMnemonic(mnemonic, type));
+  }
+
+  public addFromSeed(seed: Uint8Array, type?: KeypairType): KeyringPair {
+    return this.addPair(this.createFromSeed(seed, type));
+  }
+
+  public createFromJson(json: KeyringPair$Json): KeyringPair {
     throw new Error('Method not implemented.');
   }
 
-  addFromJson(pair: KeyringPair$Json): KeyringPair {
+  public createFromMnemonic(mnemonic: string, type?: KeypairType): KeyringPair {
     throw new Error('Method not implemented.');
   }
 
-  addFromMnemonic(mnemonic: string, type?: KeypairType | undefined): KeyringPair {
+  public createFromSeed(seed: Uint8Array, type?: KeypairType): KeyringPair {
     throw new Error('Method not implemented.');
   }
 
-  addFromSeed(seed: Uint8Array, type?: KeypairType | undefined): KeyringPair {
-    throw new Error('Method not implemented.');
+  public getPair(publicKey: Uint8Array | HexString): KeyringPair {
+    return this.#pairs.get(publicKey);
   }
 
-  createFromJson(json: KeyringPair$Json, ignoreChecksum?: boolean | undefined): KeyringPair {
-    throw new Error('Method not implemented.');
+  public getPairs(): KeyringPair[] {
+    return this.#pairs.all();
   }
 
-  getPair(publicKey: Uint8Array | `0x${string}`): KeyringPair {
-    throw new Error('Method not implemented.');
+  public getPublicKeys(): Uint8Array[] {
+    return this.#pairs.all().map(({ publicKey }) => publicKey);
   }
 
-  getPairs(): KeyringPair[] {
-    throw new Error('Method not implemented.');
+  public removePair(publicKey: Uint8Array | HexString): void {
+    this.#pairs.remove(publicKey);
   }
 
-  getPublicKeys(): Uint8Array[] {
-    throw new Error('Method not implemented.');
-  }
-
-  removePair(publicKey: Uint8Array | `0x${string}`): void {
-    throw new Error('Method not implemented.');
-  }
-
-  toJson(publicKey: Uint8Array | `0x${string}`, passphrase?: string | undefined): KeyringPair$Json {
-    throw new Error('Method not implemented.');
+  public toJson(publicKey: Uint8Array | HexString, passphrase?: string): KeyringPair$Json {
+    return this.getPair(publicKey).toJson(passphrase);
   }
 }

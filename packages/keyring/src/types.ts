@@ -1,14 +1,12 @@
 export type HexString = `0x${string}`;
 
-export type KeypairType = 'ecdsa' | 'ethereum' | 'ed25519';
+export type KeypairType = 'ecdsa' | 'ed25519' | 'x25519';
 
 export interface KeyringPair$Json {
   encoded: HexString | string;
-  address: HexString | string;
 }
 
 export interface KeyringPair {
-  readonly address: string;
   readonly isLocked: boolean;
   readonly publicKey: Uint8Array;
   readonly type: KeypairType;
@@ -43,7 +41,9 @@ export interface KeyringInstance {
   addFromJson(pair: KeyringPair$Json): KeyringPair;
   addFromMnemonic(mnemonic: string, type?: KeypairType): KeyringPair;
   addFromSeed(seed: Uint8Array, type?: KeypairType): KeyringPair;
-  createFromJson(json: KeyringPair$Json, ignoreChecksum?: boolean): KeyringPair;
+  createFromJson(json: KeyringPair$Json): KeyringPair;
+  createFromMnemonic(mnemonic: string, type?: KeypairType): KeyringPair;
+  createFromSeed(seed: Uint8Array, type?: KeypairType): KeyringPair;
   getPair(publicKey: HexString | Uint8Array): KeyringPair;
   getPairs(): KeyringPair[];
   getPublicKeys(): Uint8Array[];

@@ -21,9 +21,9 @@
     "clean": "zcloak-dev-clean-build",
     "lint": "zcloak-dev-run-lint",
     "postinstall": "zcloak-dev-yarn-only",
-    "test": "zcloak-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
-    "test:one": "zcloak-dev-run-test --detectOpenHandles --forceExit",
-    "test:watch": "zcloak-dev-run-test --watch"
+    "test": "NODE_OPTIONS=--experimental-vm-modules zcloak-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
+    "test:one": "NODE_OPTIONS=--experimental-vm-modules zcloak-dev-run-test --detectOpenHandles --forceExit",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules zcloak-dev-run-test --watch"
   },
   "resolutions": {
     "typescript": "^4.8.3"

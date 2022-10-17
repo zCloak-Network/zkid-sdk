@@ -15,7 +15,7 @@ export abstract class DidResolver {
   /**
    * Resolve a zkID DID.
    * @param did - The zkid DID
-   * @returns `Promise<object>`
+   * @returns `Promise<DidDocument>`
    */
   public resolve(did: string): Promise<DidDocument> {
     throw new Error(

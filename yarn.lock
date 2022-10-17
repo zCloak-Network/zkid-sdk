@@ -2590,7 +2590,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zcloak/did-resolver@workspace:packages/did-resolver":
+"@zcloak/did-resolver@0.0.0, @zcloak/did-resolver@workspace:packages/did-resolver":
   version: 0.0.0-use.local
   resolution: "@zcloak/did-resolver@workspace:packages/did-resolver"
   languageName: unknown
@@ -2599,6 +2599,8 @@ __metadata:
 "@zcloak/did@workspace:packages/did":
   version: 0.0.0-use.local
   resolution: "@zcloak/did@workspace:packages/did"
+  dependencies:
+    "@zcloak/did-resolver": 0.0.0
   languageName: unknown
   linkType: soft
 

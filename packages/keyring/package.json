@@ -15,5 +15,10 @@
   "sideEffects": false,
   "type": "module",
   "version": "0.0.0",
-  "main": "index.js"
+  "main": "index.js",
+  "dependencies": {
+    "@polkadot/util": "^10.1.11",
+    "@polkadot/util-crypto": "^10.1.11",
+    "ethereum-cryptography": "^1.1.2"
+  }
 }

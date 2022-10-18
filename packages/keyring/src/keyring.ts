@@ -6,8 +6,6 @@ import type {
   KeyringPair$Json
 } from './types';
 
-import { assert, isHex } from '@polkadot/util';
-
 import { Pairs } from './pairs';
 
 export class Keyring implements KeyringInstance {

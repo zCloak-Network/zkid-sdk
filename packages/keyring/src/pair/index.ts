@@ -1,51 +1,106 @@
-import type { KeypairType, KeyringPair, KeyringPair$Json } from '../types';
+import type { HexString, KeypairType, KeyringPair, KeyringPair$Json } from '../types';
 
-import { u8aEmpty } from '@polkadot/util';
+import { assert, u8aConcat, u8aEmpty, u8aToU8a } from '@polkadot/util';
+
+import { ed25519Sign } from './ed25519';
+import { naclOpen, naclSeal } from './nacl';
+import { secp256k1Sign } from './secp256k1';
 
 interface Options {
   type: KeypairType;
 }
 
+const TYPE_SIGNATURE = {
+  ecdsa: (message: Uint8Array, secretKey: Uint8Array) => secp256k1Sign(message, secretKey),
+  ed25519: (message: Uint8Array, secretKey: Uint8Array) => ed25519Sign(message, secretKey)
+};
+
 function isLocked(secretKey?: Uint8Array): secretKey is undefined {
   return !secretKey || u8aEmpty(secretKey);
 }
 
-export function createPair(seed: Uint8Array, { type }: Options): KeyringPair {
-  const secretKey: Uint8Array = seed;
+export function createPair(
+  keypair: { secretKey: Uint8Array; publicKey: Uint8Array },
+  { type }: Options
+): KeyringPair {
+  let secretKey: Uint8Array = keypair.secretKey;
+  const publicKey: Uint8Array = keypair.publicKey;
 
   class Pair implements KeyringPair {
-    isLocked: boolean;
-    publicKey: Uint8Array;
-    type: KeypairType;
-    lock(): void {
+    public get isLocked(): boolean {
+      return isLocked(secretKey);
+    }
+
+    public get publicKey(): Uint8Array {
+      return publicKey;
+    }
+
+    public get type(): KeypairType {
+      return type;
+    }
+
+    public lock(): void {
+      secretKey = new Uint8Array();
+    }
+
+    public sign(message: HexString | Uint8Array): Uint8Array {
+      if (isLocked(secretKey)) {
+        throw new Error('Cannot sign with a locked key pair');
+      }
+
+      assert(['ecdsa', 'ed25519'].includes(type), 'only ecdsa and ed25519 support');
+
+      return TYPE_SIGNATURE[type as 'ecdsa' | 'ed25519'](u8aToU8a(message), secretKey);
+    }
+
+    toJson(passphrase?: string): KeyringPair$Json {
       throw new Error('Method not implemented.');
     }
 
-    sign(message: string | Uint8Array): Uint8Array {
-      throw new Error('Method not implemented.');
-    }
-
-    toJson(passphrase?: string | undefined): KeyringPair$Json {
-      throw new Error('Method not implemented.');
-    }
-
-    unlock(passphrase?: string | undefined): void {
+    unlock(passphrase?: string): void {
       throw new Error('Method not implemented.');
     }
 
     encrypt(
-      message: string | Uint8Array,
-      recipientPublicKey: string | Uint8Array,
-      nonce?: Uint8Array | undefined
+      message: HexString | Uint8Array,
+      recipientPublicKey: Uint8Array,
+      nonce?: Uint8Array
     ): Uint8Array {
-      throw new Error('Method not implemented.');
+      if (isLocked(secretKey)) {
+        throw new Error('Cannot sign with a locked key pair');
+      }
+
+      assert(type === 'x25519', 'only x25519 support');
+
+      const sealed = naclSeal(u8aToU8a(message), secretKey, recipientPublicKey, nonce);
+
+      return u8aConcat(sealed.nonce, sealed.sealed);
     }
 
     decrypt(
       encryptedMessageWithNonce: string | Uint8Array,
-      senderPublicKey: string | Uint8Array
-    ): Uint8Array | null {
-      throw new Error('Method not implemented.');
+      senderPublicKey: Uint8Array
+    ): Uint8Array {
+      if (isLocked(secretKey)) {
+        throw new Error('Cannot sign with a locked key pair');
+      }
+
+      assert(type === 'x25519', 'only x25519 support');
+
+      const messageU8a = u8aToU8a(encryptedMessageWithNonce);
+
+      const decrypted = naclOpen(
+        messageU8a.slice(24, messageU8a.length),
+        messageU8a.slice(0, 24),
+        senderPublicKey,
+        secretKey
+      );
+
+      assert(decrypted, 'decrypt error');
+
+      return decrypted;
     }
   }
+
+  return new Pair();
 }

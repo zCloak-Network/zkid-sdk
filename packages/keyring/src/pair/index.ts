@@ -63,8 +63,8 @@ export function createPair(
 
     encrypt(
       message: HexString | Uint8Array,
-      recipientPublicKey: Uint8Array,
-      nonce?: Uint8Array
+      recipientPublicKey: HexString | Uint8Array,
+      nonce?: HexString | Uint8Array
     ): Uint8Array {
       if (isLocked(secretKey)) {
         throw new Error('Cannot sign with a locked key pair');
@@ -78,8 +78,8 @@ export function createPair(
     }
 
     decrypt(
-      encryptedMessageWithNonce: string | Uint8Array,
-      senderPublicKey: Uint8Array
+      encryptedMessageWithNonce: HexString | Uint8Array,
+      senderPublicKey: HexString | Uint8Array
     ): Uint8Array {
       if (isLocked(secretKey)) {
         throw new Error('Cannot sign with a locked key pair');

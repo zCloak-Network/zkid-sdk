@@ -63,18 +63,18 @@ export function secp256k1Verify(
 }
 
 /**
- * Returns a object containing a `publicKey` & `secretKey` generated from the supplied seed.
+ * Returns a object containing a `publicKey` & `secretKey` generated from the supplied secretKey.
  */
-export function secp256k1PairFromSeed(seed: HexString | Uint8Array): Keypair {
-  const seedU8a = u8aToU8a(seed);
+export function secp256k1PairFromSecret(secretKey: HexString | Uint8Array): Keypair {
+  const secretKeyU8a = u8aToU8a(secretKey);
 
-  if (seedU8a.length !== 32) {
-    throw new Error('Expected valid 32-byte private key as a seed');
+  if (secretKeyU8a.length !== 32) {
+    throw new Error('Expected valid 32-byte private key as a secretKey');
   }
 
   return {
-    publicKey: getPublicKey(seedU8a),
-    secretKey: seedU8a
+    publicKey: getPublicKey(secretKeyU8a, true),
+    secretKey: secretKeyU8a
   };
 }
 

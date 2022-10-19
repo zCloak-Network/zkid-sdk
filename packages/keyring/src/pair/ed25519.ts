@@ -42,3 +42,10 @@ export function ed25519Verify(
 export function ed25519PairFromSeed(seed: HexString | Uint8Array): Keypair {
   return nacl.sign.keyPair.fromSeed(u8aToU8a(seed));
 }
+
+/**
+ * Returns a object containing a `publicKey` & `secretKey` generated from the supplied secretKey.
+ */
+export function ed25519PairFromSecret(secretKey: HexString | Uint8Array): Keypair {
+  return nacl.sign.keyPair.fromSecretKey(u8aToU8a(secretKey));
+}

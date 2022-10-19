@@ -2,7 +2,7 @@ import type { Keypair } from './types';
 
 import { stringToU8a, u8aEq } from '@polkadot/util';
 
-import { secp256k1PairFromSeed, secp256k1Sign, secp256k1Verify } from './secp256k1';
+import { secp256k1PairFromSecret, secp256k1Sign, secp256k1Verify } from './secp256k1';
 
 const SEED = '0xdc0fe6e259162b2a995b0c42ad0da49bfca4bf009a8062c19eff83a6ccd076fc';
 
@@ -21,7 +21,7 @@ const message = stringToU8a('abcd');
 
 describe('secp256k1', (): void => {
   it('create keypair', (): void => {
-    const keypair = secp256k1PairFromSeed(SEED);
+    const keypair = secp256k1PairFromSecret(SEED);
 
     expect(u8aEq(keypair.secretKey, KEYPAIR.secretKey)).toEqual(true);
     expect(u8aEq(keypair.publicKey, KEYPAIR.publicKey)).toEqual(true);

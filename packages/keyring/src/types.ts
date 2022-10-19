@@ -17,12 +17,12 @@ export interface KeyringPair {
   unlock(passphrase?: string): void;
   encrypt(
     message: HexString | Uint8Array,
-    recipientPublicKey: Uint8Array,
-    nonce?: Uint8Array
+    recipientPublicKey: HexString | Uint8Array,
+    nonce?: HexString | Uint8Array
   ): Uint8Array;
   decrypt(
     encryptedMessageWithNonce: HexString | Uint8Array,
-    senderPublicKey: Uint8Array
+    senderPublicKey: HexString | Uint8Array
   ): Uint8Array;
 }
 
@@ -39,11 +39,18 @@ export interface KeyringInstance {
 
   addPair(pair: KeyringPair): KeyringPair;
   addFromJson(pair: KeyringPair$Json): KeyringPair;
-  addFromMnemonic(mnemonic: string, type?: KeypairType): KeyringPair;
-  addFromSeed(seed: Uint8Array, type?: KeypairType): KeyringPair;
+  addFromMnemonic(mnemonic: string, path?: string, child?: number, type?: KeypairType): KeyringPair;
+  addFromSeed(seed: HexString | Uint8Array, type?: KeypairType): KeyringPair;
+  addFromSecret(secretKey: HexString | Uint8Array, type?: KeypairType): KeyringPair;
   createFromJson(json: KeyringPair$Json): KeyringPair;
-  createFromMnemonic(mnemonic: string, type?: KeypairType): KeyringPair;
-  createFromSeed(seed: Uint8Array, type?: KeypairType): KeyringPair;
+  createFromMnemonic(
+    mnemonic: string,
+    path?: string,
+    child?: number,
+    type?: KeypairType
+  ): KeyringPair;
+  createFromSeed(seed: HexString | Uint8Array, type?: KeypairType): KeyringPair;
+  createFromSecret(secretKey: HexString | Uint8Array, type?: KeypairType): KeyringPair;
   getPair(publicKey: HexString | Uint8Array): KeyringPair;
   getPairs(): KeyringPair[];
   getPublicKeys(): Uint8Array[];

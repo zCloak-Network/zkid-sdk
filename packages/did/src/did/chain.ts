@@ -1,8 +1,18 @@
+import type { DidResolver } from '@zcloak/did-resolver';
 import type { DidDocument } from '@zcloak/did-resolver/types';
+import type { IDidDetails } from '../types';
 
+import { defaultResolver } from '../defaults';
+import { parseDidDocument } from '../utils';
 import { DidDetails } from './details';
 
 export abstract class DidChain extends DidDetails {
+  public async getOnChainDetails(resolver: DidResolver = defaultResolver): Promise<IDidDetails> {
+    const document = await resolver.resolve(this.id);
+
+    return parseDidDocument(document);
+  }
+
   /**
    * publish did document on chain
    */

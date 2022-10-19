@@ -36,7 +36,7 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
     this.service = service;
   }
 
-  getDocument(): DidDocument {
+  public getDocument(): DidDocument {
     assert(this.keyring, 'Need to init before call method');
 
     const document: DidDocument = {

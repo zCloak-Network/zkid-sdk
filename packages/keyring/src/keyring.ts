@@ -1,32 +1,27 @@
-import type {
-  HexString,
-  KeypairType,
-  KeyringInstance,
-  KeyringPair,
-  KeyringPair$Json
-} from './types';
+import type { HexString } from '@zcloak/crypto/types';
+import type { KeypairType, KeyringInstance, KeyringPair, KeyringPair$Json } from './types';
 
-import { bufferToU8a, u8aToHex } from '@polkadot/util';
-import { derivePath } from 'ed25519-hd-key';
-import { HDKey } from 'ethereum-cryptography/hdkey';
+import { u8aToU8a } from '@polkadot/util';
 
-import { ed25519PairFromSecret, ed25519PairFromSeed } from './pair/ed25519';
-import { x25519PairFromSecret } from './pair/nacl';
-import { secp256k1PairFromSecret } from './pair/secp256k1';
-import { mnemonicToSeed } from './mnemonic';
+import {
+  convertEd25519ToX25519,
+  ed25519PairFromSeed,
+  hdEthereum,
+  keyExtractSuri,
+  keyFromPath,
+  mnemonicToLegacySeed,
+  mnemonicToMiniSecret,
+  secp256k1PairFromSeed,
+  x25519PairFromSeed
+} from '@zcloak/crypto';
+
 import { createPair } from './pair';
 import { Pairs } from './pairs';
 
 const PairFromSeed = {
-  ecdsa: secp256k1PairFromSecret,
+  ecdsa: secp256k1PairFromSeed,
   ed25519: ed25519PairFromSeed,
-  x25519: x25519PairFromSecret
-};
-
-const PairFromSecret = {
-  ecdsa: secp256k1PairFromSecret,
-  ed25519: ed25519PairFromSecret,
-  x25519: x25519PairFromSecret
+  x25519: x25519PairFromSeed
 };
 
 export class Keyring implements KeyringInstance {
@@ -66,13 +61,8 @@ export class Keyring implements KeyringInstance {
    * `addPair` to stores in a keyring pair dictionary the public key of the generated pair as a key and the pair as the associated value.
    * @returns instance of [[KeyringPair]]
    */
-  public addFromMnemonic(
-    mnemonic: string,
-    path?: string,
-    child?: number,
-    type?: KeypairType
-  ): KeyringPair {
-    return this.addPair(this.createFromMnemonic(mnemonic, path, child, type));
+  public addFromMnemonic(mnemonic: string, path?: string, type?: KeypairType): KeyringPair {
+    return this.addPair(this.createFromMnemonic(mnemonic, path, type));
   }
 
   /**
@@ -83,16 +73,6 @@ export class Keyring implements KeyringInstance {
    */
   public addFromSeed(seed: HexString | Uint8Array, type?: KeypairType): KeyringPair {
     return this.addPair(this.createFromSeed(seed, type));
-  }
-
-  /**
-   * store pair, given as keyring pair, as a Key/Value (public key => pair) in Keyring Pair Dictionary
-   * Allows user to provide the `secretKey` as an argument, and then generates a keyring pair from it that it passes to
-   * `addPair` to store in a keyring pair dictionary the public key of the generated pair as a key and the pair as the associated value.
-   * @returns instance of [[KeyringPair]]
-   */
-  public addFromSecret(secretKey: HexString | Uint8Array, type?: KeypairType): KeyringPair {
-    return this.addPair(this.createFromSecret(secretKey, type));
   }
 
   /**
@@ -107,45 +87,39 @@ export class Keyring implements KeyringInstance {
    */
   public createFromMnemonic(
     mnemonic: string,
-    path = "m/44'/60'/0'/0",
-    child = 0,
+    pathIn?: string,
     type: KeypairType = 'ecdsa'
   ): KeyringPair {
-    const seed = mnemonicToSeed(mnemonic);
+    const suri =
+      type === 'ecdsa'
+        ? `${mnemonic}${pathIn ?? "/m/44'/60'/0'/0/0"}`
+        : `${mnemonic}${pathIn ?? ''}`;
+    const { derivePath, password, path, phrase } = keyExtractSuri(suri);
 
-    if (type === 'ecdsa') {
-      const hdkey = HDKey.fromMasterSeed(seed).derive(path).deriveChild(child);
+    const parts = phrase.split(' ');
 
-      if (hdkey.privateKey && hdkey.publicKey) {
-        return createPair({ secretKey: hdkey.privateKey, publicKey: hdkey.publicKey }, { type });
-      } else {
-        throw new Error('HD key derive error');
-      }
+    let seed: Uint8Array;
+
+    if ([12, 15, 18, 21, 24].includes(parts.length)) {
+      seed =
+        type === 'ecdsa' ? mnemonicToLegacySeed(phrase) : mnemonicToMiniSecret(phrase, password);
     } else {
-      const { key } = derivePath(path, u8aToHex(seed), child);
-      const derivedSeed = bufferToU8a(key);
-
-      return createPair(PairFromSeed[type](derivedSeed), { type });
+      throw new Error('');
     }
+
+    const derived =
+      type === 'ecdsa'
+        ? hdEthereum(seed, derivePath.substring(1))
+        : keyFromPath(PairFromSeed.ed25519(seed), path, 'ed25519');
+
+    return createPair(type === 'x25519' ? convertEd25519ToX25519(derived) : derived, { type });
   }
 
   /**
    * create pair from seed
    */
   public createFromSeed(seed: HexString | Uint8Array, type: KeypairType = 'ecdsa'): KeyringPair {
-    const keypair = PairFromSeed[type](seed);
-
-    return createPair(keypair, { type });
-  }
-
-  /**
-   * create pair from secretKey
-   */
-  public createFromSecret(
-    secretKey: HexString | Uint8Array,
-    type: KeypairType = 'ecdsa'
-  ): KeyringPair {
-    const keypair = PairFromSecret[type](secretKey);
+    const keypair = PairFromSeed[type](u8aToU8a(seed));
 
     return createPair(keypair, { type });
   }

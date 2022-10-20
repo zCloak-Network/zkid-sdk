@@ -4,10 +4,10 @@ import type { KeyringInstance } from '@zcloak/keyring/types';
 
 import { ethereumEncode } from '@polkadot/util-crypto';
 
+import { base58Encode } from '@zcloak/crypto';
 import { Keyring } from '@zcloak/keyring';
 
 import { defaultResolver } from '../defaults';
-import { base58Encode } from '../multibase';
 import { IDidDetails } from '../types';
 import { parseDidDocument } from '../utils';
 import { Did } from '.';
@@ -97,9 +97,9 @@ export function createEcdsaFromMnemonic(
   mnemonic: string,
   keyring: KeyringInstance = new Keyring()
 ): Did {
-  const identifier = keyring.addFromMnemonic(mnemonic, "m/44'/60'/0'/0", 0, 'ecdsa');
-  const key0 = keyring.addFromMnemonic(mnemonic, "m/44'/60'/0'/0", 1, 'ecdsa');
-  const key1 = keyring.addFromMnemonic(mnemonic, "m/0'", 0, 'x25519');
+  const identifier = keyring.addFromMnemonic(mnemonic, "/m/44'/60'/0'/0/0", 'ecdsa');
+  const key0 = keyring.addFromMnemonic(mnemonic, "/m/44'/60'/0'/0/0", 'ecdsa');
+  const key1 = keyring.addFromMnemonic(mnemonic, undefined, 'x25519');
 
   const didUri: DidUrl = `did:zk:${ethereumEncode(identifier.publicKey)}`;
   const document: DidDocument = {

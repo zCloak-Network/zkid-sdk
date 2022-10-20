@@ -6,6 +6,8 @@
     "composite": false,
     "jsx": "react-jsx",
     "paths": {
+      "@zcloak/crypto": ["crypto/src"],
+      "@zcloak/crypto/*": ["crypto/src/*"],
       "@zcloak/did": ["did/src"],
       "@zcloak/did/*": ["did/src/*"],
       "@zcloak/did-resolver": ["did-resolver/src"],

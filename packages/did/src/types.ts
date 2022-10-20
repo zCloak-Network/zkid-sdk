@@ -1,5 +1,5 @@
+import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl, Service } from '@zcloak/did-resolver/types';
-import type { HexString } from '@zcloak/keyring/types';
 
 export interface IDidDetails {
   id: DidUrl;

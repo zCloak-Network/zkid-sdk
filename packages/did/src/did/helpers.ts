@@ -71,7 +71,8 @@ export function parseDidDocument(document: DidDocument): IDidDetails {
 /**
  * query did document from `VDR`, and parse it to [[Did]]
  * @param did a string that conforms to the DID Syntax.
- * @param resolver(optional) a [[DidResolver]] instance, default [[ZkidDidResolver]]
+ * @param keyring(optional) an instance of [[KeyringInstance]], if passed, will call `did.init` method
+ * @param resolver(optional) a [[DidResolver]] instance, default [[ArweaveDidResolver]]
  * @returns instance of [[Did]]
  * @example
  * <BR>
@@ -81,15 +82,21 @@ export function parseDidDocument(document: DidDocument): IDidDetails {
  * const did: Did = helpers.fromDid('did:zk:0x082d674c00e27fBaAAE123a85f5024A1DD702e51');
  * ```
  */
-export async function fromDid(did: DidUrl, resolver: DidResolver = defaultResolver): Promise<Did> {
+export async function fromDid(
+  did: DidUrl,
+  keyring: KeyringInstance = new Keyring(),
+  resolver: DidResolver = defaultResolver
+): Promise<Did> {
   const document = await resolver.resolve(did);
 
-  return fromDidDocument(document);
+  return fromDidDocument(document, keyring, resolver);
 }
 
 /**
  * parse a did document to [[Did]]
  * @param document an object of [[DidDocument]]
+ * @param keyring(optional) an instance of [[KeyringInstance]], if passed, will call `did.init` method
+ * @param resolver(optional) a [[DidResolver]] instance, default [[ArweaveDidResolver]]
  * @returns instance of [[Did]]
  * @example
  * <BR>
@@ -101,16 +108,27 @@ export async function fromDid(did: DidUrl, resolver: DidResolver = defaultResolv
  * const did: Did = heloers.fromDidDocument(document);
  * ```
  */
-export function fromDidDocument(document: DidDocument): Did {
+export function fromDidDocument(
+  document: DidDocument,
+  keyring: KeyringInstance = new Keyring(),
+  resolver: DidResolver = defaultResolver
+): Did {
   const details = parseDidDocument(document);
 
-  return new Did(details);
+  const did = new Did(details, resolver);
+
+  if (keyring) {
+    did.init(keyring);
+  }
+
+  return did;
 }
 
 /**
  * create [[Did]] from a [[IDidDetails]] object
  * @param details an object of [[IDidDetails]]
  * @param keyring(optional) an instance of [[KeyringInstance]], if passed, will call `did.init` method
+ * @param resolver(optional) a [[DidResolver]] instance, default [[ArweaveDidResolver]]
  * @returns instance of [[Did]]
  * @example
  * <BR>
@@ -124,8 +142,12 @@ export function fromDidDocument(document: DidDocument): Did {
  * const did: Did = helpers.create(details, keyring);
  * ```
  */
-export function create(details: IDidDetails, keyring?: KeyringInstance): Did {
-  const did = new Did(details);
+export function create(
+  details: IDidDetails,
+  keyring?: KeyringInstance,
+  resolver: DidResolver = defaultResolver
+): Did {
+  const did = new Did(details, resolver);
 
   if (keyring) {
     did.init(keyring);
@@ -151,7 +173,8 @@ export function create(details: IDidDetails, keyring?: KeyringInstance): Did {
  */
 export function createEcdsaFromMnemonic(
   mnemonic: string,
-  keyring: KeyringInstance = new Keyring()
+  keyring: KeyringInstance = new Keyring(),
+  resolver: DidResolver = defaultResolver
 ): Did {
   const identifier = keyring.addFromMnemonic(mnemonic, "/m/44'/60'/0'/0/0", 'ecdsa');
   const key0 = keyring.addFromMnemonic(mnemonic, "/m/44'/60'/0'/0/1", 'ecdsa');
@@ -184,7 +207,7 @@ export function createEcdsaFromMnemonic(
     service: []
   };
 
-  const did = create(parseDidDocument(document), keyring);
+  const did = create(parseDidDocument(document), keyring, resolver);
 
   return did;
 }

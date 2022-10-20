@@ -1,9 +1,8 @@
 import { stringToU8a } from '@polkadot/util';
 import { utils } from 'ethers';
-import { randomBytes } from 'tweetnacl';
 
-import { ed25519Verify } from './pair/ed25519';
-import { secp256k1Verify } from './pair/secp256k1';
+import { ed25519Verify, randomAsU8a, secp256k1Verify } from '@zcloak/crypto';
+
 import { Keyring } from './keyring';
 
 describe('Keyring', (): void => {
@@ -12,12 +11,12 @@ describe('Keyring', (): void => {
     107, 11, 106, 74, 11, 9, 62, 163, 227, 195, 155
   ]);
   const publicKeyTwo = new Uint8Array([
-    193, 234, 138, 55, 226, 78, 92, 216, 4, 96, 56, 53, 148, 78, 86, 154, 224, 15, 135, 147, 240,
-    19, 157, 140, 250, 16, 95, 168, 218, 250, 122, 233
+    204, 156, 197, 219, 207, 229, 90, 222, 152, 163, 250, 68, 54, 105, 148, 170, 235, 167, 132, 161,
+    168, 11, 25, 245, 196, 192, 42, 14, 204, 6, 107, 153
   ]);
   const publicKeyThree = new Uint8Array([
-    203, 175, 93, 60, 153, 113, 188, 160, 132, 176, 128, 178, 159, 251, 205, 252, 122, 242, 97, 14,
-    66, 82, 254, 216, 68, 114, 33, 14, 190, 202, 158, 83
+    101, 111, 177, 164, 252, 50, 24, 234, 6, 105, 145, 221, 146, 149, 5, 230, 159, 46, 251, 240,
+    155, 108, 150, 8, 224, 17, 208, 122, 126, 157, 100, 8
   ]);
 
   const seedOne = '0xa31a712188e9e55eb2075fc62cec3141ce7f21e209605ab15cee6ad3a376d9f0';
@@ -50,7 +49,7 @@ describe('Keyring', (): void => {
       const signature = pair.sign(MESSAGE);
 
       expect(secp256k1Verify(MESSAGE, signature, pair.publicKey)).toBe(true);
-      expect(secp256k1Verify(MESSAGE, signature, randomBytes(32))).toBe(false);
+      expect(secp256k1Verify(MESSAGE, signature, randomAsU8a(32))).toBe(false);
       expect(secp256k1Verify(new Uint8Array(), signature, pair.publicKey)).toBe(false);
     });
   });
@@ -63,8 +62,7 @@ describe('Keyring', (): void => {
 
       keyring.addFromMnemonic(
         'potato act energy ahead stone taxi receive fame gossip equip chest round',
-        "m/0'",
-        0,
+        undefined,
         'ed25519'
       );
     });
@@ -73,8 +71,7 @@ describe('Keyring', (): void => {
       expect(
         keyring.addFromMnemonic(
           'potato act energy ahead stone taxi receive fame gossip equip chest round',
-          "m/0'",
-          0,
+          undefined,
           'ed25519'
         ).publicKey
       ).toEqual(publicKeyTwo);
@@ -87,7 +84,7 @@ describe('Keyring', (): void => {
       const signature = pair.sign(MESSAGE);
 
       expect(ed25519Verify(MESSAGE, signature, pair.publicKey)).toBe(true);
-      expect(ed25519Verify(MESSAGE, signature, randomBytes(32))).toBe(false);
+      expect(ed25519Verify(MESSAGE, signature, randomAsU8a(32))).toBe(false);
       expect(ed25519Verify(new Uint8Array(), signature, pair.publicKey)).toBe(false);
     });
   });
@@ -98,11 +95,12 @@ describe('Keyring', (): void => {
     beforeEach((): void => {
       keyring = new Keyring();
 
-      keyring.addFromMnemonic(
-        'potato act energy ahead stone taxi receive fame gossip equip chest round',
-        "m/0'",
-        0,
-        'x25519'
+      console.log(
+        keyring.addFromMnemonic(
+          'potato act energy ahead stone taxi receive fame gossip equip chest round',
+          '//0///1',
+          'x25519'
+        ).publicKey
       );
       keyring.addFromSeed(seedOne, 'x25519');
     });
@@ -111,8 +109,7 @@ describe('Keyring', (): void => {
       expect(
         keyring.addFromMnemonic(
           'potato act energy ahead stone taxi receive fame gossip equip chest round',
-          "m/0'",
-          0,
+          '//0///1',
           'x25519'
         ).publicKey
       ).toEqual(publicKeyThree);

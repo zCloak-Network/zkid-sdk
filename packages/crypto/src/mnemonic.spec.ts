@@ -1,4 +1,9 @@
-import { generateMnemonic, mnemonicToSeed, validateMnemonic } from './mnemonic';
+import {
+  generateMnemonic,
+  mnemonicToLegacySeed,
+  mnemonicToMiniSecret,
+  validateMnemonic
+} from './mnemonic';
 
 const MNEMONIC =
   'health correct setup usage father decorate curious copper sorry recycle skin equal';
@@ -12,8 +17,14 @@ describe('mnemonic', (): void => {
     validateMnemonic(MNEMONIC);
   });
 
-  it('mnemonic to seed', (): void => {
-    const seed = mnemonicToSeed(MNEMONIC);
+  it('mnemonic to legacy seed', (): void => {
+    const seed = mnemonicToLegacySeed(MNEMONIC);
+
+    console.log(seed);
+  });
+
+  it('mnemonic to secret', (): void => {
+    const seed = mnemonicToMiniSecret(MNEMONIC);
 
     console.log(seed);
   });

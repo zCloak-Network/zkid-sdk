@@ -1,10 +1,9 @@
-import type { HexString, KeypairType, KeyringPair, KeyringPair$Json } from '../types';
+import type { HexString } from '@zcloak/crypto/types';
+import type { KeypairType, KeyringPair, KeyringPair$Json } from '../types';
 
 import { assert, u8aConcat, u8aEmpty, u8aToU8a } from '@polkadot/util';
 
-import { ed25519Sign } from './ed25519';
-import { naclOpen, naclSeal } from './nacl';
-import { secp256k1Sign } from './secp256k1';
+import { ed25519Sign, naclOpen, naclSeal, secp256k1Sign } from '@zcloak/crypto';
 
 interface Options {
   type: KeypairType;
@@ -72,7 +71,7 @@ export function createPair(
 
       assert(type === 'x25519', 'only x25519 support');
 
-      const sealed = naclSeal(u8aToU8a(message), secretKey, recipientPublicKey, nonce);
+      const sealed = naclSeal(u8aToU8a(message), secretKey, u8aToU8a(recipientPublicKey), nonce);
 
       return u8aConcat(sealed.nonce, sealed.sealed);
     }
@@ -92,7 +91,7 @@ export function createPair(
       const decrypted = naclOpen(
         messageU8a.slice(24, messageU8a.length),
         messageU8a.slice(0, 24),
-        senderPublicKey,
+        u8aToU8a(senderPublicKey),
         secretKey
       );
 

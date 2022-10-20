@@ -1,10 +1,20 @@
-import type { Keypair } from './types';
+import type { HexString, Keypair } from '@zcloak/crypto/types';
 
-import { stringToU8a, u8aEq } from '@polkadot/util';
+import { stringToU8a, u8aConcat, u8aEq, u8aToU8a } from '@polkadot/util';
 
-import { ed25519Verify } from './ed25519';
-import { secp256k1Verify } from './secp256k1';
+import { ed25519Verify, secp256k1Verify } from '@zcloak/crypto';
+
 import { createPair } from '.';
+
+export function hashMessage(message: HexString | Uint8Array): Uint8Array {
+  const messageU8a = u8aToU8a(message);
+
+  return u8aConcat(
+    stringToU8a('\x19Ethereum Signed Message:\n'),
+    stringToU8a(String(messageU8a.length)),
+    message
+  );
+}
 
 const KEYPAIR_ECDSA: Keypair = {
   secretKey: new Uint8Array([
@@ -58,9 +68,9 @@ describe('Keyring pair', (): void => {
   it('create ecdsa pair', (): void => {
     const pair = createPair(KEYPAIR_ECDSA, { type: 'ecdsa' });
 
-    const signature = pair.sign(message);
+    const signature = pair.sign(hashMessage(message));
 
-    expect(secp256k1Verify(message, signature, pair.publicKey)).toEqual(true);
+    expect(secp256k1Verify(hashMessage(message), signature, pair.publicKey)).toBe(true);
   });
 
   it('create ed25519 pair', (): void => {

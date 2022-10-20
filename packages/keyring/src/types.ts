@@ -1,4 +1,4 @@
-export type HexString = `0x${string}`;
+import type { HexString } from '@zcloak/crypto/types';
 
 export type KeypairType = 'ecdsa' | 'ed25519' | 'x25519';
 
@@ -39,18 +39,11 @@ export interface KeyringInstance {
 
   addPair(pair: KeyringPair): KeyringPair;
   addFromJson(pair: KeyringPair$Json): KeyringPair;
-  addFromMnemonic(mnemonic: string, path?: string, child?: number, type?: KeypairType): KeyringPair;
+  addFromMnemonic(mnemonic: string, path?: string, type?: KeypairType): KeyringPair;
   addFromSeed(seed: HexString | Uint8Array, type?: KeypairType): KeyringPair;
-  addFromSecret(secretKey: HexString | Uint8Array, type?: KeypairType): KeyringPair;
   createFromJson(json: KeyringPair$Json): KeyringPair;
-  createFromMnemonic(
-    mnemonic: string,
-    path?: string,
-    child?: number,
-    type?: KeypairType
-  ): KeyringPair;
+  createFromMnemonic(mnemonic: string, path?: string, type?: KeypairType): KeyringPair;
   createFromSeed(seed: HexString | Uint8Array, type?: KeypairType): KeyringPair;
-  createFromSecret(secretKey: HexString | Uint8Array, type?: KeypairType): KeyringPair;
   getPair(publicKey: HexString | Uint8Array): KeyringPair;
   getPairs(): KeyringPair[];
   getPublicKeys(): Uint8Array[];

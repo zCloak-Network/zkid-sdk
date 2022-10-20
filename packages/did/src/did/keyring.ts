@@ -1,4 +1,5 @@
-import type { HexString, KeyringInstance } from '@zcloak/keyring/types';
+import type { HexString } from '@zcloak/crypto/types';
+import type { KeyringInstance } from '@zcloak/keyring/types';
 import type { IDidKeyring } from '../types';
 
 import { assert } from '@polkadot/util';

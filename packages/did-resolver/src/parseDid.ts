@@ -1,5 +1,7 @@
 import type { DidMethod, DidUrl, ParsedDid } from './types';
 
+import { InvalidDidError } from './errors';
+
 const ID_CHAR = '[a-zA-Z0-9_.-]';
 const METHOD: DidMethod = 'zk';
 const METHOD_ID = `(${ID_CHAR}+(:${ID_CHAR}+)*)`;
@@ -11,7 +13,7 @@ const FRAGMENT = '(#.*)?';
 const DID_MATCHER = new RegExp(`^did:(${METHOD}):${METHOD_ID}${PATH}${QUERY}${FRAGMENT}$`);
 
 export function parseDid(didUrl: string) {
-  if (didUrl === '' || !didUrl) throw new Error('Missing DID');
+  if (didUrl === '' || !didUrl) throw new InvalidDidError();
   const sections = didUrl.match(DID_MATCHER);
 
   if (sections) {
@@ -32,5 +34,5 @@ export function parseDid(didUrl: string) {
     return parsed;
   }
 
-  throw new Error(`Invalid DID ${didUrl}`);
+  throw new InvalidDidError();
 }

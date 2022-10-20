@@ -52,7 +52,7 @@ export function createValidate({ chars, prefix, type }: Config): ValidateFn {
     }
 
     if (value[0] !== prefix) {
-      throw new Error(`Expected ipfs-compatible ${type} to start with '${prefix}'`);
+      throw new Error(`Expected prefix-compatible ${type} to start with '${prefix}'`);
     }
 
     for (let i = 1; i < value.length; i++) {

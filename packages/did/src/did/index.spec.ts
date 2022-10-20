@@ -2,6 +2,7 @@ import { ethereumEncode } from '@zcloak/crypto';
 import { DidDocument } from '@zcloak/did-resolver/types';
 import { Keyring } from '@zcloak/keyring';
 
+import { verifyDidDocumentProof } from '../verify';
 import { createEcdsaFromMnemonic } from './helpers';
 
 const DOCUMENT: DidDocument = {
@@ -10,23 +11,23 @@ const DOCUMENT: DidDocument = {
   controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
   verificationMethod: [
     {
-      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0',
+      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'EcdsaSecp256k1VerificationKey2019',
       publicKeyMultibase: 'zgz4zgTUcbvduVZ1Jf3MNMeVeRYP2eiKDJnY7A6PCq3ew'
     },
     {
-      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#1',
+      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'X25519KeyAgreementKey2019',
       publicKeyMultibase: 'z13hUFht8HXUi4bmTa6Zz4Mr9j5TXUoRsTtSKnKU6qfR7'
     }
   ],
-  authentication: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0'],
-  assertionMethod: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0'],
-  keyAgreement: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#1'],
-  capabilityInvocation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0'],
-  capabilityDelegation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0'],
+  authentication: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
+  assertionMethod: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
+  keyAgreement: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1'],
+  capabilityInvocation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
+  capabilityDelegation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
   service: [],
   createdTime: 1666263022530
 };
@@ -57,13 +58,13 @@ describe('Did', (): void => {
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
       const did = createEcdsaFromMnemonic(mnemonic, keyring);
 
-      expect([...(did.authentication ?? [])][0]).toEqual(key0);
-      expect([...(did.keyAgreement ?? [])][0]).toEqual(key1);
+      expect(did.get([...(did.authentication ?? [])][0]).publicKey).toEqual(key0);
+      expect(did.get([...(did.keyAgreement ?? [])][0]).publicKey).toEqual(key1);
       expect([...did.controller][0]).toEqual(`did:zk:${ethereumEncode(controllerKey)}`);
     });
   });
 
-  describe('get document', (): void => {
+  describe('did details', (): void => {
     it('create ecdsa did from mnemonic and get document', (): void => {
       const mnemonic =
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
@@ -80,6 +81,18 @@ describe('Did', (): void => {
       expect(document.capabilityInvocation).toEqual(DOCUMENT.capabilityInvocation);
       expect(document.capabilityDelegation).toEqual(DOCUMENT.capabilityDelegation);
       expect(document.service).toEqual(DOCUMENT.service);
+    });
+  });
+
+  describe('did chain', (): void => {
+    it('create ecdsa did from mnemonic and getPublish and verify', (): void => {
+      const mnemonic =
+        'health correct setup usage father decorate curious copper sorry recycle skin equal';
+      const did = createEcdsaFromMnemonic(mnemonic);
+
+      const document = did.getPublish('did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0');
+
+      expect(verifyDidDocumentProof(document)).toBe(true);
     });
   });
 });

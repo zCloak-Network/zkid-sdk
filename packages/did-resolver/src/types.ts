@@ -48,8 +48,7 @@ export interface DidDocument {
   capabilityDelegation?: DidUrl[];
   service?: Service[];
   createdTime?: number;
-}
-
-export interface DidDocumentWithProof extends DidDocument {
   proof?: DidDocumentProof[];
 }
+
+export type DidDocumentWithProof = Omit<DidDocument, 'proof'> & { proof: DidDocumentProof[] };

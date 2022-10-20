@@ -4,13 +4,69 @@ import type { KeyringInstance } from '@zcloak/keyring/types';
 
 import { ethereumEncode } from '@polkadot/util-crypto';
 
-import { base58Encode } from '@zcloak/crypto';
+import {
+  base32Decode,
+  base58Decode,
+  base58Encode,
+  base64Decode,
+  isBase32,
+  isBase58,
+  isBase64
+} from '@zcloak/crypto';
 import { Keyring } from '@zcloak/keyring';
 
 import { defaultResolver } from '../defaults';
 import { IDidDetails } from '../types';
-import { parseDidDocument } from '../utils';
 import { Did } from '.';
+
+export function decodeMultibase(multibase: string): Uint8Array {
+  if (isBase58(multibase)) {
+    return base58Decode(multibase);
+  } else if (isBase32(multibase)) {
+    return base32Decode(multibase);
+  } else if (isBase64(multibase)) {
+    return base64Decode(multibase);
+  } else {
+    throw new Error(`Decode ${multibase} error, only support base58, base32, base64`);
+  }
+}
+
+/**
+ * parse a did document to [[IDidDetails]]
+ * @param document an object of [[DidDocument]]
+ * @returns object of [[IDidDetails]]
+ */
+export function parseDidDocument(document: DidDocument): IDidDetails {
+  const didDetails: IDidDetails = {
+    id: document.id,
+    controller: new Set(document.controller),
+    keyRelationship: new Map()
+  };
+
+  document.verificationMethod?.forEach((method) => {
+    didDetails.keyRelationship.set(method.id, {
+      id: method.id,
+      controller: method.controller,
+      publicKey: decodeMultibase(method.publicKeyMultibase)
+    });
+  });
+
+  const keys = [
+    'authentication',
+    'assertionMethod',
+    'keyAgreement',
+    'capabilityInvocation',
+    'capabilityDelegation'
+  ] as const;
+
+  keys.forEach((key) => {
+    didDetails[key] = new Set(document[key]);
+  });
+
+  didDetails.service = document.service;
+
+  return didDetails;
+}
 
 /**
  * query did document from `VDR`, and parse it to [[Did]]
@@ -128,9 +184,7 @@ export function createEcdsaFromMnemonic(
     service: []
   };
 
-  const did = fromDidDocument(document);
-
-  did.init(keyring);
+  const did = create(parseDidDocument(document), keyring);
 
   return did;
 }

@@ -14,12 +14,12 @@ export abstract class DidResolver {
 
   /**
    * Resolve a zkID DID.
-   * @param did - The zkid DID
+   * @param didUrl - The zkid DID Url
    * @returns `Promise<DidDocument>`
    */
-  public resolve(did: string): Promise<DidDocument> {
+  public resolve(didUrl: string): Promise<DidDocument> {
     throw new Error(
-      `Resolving not implemented in base class, please extend. ${this.constructor.name} ${did}`
+      `Resolving not implemented in base class, please extend. ${this.constructor.name} ${didUrl}`
     );
   }
 }

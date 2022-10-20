@@ -1,10 +1,13 @@
 import type { DidResolver } from '@zcloak/did-resolver';
-import type { DidDocument } from '@zcloak/did-resolver/types';
+import type { DidDocumentProof, DidDocumentWithProof, DidUrl } from '@zcloak/did-resolver/types';
 import type { IDidDetails } from '../types';
 
+import { base58Encode } from '@zcloak/crypto';
+
 import { defaultResolver } from '../defaults';
-import { parseDidDocument } from '../utils';
+import { encodeDidDocument } from '../encode';
 import { DidDetails } from './details';
+import { parseDidDocument } from './helpers';
 
 export abstract class DidChain extends DidDetails {
   public async getOnChainDetails(resolver: DidResolver = defaultResolver): Promise<IDidDetails> {
@@ -14,16 +17,26 @@ export abstract class DidChain extends DidDetails {
   }
 
   /**
-   * publish did document on chain
+   * get a [[DidDocumentWithProof]] objecg, pass capability invocation key id
+   * @param keyIndex `this.capabilityInvocation` item
+   * @returns an object of [[DidDocumentWithProof]]
    */
-  public publish(): Promise<DidDocument> {
-    throw new Error('Method not implemented.');
-  }
+  public getPublish(keyId: DidUrl): DidDocumentWithProof {
+    const document = this.getDocument();
 
-  /**
-   * revoke did document from chain
-   */
-  public revoke(): Promise<void> {
-    throw new Error('Method not implemented.');
+    document.createdTime = Date.now();
+
+    const proof: DidDocumentProof[] = document.proof ?? [];
+
+    const key = this.get(keyId);
+
+    const signature = this.sign(key.publicKey, encodeDidDocument(document));
+
+    proof.push({ id: key.id, signature: base58Encode(signature), type: 'publish' });
+
+    return {
+      ...document,
+      proof
+    };
   }
 }

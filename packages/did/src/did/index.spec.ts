@@ -2,6 +2,7 @@ import { ethereumEncode } from '@zcloak/crypto';
 import { DidDocument } from '@zcloak/did-resolver/types';
 import { Keyring } from '@zcloak/keyring';
 
+import { verifyDidDocumentProof } from '../verify';
 import { createEcdsaFromMnemonic } from './helpers';
 
 const DOCUMENT: DidDocument = {
@@ -84,16 +85,14 @@ describe('Did', (): void => {
   });
 
   describe('did chain', (): void => {
-    it('create ecdsa did from mnemonic and getPublish', (): void => {
+    it('create ecdsa did from mnemonic and getPublish and verify', (): void => {
       const mnemonic =
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
       const did = createEcdsaFromMnemonic(mnemonic);
 
       const document = did.getPublish('did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0');
 
-      expect(document.proof[0].signature).toEqual(
-        'zUsFBQuWRXKM6NBxxA3Gdr58Ec6hEKfoVjGsjRrpAtV27DBucG2VJBEcC9Fsr2yuhWNRpe2DDGtUdDNGeaF6GkLGf'
-      );
+      expect(verifyDidDocumentProof(document)).toBe(true);
     });
   });
 });

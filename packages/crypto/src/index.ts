@@ -4,6 +4,7 @@ export * from './multibase';
 export * from './nacl';
 export * from './secp256k1';
 export * from './x25519';
+export * from './verify';
 
 export {
   randomAsU8a,

@@ -19,15 +19,15 @@ import { defaultResolver } from '../defaults';
 import { IDidDetails } from '../types';
 import { Did } from '.';
 
-function decodePublicKeyMultibase(publicKeyMultibase: string): Uint8Array {
-  if (isBase58(publicKeyMultibase)) {
-    return base58Decode(publicKeyMultibase);
-  } else if (isBase32(publicKeyMultibase)) {
-    return base32Decode(publicKeyMultibase);
-  } else if (isBase64(publicKeyMultibase)) {
-    return base64Decode(publicKeyMultibase);
+export function decodeMultibase(multibase: string): Uint8Array {
+  if (isBase58(multibase)) {
+    return base58Decode(multibase);
+  } else if (isBase32(multibase)) {
+    return base32Decode(multibase);
+  } else if (isBase64(multibase)) {
+    return base64Decode(multibase);
   } else {
-    throw new Error(`Decode ${publicKeyMultibase} error, only support base58, base32, base64`);
+    throw new Error(`Decode ${multibase} error, only support base58, base32, base64`);
   }
 }
 
@@ -47,7 +47,7 @@ export function parseDidDocument(document: DidDocument): IDidDetails {
     didDetails.keyRelationship.set(method.id, {
       id: method.id,
       controller: method.controller,
-      publicKey: decodePublicKeyMultibase(method.publicKeyMultibase)
+      publicKey: decodeMultibase(method.publicKeyMultibase)
     });
   });
 
@@ -184,9 +184,7 @@ export function createEcdsaFromMnemonic(
     service: []
   };
 
-  const did = fromDidDocument(document);
-
-  did.init(keyring);
+  const did = create(parseDidDocument(document), keyring);
 
   return did;
 }

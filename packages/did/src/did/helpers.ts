@@ -98,23 +98,24 @@ export function createEcdsaFromMnemonic(
   keyring: KeyringInstance = new Keyring()
 ): Did {
   const identifier = keyring.addFromMnemonic(mnemonic, "/m/44'/60'/0'/0/0", 'ecdsa');
-  const key0 = keyring.addFromMnemonic(mnemonic, "/m/44'/60'/0'/0/0", 'ecdsa');
+  const key0 = keyring.addFromMnemonic(mnemonic, "/m/44'/60'/0'/0/1", 'ecdsa');
   const key1 = keyring.addFromMnemonic(mnemonic, undefined, 'x25519');
 
   const didUri: DidUrl = `did:zk:${ethereumEncode(identifier.publicKey)}`;
   const document: DidDocument = {
+    '@context': ['https://www.w3.org/ns/did/v1'],
     id: didUri,
     controller: [didUri],
     verificationMethod: [
       {
         id: `${didUri}#key-0`,
-        controller: didUri,
+        controller: [didUri],
         type: 'EcdsaSecp256k1VerificationKey2019',
         publicKeyMultibase: base58Encode(key0.publicKey)
       },
       {
         id: `${didUri}#key-1`,
-        controller: didUri,
+        controller: [didUri],
         type: 'X25519KeyAgreementKey2019',
         publicKeyMultibase: base58Encode(key1.publicKey)
       }

@@ -14,11 +14,12 @@ export interface ParsedDid {
 
 export type VerificationMethodType =
   | 'X25519KeyAgreementKey2019'
-  | 'EcdsaSecp256k1VerificationKey2019';
+  | 'EcdsaSecp256k1VerificationKey2019'
+  | 'Ed25519VerificationKey2020';
 
 export interface VerificationMethod {
   id: DidUrl;
-  controller: DidUrl;
+  controller: DidUrl[];
   type: VerificationMethodType;
   publicKeyMultibase: string;
 }
@@ -29,7 +30,14 @@ export interface Service {
   serviceEndpoint: string;
 }
 
+export interface DidDocumentProof {
+  signature: string;
+  type: string;
+  id: DidUrl;
+}
+
 export interface DidDocument {
+  '@context': ['https://www.w3.org/ns/did/v1'];
   id: DidUrl;
   controller: DidUrl[];
   verificationMethod?: VerificationMethod[];
@@ -39,4 +47,9 @@ export interface DidDocument {
   capabilityInvocation?: DidUrl[];
   capabilityDelegation?: DidUrl[];
   service?: Service[];
+  createdTime?: number;
+}
+
+export interface DidDocumentWithProof extends DidDocument {
+  proof?: DidDocumentProof[];
 }

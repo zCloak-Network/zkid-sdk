@@ -3,8 +3,8 @@ import type { DidDocument } from '@zcloak/did-resolver/types';
 import type { IDidDetails } from '../types';
 
 import { defaultResolver } from '../defaults';
-import { parseDidDocument } from '../utils';
 import { DidDetails } from './details';
+import { parseDidDocument } from './helpers';
 
 export abstract class DidChain extends DidDetails {
   public async getOnChainDetails(resolver: DidResolver = defaultResolver): Promise<IDidDetails> {

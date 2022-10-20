@@ -9,7 +9,7 @@ describe('ArweaveDidResolver', (): void => {
     resolver = new ArweaveDidResolver();
   });
 
-  it('resolve didUrl', async (): Promise<void> => {
+  it.skip('resolve didUrl', async (): Promise<void> => {
     await resolver.resolve(DID_URI);
   });
 });

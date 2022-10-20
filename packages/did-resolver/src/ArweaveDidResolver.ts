@@ -1,4 +1,4 @@
-import { assert, isArray } from '@polkadot/util';
+import { isArray } from '@polkadot/util';
 import Arweave from 'arweave';
 
 import { DidResolver } from './DidResolver';

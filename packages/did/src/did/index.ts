@@ -1,3 +1,3 @@
-import { DidDetails } from './details';
+import { DidChain } from './chain';
 
-export class Did extends DidDetails {}
+export class Did extends DidChain {}

@@ -51,4 +51,4 @@ export interface DidDocument {
   proof?: DidDocumentProof[];
 }
 
-export type DidDocumentWithProof = Omit<DidDocument, 'proof'> & { proof: DidDocumentWithProof };
+export type DidDocumentWithProof = Omit<DidDocument, 'proof'> & { proof: DidDocumentProof[] };

@@ -1,18 +1,27 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl, Service } from '@zcloak/did-resolver/types';
+import type { KeyringPair } from '@zcloak/keyring/types';
+
+export interface KeyRelationship {
+  id: DidUrl;
+  controller: DidUrl[];
+  publicKey: Uint8Array;
+}
 
 export interface IDidDetails {
   id: DidUrl;
   controller: Set<DidUrl>;
-  authentication?: Set<Uint8Array>;
-  assertionMethod?: Set<Uint8Array>;
-  keyAgreement?: Set<Uint8Array>;
-  capabilityInvocation?: Set<Uint8Array>;
-  capabilityDelegation?: Set<Uint8Array>;
+  keyRelationship: Map<DidUrl, KeyRelationship>;
+  authentication?: Set<DidUrl>;
+  assertionMethod?: Set<DidUrl>;
+  keyAgreement?: Set<DidUrl>;
+  capabilityInvocation?: Set<DidUrl>;
+  capabilityDelegation?: Set<DidUrl>;
   service?: Service[];
 }
 
 export interface IDidKeyring {
+  getPair(publicKey: Uint8Array): KeyringPair;
   sign(publicKey: Uint8Array, message: HexString | Uint8Array): Uint8Array;
   encrypt(
     publicKey: Uint8Array,

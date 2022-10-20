@@ -57,13 +57,13 @@ describe('Did', (): void => {
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
       const did = createEcdsaFromMnemonic(mnemonic, keyring);
 
-      expect([...(did.authentication ?? [])][0]).toEqual(key0);
-      expect([...(did.keyAgreement ?? [])][0]).toEqual(key1);
+      expect(did.get([...(did.authentication ?? [])][0]).publicKey).toEqual(key0);
+      expect(did.get([...(did.keyAgreement ?? [])][0]).publicKey).toEqual(key1);
       expect([...did.controller][0]).toEqual(`did:zk:${ethereumEncode(controllerKey)}`);
     });
   });
 
-  describe('get document', (): void => {
+  describe('did details', (): void => {
     it('create ecdsa did from mnemonic and get document', (): void => {
       const mnemonic =
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
@@ -80,6 +80,20 @@ describe('Did', (): void => {
       expect(document.capabilityInvocation).toEqual(DOCUMENT.capabilityInvocation);
       expect(document.capabilityDelegation).toEqual(DOCUMENT.capabilityDelegation);
       expect(document.service).toEqual(DOCUMENT.service);
+    });
+  });
+
+  describe('did chain', (): void => {
+    it('create ecdsa did from mnemonic and getPublish', (): void => {
+      const mnemonic =
+        'health correct setup usage father decorate curious copper sorry recycle skin equal';
+      const did = createEcdsaFromMnemonic(mnemonic);
+
+      const document = did.getPublish('did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0');
+
+      expect(document.proof[0].signature).toEqual(
+        'zUsFBQuWRXKM6NBxxA3Gdr58Ec6hEKfoVjGsjRrpAtV27DBucG2VJBEcC9Fsr2yuhWNRpe2DDGtUdDNGeaF6GkLGf'
+      );
     });
   });
 });

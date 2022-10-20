@@ -5,13 +5,13 @@ import type {
   VerificationMethod,
   VerificationMethodType
 } from '@zcloak/did-resolver/types';
-import type { KeypairType } from '@zcloak/keyring/types';
+import type { KeypairType, KeyringPair } from '@zcloak/keyring/types';
 
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
 
-import { IDidDetails } from '../types';
+import { IDidDetails, KeyRelationship } from '../types';
 import { DidKeyring } from './keyring';
 
 function typeTransform(type: KeypairType): VerificationMethodType {
@@ -31,11 +31,12 @@ function typeTransform(type: KeypairType): VerificationMethodType {
 export abstract class DidDetails extends DidKeyring implements IDidDetails {
   public id: DidUrl;
   public controller: Set<DidUrl>;
-  public authentication?: Set<Uint8Array>;
-  public assertionMethod?: Set<Uint8Array>;
-  public keyAgreement?: Set<Uint8Array>;
-  public capabilityInvocation?: Set<Uint8Array>;
-  public capabilityDelegation?: Set<Uint8Array>;
+  public keyRelationship: Map<DidUrl, KeyRelationship>;
+  public authentication?: Set<DidUrl>;
+  public assertionMethod?: Set<DidUrl>;
+  public keyAgreement?: Set<DidUrl>;
+  public capabilityInvocation?: Set<DidUrl>;
+  public capabilityDelegation?: Set<DidUrl>;
   public service?: Service[];
 
   constructor({
@@ -46,11 +47,13 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
     controller,
     id,
     keyAgreement,
+    keyRelationship,
     service
   }: IDidDetails) {
     super();
     this.id = id;
     this.controller = controller;
+    this.keyRelationship = keyRelationship;
     this.authentication = authentication;
     this.assertionMethod = assertionMethod;
     this.keyAgreement = keyAgreement;
@@ -59,8 +62,15 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
     this.service = service;
   }
 
+  public get(id: DidUrl): KeyRelationship {
+    const method = this.keyRelationship.get(id);
+
+    assert(method, `Not find verficationMethod with id ${id}`);
+
+    return method;
+  }
+
   public getDocument(): DidDocument {
-    assert(this.keyring, 'Need to init before call method');
     assert(this.controller.size > 0, 'Must has one controller');
 
     const document: DidDocument = {
@@ -86,8 +96,8 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
       'capabilityInvocation',
       'capabilityDelegation'
     ] as const) {
-      for (const publicKey of [...(this[key] ?? [])]) {
-        const pair = this.keyring.getPair(publicKey);
+      for (const id of [...(this[key] ?? [])]) {
+        const pair: KeyringPair = this.getPair(this.get(id).publicKey);
 
         const method = verificationMethod.find(
           (method) => method.publicKeyMultibase === base58Encode(pair.publicKey)

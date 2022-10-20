@@ -19,6 +19,18 @@ import { defaultResolver } from '../defaults';
 import { IDidDetails } from '../types';
 import { Did } from '.';
 
+function decodePublicKeyMultibase(publicKeyMultibase: string): Uint8Array {
+  if (isBase58(publicKeyMultibase)) {
+    return base58Decode(publicKeyMultibase);
+  } else if (isBase32(publicKeyMultibase)) {
+    return base32Decode(publicKeyMultibase);
+  } else if (isBase64(publicKeyMultibase)) {
+    return base64Decode(publicKeyMultibase);
+  } else {
+    throw new Error(`Decode ${publicKeyMultibase} error, only support base58, base32, base64`);
+  }
+}
+
 /**
  * parse a did document to [[IDidDetails]]
  * @param document an object of [[DidDocument]]
@@ -27,8 +39,17 @@ import { Did } from '.';
 export function parseDidDocument(document: DidDocument): IDidDetails {
   const didDetails: IDidDetails = {
     id: document.id,
-    controller: new Set(document.controller)
+    controller: new Set(document.controller),
+    keyRelationship: new Map()
   };
+
+  document.verificationMethod?.forEach((method) => {
+    didDetails.keyRelationship.set(method.id, {
+      id: method.id,
+      controller: method.controller,
+      publicKey: decodePublicKeyMultibase(method.publicKeyMultibase)
+    });
+  });
 
   const keys = [
     'authentication',
@@ -39,26 +60,7 @@ export function parseDidDocument(document: DidDocument): IDidDetails {
   ] as const;
 
   keys.forEach((key) => {
-    didDetails[key] =
-      document[key] &&
-      document.verificationMethod &&
-      new Set(
-        document.verificationMethod
-          .filter((method) => document[key]?.includes(method.id))
-          .map((method) => {
-            if (isBase58(method.publicKeyMultibase)) {
-              return base58Decode(method.publicKeyMultibase);
-            } else if (isBase32(method.publicKeyMultibase)) {
-              return base32Decode(method.publicKeyMultibase);
-            } else if (isBase64(method.publicKeyMultibase)) {
-              return base64Decode(method.publicKeyMultibase);
-            } else {
-              throw new Error(
-                `Decode ${method.publicKeyMultibase} error, only support base58, base32, base64`
-              );
-            }
-          })
-      );
+    didDetails[key] = new Set(document[key]);
   });
 
   didDetails.service = document.service;

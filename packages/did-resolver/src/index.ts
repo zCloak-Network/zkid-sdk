@@ -1,2 +1,2 @@
 export * from './DidResolver';
-export * from './ZkidDidResolver';
+export * from './ArweaveDidResolver';

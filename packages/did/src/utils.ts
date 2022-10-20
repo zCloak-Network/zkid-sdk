@@ -8,7 +8,7 @@ import {
   isBase32,
   isBase58,
   isBase64
-} from './multibase';
+} from '@zcloak/crypto';
 
 export function parseDidDocument(document: DidDocument): IDidDetails {
   const didDetails: IDidDetails = {

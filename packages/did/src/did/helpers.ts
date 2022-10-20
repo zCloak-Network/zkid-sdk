@@ -4,10 +4,10 @@ import type { KeyringInstance } from '@zcloak/keyring/types';
 
 import { ethereumEncode } from '@polkadot/util-crypto';
 
+import { base58Encode } from '@zcloak/crypto';
 import { Keyring } from '@zcloak/keyring';
 
 import { defaultResolver } from '../defaults';
-import { base58Encode } from '../multibase';
 import { IDidDetails } from '../types';
 import { parseDidDocument } from '../utils';
 import { Did } from '.';

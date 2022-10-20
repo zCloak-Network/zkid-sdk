@@ -10,23 +10,23 @@ const DOCUMENT: DidDocument = {
   controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
   verificationMethod: [
     {
-      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0',
+      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'EcdsaSecp256k1VerificationKey2019',
       publicKeyMultibase: 'zgz4zgTUcbvduVZ1Jf3MNMeVeRYP2eiKDJnY7A6PCq3ew'
     },
     {
-      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#1',
+      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'X25519KeyAgreementKey2019',
       publicKeyMultibase: 'z13hUFht8HXUi4bmTa6Zz4Mr9j5TXUoRsTtSKnKU6qfR7'
     }
   ],
-  authentication: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0'],
-  assertionMethod: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0'],
-  keyAgreement: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#1'],
-  capabilityInvocation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0'],
-  capabilityDelegation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#0'],
+  authentication: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
+  assertionMethod: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
+  keyAgreement: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1'],
+  capabilityInvocation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
+  capabilityDelegation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
   service: [],
   createdTime: 1666263022530
 };

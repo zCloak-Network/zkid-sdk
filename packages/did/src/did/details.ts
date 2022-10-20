@@ -94,7 +94,7 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
         );
 
         if (!method) {
-          const id: DidUrl = `${this.id}#${verificationMethod.length}`;
+          const id: DidUrl = `${this.id}#key-${verificationMethod.length}`;
 
           verificationMethod.push({
             id,

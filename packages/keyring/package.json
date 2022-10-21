@@ -14,10 +14,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1-0",
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^10.1.11",
-    "@zcloak/crypto": "0.0.0"
+    "@zcloak/crypto": "0.0.1-0"
   }
 }

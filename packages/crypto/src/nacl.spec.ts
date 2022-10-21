@@ -1,3 +1,6 @@
+// Copyright 2021-2022 zcloak authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
 import type { Keypair } from './types';
 
 import { stringToU8a, u8aEq } from '@polkadot/util';

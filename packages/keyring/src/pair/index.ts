@@ -1,3 +1,6 @@
+// Copyright 2021-2022 zcloak authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
 import type { HexString } from '@zcloak/crypto/types';
 import type { KeypairType, KeyringPair, KeyringPair$Json } from '../types';
 

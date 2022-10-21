@@ -1,3 +1,6 @@
+// Copyright 2021-2022 zcloak authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
 import type { DidResolver } from '@zcloak/did-resolver';
 import type { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
 import type { KeyringInstance } from '@zcloak/keyring/types';

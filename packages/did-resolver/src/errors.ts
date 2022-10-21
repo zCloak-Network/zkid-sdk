@@ -1,3 +1,6 @@
+// Copyright 2021-2022 zcloak authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
 export class InvalidDidError extends Error {
   constructor() {
     super('The DID supplied does not conform to valid syntax.');

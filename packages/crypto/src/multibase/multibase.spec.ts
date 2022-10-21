@@ -1,3 +1,6 @@
+// Copyright 2021-2022 zcloak authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
 import { base32Decode, base32Encode, base32Validate } from './bs32';
 import { base58Decode, base58Encode, base58Validate } from './bs58';
 import { base64Decode, base64Encode, base64Validate } from './bs64';

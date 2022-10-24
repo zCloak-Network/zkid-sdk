@@ -50,7 +50,7 @@ export interface DidDocument {
   capabilityInvocation?: DidUrl[];
   capabilityDelegation?: DidUrl[];
   service?: Service[];
-  createdTime?: number;
+  creationTime?: number;
   proof?: DidDocumentProof[];
 }
 

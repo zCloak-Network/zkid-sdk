@@ -5,7 +5,7 @@ import type { DidDocumentProof, DidDocumentWithProof, DidUrl } from '@zcloak/did
 
 import { base58Encode } from '@zcloak/crypto';
 
-import { encodeDidDocument } from '../encode';
+import { hashDidDocument } from '../hasher';
 import { DidDetails } from './details';
 
 export abstract class DidChain extends DidDetails {
@@ -17,15 +17,15 @@ export abstract class DidChain extends DidDetails {
   public getPublish(keyId: DidUrl): DidDocumentWithProof {
     const document = this.getDocument();
 
-    document.createdTime = Date.now();
+    document.creationTime = Date.now();
 
     const proof: DidDocumentProof[] = document.proof ?? [];
 
     const key = this.get(keyId);
 
-    const signature = this.sign(key.publicKey, encodeDidDocument(document));
+    const signature = this.sign(key.publicKey, hashDidDocument(document));
 
-    proof.push({ id: key.id, signature: base58Encode(signature), type: 'publish' });
+    proof.push({ id: key.id, signature: base58Encode(signature), type: 'creation' });
 
     return {
       ...document,

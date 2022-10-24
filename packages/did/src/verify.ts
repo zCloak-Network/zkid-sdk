@@ -5,18 +5,18 @@ import { verifySignature } from '@zcloak/crypto';
 import { DidDocument } from '@zcloak/did-resolver/types';
 
 import { decodeMultibase } from './did/helpers';
-import { encodeDidDocument } from './encode';
+import { hashDidDocument } from './hasher';
 
 export function verifyDidDocumentProof(document: DidDocument): boolean {
   if (!document.proof || document.proof.length === 0) {
     return false;
   }
 
-  const encoded = encodeDidDocument(document);
+  const encoded = hashDidDocument(document);
 
   const proof = document.proof[0];
 
-  if (proof.type === 'publish') {
+  if (proof.type === 'creation') {
     const publicKeyMultibase =
       document.verificationMethod &&
       document.verificationMethod.find((method) => method.id === proof.id)?.publicKeyMultibase;

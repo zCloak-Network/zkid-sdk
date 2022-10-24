@@ -2959,6 +2959,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/jsonabc@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "@types/jsonabc@npm:2.3.1"
+  checksum: dc85828a1dab023e9faab4c8547b63a5e77019dda1a8e31585f4927032ef9dc57ed700b0c5dfa220cd5ccf4185007e13ddc16af0c02d30803b61f9b0b271526e
+  languageName: node
+  linkType: hard
+
 "@types/keyv@npm:^3.1.1":
   version: 3.1.4
   resolution: "@types/keyv@npm:3.1.4"
@@ -3296,9 +3303,11 @@ __metadata:
   resolution: "@zcloak/did@workspace:packages/did"
   dependencies:
     "@polkadot/util": ^10.1.11
+    "@types/jsonabc": ^2.3.1
     "@zcloak/crypto": 0.0.1-1
     "@zcloak/did-resolver": 0.0.1-1
     "@zcloak/keyring": 0.0.1-1
+    jsonabc: ^2.3.1
   languageName: unknown
   linkType: soft
 
@@ -7721,6 +7730,13 @@ __metadata:
   bin:
     json5: lib/cli.js
   checksum: 74b8a23b102a6f2bf2d224797ae553a75488b5adbaee9c9b6e5ab8b510a2fc6e38f876d4c77dea672d4014a44b2399e15f2051ac2b37b87f74c0c7602003543b
+  languageName: node
+  linkType: hard
+
+"jsonabc@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "jsonabc@npm:2.3.1"
+  checksum: 2db5f12fbe3949f854fa4709fd9259630ced9f1d6e8394be8e03cbb3aac419fe2f1fced5ba18850b6af9942eaa07f1be29338047ccecd9028eebe93885a4ae3a
   languageName: node
   linkType: hard
 

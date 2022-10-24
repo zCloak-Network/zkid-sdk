@@ -32,7 +32,7 @@ const DOCUMENT: DidDocument = {
   capabilityInvocation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
   capabilityDelegation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
   service: [],
-  createdTime: 1666263022530
+  creationTime: 1666263022530
 };
 
 describe('Did', (): void => {

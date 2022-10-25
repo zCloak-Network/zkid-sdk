@@ -3,7 +3,8 @@
 
 import { ArweaveDidResolver } from './ArweaveDidResolver';
 
-const DID_URI = 'did:zk:0x082d674c00e27fBaAAE123a85f5024A1DD702e51';
+// const DID_URI = 'did:zk:0xab62B6Cc152ca32b51fD80CF5eE6c606DEd850c6';
+const DID_URI = 'did:zk:0x8A63688576294474862cE18486CD489144721D77';
 
 describe('ArweaveDidResolver', (): void => {
   let resolver: ArweaveDidResolver;
@@ -13,6 +14,6 @@ describe('ArweaveDidResolver', (): void => {
   });
 
   it.skip('resolve didUrl', async (): Promise<void> => {
-    await resolver.resolve(DID_URI);
+    console.log(await resolver.resolve(DID_URI));
   });
 });

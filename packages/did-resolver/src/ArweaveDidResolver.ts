@@ -28,7 +28,8 @@ export class ArweaveDidResolver extends DidResolver {
     } = opts;
 
     this.owners = owners;
-    this.arweave = Arweave.init({
+    // eslint-disable-next-line no-unsafe-optional-chaining
+    this.arweave = (Arweave.init ?? (Arweave as any)?.default?.init)({
       host,
       protocol
     });
@@ -69,6 +70,8 @@ export class ArweaveDidResolver extends DidResolver {
           })
         )
       );
+
+      console.log(1234);
 
       const document = JSON.parse(documents[documents.length - 1]);
 

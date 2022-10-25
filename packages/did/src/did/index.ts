@@ -8,7 +8,7 @@ import { u8aEq } from '@polkadot/util';
 import { DidResolver } from '@zcloak/did-resolver';
 
 import { defaultResolver } from '../defaults';
-import { encodeDidDocument } from '../encode';
+import { hashDidDocument } from '../hasher';
 import { DidChain } from './chain';
 
 export class Did extends DidChain {
@@ -24,6 +24,6 @@ export class Did extends DidChain {
 
     const document = this.getDocument();
 
-    return u8aEq(encodeDidDocument(onChainDocument), encodeDidDocument(document));
+    return u8aEq(hashDidDocument(onChainDocument), hashDidDocument(document));
   }
 }

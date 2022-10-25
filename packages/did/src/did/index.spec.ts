@@ -6,7 +6,7 @@ import { DidDocument } from '@zcloak/did-resolver/types';
 import { Keyring } from '@zcloak/keyring';
 
 import { verifyDidDocumentProof } from '../verify';
-import { createEcdsaFromMnemonic } from './helpers';
+import { createEcdsaFromMnemonic, keyFromMnemonic } from './helpers';
 
 const DOCUMENT: DidDocument = {
   '@context': ['https://www.w3.org/ns/did/v1'],
@@ -17,13 +17,13 @@ const DOCUMENT: DidDocument = {
       id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'EcdsaSecp256k1VerificationKey2019',
-      publicKeyMultibase: 'zgz4zgTUcbvduVZ1Jf3MNMeVeRYP2eiKDJnY7A6PCq3ew'
+      publicKeyMultibase: 'zgfhtFiqxRR2vjtPbj4m8kiGkB2b1MUmbdFU167ByZbnU'
     },
     {
       id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'X25519KeyAgreementKey2019',
-      publicKeyMultibase: 'z13hUFht8HXUi4bmTa6Zz4Mr9j5TXUoRsTtSKnKU6qfR7'
+      publicKeyMultibase: 'zFVD24HQZFfVpt1MVLRpYujPiBy2SXGRHz5LC8umAmoC1'
     }
   ],
   authentication: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
@@ -31,8 +31,7 @@ const DOCUMENT: DidDocument = {
   keyAgreement: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1'],
   capabilityInvocation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
   capabilityDelegation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
-  service: [],
-  creationTime: 1666263022530
+  service: []
 };
 
 describe('Did', (): void => {
@@ -44,12 +43,12 @@ describe('Did', (): void => {
       234, 243, 237, 184, 253, 96, 196, 125, 196, 127, 56, 220
     ]);
     const key0 = new Uint8Array([
-      2, 82, 22, 105, 175, 1, 74, 83, 243, 173, 59, 126, 245, 210, 95, 189, 13, 170, 195, 56, 217,
-      9, 211, 57, 159, 26, 3, 95, 49, 43, 149, 155, 144
+      2, 77, 98, 22, 148, 142, 221, 112, 110, 182, 7, 157, 44, 154, 76, 238, 157, 17, 80, 217, 29,
+      247, 123, 130, 123, 173, 175, 83, 198, 110, 47, 17, 213
     ]);
     const key1 = new Uint8Array([
-      0, 176, 235, 203, 11, 0, 240, 253, 112, 200, 146, 14, 7, 170, 149, 151, 122, 123, 82, 153,
-      107, 101, 115, 60, 136, 12, 208, 188, 162, 71, 170, 126
+      215, 61, 119, 250, 103, 115, 177, 232, 142, 134, 133, 249, 55, 195, 191, 73, 167, 175, 188,
+      41, 243, 75, 31, 239, 68, 226, 17, 65, 245, 245, 74, 102
     ]);
 
     beforeEach((): void => {
@@ -64,6 +63,7 @@ describe('Did', (): void => {
       expect(did.get([...(did.authentication ?? [])][0]).publicKey).toEqual(key0);
       expect(did.get([...(did.keyAgreement ?? [])][0]).publicKey).toEqual(key1);
       expect([...did.controller][0]).toEqual(`did:zk:${ethereumEncode(controllerKey)}`);
+      console.log(JSON.stringify(did.getDocument()));
     });
   });
 

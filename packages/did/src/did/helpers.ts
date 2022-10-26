@@ -4,14 +4,14 @@
 import type { DidResolver } from '@zcloak/did-resolver';
 import type { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
 import type { KeyringInstance } from '@zcloak/keyring/types';
-
-import { ethereumEncode } from '@polkadot/util-crypto';
+import type { KeyGen } from './types';
 
 import {
   base32Decode,
   base58Decode,
   base58Encode,
   base64Decode,
+  ethereumEncode,
   isBase32,
   isBase58,
   isBase64
@@ -179,11 +179,12 @@ export function createEcdsaFromMnemonic(
   keyring: KeyringInstance = new Keyring(),
   resolver: DidResolver = defaultResolver
 ): Did {
-  const identifier = keyring.addFromMnemonic(mnemonic, "/m/44'/60'/0'/0/0", 'ecdsa');
-  const key0 = keyring.addFromMnemonic(mnemonic, "/m/44'/60'/0'/0/1", 'ecdsa');
-  const key1 = keyring.addFromMnemonic(mnemonic, undefined, 'x25519');
+  const {
+    identifier,
+    keys: [key0, key1]
+  } = keyFromMnemonic(keyring, mnemonic, 'ecdsa');
 
-  const didUri: DidUrl = `did:zk:${ethereumEncode(identifier.publicKey)}`;
+  const didUri: DidUrl = `did:zk:${ethereumEncode(identifier)}`;
   const document: DidDocument = {
     '@context': ['https://www.w3.org/ns/did/v1'],
     id: didUri,
@@ -193,13 +194,13 @@ export function createEcdsaFromMnemonic(
         id: `${didUri}#key-0`,
         controller: [didUri],
         type: 'EcdsaSecp256k1VerificationKey2019',
-        publicKeyMultibase: base58Encode(key0.publicKey)
+        publicKeyMultibase: base58Encode(key0)
       },
       {
         id: `${didUri}#key-1`,
         controller: [didUri],
         type: 'X25519KeyAgreementKey2019',
-        publicKeyMultibase: base58Encode(key1.publicKey)
+        publicKeyMultibase: base58Encode(key1)
       }
     ],
     authentication: [`${didUri}#key-0`],
@@ -213,4 +214,34 @@ export function createEcdsaFromMnemonic(
   const did = create(parseDidDocument(document), keyring, resolver);
 
   return did;
+}
+
+export function keyFromMnemonic(keyring: KeyringInstance, mnemonic: string, type: 'ecdsa'): KeyGen;
+export function keyFromMnemonic(
+  keyring: KeyringInstance,
+  mnemonic: string,
+  type: 'ed25519'
+): KeyGen;
+
+export function keyFromMnemonic(
+  keyring: KeyringInstance,
+  mnemonic: string,
+  type: 'ecdsa' | 'ed25519'
+): KeyGen {
+  const identifier = keyring.addFromMnemonic(
+    mnemonic,
+    type === 'ecdsa' ? "/m/44'/60'/0'/0/0" : undefined,
+    type
+  );
+  const pair1 = keyring.addFromMnemonic(
+    mnemonic,
+    type === 'ecdsa' ? "/m/44'/60'/0'/0/0/0" : '//0',
+    type
+  );
+  const pair2 = keyring.addFromMnemonic(mnemonic, '//1', 'x25519');
+
+  return {
+    identifier: identifier.publicKey,
+    keys: [pair1.publicKey, pair2.publicKey]
+  };
 }

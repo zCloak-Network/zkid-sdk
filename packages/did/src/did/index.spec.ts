@@ -17,13 +17,13 @@ const DOCUMENT: DidDocument = {
       id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'EcdsaSecp256k1VerificationKey2019',
-      publicKeyMultibase: 'zgz4zgTUcbvduVZ1Jf3MNMeVeRYP2eiKDJnY7A6PCq3ew'
+      publicKeyMultibase: 'zdpxuL2ps42J5jVMJU9DpsMpwnJGsDkTS1N64JC3CbChq'
     },
     {
       id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'X25519KeyAgreementKey2019',
-      publicKeyMultibase: 'z13hUFht8HXUi4bmTa6Zz4Mr9j5TXUoRsTtSKnKU6qfR7'
+      publicKeyMultibase: 'z9kQXjRwuVoQXKKmotXrkwxMQRhXEQX39A8XfWmZTgb4'
     }
   ],
   authentication: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
@@ -31,8 +31,7 @@ const DOCUMENT: DidDocument = {
   keyAgreement: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1'],
   capabilityInvocation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
   capabilityDelegation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
-  service: [],
-  creationTime: 1666263022530
+  service: []
 };
 
 describe('Did', (): void => {
@@ -44,12 +43,12 @@ describe('Did', (): void => {
       234, 243, 237, 184, 253, 96, 196, 125, 196, 127, 56, 220
     ]);
     const key0 = new Uint8Array([
-      2, 82, 22, 105, 175, 1, 74, 83, 243, 173, 59, 126, 245, 210, 95, 189, 13, 170, 195, 56, 217,
-      9, 211, 57, 159, 26, 3, 95, 49, 43, 149, 155, 144
+      2, 35, 46, 60, 119, 231, 40, 153, 127, 254, 189, 73, 215, 29, 11, 112, 172, 81, 51, 159, 187,
+      229, 95, 166, 84, 171, 103, 65, 20, 251, 242, 238, 76
     ]);
     const key1 = new Uint8Array([
-      0, 176, 235, 203, 11, 0, 240, 253, 112, 200, 146, 14, 7, 170, 149, 151, 122, 123, 82, 153,
-      107, 101, 115, 60, 136, 12, 208, 188, 162, 71, 170, 126
+      2, 61, 185, 182, 103, 137, 1, 30, 95, 138, 105, 135, 188, 241, 237, 18, 250, 107, 205, 251,
+      192, 33, 128, 145, 213, 119, 16, 125, 214, 227, 70, 3
     ]);
 
     beforeEach((): void => {

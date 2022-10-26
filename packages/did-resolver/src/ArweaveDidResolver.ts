@@ -71,8 +71,6 @@ export class ArweaveDidResolver extends DidResolver {
         )
       );
 
-      console.log(1234);
-
       const document = JSON.parse(documents[documents.length - 1]);
 
       return document;

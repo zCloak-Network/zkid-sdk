@@ -30,23 +30,10 @@ const KEYPAIR2: Keypair = {
 
 const message = stringToU8a('abcd');
 
-const BOX = {
-  nonce: new Uint8Array([
-    124, 239, 113, 158, 94, 242, 79, 220, 205, 57, 199, 255, 188, 85, 169, 194, 64, 218, 7, 164,
-    111, 52, 37, 43
-  ]),
-  sealed: new Uint8Array([
-    53, 147, 44, 3, 5, 139, 242, 11, 251, 187, 53, 196, 255, 231, 26, 248, 236, 76, 185, 49
-  ])
-};
-
 describe('nacl', (): void => {
-  it('encrypt', (): void => {
-    console.log(naclSeal(message, KEYPAIR1.secretKey, KEYPAIR2.publicKey));
-  });
-
-  it('decrypt', (): void => {
-    const decrypted = naclOpen(BOX.sealed, BOX.nonce, KEYPAIR1.publicKey, KEYPAIR2.secretKey);
+  it('encrypt and decrypt', (): void => {
+    const { nonce, sealed } = naclSeal(message, KEYPAIR1.secretKey, KEYPAIR2.publicKey);
+    const decrypted = naclOpen(sealed, nonce, KEYPAIR1.publicKey, KEYPAIR2.secretKey);
 
     expect(decrypted && u8aEq(decrypted, message)).toEqual(true);
   });

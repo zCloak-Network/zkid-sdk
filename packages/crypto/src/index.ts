@@ -22,5 +22,10 @@ export {
   shaAsU8a,
   hmacSha256AsU8a,
   hmacSha512AsU8a,
-  hmacShaAsU8a
+  hmacShaAsU8a,
+  scryptEncode,
+  scryptToU8a,
+  scryptFromU8a,
+  naclEncrypt,
+  naclDecrypt
 } from '@polkadot/util-crypto';

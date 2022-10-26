@@ -6,13 +6,12 @@ import type { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
 import type { KeyringInstance } from '@zcloak/keyring/types';
 import type { KeyGen } from './types';
 
-import { ethereumEncode } from '@polkadot/util-crypto';
-
 import {
   base32Decode,
   base58Decode,
   base58Encode,
   base64Decode,
+  ethereumEncode,
   isBase32,
   isBase58,
   isBase64

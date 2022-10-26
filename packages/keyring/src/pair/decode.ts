@@ -12,7 +12,7 @@ import { NONCE_LENGTH, PKCS8_DIVIDER, PKCS8_HEADER, SCRYPT_LENGTH } from './defa
 export function decodePair(encrypted?: Uint8Array, passphrase?: string): Keypair {
   assert(encrypted, 'No encrypted data available to decode');
 
-  let decoded: Uint8Array | null;
+  let decoded: Uint8Array | null = encrypted;
 
   if (passphrase) {
     const { params, salt } = scryptFromU8a(encrypted);
@@ -25,8 +25,6 @@ export function decodePair(encrypted?: Uint8Array, passphrase?: string): Keypair
       encrypted.subarray(0, NONCE_LENGTH),
       u8aFixLength(password, 256, true)
     );
-  } else {
-    decoded = encrypted;
   }
 
   assert(decoded, 'Unable to decode using the supplied passphrase');

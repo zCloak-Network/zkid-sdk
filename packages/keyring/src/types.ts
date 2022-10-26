@@ -14,6 +14,7 @@ export interface KeyringPair$Json {
     type: EncryptedJsonEncoding[];
     version: EncryptedJsonVersion;
   };
+  publicKey: string;
 }
 
 export interface KeyringPair {

@@ -78,7 +78,7 @@ export function createPair(
     }
 
     toJson(passphrase?: string): KeyringPair$Json {
-      return pairToJson(type, recode(passphrase), !!passphrase);
+      return pairToJson(type, publicKey, recode(passphrase), !!passphrase);
     }
 
     unlock(passphrase?: string): void {

@@ -14,7 +14,7 @@ describe('toJson', (): void => {
 
     expect(pair.toJson()).toMatchObject({
       encoded:
-        'MFMCAQEwBQYDK2VwBCIEICSX1m/sqVJFTgK/6mOgILhlLsMzs75FQBwuwxmTe5U9oSMDIQACgRIc+89ofjH/k604Rs+8wYClvgdeULW+uhF0nRviE3Y=',
+        'mMFMCAQEwBQYDK2VwBCIEICSX1m/sqVJFTgK/6mOgILhlLsMzs75FQBwuwxmTe5U9oSMDIQACgRIc+89ofjH/k604Rs+8wYClvgdeULW+uhF0nRviE3Y=',
       encoding: { content: ['pkcs8', 'ecdsa'], type: ['none'], version: '1' }
     });
   });
@@ -27,7 +27,7 @@ describe('toJson', (): void => {
 
     const json = pair.toJson('1');
 
-    expect(json.encoded).toHaveLength(228);
+    expect(json.encoded).toHaveLength(229);
     expect(json).toMatchObject({
       encoding: {
         content: ['pkcs8', 'ecdsa'],

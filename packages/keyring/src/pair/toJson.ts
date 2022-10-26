@@ -3,10 +3,11 @@
 
 import type { KeypairType, KeyringPair$Json } from '../types';
 
-import { base64Encode } from '@polkadot/util-crypto';
+import { base64Encode } from '@zcloak/crypto';
 
 export function pairToJson(
   type: KeypairType,
+  publicKey: Uint8Array,
   encoded: Uint8Array,
   isEncrypted: boolean
 ): KeyringPair$Json {
@@ -16,6 +17,7 @@ export function pairToJson(
       content: ['pkcs8', type],
       type: isEncrypted ? ['scrypt'] : ['none'],
       version: '1'
-    }
+    },
+    publicKey: base64Encode(publicKey)
   };
 }

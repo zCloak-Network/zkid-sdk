@@ -7,6 +7,7 @@ import type { KeypairType, KeyringInstance, KeyringPair, KeyringPair$Json } from
 import { u8aToU8a } from '@polkadot/util';
 
 import {
+  base64Decode,
   convertEd25519ToX25519,
   ed25519PairFromSeed,
   hdEthereum,
@@ -81,8 +82,22 @@ export class Keyring implements KeyringInstance {
   /**
    * create pair from json file
    */
-  public createFromJson(json: KeyringPair$Json): KeyringPair {
-    throw new Error('Method not implemented.');
+  public createFromJson({
+    encoded,
+    encoding: { content },
+    publicKey
+  }: KeyringPair$Json): KeyringPair {
+    const cryptoType = content[1];
+
+    if (!['ed25519', 'x25519', 'ecdsa'].includes(cryptoType)) {
+      throw new Error(`Unknown crypto type ${cryptoType}`);
+    }
+
+    return createPair(
+      { publicKey: base64Decode(publicKey) },
+      { type: cryptoType },
+      base64Decode(encoded)
+    );
   }
 
   /**

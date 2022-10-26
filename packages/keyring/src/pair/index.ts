@@ -1,15 +1,24 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HexString, Keypair } from '@zcloak/crypto/types';
+import type { HexString } from '@zcloak/crypto/types';
 import type { KeypairType, KeyringPair, KeyringPair$Json } from '../types';
 
 import { assert, u8aConcat, u8aEmpty, u8aToU8a } from '@polkadot/util';
 
 import { ed25519Sign, naclOpen, naclSeal, secp256k1Sign } from '@zcloak/crypto';
 
+import { decodePair } from './decode';
+import { encodePair } from './encode';
+import { pairToJson } from './toJson';
+
 interface Options {
   type: KeypairType;
+}
+
+export interface PairInfo {
+  secretKey?: Uint8Array;
+  publicKey: Uint8Array;
 }
 
 const TYPE_SIGNATURE = {
@@ -21,9 +30,25 @@ function isLocked(secretKey?: Uint8Array): secretKey is undefined {
   return !secretKey || u8aEmpty(secretKey);
 }
 
-export function createPair(keypair: Keypair, { type }: Options): KeyringPair {
-  let secretKey: Uint8Array = keypair.secretKey;
-  const publicKey: Uint8Array = keypair.publicKey;
+export function createPair(
+  { publicKey, secretKey }: PairInfo,
+  { type }: Options,
+  encoded?: Uint8Array
+): KeyringPair {
+  const decodePkcs8 = (passphrase?: string): void => {
+    const decoded = decodePair(encoded, passphrase);
+
+    secretKey = decoded.secretKey;
+    publicKey = decoded.publicKey;
+  };
+
+  const recode = (passphrase?: string): Uint8Array => {
+    isLocked(secretKey) && encoded && decodePkcs8(passphrase);
+
+    encoded = encodePair({ publicKey, secretKey }, passphrase); // re-encode
+
+    return encoded;
+  };
 
   class Pair implements KeyringPair {
     public get isLocked(): boolean {
@@ -38,10 +63,6 @@ export function createPair(keypair: Keypair, { type }: Options): KeyringPair {
       return type;
     }
 
-    public lock(): void {
-      secretKey = new Uint8Array();
-    }
-
     public sign(message: HexString | Uint8Array): Uint8Array {
       if (isLocked(secretKey)) {
         throw new Error('Cannot sign with a locked key pair');
@@ -52,12 +73,16 @@ export function createPair(keypair: Keypair, { type }: Options): KeyringPair {
       return TYPE_SIGNATURE[type as 'ecdsa' | 'ed25519'](u8aToU8a(message), secretKey);
     }
 
+    public lock(): void {
+      secretKey = new Uint8Array();
+    }
+
     toJson(passphrase?: string): KeyringPair$Json {
-      throw new Error('Method not implemented.');
+      return pairToJson(type, recode(passphrase), !!passphrase);
     }
 
     unlock(passphrase?: string): void {
-      throw new Error('Method not implemented.');
+      return decodePkcs8(passphrase);
     }
 
     encrypt(

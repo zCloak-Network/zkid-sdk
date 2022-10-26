@@ -4,9 +4,16 @@
 import type { HexString } from '@zcloak/crypto/types';
 
 export type KeypairType = 'ecdsa' | 'ed25519' | 'x25519';
+export type EncryptedJsonEncoding = 'none' | 'scrypt';
+export type EncryptedJsonVersion = '1';
 
 export interface KeyringPair$Json {
-  encoded: HexString | string;
+  encoded: string;
+  encoding: {
+    content: ['pkcs8', KeypairType];
+    type: EncryptedJsonEncoding[];
+    version: EncryptedJsonVersion;
+  };
 }
 
 export interface KeyringPair {

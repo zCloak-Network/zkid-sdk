@@ -1,7 +1,7 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Keypair } from '@zcloak/crypto/types';
+import type { PairInfo } from '.';
 
 import { u8aConcat } from '@polkadot/util';
 
@@ -9,7 +9,7 @@ import { naclEncrypt, scryptEncode, scryptToU8a } from '@zcloak/crypto';
 
 import { PKCS8_DIVIDER, PKCS8_HEADER } from './defaults';
 
-export function encodePair({ publicKey, secretKey }: Keypair, passphrase?: string): Uint8Array {
+export function encodePair({ publicKey, secretKey }: PairInfo, passphrase?: string): Uint8Array {
   if (!secretKey) {
     throw new Error('Expected a valid secretKey to be passed to encode');
   }

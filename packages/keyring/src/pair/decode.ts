@@ -9,7 +9,9 @@ import { naclDecrypt, scryptEncode, scryptFromU8a } from '@zcloak/crypto';
 
 import { NONCE_LENGTH, PKCS8_DIVIDER, PKCS8_HEADER, SCRYPT_LENGTH } from './defaults';
 
-export function decodePair(encrypted: Uint8Array, passphrase?: string): Keypair {
+export function decodePair(encrypted?: Uint8Array, passphrase?: string): Keypair {
+  assert(encrypted, 'No encrypted data available to decode');
+
   let decoded: Uint8Array | null;
 
   if (passphrase) {

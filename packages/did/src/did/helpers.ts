@@ -6,7 +6,6 @@ import type { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
 import type { KeyringInstance } from '@zcloak/keyring/types';
 import type { KeyGen } from './types';
 
-import { stringToU8a } from '@polkadot/util';
 import { ethereumEncode } from '@polkadot/util-crypto';
 
 import {
@@ -23,8 +22,6 @@ import { Keyring } from '@zcloak/keyring';
 import { defaultResolver } from '../defaults';
 import { IDidDetails } from '../types';
 import { Did } from '.';
-
-const ZCLOAK_PATH = stringToU8a('zcloak').reduce((l, r) => l + r);
 
 export function decodeMultibase(multibase: string): Uint8Array {
   if (isBase58(multibase)) {
@@ -239,10 +236,10 @@ export function keyFromMnemonic(
   );
   const pair1 = keyring.addFromMnemonic(
     mnemonic,
-    type === 'ecdsa' ? `/m/44'/${ZCLOAK_PATH}'/0'/0/0` : `//${ZCLOAK_PATH}`,
+    type === 'ecdsa' ? "/m/44'/60'/0'/0/0/0" : '//0',
     type
   );
-  const pair2 = keyring.addFromMnemonic(mnemonic, `//${ZCLOAK_PATH + 1}`, 'x25519');
+  const pair2 = keyring.addFromMnemonic(mnemonic, '//1', 'x25519');
 
   return {
     identifier: identifier.publicKey,

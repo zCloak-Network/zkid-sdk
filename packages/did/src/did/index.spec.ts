@@ -17,13 +17,13 @@ const DOCUMENT: DidDocument = {
       id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'EcdsaSecp256k1VerificationKey2019',
-      publicKeyMultibase: 'zgfhtFiqxRR2vjtPbj4m8kiGkB2b1MUmbdFU167ByZbnU'
+      publicKeyMultibase: 'zdpxuL2ps42J5jVMJU9DpsMpwnJGsDkTS1N64JC3CbChq'
     },
     {
       id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1',
       controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
       type: 'X25519KeyAgreementKey2019',
-      publicKeyMultibase: 'zFVD24HQZFfVpt1MVLRpYujPiBy2SXGRHz5LC8umAmoC1'
+      publicKeyMultibase: 'z9kQXjRwuVoQXKKmotXrkwxMQRhXEQX39A8XfWmZTgb4'
     }
   ],
   authentication: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
@@ -43,12 +43,12 @@ describe('Did', (): void => {
       234, 243, 237, 184, 253, 96, 196, 125, 196, 127, 56, 220
     ]);
     const key0 = new Uint8Array([
-      2, 77, 98, 22, 148, 142, 221, 112, 110, 182, 7, 157, 44, 154, 76, 238, 157, 17, 80, 217, 29,
-      247, 123, 130, 123, 173, 175, 83, 198, 110, 47, 17, 213
+      2, 35, 46, 60, 119, 231, 40, 153, 127, 254, 189, 73, 215, 29, 11, 112, 172, 81, 51, 159, 187,
+      229, 95, 166, 84, 171, 103, 65, 20, 251, 242, 238, 76
     ]);
     const key1 = new Uint8Array([
-      215, 61, 119, 250, 103, 115, 177, 232, 142, 134, 133, 249, 55, 195, 191, 73, 167, 175, 188,
-      41, 243, 75, 31, 239, 68, 226, 17, 65, 245, 245, 74, 102
+      2, 61, 185, 182, 103, 137, 1, 30, 95, 138, 105, 135, 188, 241, 237, 18, 250, 107, 205, 251,
+      192, 33, 128, 145, 213, 119, 16, 125, 214, 227, 70, 3
     ]);
 
     beforeEach((): void => {
@@ -63,7 +63,6 @@ describe('Did', (): void => {
       expect(did.get([...(did.authentication ?? [])][0]).publicKey).toEqual(key0);
       expect(did.get([...(did.keyAgreement ?? [])][0]).publicKey).toEqual(key1);
       expect([...did.controller][0]).toEqual(`did:zk:${ethereumEncode(controllerKey)}`);
-      console.log(JSON.stringify(did.getDocument()));
     });
   });
 

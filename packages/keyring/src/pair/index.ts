@@ -1,7 +1,7 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HexString } from '@zcloak/crypto/types';
+import type { HexString, Keypair } from '@zcloak/crypto/types';
 import type { KeypairType, KeyringPair, KeyringPair$Json } from '../types';
 
 import { assert, u8aConcat, u8aEmpty, u8aToU8a } from '@polkadot/util';
@@ -21,10 +21,7 @@ function isLocked(secretKey?: Uint8Array): secretKey is undefined {
   return !secretKey || u8aEmpty(secretKey);
 }
 
-export function createPair(
-  keypair: { secretKey: Uint8Array; publicKey: Uint8Array },
-  { type }: Options
-): KeyringPair {
+export function createPair(keypair: Keypair, { type }: Options): KeyringPair {
   let secretKey: Uint8Array = keypair.secretKey;
   const publicKey: Uint8Array = keypair.publicKey;
 

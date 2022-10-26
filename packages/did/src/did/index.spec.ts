@@ -6,7 +6,7 @@ import { DidDocument } from '@zcloak/did-resolver/types';
 import { Keyring } from '@zcloak/keyring';
 
 import { verifyDidDocumentProof } from '../verify';
-import { createEcdsaFromMnemonic, keyFromMnemonic } from './helpers';
+import { createEcdsaFromMnemonic } from './helpers';
 
 const DOCUMENT: DidDocument = {
   '@context': ['https://www.w3.org/ns/did/v1'],

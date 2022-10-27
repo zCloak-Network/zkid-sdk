@@ -40,7 +40,7 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
   public keyAgreement?: Set<DidUrl>;
   public capabilityInvocation?: Set<DidUrl>;
   public capabilityDelegation?: Set<DidUrl>;
-  public service?: Service[];
+  public service?: Map<string, Service>;
 
   constructor({
     assertionMethod,
@@ -126,7 +126,7 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
       ...document,
       verificationMethod,
       ...keys,
-      service: Array.from(this.service ?? [])
+      service: Array.from(this.service?.values() ?? [])
     };
   }
 }

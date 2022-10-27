@@ -66,7 +66,9 @@ export function parseDidDocument(document: DidDocument): IDidDetails {
     didDetails[key] = new Set(document[key]);
   });
 
-  didDetails.service = document.service;
+  if (document.service) {
+    didDetails.service = new Map(document.service.map((s) => [s.id, s]));
+  }
 
   return didDetails;
 }

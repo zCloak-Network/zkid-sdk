@@ -20,7 +20,7 @@ export interface IDidDetails {
   keyAgreement?: Set<DidUrl>;
   capabilityInvocation?: Set<DidUrl>;
   capabilityDelegation?: Set<DidUrl>;
-  service?: Service[];
+  service?: Map<string, Service>;
 }
 
 export interface IDidKeyring {

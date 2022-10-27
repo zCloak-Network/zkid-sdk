@@ -1,7 +1,7 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-// generate keys
+// @internal generate keys
 export type KeyGen = {
   // the identifier publicKey
   identifier: Uint8Array;

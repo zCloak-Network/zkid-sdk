@@ -1,6 +1,7 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { Service } from '@zcloak/did-resolver/types';
 import type { IDidDetails } from '../types';
 
 import { u8aEq } from '@polkadot/util';
@@ -25,5 +26,13 @@ export class Did extends DidChain {
     const document = this.getDocument();
 
     return u8aEq(hashDidDocument(onChainDocument, false), hashDidDocument(document, false));
+  }
+
+  public addService(service: Service): void {
+    if (!this.service) {
+      this.service = new Map();
+    }
+
+    this.service.set(service.id, service);
   }
 }

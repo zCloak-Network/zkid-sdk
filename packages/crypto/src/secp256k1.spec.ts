@@ -3,7 +3,7 @@
 
 import type { Keypair } from './types';
 
-import { stringToU8a, u8aEq } from '@polkadot/util';
+import { stringToU8a, u8aEq } from '@zcloak/util';
 
 import { secp256k1PairFromSeed, secp256k1Sign, secp256k1Verify } from './secp256k1';
 

@@ -3,8 +3,9 @@
 
 import type { HexString, Keypair } from './types';
 
-import { u8aToU8a } from '@polkadot/util';
 import * as crypto from '@polkadot/util-crypto';
+
+import { u8aToU8a } from '@zcloak/util';
 
 /**
  * Returns message signature of `message`, using the `secretKey`.

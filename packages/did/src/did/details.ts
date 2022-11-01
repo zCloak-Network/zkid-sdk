@@ -10,9 +10,8 @@ import type {
 } from '@zcloak/did-resolver/types';
 import type { KeypairType, KeyringPair } from '@zcloak/keyring/types';
 
-import { assert } from '@polkadot/util';
-
 import { base58Encode } from '@zcloak/crypto';
+import { assert } from '@zcloak/util';
 
 import { IDidDetails, KeyRelationship } from '../types';
 import { DidKeyring } from './keyring';

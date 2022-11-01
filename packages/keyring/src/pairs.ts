@@ -4,7 +4,7 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { KeyringPair, KeyringPairs } from './types';
 
-import { isHex, u8aToHex } from '@polkadot/util';
+import { isHex, u8aToHex } from '@zcloak/util';
 
 type KeyringPairMap = Record<string, KeyringPair>;
 

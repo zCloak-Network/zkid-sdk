@@ -3,9 +3,8 @@
 
 import type { HexString, Keypair } from '@zcloak/crypto/types';
 
-import { stringToU8a, u8aConcat, u8aEq, u8aToU8a } from '@polkadot/util';
-
 import { ed25519Verify, secp256k1Verify } from '@zcloak/crypto';
+import { stringToU8a, u8aConcat, u8aEq, u8aToU8a } from '@zcloak/util';
 
 import { createPair } from '.';
 

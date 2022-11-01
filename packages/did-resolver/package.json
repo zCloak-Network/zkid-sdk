@@ -17,7 +17,7 @@
   "version": "0.0.1-4",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^10.1.11",
+    "@zcloak/util": "0.0.1-4",
     "arweave": "^1.11.6"
   }
 }

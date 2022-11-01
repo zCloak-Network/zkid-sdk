@@ -2,13 +2,13 @@
   "author": "zCloak",
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
-  "description": "zCloak crypto package",
-  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/packages/crypto#readme",
+  "description": "zCloak util package",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/packages/util#readme",
   "license": "Apache-2.0",
   "maintainers": [],
-  "name": "@zcloak/crypto",
+  "name": "@zcloak/util",
   "repository": {
-    "directory": "packages/crypto",
+    "directory": "packages/util",
     "type": "git",
     "url": "https://github.com/zCloak-Network/zkid-sdk.git"
   },
@@ -17,7 +17,6 @@
   "version": "0.0.1-4",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util-crypto": "^10.1.11",
-    "@scure/base": "^1.1.1"
+    "@polkadot/util": "^10.1.11"
   }
 }

@@ -5,7 +5,7 @@ import type { HexString } from '@zcloak/crypto/types';
 import type { KeyringInstance } from '@zcloak/keyring/types';
 import type { IDidKeyring } from '../types';
 
-import { assert } from '@polkadot/util';
+import { assert } from '@zcloak/util';
 
 export abstract class DidKeyring implements IDidKeyring {
   #keyring: KeyringInstance | null = null;

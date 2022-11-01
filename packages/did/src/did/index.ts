@@ -4,9 +4,8 @@
 import type { Service } from '@zcloak/did-resolver/types';
 import type { IDidDetails } from '../types';
 
-import { u8aEq } from '@polkadot/util';
-
 import { DidResolver } from '@zcloak/did-resolver';
+import { u8aEq } from '@zcloak/util';
 
 import { defaultResolver } from '../defaults';
 import { hashDidDocument } from '../hasher';

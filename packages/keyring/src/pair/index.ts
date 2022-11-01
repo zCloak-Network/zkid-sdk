@@ -4,9 +4,8 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { KeypairType, KeyringPair, KeyringPair$Json } from '../types';
 
-import { assert, u8aConcat, u8aEmpty, u8aToU8a } from '@polkadot/util';
-
 import { ed25519Sign, naclOpen, naclSeal, secp256k1Sign } from '@zcloak/crypto';
+import { assert, u8aConcat, u8aEmpty, u8aToU8a } from '@zcloak/util';
 
 import { decodePair } from './decode';
 import { encodePair } from './encode';

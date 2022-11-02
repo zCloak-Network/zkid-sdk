@@ -1,10 +1,10 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { stringToU8a } from '@polkadot/util';
 import { utils } from 'ethers';
 
 import { ed25519Verify, randomAsU8a, secp256k1Verify } from '@zcloak/crypto';
-import { stringToU8a } from '@polkadot/util';
 
 import { Keyring } from './keyring';
 

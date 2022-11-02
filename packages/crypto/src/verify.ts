@@ -3,9 +3,8 @@
 
 import type { HexString } from './types';
 
-import { ethereumEncode, signatureVerify } from '@polkadot/util-crypto';
-
 import { u8aToU8a } from '@polkadot/util';
+import { ethereumEncode, signatureVerify } from '@polkadot/util-crypto';
 
 export function verifySignature(
   message: HexString | Uint8Array | string,

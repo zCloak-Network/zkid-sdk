@@ -3,9 +3,8 @@
 
 import type { HexString, Keypair } from './types';
 
-import * as crypto from '@polkadot/util-crypto';
-
 import { stringToU8a, u8aConcat, u8aToU8a } from '@polkadot/util';
+import * as crypto from '@polkadot/util-crypto';
 
 /**
  * Returns message signature of `message`, using the supplied pair

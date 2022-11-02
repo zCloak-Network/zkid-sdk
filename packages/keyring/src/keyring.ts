@@ -4,6 +4,8 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { KeypairType, KeyringInstance, KeyringPair, KeyringPair$Json } from './types';
 
+import { u8aToU8a } from '@polkadot/util';
+
 import {
   base64Decode,
   convertEd25519ToX25519,
@@ -16,7 +18,6 @@ import {
   secp256k1PairFromSeed,
   x25519PairFromSeed
 } from '@zcloak/crypto';
-import { u8aToU8a } from '@polkadot/util';
 
 import { createPair } from './pair';
 import { Pairs } from './pairs';

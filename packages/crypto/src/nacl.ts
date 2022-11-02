@@ -3,10 +3,9 @@
 
 import type { HexString } from './types';
 
+import { u8aToU8a } from '@polkadot/util';
 import * as crypto from '@polkadot/util-crypto';
 import { randomAsU8a } from '@polkadot/util-crypto';
-
-import { u8aToU8a } from '@polkadot/util';
 
 interface Sealed {
   sealed: Uint8Array;

@@ -3,8 +3,9 @@
 
 import type { Keypair } from '@zcloak/crypto/types';
 
-import { naclDecrypt, scryptEncode, scryptFromU8a } from '@zcloak/crypto';
 import { assert, u8aEq, u8aFixLength } from '@polkadot/util';
+
+import { naclDecrypt, scryptEncode, scryptFromU8a } from '@zcloak/crypto';
 
 import { NONCE_LENGTH, PKCS8_DIVIDER, PKCS8_HEADER, SCRYPT_LENGTH } from './defaults';
 

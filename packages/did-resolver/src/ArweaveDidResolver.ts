@@ -1,9 +1,8 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import Arweave from 'arweave';
-
 import { isArray } from '@polkadot/util';
+import Arweave from 'arweave';
 
 import { DidResolver } from './DidResolver';
 import { DidNotFoundError, RepresentationNotSupportedError } from './errors';

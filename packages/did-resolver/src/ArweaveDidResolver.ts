@@ -3,7 +3,7 @@
 
 import Arweave from 'arweave';
 
-import { isArray } from '@zcloak/util';
+import { isArray } from '@polkadot/util';
 
 import { DidResolver } from './DidResolver';
 import { DidNotFoundError, RepresentationNotSupportedError } from './errors';

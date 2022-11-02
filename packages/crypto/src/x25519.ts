@@ -9,7 +9,7 @@ import {
   ed25519PairFromSeed
 } from '@polkadot/util-crypto';
 
-import { u8aToU8a } from '@zcloak/util';
+import { u8aToU8a } from '@polkadot/util';
 
 /**
  * Returns a object containing a `publicKey` & `secretKey` generated from the supplied secretKey.

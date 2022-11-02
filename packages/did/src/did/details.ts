@@ -11,7 +11,7 @@ import type {
 import type { KeypairType, KeyringPair } from '@zcloak/keyring/types';
 
 import { base58Encode } from '@zcloak/crypto';
-import { assert } from '@zcloak/util';
+import { assert } from '@polkadot/util';
 
 import { IDidDetails, KeyRelationship } from '../types';
 import { DidKeyring } from './keyring';

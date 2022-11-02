@@ -16,7 +16,7 @@ import {
   secp256k1PairFromSeed,
   x25519PairFromSeed
 } from '@zcloak/crypto';
-import { u8aToU8a } from '@zcloak/util';
+import { u8aToU8a } from '@polkadot/util';
 
 import { createPair } from './pair';
 import { Pairs } from './pairs';

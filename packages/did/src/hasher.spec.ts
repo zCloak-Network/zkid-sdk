@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { DidDocument } from '@zcloak/did-resolver/types';
-import { u8aToHex } from '@zcloak/util';
+import { u8aToHex } from '@polkadot/util';
 
 import { hashDidDocument } from './hasher';
 

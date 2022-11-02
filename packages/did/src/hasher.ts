@@ -6,7 +6,7 @@ import type { DidDocument } from '@zcloak/did-resolver/types';
 import jsonabc from 'jsonabc';
 
 import { sha256AsU8a } from '@zcloak/crypto';
-import { stringToU8a } from '@zcloak/util';
+import { stringToU8a } from '@polkadot/util';
 
 /**
  * serialize did document as sha256, used to sign it, do not encode proof, because the signature will push to.

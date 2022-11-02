@@ -14,8 +14,6 @@
       "@zcloak/did-resolver/*": ["did-resolver/src/*"],
       "@zcloak/keyring": ["keyring/src"],
       "@zcloak/keyring/*": ["keyring/src/*"],
-      "@zcloak/util": ["util/src"],
-      "@zcloak/util/*": ["util/src/*"],
       "@zcloak/vc": ["vc/src"],
       "@zcloak/vc/*": ["vc/src/*"],
       "@zcloak/verify": ["verify/src"],

@@ -4,7 +4,7 @@
 import type { PairInfo } from '.';
 
 import { naclEncrypt, scryptEncode, scryptToU8a } from '@zcloak/crypto';
-import { u8aConcat } from '@zcloak/util';
+import { u8aConcat } from '@polkadot/util';
 
 import { PKCS8_DIVIDER, PKCS8_HEADER } from './defaults';
 

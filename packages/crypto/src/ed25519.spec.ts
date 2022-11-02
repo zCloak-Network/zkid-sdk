@@ -3,7 +3,7 @@
 
 import type { Keypair } from './types';
 
-import { stringToU8a, u8aEq } from '@zcloak/util';
+import { stringToU8a, u8aEq } from '@polkadot/util';
 
 import { ed25519PairFromSeed, ed25519Sign, ed25519Verify } from './ed25519';
 

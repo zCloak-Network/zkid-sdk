@@ -4,7 +4,7 @@
 import { utils } from 'ethers';
 
 import { ed25519Verify, randomAsU8a, secp256k1Verify } from '@zcloak/crypto';
-import { stringToU8a } from '@zcloak/util';
+import { stringToU8a } from '@polkadot/util';
 
 import { Keyring } from './keyring';
 

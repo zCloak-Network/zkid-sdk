@@ -1,6 +1,8 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { DidUrl, VerificationMethodType } from '@zcloak/did-resolver/types';
+
 // @internal generate keys
 export type KeyGen = {
   // the identifier publicKey
@@ -10,4 +12,10 @@ export type KeyGen = {
    * `keys[1]`, x25519
    */
   keys: [Uint8Array, Uint8Array];
+};
+
+export type SignedData = {
+  keyUrl: DidUrl;
+  type: VerificationMethodType;
+  signature: Uint8Array;
 };

@@ -9,7 +9,7 @@ export type AnyJson = Record<string, number | boolean | string | Array<number | 
 // when CredentialSubject is HexString, it means [[rootHash]]
 export type CredentialSubject = AnyJson | HexString;
 
-export type HashType = 'Rescue' | 'Blake3';
+export type HashType = 'Rescue' | 'Blake3' | 'Keccak256' | 'Sha256';
 
 export type SignatureType = 'EcdsaSecp256k1Signature2019' | 'Ed25519Signature2018';
 
@@ -39,11 +39,11 @@ export interface RawCredential {
   issuanceDate: number;
   expirationDate?: number;
   credentialSubject: CredentialSubject;
-  issuer: DidUrl[];
+  issuer: DidUrl;
   holder: DidUrl;
 }
 
-export interface VerifiableCredential {
+export interface VerifiableCredential extends RawCredential {
   digest: HexString;
   proof: Proof[];
 }

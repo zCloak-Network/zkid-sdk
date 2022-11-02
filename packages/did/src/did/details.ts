@@ -9,15 +9,15 @@ import type {
   VerificationMethodType
 } from '@zcloak/did-resolver/types';
 import type { KeypairType, KeyringPair } from '@zcloak/keyring/types';
+import type { IDidDetails, KeyRelationship } from '../types';
 
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
 
-import { IDidDetails, KeyRelationship } from '../types';
 import { DidKeyring } from './keyring';
 
-function typeTransform(type: KeypairType): VerificationMethodType {
+export function typeTransform(type: KeypairType): VerificationMethodType {
   switch (type) {
     case 'ecdsa':
       return 'EcdsaSecp256k1VerificationKey2019';

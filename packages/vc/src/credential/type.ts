@@ -6,12 +6,13 @@ import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { AnyJson, Proof } from '../types';
 
 export interface ICredential {
-  context: string[];
-  ctype: HexString;
-  issuanceDate: number;
+  context?: string[];
+  ctype?: HexString;
+  issuanceDate?: number;
   expirationDate?: number;
-  credentialSubject: AnyJson;
-  issuer: DidUrl;
-  holder: DidUrl;
-  proof: Proof;
+  credentialSubject?: AnyJson;
+  issuer?: DidUrl;
+  holder?: DidUrl;
+  digest?: HexString;
+  proof?: Proof;
 }

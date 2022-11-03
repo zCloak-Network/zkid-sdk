@@ -24,6 +24,10 @@ export type ProofPurpose =
   | 'capabilityInvocation'
   | 'capabilityDelegation';
 
+export type VerifiableCredentialVersion = '0';
+
+export type VerifiablePresentationVersion = '0';
+
 export interface Proof {
   type: ProofType;
   created: number;
@@ -35,11 +39,14 @@ export interface Proof {
 
 export interface RawCredential {
   '@context': string[];
+  version: VerifiableCredentialVersion;
   ctype: HexString;
   issuanceDate: number;
   expirationDate?: number;
   credentialSubject: CredentialSubject;
-  issuer: DidUrl;
+  credentialSubjectHashes: HexString[];
+  credentialSubjectNonceMap: Record<HexString, HexString>;
+  issuer: DidUrl[];
   holder: DidUrl;
 }
 
@@ -50,6 +57,7 @@ export interface VerifiableCredential extends RawCredential {
 
 export interface VerifiablePresentation {
   '@context': string[];
+  version: VerifiablePresentationVersion;
   type: VerifiablePresentationType[];
   verifiableCredential: VerifiableCredential[];
   id: HexString;

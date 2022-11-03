@@ -3,10 +3,12 @@
 
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
-import type { AnyJson, Proof } from '../types';
+import type { AnyJson, HashType, Proof } from '../types';
 import type { ICredential } from './type';
 
-export abstract class Base implements Partial<ICredential> {
+export abstract class Base implements ICredential {
+  public hashType: HashType;
+
   public context?: string[];
   public ctype?: HexString;
   public issuanceDate?: number;
@@ -14,37 +16,46 @@ export abstract class Base implements Partial<ICredential> {
   public credentialSubject?: AnyJson;
   public issuer?: DidUrl;
   public holder?: DidUrl;
+  public digest?: HexString;
   public proof?: Proof;
 
-  public setContext(context: string[]): void {
+  constructor(hashType: HashType = 'Keccak256') {
+    this.hashType = hashType;
+  }
+
+  public setContext(context?: string[]): void {
     this.context = context;
   }
 
-  public setCtype(ctype: HexString): void {
+  public setCtype(ctype?: HexString): void {
     this.ctype = ctype;
   }
 
-  public setIssuanceDate(issuanceDate: number): void {
+  public setIssuanceDate(issuanceDate?: number): void {
     this.issuanceDate = issuanceDate;
   }
 
-  public setExpirationDate(expirationDate: number): void {
+  public setExpirationDate(expirationDate?: number): void {
     this.expirationDate = expirationDate;
   }
 
-  public setCredentialSubject(credentialSubject: AnyJson): void {
+  public setCredentialSubject(credentialSubject?: AnyJson): void {
     this.credentialSubject = credentialSubject;
   }
 
-  public setIssuer(issuer: DidUrl): void {
+  public setIssuer(issuer?: DidUrl): void {
     this.issuer = issuer;
   }
 
-  public setHolder(holder: DidUrl): void {
+  public setHolder(holder?: DidUrl): void {
     this.holder = holder;
   }
 
-  public setProof(proof: Proof): void {
+  public setDigest(digest?: HexString): void {
+    this.digest = digest;
+  }
+
+  public setProof(proof?: Proof): void {
     this.proof = proof;
   }
 }

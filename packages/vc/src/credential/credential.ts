@@ -2,29 +2,17 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Did } from '@zcloak/did';
-import type { DidUrl, VerificationMethodType } from '@zcloak/did-resolver/types';
-import type { HashType, Proof, RawCredential, SignatureType, VerifiableCredential } from '../types';
+import type { Proof, RawCredential, VerifiableCredential } from '../types';
 
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
 
+import { keyTypeToSignatureType } from '../utils';
 import { Base } from './base';
 import { calcDigest } from './digest';
 import { calcRoothash } from './rootHash';
 import { ICredential } from './type';
-
-function keyTypeToSignatureType(type: VerificationMethodType): SignatureType {
-  switch (type) {
-    case 'EcdsaSecp256k1VerificationKey2019':
-      return 'EcdsaSecp256k1Signature2019';
-    case 'Ed25519VerificationKey2020':
-      return 'Ed25519Signature2018';
-
-    default:
-      throw new Error(`Can not transform type: ${type}`);
-  }
-}
 
 /**
  * A class implements [[ICredential]]
@@ -71,15 +59,13 @@ export class Credential extends Base {
   /**
    * sign and add a [[Proof]]
    * @param did The [[Did]] instance
-   * @param didUrl Used did, it will be a [[DidUrl]] such as `did:zk:abcd#key-0`
-   * @param hashType(optional) [[HashType]]
    */
-  public signProof(did: Did, didUrl: DidUrl, hashType: HashType = this.hashType): void {
+  public signProof(did: Did): void {
     assert(this.credentialSubject, 'credentialSubject is null');
     assert(this.holder, 'holder is null');
     assert(this.ctype, 'ctype is null');
 
-    const { rootHash } = calcRoothash(this.credentialSubject, hashType);
+    const { rootHash } = calcRoothash(this.credentialSubject, this.hashType);
     const { digest, type } = calcDigest(
       {
         rootHash,
@@ -87,14 +73,14 @@ export class Credential extends Base {
         holder: this.holder,
         ctype: this.ctype
       },
-      hashType
+      this.hashType
     );
-    const { keyUrl, signature, type: keyType } = did.signWithKey(didUrl, digest);
+    const { didUrl, signature, type: keyType } = did.signWithKey('assertionMethod', digest);
 
     const proof: Proof = {
       type: `${type}+${keyTypeToSignatureType(keyType)}`,
       created: Date.now(),
-      verificationMethod: keyUrl,
+      verificationMethod: didUrl,
       proofPurpose: 'assertionMethod',
       proofValue: base58Encode(signature)
     };
@@ -106,7 +92,7 @@ export class Credential extends Base {
   /**
    * serialize to [[RawCredential]] json
    */
-  public getRawCredential(hashType: HashType = this.hashType): RawCredential {
+  public getRawCredential(): RawCredential {
     if (
       this.context &&
       this.ctype &&
@@ -115,7 +101,7 @@ export class Credential extends Base {
       this.issuer &&
       this.holder
     ) {
-      const { hashes, nonceMap } = calcRoothash(this.credentialSubject, hashType);
+      const { hashes, nonceMap } = calcRoothash(this.credentialSubject, this.hashType);
 
       return {
         '@context': this.context,
@@ -134,8 +120,8 @@ export class Credential extends Base {
     throw new Error('Not to serialize RawCredential');
   }
 
-  public getVC(hashType: HashType = this.hashType): VerifiableCredential {
-    const raw: RawCredential = this.getRawCredential(hashType);
+  public getVC(): VerifiableCredential {
+    const raw: RawCredential = this.getRawCredential();
 
     if (this.digest && this.proof) {
       return {

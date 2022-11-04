@@ -19,5 +19,8 @@
   "dependencies": {
     "@polkadot/util": "^10.1.11",
     "@zcloak/crypto": "0.0.1-5"
+  },
+  "devDependencies": {
+    "ethers": "^5.7.1"
   }
 }

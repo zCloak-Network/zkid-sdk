@@ -15,7 +15,14 @@ export type KeyGen = {
 };
 
 export type SignedData = {
-  keyUrl: DidUrl;
+  didUrl: DidUrl;
   type: VerificationMethodType;
   signature: Uint8Array;
 };
+
+export type DidKeys =
+  | 'authentication'
+  | 'assertionMethod'
+  | 'keyAgreement'
+  | 'capabilityInvocation'
+  | 'capabilityDelegation';

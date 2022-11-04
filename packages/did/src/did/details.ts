@@ -10,6 +10,7 @@ import type {
 } from '@zcloak/did-resolver/types';
 import type { KeypairType, KeyringPair } from '@zcloak/keyring/types';
 import type { IDidDetails, KeyRelationship } from '../types';
+import type { DidKeys } from './types';
 
 import { assert } from '@polkadot/util';
 
@@ -63,6 +64,10 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
     this.capabilityInvocation = capabilityInvocation;
     this.capabilityDelegation = capabilityDelegation;
     this.service = service;
+  }
+
+  public getKeyUrl(key: DidKeys): DidUrl | undefined {
+    return Array.from(this[key] ?? [])[0];
   }
 
   public get(id: DidUrl): KeyRelationship {

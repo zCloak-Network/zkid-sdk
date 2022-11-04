@@ -11,6 +11,17 @@ export type RootHashResult = {
   type: HashType;
 };
 
+export function rootHashFromMerkle(
+  hashes: HexString[],
+  nonceMap: Record<HexString, HexString>
+): Omit<RootHashResult, 'type'> {
+  return {
+    hashes,
+    nonceMap,
+    rootHash: '0x'
+  };
+}
+
 /**
  * calc rootHash from `this.credentialSubject`
  * @param hashType [[HashType]] defaults is Keccak256
@@ -19,8 +30,6 @@ export type RootHashResult = {
 export function calcRoothash(input: AnyJson, hashType: HashType = 'Keccak256'): RootHashResult {
   return {
     type: hashType,
-    hashes: [],
-    nonceMap: {},
-    rootHash: '0x'
+    ...rootHashFromMerkle([], {})
   };
 }

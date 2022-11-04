@@ -9,15 +9,16 @@ import type {
   VerificationMethodType
 } from '@zcloak/did-resolver/types';
 import type { KeypairType, KeyringPair } from '@zcloak/keyring/types';
+import type { IDidDetails, KeyRelationship } from '../types';
+import type { DidKeys } from './types';
 
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
 
-import { IDidDetails, KeyRelationship } from '../types';
 import { DidKeyring } from './keyring';
 
-function typeTransform(type: KeypairType): VerificationMethodType {
+export function typeTransform(type: KeypairType): VerificationMethodType {
   switch (type) {
     case 'ecdsa':
       return 'EcdsaSecp256k1VerificationKey2019';
@@ -63,6 +64,10 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
     this.capabilityInvocation = capabilityInvocation;
     this.capabilityDelegation = capabilityDelegation;
     this.service = service;
+  }
+
+  public getKeyUrl(key: DidKeys): DidUrl | undefined {
+    return Array.from(this[key] ?? [])[0];
   }
 
   public get(id: DidUrl): KeyRelationship {

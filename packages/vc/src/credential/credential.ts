@@ -61,11 +61,18 @@ export class Credential extends Base {
    * @param did The [[Did]] instance
    */
   public signProof(did: Did): void {
+    // todo: make this a function to check the integrity of a credential, including value check and status check.
+    // before signing a credential, we need to check:
+    // 1. the expirationDate is set
+    // 2. credentialSubject is correct, make this a custom SDK function/interface, return true in default
+    // 3. necessary field is not empty, e.g. holder,
     assert(this.credentialSubject, 'credentialSubject is null');
     assert(this.holder, 'holder is null');
     assert(this.ctype, 'ctype is null');
 
+    // calculate the rootHash of the credentialSubject
     const { rootHash } = calcRoothash(this.credentialSubject, this.hashType);
+    // calculate the digest for the verifiable credential
     const { digest, type } = calcDigest(
       {
         rootHash,
@@ -75,6 +82,7 @@ export class Credential extends Base {
       },
       this.hashType
     );
+    // attester/issuer sign the verifiable credential digest with its assertionMethod key
     const { didUrl, signature, type: keyType } = did.signWithKey('assertionMethod', digest);
 
     const proof: Proof = {

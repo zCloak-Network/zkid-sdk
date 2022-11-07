@@ -21,6 +21,7 @@ export function fromCredential(input: ICredential): VerifiableCredential {
  * @param vcs [[VerifiableCredential]] array
  * @returns composed VerifiableCredential
  */
+// todo: we dont aggregate vcs, instead using vp
 export function compose(...vcs: VerifiableCredential[]): VerifiableCredential {
   assert(vcs.length > 1, 'Can only be composed when there are multiple vc');
 

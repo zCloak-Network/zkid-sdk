@@ -37,6 +37,8 @@ export interface Proof {
   challenge?: string;
 }
 
+
+// todo: ICredential, Base, Credential, RawCredential, VerifiableCredential?
 export interface RawCredential {
   '@context': string[];
   version: VerifiableCredentialVersion;

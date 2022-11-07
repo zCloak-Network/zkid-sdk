@@ -7,6 +7,7 @@ import type { HashType } from '../types';
 
 export type DigestResult = { digest: HexString; type: HashType };
 
+// todo: make it clearer, e.g. DigestFactors
 type Input = {
   rootHash: HexString;
   holder: DidUrl;

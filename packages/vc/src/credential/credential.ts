@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Did } from '@zcloak/did';
-import type { Proof, RawCredential, VerifiableCredential } from '../types';
+import type { HashType, Proof, RawCredential, VerifiableCredential } from '../types';
 
 import { assert } from '@polkadot/util';
 
@@ -65,7 +65,7 @@ export class Credential extends Base {
     assert(this.holder, 'holder is null');
     assert(this.ctype, 'ctype is null');
 
-    const { rootHash } = calcRoothash(this.credentialSubject, this.hashType);
+    const { rootHash } = calcRoothash(this.credentialSubject);
     const { digest, type } = calcDigest(
       {
         rootHash,
@@ -101,7 +101,7 @@ export class Credential extends Base {
       this.issuer &&
       this.holder
     ) {
-      const { hashes, nonceMap } = calcRoothash(this.credentialSubject, this.hashType);
+      const { hashes, nonceMap } = calcRoothash(this.credentialSubject);
 
       return {
         '@context': this.context,

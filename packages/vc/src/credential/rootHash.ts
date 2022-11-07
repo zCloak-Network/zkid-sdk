@@ -27,9 +27,9 @@ export function rootHashFromMerkle(
  * @param hashType [[HashType]] defaults is Keccak256
  * @returns `rootHash` and `hashType` object
  */
-export function calcRoothash(input: AnyJson, hashType: HashType = 'Keccak256'): RootHashResult {
+export function calcRoothash(input: AnyJson): RootHashResult {
   return {
-    type: hashType,
+    type: 'Rescue',
     ...rootHashFromMerkle([], {})
   };
 }

@@ -7,7 +7,7 @@ import type { HashType } from './types';
 
 export type DigestResult = { digest: HexString; type: HashType };
 
-type DigestPayload = {
+export type DigestPayload = {
   rootHash: HexString;
   holder: DidUrl;
   expirationDate?: number;

@@ -3,7 +3,7 @@
 
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
-import type { HashType } from '../types';
+import type { HashType } from './types';
 
 export type DigestResult = { digest: HexString; type: HashType };
 

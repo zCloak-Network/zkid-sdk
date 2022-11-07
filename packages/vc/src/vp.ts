@@ -14,7 +14,7 @@ import { assert, isHex, stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util'
 
 import { base58Encode } from '@zcloak/crypto';
 
-import { rootHashFromMerkle } from './credential/rootHash';
+import { rootHashFromMerkle } from './rootHash';
 import { keyTypeToSignatureType } from './utils';
 
 // @internal

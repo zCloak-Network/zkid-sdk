@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Did } from '@zcloak/did';
-import type { HashType, Proof, RawCredential, VerifiableCredential } from '../types';
+import type { Proof, RawCredential, VerifiableCredential } from '../types';
 
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
 
+import { calcDigest } from '../digest';
+import { calcRoothash } from '../rootHash';
 import { keyTypeToSignatureType } from '../utils';
 import { Base } from './base';
-import { calcDigest } from './digest';
-import { calcRoothash } from './rootHash';
 import { ICredential } from './type';
 
 /**

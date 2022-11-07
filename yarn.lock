@@ -3320,7 +3320,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/vc@workspace:packages/vc":
+"@zcloak/vc@0.0.1-6, @zcloak/vc@workspace:packages/vc":
   version: 0.0.0-use.local
   resolution: "@zcloak/vc@workspace:packages/vc"
   dependencies:
@@ -3328,7 +3328,6 @@ __metadata:
     "@zcloak/crypto": 0.0.1-6
     "@zcloak/did": 0.0.1-6
     "@zcloak/did-resolver": 0.0.1-6
-    "@zcloak/keyring": 0.0.1-6
   languageName: unknown
   linkType: soft
 
@@ -3340,7 +3339,7 @@ __metadata:
     "@zcloak/crypto": 0.0.1-6
     "@zcloak/did": 0.0.1-6
     "@zcloak/did-resolver": 0.0.1-6
-    "@zcloak/keyring": 0.0.1-6
+    "@zcloak/vc": 0.0.1-6
   languageName: unknown
   linkType: soft
 

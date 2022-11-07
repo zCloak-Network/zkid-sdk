@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
-import type { AnyJson, HashType } from '../types';
+import type { AnyJson, HashType } from './types';
 
 export type RootHashResult = {
   rootHash: HexString;
@@ -27,9 +27,14 @@ export function rootHashFromMerkle(
  * @param hashType [[HashType]] defaults is Keccak256
  * @returns `rootHash` and `hashType` object
  */
-export function calcRoothash(input: AnyJson): RootHashResult {
+export function calcRoothash(
+  input: AnyJson,
+  nonceMap?: Record<HexString, HexString>
+): RootHashResult {
+  nonceMap = {};
+
   return {
     type: 'Rescue',
-    ...rootHashFromMerkle([], {})
+    ...rootHashFromMerkle([], nonceMap)
   };
 }

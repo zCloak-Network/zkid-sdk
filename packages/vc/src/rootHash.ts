@@ -4,6 +4,8 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { AnyJson, HashType } from './types';
 
+import { DEFAULT_ROOT_HASH_TYPE } from './defaults';
+
 export type RootHashResult = {
   rootHash: HexString;
   hashes: HexString[];
@@ -29,8 +31,8 @@ export function rootHashFromMerkle(
  */
 export function calcRoothash(
   input: AnyJson,
-  nonceMap?: Record<HexString, HexString>,
-  type: HashType = 'Rescue'
+  type: HashType = DEFAULT_ROOT_HASH_TYPE,
+  nonceMap?: Record<HexString, HexString>
 ): RootHashResult {
   nonceMap = {};
 

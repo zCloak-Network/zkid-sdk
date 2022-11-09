@@ -1,89 +1,175 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { Did } from '@zcloak/did';
-import type { Proof, RawCredential, VerifiableCredential } from '../types';
-
-import { assert, isHex } from '@polkadot/util';
+import type { HashType, Proof, VerifiableCredential, VerifiableCredentialVersion } from '../types';
+import type { ISubject } from './types';
 
 import { base58Encode } from '@zcloak/crypto';
-import { HexString } from '@zcloak/crypto/types';
-import { isSameUri } from '@zcloak/did/utils';
+import { Did } from '@zcloak/did';
 
+import { DEFAULT_DIGEST_HASH_TYPE, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest } from '../digest';
 import { calcRoothash } from '../rootHash';
 import { keyTypeToSignatureType } from '../utils';
 
 /**
- * A class implements [[ICredential]]
- *
- * Use the class, you can generate a credential, and calc `rootHash`, get a `digest`, and attester can sign a proof to this.
+ * A builder to make [[VerifiableCredential]]
  *
  * @example
  * ```typescript
- * import { helpers, Did } from '@zcloak/did'
- * import { VerifiableCredentialBuilder } from '@zcloak/vc';
- * import { RawCredential, VerifiableCredential } from '@zcloak/vc/types';
+ * import { Did, helpers } from '@zcloak/did';
+ * import { DEFAULT_ROOT_HASH_TYPE } from '../defaults';
+ * import { VerifiableCredential } from '../types';
+ * import { Subject } from './subject';
+ * import { VerifiableCredentialBuilder } from './vc';
  *
- * const rawCredential: RawCredential = {...};
- * const vcBuilder = new VerifiableCredentialBuilder(rawCredential);
+ * const subject = new Subject({
+ *   contents: {},
+ *   hashType: DEFAULT_ROOT_HASH_TYPE,
+ *   ctype: '0x...',
+ *   owner: 'did:zk:claimer'
+ * });
  *
- * const mnemonic = 'health correct setup usage father decorate curious copper sorry recycle skin equal';
- * const keyring: Keyring = new Keyring();
- * const did: Did = helpers.createEcdsaFromMnemonic(mnemonic, keyring);
- * const vc: VerifiableCredential = vcBuilder.build(did);
+ *
+ * const builder = VerifiableCredentialBuilder.fromSubject(subject)
+ *   .setExpirationDate(null); // if you don't want the vc to expirate, set it to `null`
+ *
+ * const issuer: Did = helpers.createEcdsaFromMnemonic('pass your mnemonic')
+ * const vc: VerifiableCredential = builder.build(issuer)
  * ```
  */
 export class VerifiableCredentialBuilder {
-  public raw: RawCredential;
+  public '@context'?: string[];
+  public version?: VerifiableCredentialVersion;
+  public issuanceDate?: number;
+  public expirationDate?: number | null;
+  public subject: ISubject;
+  public digestHashType?: HashType;
 
-  constructor(raw: RawCredential) {
-    this.raw = raw;
+  public static fromSubject(subject: ISubject): VerifiableCredentialBuilder {
+    const builder = new VerifiableCredentialBuilder(subject);
+
+    return builder
+      .setVersion(DEFAULT_VC_VERSION)
+      .setIssuanceDate(Date.now())
+      .setDigestHashType(DEFAULT_DIGEST_HASH_TYPE);
+  }
+
+  constructor(subject: ISubject) {
+    this.subject = subject;
   }
 
   /**
-   * Build to a [[VerifiableCredential]], it will calcDigest by 'RawCredential`, and sign the proof with assertionMethod of `did`
-   * @param did The [[Did]] instance
+   * Build to [[VerifiableCredential]], it will calc digest and  sign proof use `issuer:Did`
    */
-  public build(did: Did): VerifiableCredential {
-    assert(isSameUri(did.id, this.raw.issuer), `The did of raw is not equal to ${did.id}`);
-    let rootHash: HexString;
+  public build(issuer: Did): VerifiableCredential {
+    if (
+      this['@context'] &&
+      this.version &&
+      this.issuanceDate &&
+      this.digestHashType &&
+      this.expirationDate !== undefined
+    ) {
+      const {
+        hashes,
+        nonceMap,
+        rootHash,
+        type: rootHashType
+      } = calcRoothash(this.subject.contents, this.subject.hashType, this.subject.nonceMap);
 
-    if (isHex(this.raw.credentialSubject)) {
-      rootHash = this.raw.credentialSubject;
-    } else {
-      rootHash = calcRoothash(
-        this.raw.credentialSubject,
-        this.raw.credentialSubjectNonceMap
-      ).rootHash;
+      const { digest, type: digestHashType } = calcDigest(
+        {
+          rootHash,
+          expirationDate: this.expirationDate || undefined,
+          holder: this.subject.owner,
+          ctype: this.subject.ctype
+        },
+        this.digestHashType
+      );
+
+      const { didUrl, signature, type: keyType } = issuer.signWithKey('assertionMethod', digest);
+
+      const proof: Proof = {
+        type: keyTypeToSignatureType(keyType),
+        created: Date.now(),
+        verificationMethod: didUrl,
+        proofPurpose: 'assertionMethod',
+        proofValue: base58Encode(signature)
+      };
+
+      const vc: VerifiableCredential = {
+        '@context': this['@context'],
+        version: this.version,
+        ctype: this.subject.ctype,
+        issuanceDate: this.issuanceDate,
+        credentialSubject: this.subject.contents,
+        credentialSubjectNonceMap: nonceMap,
+        credentialSubjectHashes: hashes,
+        issuer: issuer.id,
+        holder: this.subject.owner,
+        hasher: [rootHashType, digestHashType],
+        digest,
+        proof: [proof]
+      };
+
+      return vc;
     }
 
-    const { digest } = calcDigest(
-      {
-        rootHash,
-        expirationDate: this.raw.expirationDate,
-        holder: this.raw.holder,
-        ctype: this.raw.ctype
-      },
-      this.raw.hasher[1]
-    );
+    throw new Error('Can not to build an VerifiableCredential');
+  }
 
-    const { didUrl, signature, type: keyType } = did.signWithKey('assertionMethod', digest);
+  /**
+   * set arrtibute `@context`
+   */
+  public setContext(context: string[]): this {
+    this['@context'] = context;
 
-    const proof: Proof = {
-      type: keyTypeToSignatureType(keyType),
-      created: Date.now(),
-      verificationMethod: didUrl,
-      proofPurpose: 'assertionMethod',
-      proofValue: base58Encode(signature)
-    };
+    return this;
+  }
 
-    const vc: VerifiableCredential = {
-      ...this.raw,
-      digest,
-      proof: [proof]
-    };
+  /**
+   * set arrtibute `version`
+   */
+  public setVersion(version: VerifiableCredentialVersion): this {
+    this.version = version;
 
-    return vc;
+    return this;
+  }
+
+  /**
+   * set arrtibute `issuanceDate`
+   */
+  public setIssuanceDate(timestamp: number): this {
+    this.issuanceDate = timestamp;
+
+    return this;
+  }
+
+  /**
+   * set arrtibute `expirationDate`
+   */
+  public setExpirationDate(timestamp: number | null): this {
+    this.expirationDate = timestamp;
+
+    return this;
+  }
+
+  /**
+   * set arrtibute `subject`
+   * @param subjectIn object of [[ISubject]]
+   */
+  public setSubject(subjectIn: ISubject): this {
+    this.subject = subjectIn;
+
+    return this;
+  }
+
+  /**
+   * set attribute `digestHashType`
+   */
+  public setDigestHashType(hashType: HashType): this {
+    this.digestHashType = hashType;
+
+    return this;
   }
 }

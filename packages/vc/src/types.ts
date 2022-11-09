@@ -44,8 +44,8 @@ export interface RawCredential {
   issuanceDate: number;
   expirationDate?: number;
   credentialSubject: CredentialSubject;
-  credentialSubjectHashes?: HexString[];
-  credentialSubjectNonceMap?: Record<HexString, HexString>;
+  credentialSubjectHashes: HexString[];
+  credentialSubjectNonceMap: Record<HexString, HexString>;
   issuer: DidUrl;
   holder: DidUrl;
   hasher: [HashType, HashType];

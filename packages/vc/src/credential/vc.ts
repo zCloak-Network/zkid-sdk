@@ -1,13 +1,19 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HashType, Proof, VerifiableCredential, VerifiableCredentialVersion } from '../types';
+import type {
+  HashType,
+  Proof,
+  RawCredential,
+  VerifiableCredential,
+  VerifiableCredentialVersion
+} from '../types';
 import type { IRaw } from './types';
 
 import { base58Encode } from '@zcloak/crypto';
 import { Did } from '@zcloak/did';
 
-import { DEFAULT_DIGEST_HASH_TYPE, DEFAULT_VC_VERSION } from '../defaults';
+import { DEFAULT_CONTEXT, DEFAULT_DIGEST_HASH_TYPE, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest } from '../digest';
 import { keyTypeToSignatureType } from '../utils';
 import { Raw } from './raw';
@@ -46,13 +52,18 @@ export class VerifiableCredentialBuilder {
   public raw: IRaw;
   public digestHashType?: HashType;
 
-  public static fromRaw(raw: IRaw): VerifiableCredentialBuilder {
+  /**
+   * instance by [[RawCredential]]
+   */
+  public static fromRawCredential(rawCredential: RawCredential): VerifiableCredentialBuilder {
+    const raw = Raw.fromRawCredential(rawCredential);
     const builder = new VerifiableCredentialBuilder(raw);
 
     return builder
+      .setContext(DEFAULT_CONTEXT)
       .setVersion(DEFAULT_VC_VERSION)
       .setIssuanceDate(Date.now())
-      .setDigestHashType(DEFAULT_DIGEST_HASH_TYPE);
+      .setDigestHashType(rawCredential.hasher[1]);
   }
 
   constructor(raw: IRaw) {

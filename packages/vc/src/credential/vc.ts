@@ -9,8 +9,8 @@ import { Did } from '@zcloak/did';
 
 import { DEFAULT_DIGEST_HASH_TYPE, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest } from '../digest';
-import { calcRoothash } from '../rootHash';
 import { keyTypeToSignatureType } from '../utils';
+import { Subject } from './subject';
 
 /**
  * A builder to make [[VerifiableCredential]]
@@ -70,12 +70,9 @@ export class VerifiableCredentialBuilder {
       this.digestHashType &&
       this.expirationDate !== undefined
     ) {
-      const {
-        hashes,
-        nonceMap,
-        rootHash,
-        type: rootHashType
-      } = calcRoothash(this.subject.contents, this.subject.hashType, this.subject.nonceMap);
+      const subject = new Subject(this.subject);
+
+      const { hashes, nonceMap, rootHash, type: rootHashType } = subject.calcRootHash();
 
       const { digest, type: digestHashType } = calcDigest(
         {

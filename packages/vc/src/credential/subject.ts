@@ -10,7 +10,7 @@ import { assert } from '@polkadot/util';
 
 import { isDidUrl } from '@zcloak/did/utils';
 
-import { calcRoothash } from '../rootHash';
+import { calcRoothash, RootHashResult } from '../rootHash';
 
 /**
  * [[ISubject]] implements
@@ -92,24 +92,25 @@ export class Subject implements ISubject {
    * 1. check `hashes`, `nonceMap` and `rootHash` is exists
    * 2. if exists, will check isValid, if check result is `true`, do nothing, else calc a new rootHash
    */
-  public calcRootHash(): this {
+  public calcRootHash(): RootHashResult {
     assert(this.checkSubject(), `Subject check failed when use ctype ${this.ctype}`);
 
-    let doCalc = true;
-
-    if (this.hashes && this.nonceMap && this.rootHash) {
-      doCalc = !this.checkRootHash();
-    }
-
-    if (doCalc) {
-      const { hashes, nonceMap, rootHash } = calcRoothash(this.contents, this.hashType);
+    if (this.hashes && this.nonceMap && this.rootHash && this.checkRootHash()) {
+      return {
+        hashes: this.hashes,
+        nonceMap: this.nonceMap,
+        rootHash: this.rootHash,
+        type: this.hashType
+      };
+    } else {
+      const { hashes, nonceMap, rootHash, type } = calcRoothash(this.contents, this.hashType);
 
       this.hashes = hashes;
       this.nonceMap = nonceMap;
       this.rootHash = rootHash;
-    }
 
-    return this;
+      return { hashes, nonceMap, rootHash, type };
+    }
   }
 
   /**

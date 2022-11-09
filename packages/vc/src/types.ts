@@ -38,20 +38,20 @@ export interface Proof {
 }
 
 export interface RawCredential {
-  '@context': string[];
-  version: VerifiableCredentialVersion;
   ctype: HexString;
-  issuanceDate: number;
-  expirationDate?: number;
   credentialSubject: CredentialSubject;
   credentialSubjectHashes: HexString[];
   credentialSubjectNonceMap: Record<HexString, HexString>;
-  issuer: DidUrl;
   holder: DidUrl;
   hasher: [HashType, HashType];
 }
 
 export interface VerifiableCredential extends RawCredential {
+  '@context': string[];
+  version: VerifiableCredentialVersion;
+  issuanceDate: number;
+  expirationDate?: number;
+  issuer: DidUrl;
   digest: HexString;
   proof: Proof[];
 }

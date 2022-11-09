@@ -3,32 +3,32 @@
 
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
-import type { AnyJson, HashType } from '../types';
-import type { ISubject } from './types';
+import type { AnyJson, HashType, RawCredential } from '../types';
+import type { IRaw } from './types';
 
-import { assert } from '@polkadot/util';
+import { assert, isHex } from '@polkadot/util';
 
 import { isDidUrl } from '@zcloak/did/utils';
 
 import { calcRoothash, RootHashResult } from '../rootHash';
 
 /**
- * [[ISubject]] implements
+ * [[IRaw]] implements
  *
  * @example
  * <BR>
  * ```typescript
- * const subject = new Subject({
+ * const raw = new Raw({
  *   contents: {},
  *   hashType: DEFAULT_ROOT_HASH_TYPE,
  *   ctype: '0x...',
  *   owner: 'did:zk:claimer'
  * });
  *
- * subject.calcRootHash();
+ * raw.calcRootHash();
  * ```
  */
-export class Subject implements ISubject {
+export class Raw implements IRaw {
   public contents: AnyJson;
   public owner: DidUrl;
   public ctype: HexString;
@@ -38,15 +38,26 @@ export class Subject implements ISubject {
   public hashes?: HexString[];
   public nonceMap?: Record<HexString, HexString>;
 
-  constructor(subject: ISubject) {
-    this.contents = subject.contents;
-    this.owner = subject.owner;
-    this.ctype = subject.ctype;
-    this.hashType = subject.hashType;
+  public static fromRawCredential(rawCredential: RawCredential): Raw {
+    assert(!isHex(rawCredential.credentialSubject), 'credentialSubject can not be hex string');
 
-    this.rootHash = subject.rootHash;
-    this.hashes = subject.hashes;
-    this.nonceMap = subject.nonceMap;
+    return new Raw({
+      contents: rawCredential.credentialSubject,
+      owner: rawCredential.holder,
+      ctype: rawCredential.ctype,
+      hashType: rawCredential.hasher[0]
+    });
+  }
+
+  constructor(raw: IRaw) {
+    this.contents = raw.contents;
+    this.owner = raw.owner;
+    this.ctype = raw.ctype;
+    this.hashType = raw.hashType;
+
+    this.rootHash = raw.rootHash;
+    this.hashes = raw.hashes;
+    this.nonceMap = raw.nonceMap;
   }
 
   /**

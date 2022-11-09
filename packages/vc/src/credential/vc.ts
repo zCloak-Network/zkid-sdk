@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HashType, Proof, VerifiableCredential, VerifiableCredentialVersion } from '../types';
-import type { ISubject } from './types';
+import type { IRaw } from './types';
 
 import { base58Encode } from '@zcloak/crypto';
 import { Did } from '@zcloak/did';
@@ -10,7 +10,7 @@ import { Did } from '@zcloak/did';
 import { DEFAULT_DIGEST_HASH_TYPE, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest } from '../digest';
 import { keyTypeToSignatureType } from '../utils';
-import { Subject } from './subject';
+import { Raw } from './raw';
 
 /**
  * A builder to make [[VerifiableCredential]]
@@ -18,12 +18,12 @@ import { Subject } from './subject';
  * @example
  * ```typescript
  * import { Did, helpers } from '@zcloak/did';
- * import { DEFAULT_ROOT_HASH_TYPE } from '../defaults';
- * import { VerifiableCredential } from '../types';
- * import { Subject } from './subject';
+ * import { DEFAULT_ROOT_HASH_TYPE } from '@zcloak/defaults';
+ * import { VerifiableCredential } from '@zcloak/types';
+ * import { Raw } from '@zcloak/vc';
  * import { VerifiableCredentialBuilder } from './vc';
  *
- * const subject = new Subject({
+ * const raw = new Raw({
  *   contents: {},
  *   hashType: DEFAULT_ROOT_HASH_TYPE,
  *   ctype: '0x...',
@@ -31,7 +31,7 @@ import { Subject } from './subject';
  * });
  *
  *
- * const builder = VerifiableCredentialBuilder.fromSubject(subject)
+ * const builder = VerifiableCredentialBuilder.fromRaw(raw)
  *   .setExpirationDate(null); // if you don't want the vc to expirate, set it to `null`
  *
  * const issuer: Did = helpers.createEcdsaFromMnemonic('pass your mnemonic')
@@ -43,11 +43,11 @@ export class VerifiableCredentialBuilder {
   public version?: VerifiableCredentialVersion;
   public issuanceDate?: number;
   public expirationDate?: number | null;
-  public subject: ISubject;
+  public raw: IRaw;
   public digestHashType?: HashType;
 
-  public static fromSubject(subject: ISubject): VerifiableCredentialBuilder {
-    const builder = new VerifiableCredentialBuilder(subject);
+  public static fromRaw(raw: IRaw): VerifiableCredentialBuilder {
+    const builder = new VerifiableCredentialBuilder(raw);
 
     return builder
       .setVersion(DEFAULT_VC_VERSION)
@@ -55,8 +55,8 @@ export class VerifiableCredentialBuilder {
       .setDigestHashType(DEFAULT_DIGEST_HASH_TYPE);
   }
 
-  constructor(subject: ISubject) {
-    this.subject = subject;
+  constructor(raw: IRaw) {
+    this.raw = raw;
   }
 
   /**
@@ -70,16 +70,16 @@ export class VerifiableCredentialBuilder {
       this.digestHashType &&
       this.expirationDate !== undefined
     ) {
-      const subject = new Subject(this.subject);
+      const raw = new Raw(this.raw);
 
-      const { hashes, nonceMap, rootHash, type: rootHashType } = subject.calcRootHash();
+      const { hashes, nonceMap, rootHash, type: rootHashType } = raw.calcRootHash();
 
       const { digest, type: digestHashType } = calcDigest(
         {
           rootHash,
           expirationDate: this.expirationDate || undefined,
-          holder: this.subject.owner,
-          ctype: this.subject.ctype
+          holder: this.raw.owner,
+          ctype: this.raw.ctype
         },
         this.digestHashType
       );
@@ -97,13 +97,13 @@ export class VerifiableCredentialBuilder {
       const vc: VerifiableCredential = {
         '@context': this['@context'],
         version: this.version,
-        ctype: this.subject.ctype,
+        ctype: this.raw.ctype,
         issuanceDate: this.issuanceDate,
-        credentialSubject: this.subject.contents,
+        credentialSubject: this.raw.contents,
         credentialSubjectNonceMap: nonceMap,
         credentialSubjectHashes: hashes,
         issuer: issuer.id,
-        holder: this.subject.owner,
+        holder: this.raw.owner,
         hasher: [rootHashType, digestHashType],
         digest,
         proof: [proof]
@@ -152,11 +152,11 @@ export class VerifiableCredentialBuilder {
   }
 
   /**
-   * set arrtibute `subject`
-   * @param subjectIn object of [[ISubject]]
+   * set arrtibute `raw`
+   * @param rawIn object of [[IRaw]]
    */
-  public setSubject(subjectIn: ISubject): this {
-    this.subject = subjectIn;
+  public setRaw(rawIn: IRaw): this {
+    this.raw = rawIn;
 
     return this;
   }

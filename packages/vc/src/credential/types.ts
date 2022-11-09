@@ -5,7 +5,7 @@ import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { AnyJson, HashType } from '../types';
 
-export interface ISubject {
+export interface IRaw {
   contents: AnyJson;
   owner: DidUrl;
   ctype: HexString;

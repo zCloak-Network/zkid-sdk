@@ -3,129 +3,84 @@
 
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
-import type { AnyJson, HashType, RawCredential, VerifiableCredentialVersion } from '../types';
+import type { AnyJson, HashType, RawCredential } from '../types';
+import type { IRaw } from './types';
 
-import { assert } from '@polkadot/util';
+import { assert, isHex } from '@polkadot/util';
 
-import { calcRoothash } from '../rootHash';
+import { isDidUrl } from '@zcloak/did/utils';
+
+import { calcRoothash, RootHashResult } from '../rootHash';
 
 /**
- * A builder implements for [[RawCredential]]
- *
- * Use this builder, you can build an [[RawCredential]]
+ * [[IRaw]] implements
  *
  * @example
+ * <BR>
  * ```typescript
- * import type { AnyJson, RawCredential } from '@zcloak/vc/types'
- * import { RawCredentialBuilder } from '@zcloak/vc'
+ * const raw = new Raw({
+ *   contents: {},
+ *   hashType: DEFAULT_ROOT_HASH_TYPE,
+ *   ctype: '0x...',
+ *   owner: 'did:zk:claimer'
+ * });
  *
- * const subject: AnyJson = { name: "zCloak" };
- * const ctype = '0x....';
- * const builder = RawCredentialBuilder
- *   .fromSubjectAndCtype(subject, ctype)
- *   .setExpirationDate(Date.now() + 60 * 60 * 24 * 30 * 36 * 1000) // expiration date in 36 month
- *
- * const rawCredential: RawCredential = builder.build('did:zk:holder', 'did:zk:issuer');
+ * raw.calcRootHash();
  * ```
  */
-export class RawCredentialBuilder {
-  public '@context'?: string[];
-  public version?: VerifiableCredentialVersion;
-  public ctype?: HexString;
-  public issuanceDate?: number;
-  public expirationDate?: number;
-  public credentialSubject?: AnyJson;
-  public credentialSubjectHashes?: HexString[];
-  public credentialSubjectNonceMap?: Record<HexString, HexString>;
-  public issuer?: DidUrl;
-  public holder?: DidUrl;
-  public hasher?: [HashType, HashType];
+export class Raw implements IRaw {
+  public contents: AnyJson;
+  public owner: DidUrl;
+  public ctype: HexString;
+  public hashType: HashType;
 
-  public static fromSubjectAndCtype(subject: AnyJson, ctype: HexString): RawCredentialBuilder {
-    const builder = new RawCredentialBuilder();
+  public rootHash?: HexString;
+  public hashes?: HexString[];
+  public nonceMap?: Record<HexString, HexString>;
 
-    builder
-      .setContext(['https://www.w3.org/2018/credentials/v1'])
-      .setVersion('0')
-      .setCtype(ctype)
-      .setIssuanceDate(Date.now())
-      .setSubject(subject);
+  public static fromRawCredential(rawCredential: RawCredential): Raw {
+    assert(!isHex(rawCredential.credentialSubject), 'credentialSubject can not be hex string');
 
-    return builder;
+    return new Raw({
+      contents: rawCredential.credentialSubject,
+      owner: rawCredential.holder,
+      ctype: rawCredential.ctype,
+      hashType: rawCredential.hasher[0]
+    });
+  }
+
+  constructor(raw: IRaw) {
+    this.contents = raw.contents;
+    this.owner = raw.owner;
+    this.ctype = raw.ctype;
+    this.hashType = raw.hashType;
+
+    this.rootHash = raw.rootHash;
+    this.hashes = raw.hashes;
+    this.nonceMap = raw.nonceMap;
   }
 
   /**
-   * convert `this` to [[RawCredential]] object, if the field is not enought, it will return `null`
+   * set `contents` attributes
    */
-  public convert(): RawCredential | null {
-    let rawCredential: RawCredential | null = null;
-
-    if (
-      this['@context'] &&
-      this.version === '0' &&
-      this.ctype &&
-      this.issuanceDate &&
-      this.issuer &&
-      this.holder &&
-      this.hasher &&
-      this.credentialSubject &&
-      this.credentialSubjectNonceMap &&
-      this.credentialSubjectHashes
-    ) {
-      rawCredential = {
-        '@context': this['@context'],
-        version: this.version,
-        ctype: this.ctype,
-        issuanceDate: this.issuanceDate,
-        credentialSubject: this.credentialSubject,
-        credentialSubjectNonceMap: this.credentialSubjectNonceMap,
-        credentialSubjectHashes: this.credentialSubjectHashes,
-        issuer: this.issuer,
-        holder: this.holder,
-        hasher: this.hasher
-      };
-    }
-
-    return rawCredential;
-  }
-
-  /**
-   * Build to [[RawCredential]], it will set `holder` and `issuer` if you provided.
-   * this method also check the subject is valid
-   */
-  public build(holder?: DidUrl, issuer?: DidUrl): RawCredential {
-    holder && this.setHolder(holder);
-    issuer && this.setIssuer(issuer);
-
-    const rawCredential = this.convert();
-
-    assert(rawCredential, 'Could not build to an RawCredential');
-
-    // TODO check subject use the ctype
-
-    return rawCredential;
-  }
-
-  /**
-   * set arrtibute `@context`
-   */
-  public setContext(context: string[]): this {
-    this['@context'] = context;
+  public setContents(contents: AnyJson): this {
+    this.contents = contents;
 
     return this;
   }
 
   /**
-   * set arrtibute `version`
+   * set `owner` attributes
    */
-  public setVersion(version: VerifiableCredentialVersion): this {
-    this.version = version;
+  public setOwner(owner: DidUrl): this {
+    assert(isDidUrl(owner), `${owner} is not a did`);
+    this.owner = owner;
 
     return this;
   }
 
   /**
-   * set arrtibute `ctype`
+   * set `ctype` attributes
    */
   public setCtype(ctype: HexString): this {
     this.ctype = ctype;
@@ -134,69 +89,67 @@ export class RawCredentialBuilder {
   }
 
   /**
-   * set arrtibute `issuanceDate`
+   * set `hashType` attributes
    */
-  public setIssuanceDate(timestamp: number): this {
-    this.issuanceDate = timestamp;
+  public setHashType(hashType: HashType): this {
+    this.hashType = hashType;
 
     return this;
   }
 
   /**
-   * set arrtibute `expirationDate`
+   * calc rootHash, if the `hashes`, `nonceMap` and `rootHash` attributes is `undefined`, it will calc new rootHash
+   * or others, it will reCalc `rootHash`
+   * 1. check `hashes`, `nonceMap` and `rootHash` is exists
+   * 2. if exists, will check isValid, if check result is `true`, do nothing, else calc a new rootHash
    */
-  public setExpirationDate(timestamp?: number): this {
-    this.expirationDate = timestamp;
+  public calcRootHash(): RootHashResult {
+    assert(this.checkSubject(), `Subject check failed when use ctype ${this.ctype}`);
 
-    return this;
+    if (this.hashes && this.nonceMap && this.rootHash && this.checkRootHash()) {
+      return {
+        hashes: this.hashes,
+        nonceMap: this.nonceMap,
+        rootHash: this.rootHash,
+        type: this.hashType
+      };
+    } else {
+      const { hashes, nonceMap, rootHash, type } = calcRoothash(this.contents, this.hashType);
+
+      this.hashes = hashes;
+      this.nonceMap = nonceMap;
+      this.rootHash = rootHash;
+
+      return { hashes, nonceMap, rootHash, type };
+    }
   }
 
   /**
-   * set arrtibute `credentialSubject`, `credentialSubjectHashes`, `credentialSubjectNonceMap` and `hasher[0]`
-   * this method will call `calcRootHash` function, pass `subject` and `nonceMapIn`
-   * @param subject map of [[AnyJson]]
-   * @param nonceMapIn(optional) map of HexString => HexString
+   * 1. call `this.checkSubject`
+   * 2. call `this.checkRootHash`
+   * @returns `true` or `false`
    */
-  public setSubject(
-    subject: AnyJson,
-    nonceMapIn?: Record<HexString, HexString>,
-    hashType?: HashType
-  ): this {
-    this.credentialSubject = subject;
-    const { hashes, nonceMap, type } = calcRoothash(subject, nonceMapIn, hashType);
-
-    this.credentialSubjectHashes = hashes;
-    this.credentialSubjectNonceMap = nonceMap;
-
-    this.hasher = [type, this.hasher?.[1] ?? 'Keccak256'];
-
-    return this;
+  public check(): boolean {
+    return this.checkSubject() && this.checkRootHash();
   }
 
   /**
-   * set arrtibute `issuer`
+   * check the `contents` is valid by ctype
+   * @returns `true` or `false`
    */
-  public setIssuer(issuer: DidUrl): this {
-    this.issuer = issuer;
+  public checkSubject(): boolean {
+    // TODO check the subject is valid by ctype
 
-    return this;
+    return true;
   }
 
   /**
-   * set arrtibute `holder`
+   * check the rootHash is valid
+   * @returns `true` or `false`
    */
-  public setHolder(holder: DidUrl): this {
-    this.holder = holder;
+  public checkRootHash(): boolean {
+    // TODO check rootHash is valid
 
-    return this;
-  }
-
-  /**
-   * set attribute `hasher[1]`
-   */
-  public setDigestHashType(hashType: HashType): this {
-    this.hasher = [this.hasher?.[0] ?? 'Rescue', hashType];
-
-    return this;
+    return true;
   }
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
-import type { DidUrl, Service } from '@zcloak/did-resolver/types';
+import type { Service } from '@zcloak/did-resolver/types';
 import type { IDidDetails } from '../types';
 import type { DidKeys, SignedData } from './types';
 

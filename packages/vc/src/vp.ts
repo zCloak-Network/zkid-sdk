@@ -15,6 +15,7 @@ import { base58Encode } from '@zcloak/crypto';
 import { Did } from '@zcloak/did';
 import { isSameUri } from '@zcloak/did/utils';
 
+import { DEFAULT_CONTEXT } from './defaults';
 import { rootHashFromMerkle } from './rootHash';
 import { keyTypeToSignatureType } from './utils';
 
@@ -133,7 +134,7 @@ export class VerifiablePresentationBuilder {
     } = this.#did.signWithKey('authentication', u8aConcat(hash, stringToU8a(challenge)));
 
     return {
-      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      '@context': DEFAULT_CONTEXT,
       version: '0',
       type: vpTypes,
       verifiableCredential: vcs,

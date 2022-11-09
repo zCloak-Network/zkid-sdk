@@ -13,7 +13,7 @@ export type HashType = 'Rescue' | 'Blake3' | 'Keccak256' | 'Sha256';
 
 export type SignatureType = 'EcdsaSecp256k1Signature2019' | 'Ed25519Signature2018';
 
-export type ProofType = SignatureType | `${HashType}+${SignatureType}`;
+export type ProofType = SignatureType;
 
 export type VerifiablePresentationType = 'VP' | 'VP_Digest' | 'VP_SelectiveDisclosure';
 
@@ -46,8 +46,9 @@ export interface RawCredential {
   credentialSubject: CredentialSubject;
   credentialSubjectHashes?: HexString[];
   credentialSubjectNonceMap?: Record<HexString, HexString>;
-  issuer: DidUrl[];
+  issuer: DidUrl;
   holder: DidUrl;
+  hasher: [HashType, HashType];
 }
 
 export interface VerifiableCredential extends RawCredential {
@@ -62,4 +63,5 @@ export interface VerifiablePresentation {
   verifiableCredential: VerifiableCredential[];
   id: HexString;
   proof: Proof;
+  hasher: [HashType];
 }

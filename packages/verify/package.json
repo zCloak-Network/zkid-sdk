@@ -21,6 +21,6 @@
     "@zcloak/crypto": "0.0.1-6",
     "@zcloak/did": "0.0.1-6",
     "@zcloak/did-resolver": "0.0.1-6",
-    "@zcloak/keyring": "0.0.1-6"
+    "@zcloak/vc": "0.0.1-6"
   }
 }

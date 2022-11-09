@@ -3,11 +3,11 @@
 
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
-import type { HashType } from '../types';
+import type { HashType } from './types';
 
 export type DigestResult = { digest: HexString; type: HashType };
 
-type Input = {
+export type DigestPayload = {
   rootHash: HexString;
   holder: DidUrl;
   expirationDate?: number;
@@ -18,11 +18,11 @@ type Input = {
  * calc credential digest
  * 1. it will encode by ctype, expirationDate, rootHash, holder
  * 2. generate hash value use provide [[hashType]]
- * @param input [[Input]] object
+ * @param payload [[DigestPayload]] object
  * @param hashType defaults is Keccak256
  * @returns [[DigestResult]]
  */
-export function calcDigest(input: Input, hashType: HashType = 'Keccak256'): DigestResult {
+export function calcDigest(payload: DigestPayload, hashType: HashType = 'Keccak256'): DigestResult {
   return {
     type: hashType,
     digest: '0x'

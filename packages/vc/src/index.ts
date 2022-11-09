@@ -2,4 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export * from './credential';
-export * as vc from './vc';
+export * from './digest';
+export * from './rootHash';
+export * from './vp';

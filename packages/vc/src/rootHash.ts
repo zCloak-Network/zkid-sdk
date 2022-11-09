@@ -29,12 +29,13 @@ export function rootHashFromMerkle(
  */
 export function calcRoothash(
   input: AnyJson,
-  nonceMap?: Record<HexString, HexString>
+  nonceMap?: Record<HexString, HexString>,
+  type: HashType = 'Rescue'
 ): RootHashResult {
   nonceMap = {};
 
   return {
-    type: 'Rescue',
+    type,
     ...rootHashFromMerkle([], nonceMap)
   };
 }

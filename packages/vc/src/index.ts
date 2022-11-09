@@ -4,5 +4,4 @@
 export * from './credential';
 export * from './digest';
 export * from './rootHash';
-export * as vc from './vc';
-export * as vp from './vp';
+export * from './vp';

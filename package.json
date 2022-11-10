@@ -10,30 +10,37 @@
     "url": "https://github.com/zCloak-Network/zkid-sdk.git"
   },
   "sideEffects": false,
-  "type": "commonjs",
+  "type": "module",
   "version": "0.0.1-8",
+  "versions": {
+    "git": "0.0.1-8",
+    "npm": "0.0.1-8"
+  },
   "workspaces": [
     "packages/*"
   ],
+  "bin": {
+    "build:wasm": "scripts/build-wasm.js"
+  },
   "scripts": {
     "build": "zcloak-dev-build-ts",
     "build:release": "zcloak-ci-ghact-build",
     "clean": "zcloak-dev-clean-build",
     "lint": "zcloak-dev-run-lint",
     "postinstall": "zcloak-dev-yarn-only",
-    "test": "NODE_OPTIONS=--experimental-vm-modules zcloak-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
-    "test:one": "NODE_OPTIONS=--experimental-vm-modules zcloak-dev-run-test --detectOpenHandles --forceExit",
-    "test:watch": "NODE_OPTIONS=--experimental-vm-modules zcloak-dev-run-test --watch"
-  },
-  "resolutions": {
-    "typescript": "^4.8.4"
+    "test": "zcloak-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
+    "test:one": "zcloak-dev-run-test --runInBand",
+    "test:watch": "zcloak-dev-run-test --watch"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@zcloak/dev": "^0.3.1",
+    "@zcloak/dev": "^0.4.1",
     "ethers": "^5.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "typescript": "^4.8.4"
+  },
+  "resolutions": {
     "typescript": "^4.8.4"
   }
 }

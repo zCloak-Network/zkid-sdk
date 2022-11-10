@@ -1,0 +1,32 @@
+[package]
+authors = ["zCloak"]
+description = "wasm crypto libraries."
+edition = "2021"
+license = "Apache-2.0"
+name = "wasm"
+publish = false
+repository = "https://github.com/zCloak-Network/zkid-sdk/"
+version = "0.0.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+rescue = {verision = "0.0.0", path = "src/rescue", package="rescue",default-features = false}
+wasm-bindgen = "=0.2.79"
+wee_alloc = "0.4.3"
+
+[dev-dependencies]
+criterion = "0.3.3"
+num-bigint = "0.3.0"
+
+[profile.release]
+codegen-units = 1
+debug = false
+debug-assertions = false
+incremental = false
+lto = true
+opt-level = "z"
+panic = "abort"
+rpath = false
+

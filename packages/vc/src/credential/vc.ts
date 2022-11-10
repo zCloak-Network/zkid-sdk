@@ -13,7 +13,7 @@ import type { IRaw } from './types';
 import { base58Encode } from '@zcloak/crypto';
 import { Did } from '@zcloak/did';
 
-import { DEFAULT_CONTEXT, DEFAULT_DIGEST_HASH_TYPE, DEFAULT_VC_VERSION } from '../defaults';
+import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest } from '../digest';
 import { keyTypeToSignatureType } from '../utils';
 import { Raw } from './raw';

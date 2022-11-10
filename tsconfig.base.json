@@ -18,6 +18,8 @@
       "@zcloak/vc/*": ["vc/src/*"],
       "@zcloak/verify": ["verify/src"],
       "@zcloak/verify/*": ["verify/src/*"],
+      "@zcloak/wasm": ["wasm/src"],
+      "@zcloak/wasm/*": ["wasm/src/*"],
     },
     "skipLibCheck": true
   }

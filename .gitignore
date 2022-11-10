@@ -18,3 +18,5 @@ tmp/
 tsconfig.*buildinfo
 yarn-debug.log*
 yarn-error.log*
+target/
+pkg/

@@ -3343,6 +3343,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@zcloak/wasm@workspace:packages/wasm":
+  version: 0.0.0-use.local
+  resolution: "@zcloak/wasm@workspace:packages/wasm"
+  languageName: unknown
+  linkType: soft
+
 "abbrev@npm:^1.0.0":
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"

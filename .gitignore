@@ -10,6 +10,7 @@
 !.yarn/plugins
 !.yarn/sdks
 build/
+build-cjs/
 cc-test-reporter
 coverage/
 node_modules/

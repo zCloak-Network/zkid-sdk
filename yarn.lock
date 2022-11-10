@@ -3734,14 +3734,15 @@ __metadata:
   dependencies:
     "@polkadot/util": ^10.1.11
     "@polkadot/util-crypto": ^10.1.11
+    "@polkadot/wasm-crypto": ^6.3.1
     "@scure/base": ^1.1.1
     "@zcloak/wasm": 0.0.1-8
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.3.2":
-  version: 0.3.2
-  resolution: "@zcloak/dev@npm:0.3.2"
+"@zcloak/dev@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@zcloak/dev@npm:0.4.1"
   dependencies:
     "@babel/cli": ^7.19.3
     "@babel/core": ^7.20.2
@@ -3833,7 +3834,7 @@ __metadata:
     zcloak-exec-rollup: scripts/zcloak-exec-rollup.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: 4932e22a4f784c5a22bd84ae8ccd34a6b4e572f8f5b602fb02a781becedd25754a557b688108fa1fc6a754c7412eb9f19b23bf3d263b074e87d132ffff9c547e
+  checksum: 6884c06f737004e86743b2441e0f9b12fc32bbe5bcd2954536af6244a38c9500beedf2975acb909c797a14afb8bc7069c239acde88cd223d0a30520f8baa80c0
   languageName: node
   linkType: hard
 
@@ -3886,8 +3887,6 @@ __metadata:
   dependencies:
     "@polkadot/util": ^10.1.11
     "@zcloak/crypto": 0.0.1-8
-    "@zcloak/did": 0.0.1-8
-    "@zcloak/did-resolver": 0.0.1-8
     "@zcloak/vc": 0.0.1-8
   languageName: unknown
   linkType: soft
@@ -11189,7 +11188,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": ^27.4.0
-    "@zcloak/dev": ^0.3.2
+    "@zcloak/dev": ^0.4.1
     ethers: ^5.7.1
     react: ^18.2.0
     react-dom: ^18.2.0

@@ -8,5 +8,7 @@
   "exclude": [
     "**/mod.ts"
   ],
-  "references": []
+  "references": [
+    { "path": "../crypto/tsconfig.build.json" }
+  ]
 }

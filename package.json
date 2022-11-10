@@ -16,12 +16,12 @@
     "git": "0.0.1-8",
     "npm": "0.0.1-8"
   },
-  "bin": {
-    "build:wasm": "scripts/build-wasm.js"
-  },
   "workspaces": [
     "packages/*"
   ],
+  "bin": {
+    "build:wasm": "scripts/build-wasm.js"
+  },
   "scripts": {
     "build": "zcloak-dev-build-ts",
     "build:release": "zcloak-ci-ghact-build",
@@ -32,15 +32,15 @@
     "test:one": "zcloak-dev-run-test --runInBand",
     "test:watch": "zcloak-dev-run-test --watch"
   },
-  "resolutions": {
-    "typescript": "^4.8.4"
-  },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@zcloak/dev": "^0.3.2",
+    "@zcloak/dev": "^0.4.1",
     "ethers": "^5.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "typescript": "^4.8.4"
+  },
+  "resolutions": {
     "typescript": "^4.8.4"
   }
 }

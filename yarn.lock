@@ -3728,7 +3728,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zcloak/crypto@0.0.1-8, @zcloak/crypto@workspace:packages/crypto":
+"@zcloak/crypto@0.0.1-8-x.0, @zcloak/crypto@workspace:packages/crypto":
   version: 0.0.0-use.local
   resolution: "@zcloak/crypto@workspace:packages/crypto"
   dependencies:
@@ -3736,7 +3736,7 @@ __metadata:
     "@polkadot/util-crypto": ^10.1.11
     "@polkadot/wasm-crypto": ^6.3.1
     "@scure/base": ^1.1.1
-    "@zcloak/wasm": 0.0.1-8
+    "@zcloak/wasm": 0.0.1-8-x.0
   languageName: unknown
   linkType: soft
 
@@ -3838,7 +3838,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zcloak/did-resolver@0.0.1-8, @zcloak/did-resolver@workspace:packages/did-resolver":
+"@zcloak/did-resolver@0.0.1-8-x.0, @zcloak/did-resolver@workspace:packages/did-resolver":
   version: 0.0.0-use.local
   resolution: "@zcloak/did-resolver@workspace:packages/did-resolver"
   dependencies:
@@ -3847,37 +3847,37 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/did@0.0.1-8, @zcloak/did@workspace:packages/did":
+"@zcloak/did@0.0.1-8-x.0, @zcloak/did@workspace:packages/did":
   version: 0.0.0-use.local
   resolution: "@zcloak/did@workspace:packages/did"
   dependencies:
     "@polkadot/util": ^10.1.11
     "@types/jsonabc": ^2.3.1
-    "@zcloak/crypto": 0.0.1-8
-    "@zcloak/did-resolver": 0.0.1-8
-    "@zcloak/keyring": 0.0.1-8
+    "@zcloak/crypto": 0.0.1-8-x.0
+    "@zcloak/did-resolver": 0.0.1-8-x.0
+    "@zcloak/keyring": 0.0.1-8-x.0
     jsonabc: ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@zcloak/keyring@0.0.1-8, @zcloak/keyring@workspace:packages/keyring":
+"@zcloak/keyring@0.0.1-8-x.0, @zcloak/keyring@workspace:packages/keyring":
   version: 0.0.0-use.local
   resolution: "@zcloak/keyring@workspace:packages/keyring"
   dependencies:
     "@polkadot/util": ^10.1.11
-    "@zcloak/crypto": 0.0.1-8
+    "@zcloak/crypto": 0.0.1-8-x.0
     ethers: ^5.7.1
   languageName: unknown
   linkType: soft
 
-"@zcloak/vc@0.0.1-8, @zcloak/vc@workspace:packages/vc":
+"@zcloak/vc@0.0.1-8-x.0, @zcloak/vc@workspace:packages/vc":
   version: 0.0.0-use.local
   resolution: "@zcloak/vc@workspace:packages/vc"
   dependencies:
     "@polkadot/util": ^10.1.11
-    "@zcloak/crypto": 0.0.1-8
-    "@zcloak/did": 0.0.1-8
-    "@zcloak/did-resolver": 0.0.1-8
+    "@zcloak/crypto": 0.0.1-8-x.0
+    "@zcloak/did": 0.0.1-8-x.0
+    "@zcloak/did-resolver": 0.0.1-8-x.0
   languageName: unknown
   linkType: soft
 
@@ -3886,12 +3886,12 @@ __metadata:
   resolution: "@zcloak/verify@workspace:packages/verify"
   dependencies:
     "@polkadot/util": ^10.1.11
-    "@zcloak/crypto": 0.0.1-8
-    "@zcloak/vc": 0.0.1-8
+    "@zcloak/crypto": 0.0.1-8-x.0
+    "@zcloak/vc": 0.0.1-8-x.0
   languageName: unknown
   linkType: soft
 
-"@zcloak/wasm@0.0.1-8, @zcloak/wasm@workspace:packages/wasm":
+"@zcloak/wasm@0.0.1-8-x.0, @zcloak/wasm@workspace:packages/wasm":
   version: 0.0.0-use.local
   resolution: "@zcloak/wasm@workspace:packages/wasm"
   dependencies:

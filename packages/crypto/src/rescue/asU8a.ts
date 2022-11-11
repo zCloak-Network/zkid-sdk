@@ -3,9 +3,9 @@
 
 import type { HexString } from '../types';
 
-import { u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { rescueHash, u64ToU8 } from '@zcloak/wasm';
+import { rescueHash } from '@zcloak/wasm';
 
 /**
  * @name rescueAsU8a
@@ -21,28 +21,26 @@ import { rescueHash, u64ToU8 } from '@zcloak/wasm';
  * rescueAsU8a('abcd1234'); // => [135,118,41,144,40,252,65,100,204,245,252,44,138,223,209,13,119,200,131,115,120,31,210,44,253,198,228,212,122,61,87,245]
  * ```
  */
-export function rescueAsU8a(data: BigUint64Array | HexString | Uint8Array | string): Uint8Array {
-  let value: Array<number | BigInt>;
+export function rescueAsU8a(data: HexString | Uint8Array | string, asU64a = false): Uint8Array {
+  const u8a = u8aToU8a(data);
 
-  if (!(data instanceof BigUint64Array)) {
-    value = Array.from(u8aToU8a(data));
+  let u64a: BigUint64Array;
+
+  if (asU64a) {
+    u64a = new BigUint64Array(u8a.length);
+    u8a.forEach((value, index) => {
+      u64a[index] = BigInt(value);
+    });
   } else {
-    value = Array.from(data);
+    assert(u8a.length % 8 === 0, 'byte length of BigUint64Array should be a multiple of 8');
+    u64a = new BigUint64Array(u8a.buffer);
   }
 
-  const length = value.length;
+  const result = rescueHash(u64a);
 
-  // data specifies the rescue input, it should contain 8 elements or more(over 8 but should be some multiple of 4)
-  // fix the value length
-  if (length < 8) {
-    value.length = 8;
-    value.fill(0, length, 8);
-  } else if (length % 4 !== 0) {
-    value.length = length + 4 - length % 4;
-    value.fill(0, length, value.length);
-  }
+  const resultU8a = new Uint8Array(result.buffer);
 
-  return u64ToU8(rescueHash(value.join(',')).toString());
+  return resultU8a;
 }
 
 /**

@@ -14,6 +14,7 @@ export * from './initCrypto';
 
 export {
   randomAsU8a,
+  randomAsHex,
   ethereumEncode,
   isEthereumAddress,
   isEthereumChecksum,

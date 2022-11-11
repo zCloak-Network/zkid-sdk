@@ -14,13 +14,13 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.0.1-8-x.0-x.0",
+  "version": "0.0.1-8",
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^10.1.11",
-    "@zcloak/crypto": "0.0.1-8-x.0-x.0",
-    "@zcloak/did-resolver": "0.0.1-8-x.0-x.0",
-    "@zcloak/keyring": "0.0.1-8-x.0-x.0",
+    "@zcloak/crypto": "0.0.1-8",
+    "@zcloak/did-resolver": "0.0.1-8",
+    "@zcloak/keyring": "0.0.1-8",
     "jsonabc": "^2.3.1"
   },
   "devDependencies": {

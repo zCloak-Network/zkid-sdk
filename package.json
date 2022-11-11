@@ -11,10 +11,10 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.0.1-8-x.0-x.0",
+  "version": "0.0.1-8",
   "versions": {
-    "git": "0.0.1-8-x.0-x.0",
-    "npm": "0.0.1-8-x.0-x.0"
+    "git": "0.0.1-8",
+    "npm": "0.0.1-8"
   },
   "workspaces": [
     "packages/*"
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@zcloak/dev": "^0.4.1",
+    "@zcloak/dev": "^0.4.2",
     "ethers": "^5.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

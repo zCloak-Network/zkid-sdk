@@ -4,12 +4,14 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
 
-export type AnyJson = Record<string, number | boolean | string | Array<number | boolean | string>>;
+export type NativeType = string | number | boolean | null | undefined
+
+export type AnyJson = Record<string, NativeType | string[]>;
 
 // when CredentialSubject is HexString, it means [[rootHash]]
 export type CredentialSubject = AnyJson | HexString;
 
-export type HashType = 'Rescue' | 'Blake3' | 'Keccak256' | 'Sha256';
+export type HashType = 'Rescue' | 'Blake3' | 'Blake2' | 'Keccak256' | 'Keccak512' | 'Sha256' | 'Sha512';
 
 export type SignatureType = 'EcdsaSecp256k1Signature2019' | 'Ed25519Signature2018';
 

@@ -2,7 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { VerificationMethodType } from '@zcloak/did-resolver/types';
-import type { SignatureType } from './types';
+import type { HashType, NativeType, SignatureType } from './types';
+
+import { encode } from '@ethereumjs/rlp';
+
+import { HASHER } from './hasher';
 
 export function keyTypeToSignatureType(type: VerificationMethodType): SignatureType {
   switch (type) {
@@ -13,5 +17,15 @@ export function keyTypeToSignatureType(type: VerificationMethodType): SignatureT
 
     default:
       throw new Error(`Can not transform type: ${type}`);
+  }
+}
+
+export function rlpEncode(input: NativeType | string[], hashType: HashType): Uint8Array {
+  const result = encode(typeof input === 'boolean' ? Number(input) : input);
+
+  if (hashType === 'Rescue') {
+    return HASHER.Rescue(result, true);
+  } else {
+    return HASHER[hashType](result);
   }
 }

@@ -20,7 +20,11 @@ import { u8aToHex, u8aToU8a } from '@polkadot/util';
  * blake3AsU8a('abcd1234'); // => [135,118,41,144,40,252,65,100,204,245,252,44,138,223,209,13,119,200,131,115,120,31,210,44,253,198,228,212,122,61,87,245]
  * ```
  */
-export function blake3AsU8a(data: HexString | Uint8Array | string, bitLength: 64 | 128 | 256 | 384 | 512 = 256, key?: Uint8Array | null): Uint8Array {
+export function blake3AsU8a(
+  data: HexString | Uint8Array | string,
+  bitLength: 64 | 128 | 256 | 384 | 512 = 256,
+  key?: Uint8Array | null
+): Uint8Array {
   const byteLength = Math.ceil(bitLength / 8);
 
   const u8a = u8aToU8a(data);

@@ -45,7 +45,12 @@ export function calcDigest(
   payload: DigestPayload,
   hashType: HashType = DEFAULT_DIGEST_HASH_TYPE
 ): DigestResult {
-  const encoded = u8aConcat(payload.rootHash, stringToU8a(payload.holder), numberToU8a(payload.expirationDate), payload.ctype);
+  const encoded = u8aConcat(
+    payload.rootHash,
+    stringToU8a(payload.holder),
+    numberToU8a(payload.expirationDate),
+    payload.ctype
+  );
 
   return {
     type: hashType,

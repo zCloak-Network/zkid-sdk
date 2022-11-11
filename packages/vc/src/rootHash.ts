@@ -70,7 +70,9 @@ export function calcRoothash(
   nonceMap?: Record<HexString, HexString>
 ): RootHashResult {
   const values = Object.values(input);
-  const encoded: HexString[] = values.map((value) => rlpEncode(value, hashType)).map((value) => u8aToHex(value));
+  const encoded: HexString[] = values
+    .map((value) => rlpEncode(value, hashType))
+    .map((value) => u8aToHex(value));
 
   if (!nonceMap) {
     nonceMap = {};

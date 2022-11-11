@@ -38,11 +38,17 @@ function transformVC(
     for (const key in vc.credentialSubject) {
       if (!selectedAttributes.includes(key)) {
         delete vc.credentialSubject[key];
-        delete vc.credentialSubjectNonceMap[u8aToHex(rlpEncode(vc.credentialSubject[key], vc.hasher[0]))];
+        delete vc.credentialSubjectNonceMap[
+          u8aToHex(rlpEncode(vc.credentialSubject[key], vc.hasher[0]))
+        ];
       }
     }
   } else {
-    const { rootHash } = calcRoothash(vc.credentialSubject, vc.hasher[0], vc.credentialSubjectNonceMap);
+    const { rootHash } = calcRoothash(
+      vc.credentialSubject,
+      vc.hasher[0],
+      vc.credentialSubjectNonceMap
+    );
 
     vc.credentialSubject = rootHash;
     vc.credentialSubjectHashes = [];

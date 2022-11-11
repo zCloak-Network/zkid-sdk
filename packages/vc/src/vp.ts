@@ -16,8 +16,8 @@ import { Did } from '@zcloak/did';
 import { isSameUri } from '@zcloak/did/utils';
 
 import { DEFAULT_CONTEXT } from './defaults';
-import { rootHashFromMerkle } from './rootHash';
-import { keyTypeToSignatureType } from './utils';
+import { calcRoothash } from './rootHash';
+import { keyTypeToSignatureType, rlpEncode } from './utils';
 
 // @internal
 // transform Verifiable Credential by [[VerifiablePresentationType]]
@@ -38,16 +38,15 @@ function transformVC(
     for (const key in vc.credentialSubject) {
       if (!selectedAttributes.includes(key)) {
         delete vc.credentialSubject[key];
+        delete vc.credentialSubjectNonceMap[u8aToHex(rlpEncode(vc.credentialSubject[key], vc.hasher[0]))];
       }
     }
   } else {
-    const rootHash = rootHashFromMerkle(
-      vc.credentialSubjectHashes,
-      vc.credentialSubjectNonceMap,
-      vc.hasher[0]
-    );
+    const { rootHash } = calcRoothash(vc.credentialSubject, vc.hasher[0], vc.credentialSubjectNonceMap);
 
     vc.credentialSubject = rootHash;
+    vc.credentialSubjectHashes = [];
+    vc.credentialSubjectNonceMap = {};
   }
 
   return vc;

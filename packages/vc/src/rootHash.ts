@@ -28,24 +28,35 @@ function merkleHash(hashType: HashType) {
   };
 }
 
+export function makeMerkleTree(leaves: Uint8Array[], hashType: HashType): MerkleTree {
+  return new MerkleTree(leaves, merkleHash(hashType));
+}
+
+/**
+ * generate roothash from merkle tree
+ * @param encoded the encoded value, used to generate with nonce
+ * @param nonceMap the map of `encoded => nonce`, used to generate with encoded
+ * @param hashType [[HashType]]
+ */
 export function rootHashFromMerkle(
-  hashes: HexString[],
+  encoded: HexString[],
   nonceMap: Record<HexString, HexString>,
-  type: HashType
-): HexString {
+  hashType: HashType
+): Omit<RootHashResult, 'type' | 'nonceMap'> {
   const leaves: Uint8Array[] = [];
 
-  for (const hash of hashes) {
-    const leave = u8aConcat(hash, nonceMap[hash]);
+  for (const encode of encoded) {
+    const leave = HASHER[hashType](u8aConcat(encode, nonceMap[encode]));
 
-    const hashLeave: Uint8Array = HASHER[type](leave);
-
-    leaves.push(hashLeave);
+    leaves.push(leave);
   }
 
-  const tree = new MerkleTree(leaves, merkleHash(type));
+  const tree = makeMerkleTree(leaves, hashType);
 
-  return u8aToHex(bufferToU8a(tree.getRoot()));
+  return {
+    hashes: leaves.map((leave) => u8aToHex(leave)),
+    rootHash: u8aToHex(bufferToU8a(tree.getRoot()))
+  };
 }
 
 /**
@@ -55,30 +66,23 @@ export function rootHashFromMerkle(
  */
 export function calcRoothash(
   input: AnyJson,
-  type: HashType = DEFAULT_ROOT_HASH_TYPE,
+  hashType: HashType = DEFAULT_ROOT_HASH_TYPE,
   nonceMap?: Record<HexString, HexString>
 ): RootHashResult {
   const values = Object.values(input);
-  const hashes: HexString[] = rlpEncode(values.map((value) => {
-    if (Array.isArray(value)) {
-      throw new Error('Not support array');
-    }
-
-    return value;
-  }), type).map((value) => u8aToHex(value));
+  const encoded: HexString[] = values.map((value) => rlpEncode(value, hashType)).map((value) => u8aToHex(value));
 
   if (!nonceMap) {
     nonceMap = {};
 
-    for (const hash of hashes) {
-      nonceMap[hash] = randomAsHex(32);
+    for (const encode of encoded) {
+      nonceMap[encode] = randomAsHex(32);
     }
   }
 
   return {
-    type,
-    hashes,
+    type: hashType,
     nonceMap,
-    rootHash: rootHashFromMerkle(hashes, nonceMap, type)
+    ...rootHashFromMerkle(encoded, nonceMap, hashType)
   };
 }

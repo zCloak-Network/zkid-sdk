@@ -6,7 +6,7 @@ import type { DidUrl } from '@zcloak/did-resolver/types';
 
 export type NativeType = string | number | boolean | null | undefined
 
-export type AnyJson = Record<string, NativeType | NativeType[]>;
+export type AnyJson = Record<string, NativeType | string[]>;
 
 // when CredentialSubject is HexString, it means [[rootHash]]
 export type CredentialSubject = AnyJson | HexString;

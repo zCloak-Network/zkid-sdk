@@ -18,7 +18,7 @@ import { rescueHash } from '@zcloak/wasm';
  * ```javascript
  * import { rescueAsU8a } from '@zcloak/crypto';
  *
- * rescueAsU8a('abcd1234'); // => [135,118,41,144,40,252,65,100,204,245,252,44,138,223,209,13,119,200,131,115,120,31,210,44,253,198,228,212,122,61,87,245]
+ * rescueAsU8a('abcd1234'); // => [212, 187, 16, 176, 223, 111, 125, 152, 232, 223, 53, 52, 239, 99, 173, 71, 181, 59, 174, 51, 80, 175, 78, 174, 66, 122, 204, 8, 39, 100, 158, 253]
  * ```
  */
 export function rescueAsU8a(data: HexString | Uint8Array | string, asU64a = false): Uint8Array {

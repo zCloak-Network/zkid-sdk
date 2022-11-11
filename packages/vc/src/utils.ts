@@ -20,18 +20,12 @@ export function keyTypeToSignatureType(type: VerificationMethodType): SignatureT
   }
 }
 
-export function rlpEncode(input: NativeType[], hashType: HashType): Uint8Array[] {
-  const encoded: Uint8Array[] = [];
+export function rlpEncode(input: NativeType | string[], hashType: HashType): Uint8Array {
+  const result = encode(typeof input === 'boolean' ? Number(input) : input);
 
-  input.forEach((value) => {
-    const result = encode(typeof value === 'boolean' ? Number(value) : value);
-
-    if (hashType === 'Rescue') {
-      encoded.push(HASHER.Rescue(result, true));
-    } else {
-      encoded.push(HASHER[hashType](result));
-    }
-  });
-
-  return encoded;
+  if (hashType === 'Rescue') {
+    return HASHER.Rescue(result, true);
+  } else {
+    return HASHER[hashType](result);
+  }
 }

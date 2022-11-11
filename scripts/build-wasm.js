@@ -1,10 +1,9 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-const { execSync } = require('child_process');
-const fs = require('fs');
-
-const { u8aToHex } = require('@polkadot/util');
+import { u8aToHex } from '@polkadot/util';
+import { execSync } from 'child_process';
+import fs from 'fs';
 
 const COPYRIGHT = `// Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0

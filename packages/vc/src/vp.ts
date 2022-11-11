@@ -41,14 +41,13 @@ function transformVC(
       }
     }
   } else {
-    const { hashes, nonceMap, rootHash } = rootHashFromMerkle(
+    const rootHash = rootHashFromMerkle(
       vc.credentialSubjectHashes,
-      vc.credentialSubjectNonceMap
+      vc.credentialSubjectNonceMap,
+      vc.hasher[0]
     );
 
     vc.credentialSubject = rootHash;
-    vc.credentialSubjectHashes = hashes;
-    vc.credentialSubjectNonceMap = nonceMap;
   }
 
   return vc;

@@ -3755,7 +3755,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@zcloak/crypto@0.0.1-9, @zcloak/crypto@workspace:packages/crypto":
+"@zcloak/crypto@0.0.1-10, @zcloak/crypto@workspace:packages/crypto":
   version: 0.0.0-use.local
   resolution: "@zcloak/crypto@workspace:packages/crypto"
   dependencies:
@@ -3764,13 +3764,13 @@ __metadata:
     "@polkadot/util-crypto": ^10.1.11
     "@polkadot/wasm-crypto": ^6.3.1
     "@scure/base": ^1.1.1
-    "@zcloak/wasm": 0.0.1-9
+    "@zcloak/wasm": 0.0.1-10
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.4.2":
-  version: 0.4.2
-  resolution: "@zcloak/dev@npm:0.4.2"
+"@zcloak/dev@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@zcloak/dev@npm:0.5.0"
   dependencies:
     "@babel/cli": ^7.19.3
     "@babel/core": ^7.20.2
@@ -3862,11 +3862,11 @@ __metadata:
     zcloak-exec-rollup: scripts/zcloak-exec-rollup.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: 180dc8727fc9883608ed7e04c6b0d55da8604cde88aa427a1b75bd6f8ea0d4a253e8e8eb2782754578547b355940306e505723b5743fd639f05cea220425a097
+  checksum: 313ddf8cb1ca34f8af98acdac3662523c45edc2589076a863f82eae41d761ca5b25b492d7a8b9e81c7389e65255d38d42a84756b9b5a0bbfa146d0ff83ae18e9
   languageName: node
   linkType: hard
 
-"@zcloak/did-resolver@0.0.1-9, @zcloak/did-resolver@workspace:packages/did-resolver":
+"@zcloak/did-resolver@0.0.1-10, @zcloak/did-resolver@workspace:packages/did-resolver":
   version: 0.0.0-use.local
   resolution: "@zcloak/did-resolver@workspace:packages/did-resolver"
   dependencies:
@@ -3875,38 +3875,38 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/did@0.0.1-9, @zcloak/did@workspace:packages/did":
+"@zcloak/did@0.0.1-10, @zcloak/did@workspace:packages/did":
   version: 0.0.0-use.local
   resolution: "@zcloak/did@workspace:packages/did"
   dependencies:
     "@polkadot/util": ^10.1.11
     "@types/jsonabc": ^2.3.1
-    "@zcloak/crypto": 0.0.1-9
-    "@zcloak/did-resolver": 0.0.1-9
-    "@zcloak/keyring": 0.0.1-9
+    "@zcloak/crypto": 0.0.1-10
+    "@zcloak/did-resolver": 0.0.1-10
+    "@zcloak/keyring": 0.0.1-10
     jsonabc: ^2.3.1
   languageName: unknown
   linkType: soft
 
-"@zcloak/keyring@0.0.1-9, @zcloak/keyring@workspace:packages/keyring":
+"@zcloak/keyring@0.0.1-10, @zcloak/keyring@workspace:packages/keyring":
   version: 0.0.0-use.local
   resolution: "@zcloak/keyring@workspace:packages/keyring"
   dependencies:
     "@polkadot/util": ^10.1.11
-    "@zcloak/crypto": 0.0.1-9
+    "@zcloak/crypto": 0.0.1-10
     ethers: ^5.7.1
   languageName: unknown
   linkType: soft
 
-"@zcloak/vc@0.0.1-9, @zcloak/vc@workspace:packages/vc":
+"@zcloak/vc@0.0.1-10, @zcloak/vc@workspace:packages/vc":
   version: 0.0.0-use.local
   resolution: "@zcloak/vc@workspace:packages/vc"
   dependencies:
     "@ethereumjs/rlp": ^4.0.0
     "@polkadot/util": ^10.1.11
-    "@zcloak/crypto": 0.0.1-9
-    "@zcloak/did": 0.0.1-9
-    "@zcloak/did-resolver": 0.0.1-9
+    "@zcloak/crypto": 0.0.1-10
+    "@zcloak/did": 0.0.1-10
+    "@zcloak/did-resolver": 0.0.1-10
     merkletreejs: ^0.3.1
   languageName: unknown
   linkType: soft
@@ -3916,12 +3916,12 @@ __metadata:
   resolution: "@zcloak/verify@workspace:packages/verify"
   dependencies:
     "@polkadot/util": ^10.1.11
-    "@zcloak/crypto": 0.0.1-9
-    "@zcloak/vc": 0.0.1-9
+    "@zcloak/crypto": 0.0.1-10
+    "@zcloak/vc": 0.0.1-10
   languageName: unknown
   linkType: soft
 
-"@zcloak/wasm@0.0.1-9, @zcloak/wasm@workspace:packages/wasm":
+"@zcloak/wasm@0.0.1-10, @zcloak/wasm@workspace:packages/wasm":
   version: 0.0.0-use.local
   resolution: "@zcloak/wasm@workspace:packages/wasm"
   dependencies:
@@ -11517,7 +11517,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": ^27.4.0
-    "@zcloak/dev": ^0.4.2
+    "@zcloak/dev": ^0.5.0
     ethers: ^5.7.1
     react: ^18.2.0
     react-dom: ^18.2.0

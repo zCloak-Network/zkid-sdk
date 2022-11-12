@@ -12,8 +12,9 @@ import { rlpEncode } from '@zcloak/vc/utils';
 
 /**
  * @name rootHashVerify
+ * @summary Verifies the rootHash is valid.
  * @description
- * verify the `rootHashIn` is equal to rootHash by (`hashType`, `hashes`, `contents`, `nonceMap`).
+ * Verify the `rootHashIn` is equal to rootHash by (`hashType`, `hashes`, `contents`, `nonceMap`). Returns `true` on sucess, `false` otherwise.
  *
  * `hashes.length` must greater or equal than `Object.keys(contents).length`.
  *
@@ -22,6 +23,7 @@ import { rlpEncode } from '@zcloak/vc/utils';
  * else, it means full text presentation to verify
  *
  * @example
+ * <BR>
  * ```typescript
  * import { rootHashVerify } from '@zcloak/verify`
  *

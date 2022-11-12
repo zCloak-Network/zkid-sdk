@@ -80,7 +80,7 @@ describe('verify rootHash', (): void => {
     expect(rootHashVerify('Rescue', hashes, contents, nonceMap, rootHash)).toBe(false);
   });
 
-  it('verify rootHash input and nonceMap length error', (): void => {
+  it('verify rootHash contents and nonceMap length error', (): void => {
     const nonceMap: Record<HexString, HexString> = {
       '0x9ad57aefa90d9473f855c14221f330fe959a554b3d86c9d701db11c7559ce107': randomAsHex(32),
       '0x2d2367a578506f669cfd4a744c08fd45315ad4ea3d248733957947cf00723662':
@@ -95,11 +95,11 @@ describe('verify rootHash', (): void => {
     };
 
     expect(() => rootHashVerify('Rescue', hashes, contents, nonceMap, rootHash)).toThrow(
-      /^input and nonceMap must has the same keys length, receive input keys length/
+      /^contents and nonceMap must has the same keys length, receive contents keys length/
     );
   });
 
-  it('verify rootHash hashes and input length not equal', (): void => {
+  it('verify rootHash hashes and contents length not equal', (): void => {
     const nonceMap: Record<HexString, HexString> = {
       '0x9ad57aefa90d9473f855c14221f330fe959a554b3d86c9d701db11c7559ce107': randomAsHex(32),
       '0x2d2367a578506f669cfd4a744c08fd45315ad4ea3d248733957947cf00723662':
@@ -115,7 +115,7 @@ describe('verify rootHash', (): void => {
     };
 
     expect(() => rootHashVerify('Rescue', [], contents, nonceMap, rootHash)).toThrow(
-      'hashes length must greater than input length'
+      'hashes length must greater than contents length'
     );
   });
 });

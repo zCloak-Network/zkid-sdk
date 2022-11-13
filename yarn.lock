@@ -3768,9 +3768,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@zcloak/dev@npm:0.5.0"
+"@zcloak/dev@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "@zcloak/dev@npm:0.6.1"
   dependencies:
     "@babel/cli": ^7.19.3
     "@babel/core": ^7.20.2
@@ -3798,6 +3798,7 @@ __metadata:
     "@rushstack/eslint-patch": ^1.2.0
     "@typescript-eslint/eslint-plugin": ^5.42.1
     "@typescript-eslint/parser": ^5.42.1
+    "@zcloak/lint": 0.6.1
     babel-jest: ^29.3.1
     babel-plugin-module-extension-resolver: ^1.0.0-rc.2
     babel-plugin-module-resolver: ^4.1.0
@@ -3851,6 +3852,7 @@ __metadata:
     zcloak-dev-circular: scripts/zcloak-dev-circular.mjs
     zcloak-dev-clean-build: scripts/zcloak-dev-clean-build.mjs
     zcloak-dev-copy-to: scripts/zcloak-dev-copy-to.mjs
+    zcloak-dev-lint-dependencies: scripts/zcloak-dev-lint-dependencies.mjs
     zcloak-dev-run-lint: scripts/zcloak-dev-run-lint.mjs
     zcloak-dev-run-prettier: scripts/zcloak-dev-run-prettier.mjs
     zcloak-dev-run-test: scripts/zcloak-dev-run-test.mjs
@@ -3862,7 +3864,7 @@ __metadata:
     zcloak-exec-rollup: scripts/zcloak-exec-rollup.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: 313ddf8cb1ca34f8af98acdac3662523c45edc2589076a863f82eae41d761ca5b25b492d7a8b9e81c7389e65255d38d42a84756b9b5a0bbfa146d0ff83ae18e9
+  checksum: da16db6bdae244eccd12fe8a34f803d2dfe42fdfe532e5c6110cc4c4eaf02357dca9a67db6ca897f2e70ea4db6b9895aabfb3e98cb869a56c7402c5d0b979a39
   languageName: node
   linkType: hard
 
@@ -3898,6 +3900,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@zcloak/lint@npm:0.6.1":
+  version: 0.6.1
+  resolution: "@zcloak/lint@npm:0.6.1"
+  dependencies:
+    chalk: ^5.1.2
+    glob: ^8.0.3
+    parse-imports-ts: ^1.0.2
+    throat: ^6.0.1
+  checksum: 9d5e09106643baa878da96cfd82af8361329f53e1c9baf43618f2564cf4c93c4084e584afd9d18641d4acfedd5e23b0c4548f5c70e357232adc578d4be97f93c
+  languageName: node
+  linkType: hard
+
 "@zcloak/vc@0.0.1-10, @zcloak/vc@workspace:packages/vc":
   version: 0.0.0-use.local
   resolution: "@zcloak/vc@workspace:packages/vc"
@@ -3917,7 +3931,10 @@ __metadata:
   dependencies:
     "@polkadot/util": ^10.1.11
     "@zcloak/crypto": 0.0.1-10
+    "@zcloak/did": 0.0.1-10
+    "@zcloak/did-resolver": 0.0.1-10
     "@zcloak/vc": 0.0.1-10
+    report-missing-dependencies: ^1.0.13
   languageName: unknown
   linkType: soft
 
@@ -5020,13 +5037,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.1.0, chalk@npm:^4.1.1":
+"chalk@npm:^4, chalk@npm:^4.0.0, chalk@npm:^4.1.0, chalk@npm:^4.1.1":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: fe75c9d5c76a7a98d45495b91b2172fa3b7a09e0cc9370e5c8feb1c567b85c4288e2b3fded7cfdd7359ac28d6b3844feb8b82b8686842e93d23c827c417e83fc
+  languageName: node
+  linkType: hard
+
+"chalk@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "chalk@npm:5.1.2"
+  checksum: 804d7485e33531abe45b14e91026ceb5615974a8c04259ab0806f214a7666f6ea03e39ab124f7d5a0c78a83fda89005f236db3c5f10c2abe9ae875f7aa56bcb5
   languageName: node
   linkType: hard
 
@@ -5284,6 +5308,13 @@ __metadata:
   version: 7.2.0
   resolution: "commander@npm:7.2.0"
   checksum: 53501cbeee61d5157546c0bef0fedb6cdfc763a882136284bed9a07225f09a14b82d2a84e7637edfd1a679fb35ed9502fd58ef1d091e6287f60d790147f68ddc
+  languageName: node
+  linkType: hard
+
+"commander@npm:^9.0.0":
+  version: 9.4.1
+  resolution: "commander@npm:9.4.1"
+  checksum: bfb18e325a5bdf772763c2213d5c7d9e77144d944124e988bcd8e5e65fb6d45d5d4e86b09155d0f2556c9a59c31e428720e57968bcd050b2306e910a0bf3cf13
   languageName: node
   linkType: hard
 
@@ -7241,6 +7272,13 @@ __metadata:
   version: 1.0.0
   resolution: "fs.realpath@npm:1.0.0"
   checksum: 99ddea01a7e75aa276c250a04eedeffe5662bce66c65c07164ad6264f9de18fb21be9433ead460e54cff20e31721c811f4fb5d70591799df5f85dce6d6746fd0
+  languageName: node
+  linkType: hard
+
+"fs@npm:^0.0.1-security":
+  version: 0.0.1-security
+  resolution: "fs@npm:0.0.1-security"
+  checksum: 53c6230e1faae9fa32c1df82c16a84b51b1243d20f3da2b64bd110bb472b73b9185169b703e008356e3cdc92d155088b617d9d39a63b5227a30b3621baad7f5d
   languageName: node
   linkType: hard
 
@@ -10510,6 +10548,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"parse-imports-ts@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "parse-imports-ts@npm:1.0.2"
+  peerDependencies:
+    typescript: ^4.5.5
+  checksum: 38c48f9cb5f57a5ac18b7b86644b61abae9b2825fe702ea488b8efcfb9b80966ace48edbb36f555b7077fb6a36b09802785d2d75b994197c7c6527e535219cc4
+  languageName: node
+  linkType: hard
+
 "parse-json@npm:^5.0.0, parse-json@npm:^5.2.0":
   version: 5.2.0
   resolution: "parse-json@npm:5.2.0"
@@ -10591,6 +10638,16 @@ __metadata:
   version: 4.0.0
   resolution: "path-type@npm:4.0.0"
   checksum: 5b1e2daa247062061325b8fdbfd1fb56dde0a448fb1455453276ea18c60685bdad23a445dc148cf87bc216be1573357509b7d4060494a6fd768c7efad833ee45
+  languageName: node
+  linkType: hard
+
+"path@npm:^0.12.7":
+  version: 0.12.7
+  resolution: "path@npm:0.12.7"
+  dependencies:
+    process: ^0.11.1
+    util: ^0.10.3
+  checksum: 5dedb71e78fc008fcba797defc0b4e1cf06c1f18e0a631e03ba5bb505136f587ff017afc14f9a3d481cbe77aeedff7dc0c1d2ce4d820c1ebf3c4281ca49423a1
   languageName: node
   linkType: hard
 
@@ -10841,6 +10898,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"process@npm:^0.11.1":
+  version: 0.11.10
+  resolution: "process@npm:0.11.10"
+  checksum: bfcce49814f7d172a6e6a14d5fa3ac92cc3d0c3b9feb1279774708a719e19acd673995226351a082a9ae99978254e320ccda4240ddc474ba31a76c79491ca7c3
+  languageName: node
+  linkType: hard
+
 "progress-stream@npm:^2.0.0":
   version: 2.0.0
   resolution: "progress-stream@npm:2.0.0"
@@ -11005,6 +11069,18 @@ __metadata:
     iconv-lite: 0.4.24
     unpipe: 1.0.0
   checksum: 5362adff1575d691bb3f75998803a0ffed8c64eabeaa06e54b4ada25a0cd1b2ae7f4f5ec46565d1bec337e08b5ac90c76eaa0758de6f72a633f025d754dec29e
+  languageName: node
+  linkType: hard
+
+"rc-config-loader@npm:^4.0.0":
+  version: 4.1.1
+  resolution: "rc-config-loader@npm:4.1.1"
+  dependencies:
+    debug: ^4.3.4
+    js-yaml: ^4.1.0
+    json5: ^2.2.1
+    require-from-string: ^2.0.2
+  checksum: faeff4f6d4811207dad271015ebe0302cc9837eda9b3153f0b5101b8b06fac9d80d04675824bdbeb427cc1b319cf468823affd7f426a34b38a404f4405811eb5
   languageName: node
   linkType: hard
 
@@ -11237,6 +11313,24 @@ __metadata:
   version: 0.2.2
   resolution: "remove-markdown@npm:0.2.2"
   checksum: ce645115c0456a9b0132d1e6c3022e13a35e6efe8eff96b3da50f709b928379caf6a773e000a10158fb4b3dccd3262ec880c68fbe0a0d23dc30ec881672dbaa6
+  languageName: node
+  linkType: hard
+
+"report-missing-dependencies@npm:^1.0.13":
+  version: 1.0.13
+  resolution: "report-missing-dependencies@npm:1.0.13"
+  dependencies:
+    chalk: ^4
+    commander: ^9.0.0
+    fs: ^0.0.1-security
+    glob: ^7.2.0
+    parse-imports-ts: ^1.0.2
+    path: ^0.12.7
+    rc-config-loader: ^4.0.0
+    throat: ^6.0.1
+  bin:
+    report-missing-dependencies: bin/report-missing-dependencies.js
+  checksum: fa94ea94a46a4a59e27846169010d300c5f929e38eba4bfd9c81fada254f0ca525684e73659cc43a8104b50023bf20efafe1a466d153097f2ff393412cb05e00
   languageName: node
   linkType: hard
 
@@ -11517,7 +11611,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": ^27.4.0
-    "@zcloak/dev": ^0.5.0
+    "@zcloak/dev": ^0.6.1
     ethers: ^5.7.1
     react: ^18.2.0
     react-dom: ^18.2.0
@@ -12390,6 +12484,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"throat@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "throat@npm:6.0.1"
+  checksum: 782d4171ee4e3cf947483ed2ff1af3e17cc4354c693b9d339284f61f99fbc401d171e0b0d2db3295bb7d447630333e9319c174ebd7ef315c6fb791db9675369c
+  languageName: node
+  linkType: hard
+
 "through2@npm:~2.0.3":
   version: 2.0.5
   resolution: "through2@npm:2.0.5"
@@ -12860,6 +12961,15 @@ __metadata:
   version: 1.0.3
   resolution: "util-extend@npm:1.0.3"
   checksum: da57f399b331f40fe2cea5409b1f4939231433db9b52dac5593e4390a98b7b0d1318a0daefbcc48123fffe5026ef49f418b3e4df7a4cd7649a2583e559c608a5
+  languageName: node
+  linkType: hard
+
+"util@npm:^0.10.3":
+  version: 0.10.4
+  resolution: "util@npm:0.10.4"
+  dependencies:
+    inherits: 2.0.3
+  checksum: 913f9a90d05a60e91f91af01b8bd37e06bca4cc02d7b49e01089f9d5b78be2fffd61fb1a41b517de7238c5fc7337fa939c62d1fb4eb82e014894c7bee6637aaf
   languageName: node
   linkType: hard
 

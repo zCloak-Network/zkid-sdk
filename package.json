@@ -26,7 +26,7 @@
     "build": "zcloak-dev-build-ts",
     "build:release": "zcloak-ci-ghact-build",
     "clean": "zcloak-dev-clean-build",
-    "lint": "zcloak-dev-run-lint",
+    "lint": "zcloak-dev-run-lint && zcloak-dev-lint-dependencies",
     "postinstall": "zcloak-dev-yarn-only",
     "test": "zcloak-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
     "test:one": "zcloak-dev-run-test --runInBand",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@zcloak/dev": "^0.5.0",
+    "@zcloak/dev": "^0.6.1",
     "ethers": "^5.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -9,8 +9,8 @@ import type { DidKeys, SignedData } from './types';
 import { assert, u8aEq } from '@polkadot/util';
 
 import { DidResolver } from '@zcloak/did-resolver';
+import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
-import { defaultResolver } from '../defaults';
 import { hashDidDocument } from '../hasher';
 import { DidChain } from './chain';
 import { typeTransform } from './details';

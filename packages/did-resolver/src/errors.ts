@@ -18,3 +18,8 @@ export class RepresentationNotSupportedError extends Error {
     super('representation not supported.');
   }
 }
+export class ServerResponseError extends Error {
+  constructor(msg: string) {
+    super(`An exception occurred on the server. ${msg}`);
+  }
+}

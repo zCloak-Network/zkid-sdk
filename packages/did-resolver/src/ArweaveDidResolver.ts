@@ -4,7 +4,7 @@
 import axios from 'axios';
 
 import { DidResolver } from './DidResolver';
-import { DidNotFoundError } from './errors';
+import { DidNotFoundError, ServerResponseError } from './errors';
 import { DidDocument } from './types';
 
 interface Options {
@@ -26,6 +26,10 @@ export class ArweaveDidResolver extends DidResolver {
     const { did } = this.parseDid(didUrl);
 
     const res = await axios.get(`${this.server}/did/${did}`);
+
+    if (res.data.code !== 200) {
+      throw new ServerResponseError(res.data.message);
+    }
 
     if (res.data.code === 200 && !res.data.data) {
       throw new DidNotFoundError();

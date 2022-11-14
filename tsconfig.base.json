@@ -8,6 +8,8 @@
     "paths": {
       "@zcloak/crypto": ["crypto/src"],
       "@zcloak/crypto/*": ["crypto/src/*"],
+      "@zcloak/ctype": ["ctype/src"],
+      "@zcloak/ctype/*": ["ctype/src/*"],
       "@zcloak/did": ["did/src"],
       "@zcloak/did/*": ["did/src/*"],
       "@zcloak/did-resolver": ["did-resolver/src"],

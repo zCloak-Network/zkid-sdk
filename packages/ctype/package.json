@@ -1,0 +1,22 @@
+{
+  "author": "zCloak",
+  "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
+  "contributors": [],
+  "description": "zCloak ctype package",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/packages/ctype#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@zcloak/ctype",
+  "repository": {
+    "directory": "packages/ctype",
+    "type": "git",
+    "url": "https://github.com/zCloak-Network/zkid-sdk.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "0.0.1-10",
+  "main": "index.js",
+  "dependencies": {
+    "ajv": "^8.11.2"
+  }
+}

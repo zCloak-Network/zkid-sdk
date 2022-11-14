@@ -1,0 +1,193 @@
+// Copyright 2021-2022 zcloak authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import { BaseCType } from './types';
+import { validateSubject, validateSubjectPartial } from './validate';
+
+describe('validate', (): void => {
+  describe('validate subject', (): void => {
+    it('validate subject', (): void => {
+      const ctype: BaseCType = {
+        title: 'Test',
+        description: 'Test',
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          },
+          age: {
+            type: 'integer'
+          },
+          no: {
+            type: 'string'
+          }
+        },
+        required: ['name', 'age']
+      };
+
+      expect(
+        validateSubject(ctype, {
+          name: 'zCloak',
+          age: 19
+        })
+      ).toBe(true);
+      expect(
+        validateSubject(ctype, {
+          name: 'zCloak',
+          age: 19,
+          no: '1234'
+        })
+      ).toBe(true);
+      expect(
+        validateSubject(ctype, {
+          name: 'zCloak',
+          no: '1234'
+        })
+      ).toBe(false);
+    });
+
+    it('validate subject with length', (): void => {
+      const ctype: BaseCType = {
+        title: 'Test',
+        description: 'Test',
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
+            maxLength: 12,
+            minLength: 4
+          },
+          age: {
+            type: 'integer',
+            maximum: 12,
+            minimum: 10
+          },
+          no: {
+            type: 'string'
+          }
+        },
+        required: ['name', 'age']
+      };
+
+      expect(
+        validateSubject(ctype, {
+          name: 'zCloak',
+          age: 11
+        })
+      ).toBe(true);
+      expect(
+        validateSubject(ctype, {
+          name: 'zCloak',
+          age: 19,
+          no: '1234'
+        })
+      ).toBe(false);
+      expect(
+        validateSubject(ctype, {
+          name: 'z',
+          age: 10,
+          no: '1234'
+        })
+      ).toBe(false);
+      expect(
+        validateSubject(ctype, {
+          name: 'zCloak',
+          no: '1234'
+        })
+      ).toBe(false);
+    });
+  });
+
+  describe('validate partial subject', (): void => {
+    it('validate partial subject', (): void => {
+      const ctype: BaseCType = {
+        title: 'Test',
+        description: 'Test',
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          },
+          age: {
+            type: 'integer'
+          },
+          no: {
+            type: 'string'
+          }
+        },
+        required: ['name', 'age']
+      };
+
+      expect(
+        validateSubjectPartial(ctype, {
+          name: 'zCloak',
+          age: 19
+        })
+      ).toBe(true);
+      expect(
+        validateSubjectPartial(ctype, {
+          name: 'zCloak',
+          age: 19,
+          no: '1234'
+        })
+      ).toBe(true);
+      expect(
+        validateSubjectPartial(ctype, {
+          name: 'zCloak',
+          no: '1234'
+        })
+      ).toBe(true);
+    });
+
+    it('validate subject with length', (): void => {
+      const ctype: BaseCType = {
+        title: 'Test',
+        description: 'Test',
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
+            maxLength: 12,
+            minLength: 4
+          },
+          age: {
+            type: 'integer',
+            maximum: 12,
+            minimum: 10
+          },
+          no: {
+            type: 'string'
+          }
+        },
+        required: ['name', 'age']
+      };
+
+      expect(
+        validateSubjectPartial(ctype, {
+          name: 'zCloak',
+          age: 11
+        })
+      ).toBe(true);
+      expect(
+        validateSubjectPartial(ctype, {
+          name: 'zCloak',
+          age: 19,
+          no: '1234'
+        })
+      ).toBe(false);
+      expect(
+        validateSubjectPartial(ctype, {
+          name: 'z',
+          age: 10,
+          no: '1234'
+        })
+      ).toBe(false);
+      expect(
+        validateSubjectPartial(ctype, {
+          name: 'zCloak',
+          no: '1234'
+        })
+      ).toBe(true);
+    });
+  });
+});

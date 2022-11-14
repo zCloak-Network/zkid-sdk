@@ -2702,6 +2702,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/util@npm:^10.1.12":
+  version: 10.1.12
+  resolution: "@polkadot/util@npm:10.1.12"
+  dependencies:
+    "@babel/runtime": ^7.20.1
+    "@polkadot/x-bigint": 10.1.12
+    "@polkadot/x-global": 10.1.12
+    "@polkadot/x-textdecoder": 10.1.12
+    "@polkadot/x-textencoder": 10.1.12
+    "@types/bn.js": ^5.1.1
+    bn.js: ^5.2.1
+  checksum: 927157a1ee48bd9528a6217fa3e696a34d4c7ad4eacd8acd42d921d03c2ce20beb2d41436f0a0909edc976d7474ad5d6ffff187d6a81aa8025d4351e258f35bf
+  languageName: node
+  linkType: hard
+
 "@polkadot/wasm-bridge@npm:6.3.1":
   version: 6.3.1
   resolution: "@polkadot/wasm-bridge@npm:6.3.1"
@@ -2790,12 +2805,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/x-bigint@npm:10.1.12":
+  version: 10.1.12
+  resolution: "@polkadot/x-bigint@npm:10.1.12"
+  dependencies:
+    "@babel/runtime": ^7.20.1
+    "@polkadot/x-global": 10.1.12
+  checksum: 6a0e4a4893dca8a6e0f2c390cdd676a2b60b04c1441b8d9ee2a653aff6357993bf5bed1e33a87540d2081ad18a8a33b39d48d4ec8a7d76b74862be6f9c44bc5b
+  languageName: node
+  linkType: hard
+
 "@polkadot/x-global@npm:10.1.11":
   version: 10.1.11
   resolution: "@polkadot/x-global@npm:10.1.11"
   dependencies:
     "@babel/runtime": ^7.19.4
   checksum: 8df467ae5dc45341994b0763c83cdd236b6b10938bdcb758012234c8db399d5e0a5a2d3732a7de649a30df189c07b756a48d405e5290063f12ffb7988066b7f6
+  languageName: node
+  linkType: hard
+
+"@polkadot/x-global@npm:10.1.12":
+  version: 10.1.12
+  resolution: "@polkadot/x-global@npm:10.1.12"
+  dependencies:
+    "@babel/runtime": ^7.20.1
+  checksum: e6742855b3f89d97874089bbccf32ae535500bbf2e707761e660a9a00a6c21dc82fa3cdc8630d0983c6a81e9f3aa04b4563236424476dfc3fca1650f01ed632f
   languageName: node
   linkType: hard
 
@@ -2819,6 +2853,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@polkadot/x-textdecoder@npm:10.1.12":
+  version: 10.1.12
+  resolution: "@polkadot/x-textdecoder@npm:10.1.12"
+  dependencies:
+    "@babel/runtime": ^7.20.1
+    "@polkadot/x-global": 10.1.12
+  checksum: 1cda6060047faafd031f0774fa3edfdfd44b273a3ff10a8453ebc069d55b1d27b76274c20abe15f818f124f4a4938f59ae76143b1ac249115405374ff9ae0417
+  languageName: node
+  linkType: hard
+
 "@polkadot/x-textencoder@npm:10.1.11":
   version: 10.1.11
   resolution: "@polkadot/x-textencoder@npm:10.1.11"
@@ -2826,6 +2870,16 @@ __metadata:
     "@babel/runtime": ^7.19.4
     "@polkadot/x-global": 10.1.11
   checksum: d3ba066e83b66b45388ed4aa96335f30bfd499df7adda9fe4f60b846ea7ed331954e33bf4b1c99636f7ebd97539a5b2f97fc8715dfec83a23b565e3eb3cdace0
+  languageName: node
+  linkType: hard
+
+"@polkadot/x-textencoder@npm:10.1.12":
+  version: 10.1.12
+  resolution: "@polkadot/x-textencoder@npm:10.1.12"
+  dependencies:
+    "@babel/runtime": ^7.20.1
+    "@polkadot/x-global": 10.1.12
+  checksum: 4b57e6f2532914d7f14e3405212e24b5bfa36ba68d2cd39c09bf81344b90bc961106bb30ce5d670d8d91fce830f8367d06c5493e8442d9d1072a85d3f87440b4
   languageName: node
   linkType: hard
 
@@ -3233,13 +3287,6 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
-  languageName: node
-  linkType: hard
-
-"@types/jsonabc@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "@types/jsonabc@npm:2.3.1"
-  checksum: dc85828a1dab023e9faab4c8547b63a5e77019dda1a8e31585f4927032ef9dc57ed700b0c5dfa220cd5ccf4185007e13ddc16af0c02d30803b61f9b0b271526e
   languageName: node
   linkType: hard
 
@@ -3765,6 +3812,7 @@ __metadata:
     "@polkadot/wasm-crypto": ^6.3.1
     "@scure/base": ^1.1.1
     "@zcloak/wasm": 0.0.1-10
+    canonicalize: ^1.0.8
   languageName: unknown
   linkType: soft
 
@@ -3772,6 +3820,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/ctype@workspace:packages/ctype"
   dependencies:
+    "@polkadot/util": ^10.1.12
+    "@zcloak/crypto": 0.0.1-10
+    "@zcloak/did": 0.0.1-10
+    "@zcloak/did-resolver": 0.0.1-10
+    "@zcloak/vc": 0.0.1-10
     ajv: ^8.11.2
   languageName: unknown
   linkType: soft
@@ -3890,11 +3943,9 @@ __metadata:
   resolution: "@zcloak/did@workspace:packages/did"
   dependencies:
     "@polkadot/util": ^10.1.11
-    "@types/jsonabc": ^2.3.1
     "@zcloak/crypto": 0.0.1-10
     "@zcloak/did-resolver": 0.0.1-10
     "@zcloak/keyring": 0.0.1-10
-    jsonabc: ^2.3.1
   languageName: unknown
   linkType: soft
 
@@ -5025,6 +5076,13 @@ __metadata:
   version: 1.0.30001418
   resolution: "caniuse-lite@npm:1.0.30001418"
   checksum: 03380a9ba50b1abd0081e76bfdf331bfb2c28f2277ce5eead5b83960c4db9f1fbbd84a536efa6f8f1fe2c038bc01129d6c42d17f8323fe99a016a5da3829c4bc
+  languageName: node
+  linkType: hard
+
+"canonicalize@npm:^1.0.8":
+  version: 1.0.8
+  resolution: "canonicalize@npm:1.0.8"
+  checksum: c31ea64160171bbcd7ac0dc081058fbcff055410a1d532d7b3959e7b02a3001c5d5f4f8bad934ed5246eafc9a928d333cc0c29846c16fb6d0be97b8fb444de3c
   languageName: node
   linkType: hard
 
@@ -9345,13 +9403,6 @@ __metadata:
   bin:
     json5: lib/cli.js
   checksum: 74b8a23b102a6f2bf2d224797ae553a75488b5adbaee9c9b6e5ab8b510a2fc6e38f876d4c77dea672d4014a44b2399e15f2051ac2b37b87f74c0c7602003543b
-  languageName: node
-  linkType: hard
-
-"jsonabc@npm:^2.3.1":
-  version: 2.3.1
-  resolution: "jsonabc@npm:2.3.1"
-  checksum: 2db5f12fbe3949f854fa4709fd9259630ced9f1d6e8394be8e03cbb3aac419fe2f1fced5ba18850b6af9942eaa07f1be29338047ccecd9028eebe93885a4ae3a
   languageName: node
   linkType: hard
 

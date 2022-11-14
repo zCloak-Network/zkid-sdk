@@ -4,9 +4,8 @@
 import type { DidDocument } from '@zcloak/did-resolver/types';
 
 import { stringToU8a } from '@polkadot/util';
-import jsonabc from 'jsonabc';
 
-import { sha256AsU8a } from '@zcloak/crypto';
+import { jsonCanonicalize, sha256AsU8a } from '@zcloak/crypto';
 
 /**
  * serialize did document as sha256, used to sign it, do not encode proof, because the signature will push to.
@@ -14,12 +13,10 @@ import { sha256AsU8a } from '@zcloak/crypto';
  * @returns [[Uint8Array]]
  */
 export function hashDidDocument(document: DidDocument, withCreationTime = true): Uint8Array {
-  let obj = { ...document };
+  const obj = { ...document };
 
   delete obj.proof;
   if (!withCreationTime) delete obj.creationTime;
 
-  obj = jsonabc.sortObj(obj);
-
-  return sha256AsU8a(stringToU8a(JSON.stringify(obj)));
+  return sha256AsU8a(stringToU8a(jsonCanonicalize(obj)));
 }

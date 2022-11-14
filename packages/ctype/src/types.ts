@@ -1,7 +1,10 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
+
+export type CTypeVersion = '1';
 
 export type InstanceType = 'array' | 'boolean' | 'integer' | 'null' | 'number' | 'string';
 
@@ -9,7 +12,6 @@ export type InstanceFormat =
   | 'date'
   | 'time'
   | 'date-time'
-  | 'duration'
   | 'url'
   | 'email'
   | 'hostname'
@@ -49,8 +51,8 @@ export interface BaseCType {
   required?: string[];
 }
 
-export interface ICType extends BaseCType {
-  $id: string;
+export interface CType extends BaseCType {
+  $id: HexString;
   $schema: string;
   publisher: DidUrl;
   signature: string;

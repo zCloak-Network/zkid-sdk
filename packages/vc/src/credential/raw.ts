@@ -96,10 +96,9 @@ export class Raw implements IRaw {
   }
 
   /**
-   * calc rootHash, if the `hashes`, `nonceMap` and `rootHash` attributes is `undefined`, it will calc new rootHash
-   * or others, it will reCalc `rootHash`
-   * 1. check `hashes`, `nonceMap` and `rootHash` is exists
-   * 2. if exists, will check isValid, if check result is `true`, do nothing, else calc a new rootHash
+   * calc rootHash, use `this.nonceMap` if exists.
+   * 1. check the subject is valid
+   * 2. calc `rootHash` use nonceMap
    */
   public calcRootHash(): RootHashResult {
     assert(this.checkSubject(), `Subject check failed when use ctype ${this.ctype}`);

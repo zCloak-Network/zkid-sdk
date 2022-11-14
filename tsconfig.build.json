@@ -1,12 +1,16 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "./packages",
-    "outDir": "./build"
+    "composite": true
   },
-  "exclude": [
-    "build/**/*",
-    "**/build/**/*"
-  ],
-  "references": []
+  "files": [],
+  "references": [
+    { "path": "./packages/crypto/tsconfig.build.json" },
+    { "path": "./packages/ctype/tsconfig.build.json" },
+    { "path": "./packages/did/tsconfig.build.json" },
+    { "path": "./packages/did-resolver/tsconfig.build.json" },
+    { "path": "./packages/keyring/tsconfig.build.json" },
+    { "path": "./packages/vc/tsconfig.build.json" },
+    { "path": "./packages/verify/tsconfig.build.json" },
+    { "path": "./packages/wasm/tsconfig.build.json" }
+  ]
 }

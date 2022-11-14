@@ -9,6 +9,7 @@ import type {
   VerifiablePresentationType
 } from '@zcloak/vc/types';
 
+import { isSameUri } from '@zcloak/did/utils';
 import { hashDigests } from '@zcloak/vc';
 
 import { proofVerify } from './proofVerify';
@@ -30,6 +31,12 @@ const VERIFIERS: Record<
   VP_SelectiveDisclosure: vcVerify
 };
 
+/**
+ * @name vpVerify
+ * @summary verify [[VerifiablePresentation]] is valid.
+ * @description
+ *
+ */
 export async function vpVerify(vp: VerifiablePresentation): Promise<boolean> {
   const { hasher, id, proof, type, verifiableCredential } = vp;
   const idValid = idCheck(
@@ -37,6 +44,13 @@ export async function vpVerify(vp: VerifiablePresentation): Promise<boolean> {
     hasher[0],
     id
   );
+
+  // check vc is same did with proof's signer
+  for (const vc of verifiableCredential) {
+    if (!isSameUri(vc.issuer, proof.verificationMethod)) {
+      return false;
+    }
+  }
 
   const proofValid = await proofVerify(id, proof);
 

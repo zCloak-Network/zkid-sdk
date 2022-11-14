@@ -6,33 +6,12 @@ import type { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
 import type { KeyringInstance } from '@zcloak/keyring/types';
 import type { KeyGen } from './types';
 
-import {
-  base32Decode,
-  base58Decode,
-  base58Encode,
-  base64Decode,
-  ethereumEncode,
-  isBase32,
-  isBase58,
-  isBase64
-} from '@zcloak/crypto';
+import { base58Encode, decodeMultibase, ethereumEncode } from '@zcloak/crypto';
+import { defaultResolver } from '@zcloak/did-resolver/defaults';
 import { Keyring } from '@zcloak/keyring';
 
-import { defaultResolver } from '../defaults';
 import { IDidDetails } from '../types';
 import { Did } from '.';
-
-export function decodeMultibase(multibase: string): Uint8Array {
-  if (isBase58(multibase)) {
-    return base58Decode(multibase);
-  } else if (isBase32(multibase)) {
-    return base32Decode(multibase);
-  } else if (isBase64(multibase)) {
-    return base64Decode(multibase);
-  } else {
-    throw new Error(`Decode ${multibase} error, only support base58, base32, base64`);
-  }
-}
 
 /**
  * parse a did document to [[IDidDetails]]

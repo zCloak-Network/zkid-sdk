@@ -15,7 +15,7 @@ export type KeyGen = {
 };
 
 export type SignedData = {
-  didUrl: DidUrl;
+  id: DidUrl;
   type: VerificationMethodType;
   signature: Uint8Array;
 };

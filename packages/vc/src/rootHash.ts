@@ -4,7 +4,7 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { AnyJson, HashType } from './types';
 
-import { bufferToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, bufferToU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { MerkleTree } from 'merkletreejs';
 
 import { randomAsHex } from '@zcloak/crypto';
@@ -28,7 +28,9 @@ function merkleHash(hashType: HashType) {
   };
 }
 
-export function makeMerkleTree(leaves: Uint8Array[], hashType: HashType): MerkleTree {
+export function makeMerkleTree(leaves: (Uint8Array | HexString)[], hashType: HashType): MerkleTree {
+  leaves = leaves.map((leave) => u8aToU8a(leave));
+
   return new MerkleTree(leaves, merkleHash(hashType));
 }
 
@@ -46,6 +48,7 @@ export function rootHashFromMerkle(
   const leaves: Uint8Array[] = [];
 
   for (const encode of encoded) {
+    assert(nonceMap[encode], `Nonce not found in nonceMap with encode: ${encode}`);
     const leave = HASHER[hashType](u8aConcat(encode, nonceMap[encode]));
 
     leaves.push(leave);

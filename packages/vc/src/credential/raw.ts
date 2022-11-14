@@ -34,8 +34,6 @@ export class Raw implements IRaw {
   public ctype: HexString;
   public hashType: HashType;
 
-  public rootHash?: HexString;
-  public hashes?: HexString[];
   public nonceMap?: Record<HexString, HexString>;
 
   public static fromRawCredential(rawCredential: RawCredential): Raw {
@@ -45,7 +43,8 @@ export class Raw implements IRaw {
       contents: rawCredential.credentialSubject,
       owner: rawCredential.holder,
       ctype: rawCredential.ctype,
-      hashType: rawCredential.hasher[0]
+      hashType: rawCredential.hasher[0],
+      nonceMap: rawCredential.credentialSubjectNonceMap
     });
   }
 
@@ -54,10 +53,6 @@ export class Raw implements IRaw {
     this.owner = raw.owner;
     this.ctype = raw.ctype;
     this.hashType = raw.hashType;
-
-    this.rootHash = raw.rootHash;
-    this.hashes = raw.hashes;
-    this.nonceMap = raw.nonceMap;
   }
 
   /**
@@ -106,31 +101,15 @@ export class Raw implements IRaw {
   public calcRootHash(): RootHashResult {
     assert(this.checkSubject(), `Subject check failed when use ctype ${this.ctype}`);
 
-    if (this.hashes && this.nonceMap && this.rootHash && this.checkRootHash()) {
-      return {
-        hashes: this.hashes,
-        nonceMap: this.nonceMap,
-        rootHash: this.rootHash,
-        type: this.hashType
-      };
-    } else {
-      const { hashes, nonceMap, rootHash, type } = calcRoothash(this.contents, this.hashType);
-
-      this.hashes = hashes;
-      this.nonceMap = nonceMap;
-      this.rootHash = rootHash;
-
-      return { hashes, nonceMap, rootHash, type };
-    }
+    return calcRoothash(this.contents, this.hashType, this.nonceMap);
   }
 
   /**
-   * 1. call `this.checkSubject`
-   * 2. call `this.checkRootHash`
+   * call `this.checkSubject`
    * @returns `true` or `false`
    */
   public check(): boolean {
-    return this.checkSubject() && this.checkRootHash();
+    return this.checkSubject();
   }
 
   /**
@@ -143,13 +122,16 @@ export class Raw implements IRaw {
     return true;
   }
 
-  /**
-   * check the rootHash is valid
-   * @returns `true` or `false`
-   */
-  public checkRootHash(): boolean {
-    // TODO check rootHash is valid
+  public toRawCredential(digestHashType: HashType = 'Keccak256'): RawCredential {
+    const { hashes, nonceMap } = this.calcRootHash();
 
-    return true;
+    return {
+      ctype: this.ctype,
+      credentialSubject: this.contents,
+      credentialSubjectHashes: hashes,
+      credentialSubjectNonceMap: nonceMap,
+      holder: this.owner,
+      hasher: [this.hashType, digestHashType]
+    };
   }
 }

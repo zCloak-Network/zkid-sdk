@@ -3768,9 +3768,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@zcloak/dev@npm:0.5.0"
+"@zcloak/dev@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "@zcloak/dev@npm:0.6.1"
   dependencies:
     "@babel/cli": ^7.19.3
     "@babel/core": ^7.20.2
@@ -3798,6 +3798,7 @@ __metadata:
     "@rushstack/eslint-patch": ^1.2.0
     "@typescript-eslint/eslint-plugin": ^5.42.1
     "@typescript-eslint/parser": ^5.42.1
+    "@zcloak/lint": 0.6.1
     babel-jest: ^29.3.1
     babel-plugin-module-extension-resolver: ^1.0.0-rc.2
     babel-plugin-module-resolver: ^4.1.0
@@ -3851,6 +3852,7 @@ __metadata:
     zcloak-dev-circular: scripts/zcloak-dev-circular.mjs
     zcloak-dev-clean-build: scripts/zcloak-dev-clean-build.mjs
     zcloak-dev-copy-to: scripts/zcloak-dev-copy-to.mjs
+    zcloak-dev-lint-dependencies: scripts/zcloak-dev-lint-dependencies.mjs
     zcloak-dev-run-lint: scripts/zcloak-dev-run-lint.mjs
     zcloak-dev-run-prettier: scripts/zcloak-dev-run-prettier.mjs
     zcloak-dev-run-test: scripts/zcloak-dev-run-test.mjs
@@ -3862,7 +3864,7 @@ __metadata:
     zcloak-exec-rollup: scripts/zcloak-exec-rollup.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: 313ddf8cb1ca34f8af98acdac3662523c45edc2589076a863f82eae41d761ca5b25b492d7a8b9e81c7389e65255d38d42a84756b9b5a0bbfa146d0ff83ae18e9
+  checksum: da16db6bdae244eccd12fe8a34f803d2dfe42fdfe532e5c6110cc4c4eaf02357dca9a67db6ca897f2e70ea4db6b9895aabfb3e98cb869a56c7402c5d0b979a39
   languageName: node
   linkType: hard
 
@@ -3898,6 +3900,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@zcloak/lint@npm:0.6.1":
+  version: 0.6.1
+  resolution: "@zcloak/lint@npm:0.6.1"
+  dependencies:
+    chalk: ^5.1.2
+    glob: ^8.0.3
+    parse-imports-ts: ^1.0.2
+    throat: ^6.0.1
+  checksum: 9d5e09106643baa878da96cfd82af8361329f53e1c9baf43618f2564cf4c93c4084e584afd9d18641d4acfedd5e23b0c4548f5c70e357232adc578d4be97f93c
+  languageName: node
+  linkType: hard
+
 "@zcloak/vc@0.0.1-10, @zcloak/vc@workspace:packages/vc":
   version: 0.0.0-use.local
   resolution: "@zcloak/vc@workspace:packages/vc"
@@ -3917,6 +3931,8 @@ __metadata:
   dependencies:
     "@polkadot/util": ^10.1.11
     "@zcloak/crypto": 0.0.1-10
+    "@zcloak/did": 0.0.1-10
+    "@zcloak/did-resolver": 0.0.1-10
     "@zcloak/vc": 0.0.1-10
   languageName: unknown
   linkType: soft
@@ -5027,6 +5043,13 @@ __metadata:
     ansi-styles: ^4.1.0
     supports-color: ^7.1.0
   checksum: fe75c9d5c76a7a98d45495b91b2172fa3b7a09e0cc9370e5c8feb1c567b85c4288e2b3fded7cfdd7359ac28d6b3844feb8b82b8686842e93d23c827c417e83fc
+  languageName: node
+  linkType: hard
+
+"chalk@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "chalk@npm:5.1.2"
+  checksum: 804d7485e33531abe45b14e91026ceb5615974a8c04259ab0806f214a7666f6ea03e39ab124f7d5a0c78a83fda89005f236db3c5f10c2abe9ae875f7aa56bcb5
   languageName: node
   linkType: hard
 
@@ -9563,7 +9586,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -10510,6 +10533,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"parse-imports-ts@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "parse-imports-ts@npm:1.0.2"
+  peerDependencies:
+    typescript: ^4.5.5
+  checksum: 38c48f9cb5f57a5ac18b7b86644b61abae9b2825fe702ea488b8efcfb9b80966ace48edbb36f555b7077fb6a36b09802785d2d75b994197c7c6527e535219cc4
+  languageName: node
+  linkType: hard
+
 "parse-json@npm:^5.0.0, parse-json@npm:^5.2.0":
   version: 5.2.0
   resolution: "parse-json@npm:5.2.0"
@@ -11022,18 +11054,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.2.0":
-  version: 18.2.0
-  resolution: "react-dom@npm:18.2.0"
-  dependencies:
-    loose-envify: ^1.1.0
-    scheduler: ^0.23.0
-  peerDependencies:
-    react: ^18.2.0
-  checksum: 7d323310bea3a91be2965f9468d552f201b1c27891e45ddc2d6b8f717680c95a75ae0bc1e3f5cf41472446a2589a75aed4483aee8169287909fcd59ad149e8cc
-  languageName: node
-  linkType: hard
-
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -11052,15 +11072,6 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: e72d0ba81b5922759e4aff17e0252bd29988f9642ed817f56b25a3e217e13eea8a7f2322af99a06edb779da12d5d636e9fda473d620df9a3da0df2a74141d53e
-  languageName: node
-  linkType: hard
-
-"react@npm:^18.2.0":
-  version: 18.2.0
-  resolution: "react@npm:18.2.0"
-  dependencies:
-    loose-envify: ^1.1.0
-  checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
   languageName: node
   linkType: hard
 
@@ -11517,10 +11528,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": ^27.4.0
-    "@zcloak/dev": ^0.5.0
-    ethers: ^5.7.1
-    react: ^18.2.0
-    react-dom: ^18.2.0
+    "@zcloak/dev": ^0.6.1
     typescript: ^4.8.4
   bin:
     "build:wasm": scripts/build-wasm.js
@@ -11601,15 +11609,6 @@ __metadata:
   dependencies:
     xmlchars: ^2.2.0
   checksum: d3fa3e2aaf6c65ed52ee993aff1891fc47d5e47d515164b5449cbf5da2cbdc396137e55590472e64c5c436c14ae64a8a03c29b9e7389fc6f14035cf4e982ef3b
-  languageName: node
-  linkType: hard
-
-"scheduler@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "scheduler@npm:0.23.0"
-  dependencies:
-    loose-envify: ^1.1.0
-  checksum: d79192eeaa12abef860c195ea45d37cbf2bbf5f66e3c4dcd16f54a7da53b17788a70d109ee3d3dde1a0fd50e6a8fc171f4300356c5aee4fc0171de526bf35f8a
   languageName: node
   linkType: hard
 
@@ -12390,6 +12389,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"throat@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "throat@npm:6.0.1"
+  checksum: 782d4171ee4e3cf947483ed2ff1af3e17cc4354c693b9d339284f61f99fbc401d171e0b0d2db3295bb7d447630333e9319c174ebd7ef315c6fb791db9675369c
+  languageName: node
+  linkType: hard
+
 "through2@npm:~2.0.3":
   version: 2.0.5
   resolution: "through2@npm:2.0.5"
@@ -12658,11 +12664,11 @@ __metadata:
 
 "typescript@patch:typescript@npm%3A^4.8.4#~builtin<compat/typescript>":
   version: 4.8.4
-  resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=a1c5e5"
+  resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 563a0ef47abae6df27a9a3ab38f75fc681f633ccf1a3502b1108e252e187787893de689220f4544aaf95a371a4eb3141e4a337deb9895de5ac3c1ca76430e5f0
+  checksum: 301459fc3eb3b1a38fe91bf96d98eb55da88a9cb17b4ef80b4d105d620f4d547ba776cc27b44cc2ef58b66eda23fe0a74142feb5e79a6fb99f54fc018a696afa
   languageName: node
   linkType: hard
 

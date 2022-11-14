@@ -9,13 +9,13 @@ import type {
   VerifiablePresentationType
 } from './types';
 
-import { assert, isHex, stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isHex, objectCopy, stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
 import { Did } from '@zcloak/did';
 import { isSameUri } from '@zcloak/did/utils';
 
-import { DEFAULT_CONTEXT } from './defaults';
+import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE } from './defaults';
 import { calcRoothash } from './rootHash';
 import { keyTypeToSignatureType, rlpEncode } from './utils';
 
@@ -26,6 +26,7 @@ function transformVC(
   type: VerifiablePresentationType,
   selectedAttributes?: string[]
 ): VerifiableCredential {
+  vc = objectCopy(vc);
   assert(vc.credentialSubjectHashes, 'Credential subject hashes no provided');
   assert(vc.credentialSubjectNonceMap, 'Credential subject nonce-map no provided');
   assert(!isHex(vc.credentialSubject), 'Credential subject is not key-value');
@@ -35,13 +36,17 @@ function transformVC(
   } else if (type === 'VP_SelectiveDisclosure') {
     assert(selectedAttributes, 'no selected attributes provided');
 
-    for (const key in vc.credentialSubject) {
-      if (!selectedAttributes.includes(key)) {
-        delete vc.credentialSubject[key];
-        delete vc.credentialSubjectNonceMap[
-          u8aToHex(rlpEncode(vc.credentialSubject[key], vc.hasher[0]))
-        ];
-      }
+    const subject = vc.credentialSubject;
+    const nonceMap = vc.credentialSubjectNonceMap;
+
+    vc.credentialSubject = {};
+    vc.credentialSubjectNonceMap = {};
+
+    for (const key of selectedAttributes) {
+      vc.credentialSubject[key] = subject[key];
+      const encode = u8aToHex(rlpEncode(subject[key], vc.hasher[0]));
+
+      vc.credentialSubjectNonceMap[encode] = nonceMap[encode];
     }
   } else {
     const { rootHash } = calcRoothash(
@@ -58,7 +63,7 @@ function transformVC(
   return vc;
 }
 
-function hashDigests(
+export function hashDigests(
   digests: HexString[],
   hashType: HashType = 'Keccak256'
 ): { hash: HexString; type: HashType } {
@@ -117,7 +122,10 @@ export class VerifiablePresentationBuilder {
    * build to an [[VerifiablePresentation]]
    * @param hashType the [[HashType]] to generate `id` field
    */
-  public build(hashType: HashType, challenge?: string): VerifiablePresentation {
+  public build(
+    hashType: HashType = DEFAULT_VP_HASH_TYPE,
+    challenge?: string
+  ): VerifiablePresentation {
     const vcs: VerifiableCredential[] = [];
     const vpTypes: VerifiablePresentationType[] = [];
 
@@ -132,7 +140,7 @@ export class VerifiablePresentationBuilder {
     );
 
     const {
-      didUrl,
+      id,
       signature,
       type: signType
     } = this.#did.signWithKey('authentication', u8aConcat(hash, stringToU8a(challenge)));
@@ -146,7 +154,7 @@ export class VerifiablePresentationBuilder {
       proof: {
         type: keyTypeToSignatureType(signType),
         created: Date.now(),
-        verificationMethod: didUrl,
+        verificationMethod: id,
         proofPurpose: 'authentication',
         proofValue: base58Encode(signature)
       },

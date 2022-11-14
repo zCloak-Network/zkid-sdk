@@ -19,7 +19,11 @@ export function getCTypeHash(
   schema = DEFAULT_CTYPE_SCHEMA
 ): HexString {
   const obj = {
-    ...base,
+    title: base.title,
+    description: base.description,
+    type: base.type,
+    properties: base.properties,
+    required: base.required,
     $schema: schema,
     publisher: parseDid(publisher).did
   };

@@ -4,10 +4,8 @@
 import type { DidDocument } from '@zcloak/did-resolver/types';
 import type { AnyJson, VerifiableCredential } from '@zcloak/vc/types';
 
-import { generateMnemonic, initCrypto, randomAsHex } from '@zcloak/crypto';
-import { helpers } from '@zcloak/did';
-import { calcRoothash, Raw, VerifiableCredentialBuilder } from '@zcloak/vc';
-import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '@zcloak/vc/defaults';
+import { initCrypto } from '@zcloak/crypto';
+import { calcRoothash } from '@zcloak/vc';
 
 import { vcVerify, vcVerifyDigest } from './vcVerify';
 
@@ -153,31 +151,6 @@ const vcWithExpiration: VerifiableCredential = {
 describe('vc verify', (): void => {
   beforeAll(async (): Promise<void> => {
     await initCrypto();
-    const issuer = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
-    const holder = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
-
-    const raw = new Raw({
-      contents: {
-        name: 'zCloak',
-        age: 2,
-        birthday: Date.now(),
-        links: ['https://zcloak.network', 'https://zkid.app']
-      },
-      ctype: randomAsHex(32),
-      hashType: 'Rescue',
-      owner: holder.id
-    });
-
-    const vc = new VerifiableCredentialBuilder(raw)
-      .setContext(DEFAULT_CONTEXT)
-      .setVersion(DEFAULT_VC_VERSION)
-      .setIssuanceDate(Date.now())
-      .setDigestHashType('Keccak256')
-      .setExpirationDate(null)
-      .build(issuer);
-
-    console.log(vc);
-    console.log(issuer.getDocument());
   });
 
   describe('verify vc with full text presentation', (): void => {

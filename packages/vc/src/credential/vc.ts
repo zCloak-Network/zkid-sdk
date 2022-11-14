@@ -9,7 +9,10 @@ import type {
   VerifiableCredentialVersion
 } from '../types';
 
+import { assert } from '@polkadot/util';
+
 import { base58Encode } from '@zcloak/crypto';
+import { CType } from '@zcloak/ctype/types';
 import { Did } from '@zcloak/did';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
@@ -59,8 +62,13 @@ export class VerifiableCredentialBuilder {
   /**
    * instance by [[RawCredential]]
    */
-  public static fromRawCredential(rawCredential: RawCredential): VerifiableCredentialBuilder {
-    const raw = Raw.fromRawCredential(rawCredential);
+  public static fromRawCredential(
+    rawCredential: RawCredential,
+    ctype: CType
+  ): VerifiableCredentialBuilder {
+    assert(ctype.$id === rawCredential.ctype, '`ctype` is not the raw credential ctype');
+
+    const raw = Raw.fromRawCredential(rawCredential, ctype);
     const builder = new VerifiableCredentialBuilder(raw);
 
     return builder
@@ -92,7 +100,7 @@ export class VerifiableCredentialBuilder {
           rootHash,
           expirationDate: this.expirationDate || undefined,
           holder: this.raw.owner,
-          ctype: this.raw.ctype
+          ctype: this.raw.ctype.$id
         },
         this.digestHashType
       );
@@ -110,7 +118,7 @@ export class VerifiableCredentialBuilder {
       const vc: VerifiableCredential = {
         '@context': this['@context'],
         version: this.version,
-        ctype: this.raw.ctype,
+        ctype: this.raw.ctype.$id,
         issuanceDate: this.issuanceDate,
         credentialSubject: this.raw.contents,
         credentialSubjectNonceMap: nonceMap,

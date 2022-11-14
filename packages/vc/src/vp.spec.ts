@@ -1,9 +1,10 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HexString } from '@zcloak/crypto/types';
+import type { CType } from '@zcloak/ctype/types';
 
-import { generateMnemonic, initCrypto, randomAsHex } from '@zcloak/crypto';
+import { generateMnemonic, initCrypto } from '@zcloak/crypto';
+import { getPublish } from '@zcloak/ctype/publish';
 import { Did, helpers } from '@zcloak/did';
 
 import { Raw, VerifiableCredentialBuilder } from './credential';
@@ -30,31 +31,89 @@ describe('VerifiablePresentation', (): void => {
   const issuer1: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
   const issuer2: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
   const issuer3: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
-  const ctype1: HexString = randomAsHex(32);
-  const ctype2: HexString = randomAsHex(32);
-  const ctype3: HexString = randomAsHex(32);
-
-  const rawCtype1 = new Raw({
-    contents: CONTENTS1,
-    owner: holder.id,
-    ctype: ctype1,
-    hashType: 'Rescue'
-  });
-  const rawCtype2 = new Raw({
-    contents: CONTENTS2,
-    owner: holder.id,
-    ctype: ctype2,
-    hashType: 'Rescue'
-  });
-  const rawCtype3 = new Raw({
-    contents: CONTENTS3,
-    owner: holder.id,
-    ctype: ctype3,
-    hashType: 'Rescue'
-  });
+  let ctype1: CType;
+  let ctype2: CType;
+  let ctype3: CType;
+  let rawCtype1: Raw;
+  let rawCtype2: Raw;
+  let rawCtype3: Raw;
 
   beforeAll(async (): Promise<void> => {
     await initCrypto();
+
+    ctype1 = getPublish(
+      {
+        title: 'Test',
+        description: 'Test',
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          },
+          age: {
+            type: 'integer'
+          },
+          birthday: {
+            type: 'string'
+          },
+          isUser: {
+            type: 'boolean'
+          }
+        }
+      },
+      issuer1
+    );
+
+    ctype2 = getPublish(
+      {
+        title: 'Test',
+        description: 'Test',
+        type: 'object',
+        properties: {
+          No: {
+            type: 'string'
+          },
+          birthday: {
+            type: 'integer'
+          }
+        }
+      },
+      issuer2
+    );
+
+    ctype3 = getPublish(
+      {
+        title: 'Test',
+        description: 'Test',
+        type: 'object',
+        properties: {
+          levels: {
+            type: 'array'
+          }
+        }
+      },
+      issuer2
+    );
+
+    rawCtype1 = new Raw({
+      contents: CONTENTS1,
+      owner: holder.id,
+      ctype: ctype1,
+      hashType: 'Rescue'
+    });
+    rawCtype2 = new Raw({
+      contents: CONTENTS2,
+      owner: holder.id,
+      ctype: ctype2,
+      hashType: 'Rescue'
+    });
+    rawCtype3 = new Raw({
+      contents: CONTENTS3,
+      owner: holder.id,
+      ctype: ctype3,
+      hashType: 'Rescue'
+    });
+
     rawCtype1.calcRootHash();
     rawCtype2.calcRootHash();
     rawCtype3.calcRootHash();
@@ -62,7 +121,7 @@ describe('VerifiablePresentation', (): void => {
 
   describe('VerifiablePresentation single vc', (): void => {
     it('create ctype1 vp with VPType: VP', (): void => {
-      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential())
+      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
         .setExpirationDate(null)
         .build(issuer1);
 
@@ -85,7 +144,7 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('create ctype1 vp with VPType: VP_Digest', (): void => {
-      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential())
+      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
         .setExpirationDate(null)
         .build(issuer1);
 
@@ -116,7 +175,7 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('create ctype1 vp with VPType: VP_SelectiveDisclosure', (): void => {
-      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential())
+      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
         .setExpirationDate(null)
         .build(issuer1);
 
@@ -153,10 +212,10 @@ describe('VerifiablePresentation', (): void => {
 
   describe('VerifiablePresentation multi vc by ctype2', (): void => {
     it('create vp has multi ctype2 vc with VPType: VP', (): void => {
-      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential())
+      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential())
+      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer2);
 
@@ -179,10 +238,10 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('create vp has multi ctype2 vc with VPType: VP_Digest', (): void => {
-      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential())
+      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential())
+      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer2);
 
@@ -220,10 +279,10 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('create vp has multi ctype2 vc with VPType: VP_SelectiveDisclosure', (): void => {
-      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential())
+      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential())
+      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer2);
 
@@ -274,13 +333,13 @@ describe('VerifiablePresentation', (): void => {
 
   describe('VerifiablePresentation multi vc by multi ctypes', (): void => {
     it('create vp has multi ctypes vc with multi VPType', (): void => {
-      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential())
+      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential())
+      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer2);
-      const vc3 = VerifiableCredentialBuilder.fromRawCredential(rawCtype3.toRawCredential())
+      const vc3 = VerifiableCredentialBuilder.fromRawCredential(rawCtype3.toRawCredential(), ctype3)
         .setExpirationDate(null)
         .build(issuer3);
 

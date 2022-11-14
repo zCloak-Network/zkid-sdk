@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
+import type { CType } from '@zcloak/ctype/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { AnyJson, HashType, RawCredential } from '../types';
 import type { IRaw } from './types';
 
 import { assert, isHex } from '@polkadot/util';
 
+import { validateSubject } from '@zcloak/ctype';
 import { isDidUrl } from '@zcloak/did/utils';
 
 import { calcRoothash, RootHashResult } from '../rootHash';
@@ -31,18 +33,19 @@ import { calcRoothash, RootHashResult } from '../rootHash';
 export class Raw implements IRaw {
   public contents: AnyJson;
   public owner: DidUrl;
-  public ctype: HexString;
+  public ctype: CType;
   public hashType: HashType;
 
   public nonceMap?: Record<HexString, HexString>;
 
-  public static fromRawCredential(rawCredential: RawCredential): Raw {
+  public static fromRawCredential(rawCredential: RawCredential, ctype: CType): Raw {
     assert(!isHex(rawCredential.credentialSubject), 'credentialSubject can not be hex string');
+    assert(ctype.$id === rawCredential.ctype, '`ctype` is not the raw credential ctype');
 
     return new Raw({
       contents: rawCredential.credentialSubject,
       owner: rawCredential.holder,
-      ctype: rawCredential.ctype,
+      ctype,
       hashType: rawCredential.hasher[0],
       nonceMap: rawCredential.credentialSubjectNonceMap
     });
@@ -77,7 +80,7 @@ export class Raw implements IRaw {
   /**
    * set `ctype` attributes
    */
-  public setCtype(ctype: HexString): this {
+  public setCtype(ctype: CType): this {
     this.ctype = ctype;
 
     return this;
@@ -105,28 +108,18 @@ export class Raw implements IRaw {
   }
 
   /**
-   * call `this.checkSubject`
-   * @returns `true` or `false`
-   */
-  public check(): boolean {
-    return this.checkSubject();
-  }
-
-  /**
    * check the `contents` is valid by ctype
    * @returns `true` or `false`
    */
   public checkSubject(): boolean {
-    // TODO check the subject is valid by ctype
-
-    return true;
+    return validateSubject(this.ctype, this.contents).valid;
   }
 
   public toRawCredential(digestHashType: HashType = 'Keccak256'): RawCredential {
     const { hashes, nonceMap } = this.calcRootHash();
 
     return {
-      ctype: this.ctype,
+      ctype: this.ctype.$id,
       credentialSubject: this.contents,
       credentialSubjectHashes: hashes,
       credentialSubjectNonceMap: nonceMap,

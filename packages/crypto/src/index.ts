@@ -10,6 +10,7 @@ export * from './secp256k1';
 export * from './x25519';
 export * from './rescue';
 export * from './initCrypto';
+export * from './json';
 
 export {
   randomAsU8a,

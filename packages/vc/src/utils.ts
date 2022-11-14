@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { VerificationMethodType } from '@zcloak/did-resolver/types';
-import type { HashType, NativeType, SignatureType } from './types';
+import type { HashType, NativeType, NativeTypeWithOutNull, SignatureType } from './types';
 
-import { encode } from '@ethereumjs/rlp';
+import { encode, Input } from '@ethereumjs/rlp';
 
 import { HASHER } from './hasher';
 
@@ -20,8 +20,18 @@ export function keyTypeToSignatureType(type: VerificationMethodType): SignatureT
   }
 }
 
-export function rlpEncode(input: NativeType | string[], hashType: HashType): Uint8Array {
-  const result = encode(typeof input === 'boolean' ? Number(input) : input);
+export function rlpEncode(
+  input: NativeType | NativeTypeWithOutNull[],
+  hashType: HashType
+): Uint8Array {
+  const param: Input =
+    typeof input === 'boolean'
+      ? Number(input)
+      : Array.isArray(input)
+      ? (input.map((inp) => (typeof inp === 'boolean' ? Number(inp) : inp)) as (string | number)[])
+      : input;
+
+  const result = encode(param);
 
   if (hashType === 'Rescue') {
     return HASHER.Rescue(result, true);

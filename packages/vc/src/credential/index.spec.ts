@@ -1,9 +1,10 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HexString } from '@zcloak/crypto/types';
+import type { CType } from '@zcloak/ctype/types';
 
-import { generateMnemonic, initCrypto, randomAsHex } from '@zcloak/crypto';
+import { generateMnemonic, initCrypto } from '@zcloak/crypto';
+import { getPublish } from '@zcloak/ctype/publish';
 import { Did, helpers } from '@zcloak/did';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
@@ -20,10 +21,34 @@ const CONTENTS = {
 describe('VerifiableCredential', (): void => {
   const holder: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
   const issuer: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
-  const ctype: HexString = randomAsHex(32);
+  let ctype: CType;
 
   beforeEach(async (): Promise<void> => {
     await initCrypto();
+
+    ctype = getPublish(
+      {
+        title: 'Test',
+        description: 'Test',
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string'
+          },
+          age: {
+            type: 'integer'
+          },
+          birthday: {
+            type: 'string'
+          },
+          isUser: {
+            type: 'boolean'
+          }
+        },
+        required: ['name', 'age']
+      },
+      issuer
+    );
   });
 
   it('check raw', (): void => {
@@ -35,7 +60,7 @@ describe('VerifiableCredential', (): void => {
     });
 
     raw.calcRootHash();
-    expect(raw.check()).toBe(true);
+    expect(raw.checkSubject()).toBe(true);
   });
 
   it('generate RawCredential from raw', (): void => {
@@ -49,7 +74,7 @@ describe('VerifiableCredential', (): void => {
     raw.calcRootHash();
 
     expect(raw.toRawCredential('Keccak256')).toMatchObject({
-      ctype,
+      ctype: ctype.$id,
       credentialSubject: CONTENTS,
       holder: holder.id,
       hasher: ['Rescue', 'Keccak256']
@@ -87,7 +112,7 @@ describe('VerifiableCredential', (): void => {
     expect(vc).toMatchObject({
       '@context': DEFAULT_CONTEXT,
       version: DEFAULT_VC_VERSION,
-      ctype,
+      ctype: ctype.$id,
       issuanceDate: now,
       credentialSubject: CONTENTS,
       issuer: issuer.id,
@@ -114,7 +139,8 @@ describe('VerifiableCredential', (): void => {
     const now = Date.now();
 
     const vcBuilder = VerifiableCredentialBuilder.fromRawCredential(
-      raw.toRawCredential('Keccak256')
+      raw.toRawCredential('Keccak256'),
+      ctype
     )
       .setExpirationDate(null)
       .setIssuanceDate(now);
@@ -131,7 +157,7 @@ describe('VerifiableCredential', (): void => {
     expect(vc).toMatchObject({
       '@context': DEFAULT_CONTEXT,
       version: DEFAULT_VC_VERSION,
-      ctype,
+      ctype: ctype.$id,
       issuanceDate: now,
       credentialSubject: CONTENTS,
       issuer: issuer.id,

@@ -14,13 +14,12 @@ export function didVerify(
   message: HexString | Uint8Array | string,
   signature: HexString | Uint8Array,
   didUrl: DidUrl,
-  document: DidDocument
+  resolverOrDidDocument: DidDocument | DidResolver
 ): Promise<boolean>;
 export function didVerify(
   message: HexString | Uint8Array | string,
   signature: HexString | Uint8Array,
-  didUrl: DidUrl,
-  resolver?: DidResolver
+  didUrl: DidUrl
 ): Promise<boolean>;
 
 export async function didVerify(

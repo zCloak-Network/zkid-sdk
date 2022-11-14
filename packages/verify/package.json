@@ -22,8 +22,5 @@
     "@zcloak/did": "0.0.1-10",
     "@zcloak/did-resolver": "0.0.1-10",
     "@zcloak/vc": "0.0.1-10"
-  },
-  "devDependencies": {
-    "report-missing-dependencies": "^1.0.13"
   }
 }

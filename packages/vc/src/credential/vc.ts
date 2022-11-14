@@ -8,7 +8,6 @@ import type {
   VerifiableCredential,
   VerifiableCredentialVersion
 } from '../types';
-import type { IRaw } from './types';
 
 import { base58Encode } from '@zcloak/crypto';
 import { Did } from '@zcloak/did';
@@ -19,7 +18,12 @@ import { keyTypeToSignatureType } from '../utils';
 import { Raw } from './raw';
 
 /**
- * A builder to make [[VerifiableCredential]]
+ * @name VerifiableCredentialBuilder
+ *
+ * @description
+ * A builder to make [[VerifiableCredential]] for attester.
+ *
+ * Use this builder to set attributes for [[VerifiableCredential]], and sign proof for [[VerifiableCredential]]
  *
  * @example
  * ```typescript
@@ -49,7 +53,7 @@ export class VerifiableCredentialBuilder {
   public version?: VerifiableCredentialVersion;
   public issuanceDate?: number;
   public expirationDate?: number | null;
-  public raw: IRaw;
+  public raw: Raw;
   public digestHashType?: HashType;
 
   /**
@@ -66,7 +70,7 @@ export class VerifiableCredentialBuilder {
       .setDigestHashType(rawCredential.hasher[1]);
   }
 
-  constructor(raw: IRaw) {
+  constructor(raw: Raw) {
     this.raw = raw;
   }
 
@@ -81,9 +85,7 @@ export class VerifiableCredentialBuilder {
       this.digestHashType &&
       this.expirationDate !== undefined
     ) {
-      const raw = new Raw(this.raw);
-
-      const { hashes, nonceMap, rootHash, type: rootHashType } = raw.calcRootHash();
+      const { hashes, nonceMap, rootHash, type: rootHashType } = this.raw.calcRootHash();
 
       const { digest, type: digestHashType } = calcDigest(
         {
@@ -95,12 +97,12 @@ export class VerifiableCredentialBuilder {
         this.digestHashType
       );
 
-      const { didUrl, signature, type: keyType } = issuer.signWithKey('assertionMethod', digest);
+      const { id, signature, type: keyType } = issuer.signWithKey('assertionMethod', digest);
 
       const proof: Proof = {
         type: keyTypeToSignatureType(keyType),
         created: Date.now(),
-        verificationMethod: didUrl,
+        verificationMethod: id,
         proofPurpose: 'assertionMethod',
         proofValue: base58Encode(signature)
       };
@@ -119,6 +121,10 @@ export class VerifiableCredentialBuilder {
         digest,
         proof: [proof]
       };
+
+      if (this.expirationDate) {
+        vc.expirationDate = this.expirationDate;
+      }
 
       return vc;
     }
@@ -154,7 +160,7 @@ export class VerifiableCredentialBuilder {
   }
 
   /**
-   * set arrtibute `expirationDate`
+   * set arrtibute `expirationDate`, if you want to set the expiration date, pass `null` to this method.
    */
   public setExpirationDate(timestamp: number | null): this {
     this.expirationDate = timestamp;
@@ -164,9 +170,9 @@ export class VerifiableCredentialBuilder {
 
   /**
    * set arrtibute `raw`
-   * @param rawIn object of [[IRaw]]
+   * @param rawIn instance of [[Raw]]
    */
-  public setRaw(rawIn: IRaw): this {
+  public setRaw(rawIn: Raw): this {
     this.raw = rawIn;
 
     return this;

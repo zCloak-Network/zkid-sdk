@@ -1,6 +1,7 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@zcloak/crypto/types';
 import type {
   DidDocument,
   DidUrl,
@@ -10,7 +11,7 @@ import type {
 } from '@zcloak/did-resolver/types';
 import type { KeypairType, KeyringPair } from '@zcloak/keyring/types';
 import type { IDidDetails, KeyRelationship } from '../types';
-import type { DidKeys } from './types';
+import type { DidKeys, SignedData } from './types';
 
 import { assert } from '@polkadot/util';
 
@@ -76,6 +77,25 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
     assert(method, `Not find verficationMethod with id ${id}`);
 
     return method;
+  }
+
+  public signWithKey(key: DidKeys, message: Uint8Array | HexString): SignedData {
+    const didUrl = this.getKeyUrl(key);
+
+    assert(didUrl, `can not find verification method with the key: ${key}`);
+
+    return this.signWithId(didUrl, message);
+  }
+
+  public signWithId(id: DidUrl, message: Uint8Array | HexString): SignedData {
+    const { publicKey } = this.get(id);
+    const signature = this.sign(publicKey, message);
+
+    return {
+      signature,
+      type: typeTransform(this.getPair(publicKey).type),
+      id
+    };
   }
 
   public getDocument(): DidDocument {

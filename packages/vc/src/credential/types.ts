@@ -11,7 +11,5 @@ export interface IRaw {
   ctype: HexString;
   hashType: HashType;
 
-  rootHash?: HexString;
-  hashes?: HexString[];
   nonceMap?: Record<HexString, HexString>;
 }

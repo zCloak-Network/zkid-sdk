@@ -21,9 +21,6 @@
     "@zcloak/crypto": "0.0.1-10",
     "@zcloak/did": "0.0.1-10",
     "@zcloak/did-resolver": "0.0.1-10",
-    "ajv": "^8.11.2"
-  },
-  "devDependencies": {
-    "@zcloak/vc": "0.0.1-10"
+    "jsonschema": "^1.4.1"
   }
 }

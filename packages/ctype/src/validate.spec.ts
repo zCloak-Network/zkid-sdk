@@ -29,20 +29,20 @@ describe('validate', (): void => {
         validateSubject(ctype, {
           name: 'zCloak',
           age: 19
-        })
+        }).valid
       ).toBe(true);
       expect(
         validateSubject(ctype, {
           name: 'zCloak',
           age: 19,
           no: '1234'
-        })
+        }).valid
       ).toBe(true);
       expect(
         validateSubject(ctype, {
           name: 'zCloak',
           no: '1234'
-        })
+        }).valid
       ).toBe(false);
     });
 
@@ -73,27 +73,27 @@ describe('validate', (): void => {
         validateSubject(ctype, {
           name: 'zCloak',
           age: 11
-        })
+        }).valid
       ).toBe(true);
       expect(
         validateSubject(ctype, {
           name: 'zCloak',
           age: 19,
           no: '1234'
-        })
+        }).valid
       ).toBe(false);
       expect(
         validateSubject(ctype, {
           name: 'z',
           age: 10,
           no: '1234'
-        })
+        }).valid
       ).toBe(false);
       expect(
         validateSubject(ctype, {
           name: 'zCloak',
           no: '1234'
-        })
+        }).valid
       ).toBe(false);
     });
   });
@@ -122,20 +122,20 @@ describe('validate', (): void => {
         validateSubjectPartial(ctype, {
           name: 'zCloak',
           age: 19
-        })
+        }).valid
       ).toBe(true);
       expect(
         validateSubjectPartial(ctype, {
           name: 'zCloak',
           age: 19,
           no: '1234'
-        })
+        }).valid
       ).toBe(true);
       expect(
         validateSubjectPartial(ctype, {
           name: 'zCloak',
           no: '1234'
-        })
+        }).valid
       ).toBe(true);
     });
 
@@ -166,27 +166,27 @@ describe('validate', (): void => {
         validateSubjectPartial(ctype, {
           name: 'zCloak',
           age: 11
-        })
+        }).valid
       ).toBe(true);
       expect(
         validateSubjectPartial(ctype, {
           name: 'zCloak',
           age: 19,
           no: '1234'
-        })
+        }).valid
       ).toBe(false);
       expect(
         validateSubjectPartial(ctype, {
           name: 'z',
           age: 10,
           no: '1234'
-        })
+        }).valid
       ).toBe(false);
       expect(
         validateSubjectPartial(ctype, {
           name: 'zCloak',
           no: '1234'
-        })
+        }).valid
       ).toBe(true);
     });
   });

@@ -4,6 +4,8 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
 
+import { DidKeys } from '@zcloak/did/types';
+
 export type NativeType = string | number | boolean | null | undefined;
 
 export type NativeTypeWithOutNull = Omit<NativeType, 'null' | 'undefined'>;
@@ -28,13 +30,6 @@ export type ProofType = SignatureType;
 
 export type VerifiablePresentationType = 'VP' | 'VP_Digest' | 'VP_SelectiveDisclosure';
 
-export type ProofPurpose =
-  | 'authentication'
-  | 'assertionMethod'
-  | 'keyAgreement'
-  | 'capabilityInvocation'
-  | 'capabilityDelegation';
-
 export type VerifiableCredentialVersion = '0';
 
 export type VerifiablePresentationVersion = '0';
@@ -43,7 +38,7 @@ export interface Proof {
   type: ProofType;
   created: number;
   verificationMethod: DidUrl;
-  proofPurpose: ProofPurpose;
+  proofPurpose: DidKeys;
   proofValue: string;
   challenge?: string;
 }

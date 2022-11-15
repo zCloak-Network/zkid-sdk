@@ -13,6 +13,7 @@ import { validateSubject } from '@zcloak/ctype';
 import { isDidUrl } from '@zcloak/did/utils';
 
 import { calcRoothash, RootHashResult } from '../rootHash';
+import { isRawCredential } from '../utils';
 
 /**
  * [[IRaw]] implements
@@ -39,6 +40,7 @@ export class Raw implements IRaw {
   public nonceMap?: Record<HexString, HexString>;
 
   public static fromRawCredential(rawCredential: RawCredential, ctype: CType): Raw {
+    assert(isRawCredential(rawCredential), 'input is not a RawCredential object');
     assert(!isHex(rawCredential.credentialSubject), 'credentialSubject can not be hex string');
     assert(ctype.$id === rawCredential.ctype, '`ctype` is not the raw credential ctype');
 

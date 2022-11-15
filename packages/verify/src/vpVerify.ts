@@ -9,8 +9,11 @@ import type {
   VerifiablePresentationType
 } from '@zcloak/vc/types';
 
+import { assert } from '@polkadot/util';
+
 import { isSameUri } from '@zcloak/did/utils';
 import { hashDigests } from '@zcloak/vc';
+import { isVP } from '@zcloak/vc/utils';
 
 import { proofVerify } from './proofVerify';
 import { vcVerify, vcVerifyDigest } from './vcVerify';
@@ -38,6 +41,8 @@ const VERIFIERS: Record<
  *
  */
 export async function vpVerify(vp: VerifiablePresentation): Promise<boolean> {
+  assert(isVP(vp), 'input `vp` is not VerifiablePresentation object');
+
   const { hasher, id, proof, type, verifiableCredential } = vp;
   const idValid = idCheck(
     verifiableCredential.map(({ digest }) => digest),

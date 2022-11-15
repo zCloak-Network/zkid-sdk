@@ -9,7 +9,7 @@ import { assert, bufferToU8a, isHex, u8aConcat, u8aToHex } from '@polkadot/util'
 
 import { makeMerkleTree } from '@zcloak/vc';
 import { HASHER } from '@zcloak/vc/hasher';
-import { rlpEncode } from '@zcloak/vc/utils';
+import { isVC, rlpEncode } from '@zcloak/vc/utils';
 
 import { digestVerify } from './digestVerify';
 import { proofVerify } from './proofVerify';
@@ -48,6 +48,8 @@ export async function vcVerify(
   vc: VerifiableCredential,
   didDocument?: DidDocument
 ): Promise<boolean> {
+  assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
+
   const { credentialSubject, credentialSubjectHashes, credentialSubjectNonceMap, hasher } = vc;
 
   assert(!isHex(credentialSubject), 'subject must be an object');
@@ -69,6 +71,8 @@ export async function vcVerifyDigest(
   vc: VerifiableCredential,
   didDocument?: DidDocument
 ): Promise<boolean> {
+  assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
+
   const { credentialSubject } = vc;
 
   assert(isHex(credentialSubject), 'subject must be an hash value');

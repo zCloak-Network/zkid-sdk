@@ -17,7 +17,7 @@ import { Did } from '@zcloak/did';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest } from '../digest';
-import { keyTypeToSignatureType } from '../utils';
+import { isRawCredential, keyTypeToSignatureType } from '../utils';
 import { Raw } from './raw';
 
 /**
@@ -66,6 +66,7 @@ export class VerifiableCredentialBuilder {
     rawCredential: RawCredential,
     ctype: CType
   ): VerifiableCredentialBuilder {
+    assert(isRawCredential(rawCredential), 'input is not a RawCredential object');
     assert(ctype.$id === rawCredential.ctype, '`ctype` is not the raw credential ctype');
 
     const raw = Raw.fromRawCredential(rawCredential, ctype);

@@ -17,7 +17,7 @@ import { isSameUri } from '@zcloak/did/utils';
 
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE } from './defaults';
 import { calcRoothash } from './rootHash';
-import { keyTypeToSignatureType, rlpEncode } from './utils';
+import { isVC, keyTypeToSignatureType, rlpEncode } from './utils';
 
 // @internal
 // transform Verifiable Credential by [[VerifiablePresentationType]]
@@ -112,6 +112,7 @@ export class VerifiablePresentationBuilder {
       isSameUri(this.#did.id, vc.holder),
       `the did "${this.#did.id}" is not the holder of "${vc.digest}" VC`
     );
+    assert(isVC(vc), 'input `vc` is not a VerifiableCredential object');
 
     this.vcMap.set(transformVC(vc, vpType, selectedAttributes), vpType);
 

@@ -9,6 +9,7 @@
     { "path": "./packages/did/tsconfig.build.json" },
     { "path": "./packages/did-resolver/tsconfig.build.json" },
     { "path": "./packages/keyring/tsconfig.build.json" },
+    { "path": "./packages/message/tsconfig.build.json" },
     { "path": "./packages/vc/tsconfig.build.json" },
     { "path": "./packages/verify/tsconfig.build.json" },
     { "path": "./packages/wasm/tsconfig.build.json" }

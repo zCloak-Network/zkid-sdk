@@ -3565,9 +3565,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.6.2":
-  version: 0.6.2
-  resolution: "@zcloak/dev@npm:0.6.2"
+"@zcloak/dev@npm:^0.6.3":
+  version: 0.6.3
+  resolution: "@zcloak/dev@npm:0.6.3"
   dependencies:
     "@babel/cli": ^7.19.3
     "@babel/core": ^7.20.2
@@ -3595,7 +3595,7 @@ __metadata:
     "@rushstack/eslint-patch": ^1.2.0
     "@typescript-eslint/eslint-plugin": ^5.42.1
     "@typescript-eslint/parser": ^5.42.1
-    "@zcloak/lint": 0.6.2
+    "@zcloak/lint": 0.6.3
     babel-jest: ^29.3.1
     babel-plugin-module-extension-resolver: ^1.0.0-rc.2
     babel-plugin-module-resolver: ^4.1.0
@@ -3661,7 +3661,7 @@ __metadata:
     zcloak-exec-rollup: scripts/zcloak-exec-rollup.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: e366543f0dd27d714cff9e72dba1904107da8b3318e4ea6a926e28cc5d6070f4e5bf6a9b617efe62e34a0f8523feed4f364e33e51ffa5b6db50e5eab8ee74024
+  checksum: 88a3e233d6e1c1bf0655e8498059ec4187451b3c10e9915bb166e9c0057331a7f594ac0a5df25b71baeae9fbb136658b7a8b31b3dc028c766f9bbb4775f7f9de
   languageName: node
   linkType: hard
 
@@ -3694,15 +3694,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/lint@npm:0.6.2":
-  version: 0.6.2
-  resolution: "@zcloak/lint@npm:0.6.2"
+"@zcloak/lint@npm:0.6.3":
+  version: 0.6.3
+  resolution: "@zcloak/lint@npm:0.6.3"
   dependencies:
     chalk: ^5.1.2
     glob: ^8.0.3
     parse-imports-ts: ^1.0.2
     throat: ^6.0.1
-  checksum: 36844d32f3f68c0b027d91789a2e12dfc798a5033467a9e468ef9d97525e22399143d0094925eb71f5edaf33326a3e8779129988b695fe0998c76f24ff3bf6e6
+  checksum: 3701f6c8373ba7fa0c7fd4f1b04a201746cb1269aad91e101302d95a072b2dc45e27181e066ebf6d27608f7192c1dfab1129516d2d57689a7a7b70d5fdfbc352
   languageName: node
   linkType: hard
 
@@ -11243,7 +11243,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": ^27.4.0
-    "@zcloak/dev": ^0.6.2
+    "@zcloak/dev": ^0.6.3
   bin:
     "build:wasm": scripts/build-wasm.js
   languageName: unknown

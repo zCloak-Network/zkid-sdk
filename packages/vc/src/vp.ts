@@ -143,7 +143,7 @@ export class VerifiablePresentationBuilder {
       id,
       signature,
       type: signType
-    } = this.#did.signWithKey('authentication', u8aConcat(hash, stringToU8a(challenge)));
+    } = this.#did.signWithKey(u8aConcat(hash, stringToU8a(challenge)), 'authentication');
 
     return {
       '@context': DEFAULT_CONTEXT,

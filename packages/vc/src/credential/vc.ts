@@ -105,7 +105,7 @@ export class VerifiableCredentialBuilder {
         this.digestHashType
       );
 
-      const { id, signature, type: keyType } = issuer.signWithKey('assertionMethod', digest);
+      const { id, signature, type: keyType } = issuer.signWithKey(digest, 'assertionMethod');
 
       const proof: Proof = {
         type: keyTypeToSignatureType(keyType),

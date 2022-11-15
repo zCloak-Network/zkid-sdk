@@ -20,7 +20,7 @@ export abstract class DidChain extends DidDetails {
 
     const proof: DidDocumentProof[] = document.proof ?? [];
 
-    const { id, signature } = this.signWithKey('capabilityInvocation', hashDidDocument(document));
+    const { id, signature } = this.signWithKey(hashDidDocument(document), 'capabilityInvocation');
 
     proof.push({ id, signature: base58Encode(signature), type: 'creation' });
 

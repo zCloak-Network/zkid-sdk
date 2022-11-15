@@ -68,7 +68,7 @@ export function parseDidDocument(document: DidDocument): IDidDetails {
  */
 export async function fromDid(
   did: DidUrl,
-  keyring: KeyringInstance = new Keyring(),
+  keyring?: KeyringInstance,
   resolver: DidResolver = defaultResolver
 ): Promise<Did> {
   const document = await resolver.resolve(did);
@@ -94,7 +94,7 @@ export async function fromDid(
  */
 export function fromDidDocument(
   document: DidDocument,
-  keyring: KeyringInstance = new Keyring(),
+  keyring?: KeyringInstance,
   resolver: DidResolver = defaultResolver
 ): Did {
   const details = parseDidDocument(document);

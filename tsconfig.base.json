@@ -21,10 +21,5 @@
       "@zcloak/wasm/*": ["wasm/src/*"],
     },
     "skipLibCheck": true
-  },
-  "include": [
-    "*.ts",
-    "*.js",
-    "*.json"
-  ]
+  }
 }

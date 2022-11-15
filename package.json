@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.0.1-11",
+  "version": "0.0.1-12",
   "versions": {
     "git": "0.0.1-11",
     "npm": "0.0.1-11"
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@zcloak/dev": "^0.6.1"
+    "@zcloak/dev": "^0.6.2"
   },
   "resolutions": {
     "typescript": "^4.8.4"

@@ -63,18 +63,38 @@ export function rlpEncode(
   }
 }
 
+/**
+ * @name isHashType
+ * @description
+ * check the `input` is [[HashType]]
+ */
 export function isHashType(input: unknown): input is HashType {
   return ALL_HASH_TYPES.includes(input as any);
 }
 
+/**
+ * @name isVpType
+ * @description
+ * check the `input` is [[VerifiablePresentationType]]
+ */
 export function isVpType(input: unknown): input is VerifiablePresentationType {
   return ALL_VP_TYPES.includes(input as any);
 }
 
+/**
+ * @name isSignatureType
+ * @description
+ * check the `input` is [[SignatureType]]
+ */
 export function isSignatureType(input: unknown): input is SignatureType {
   return ALL_SIG_TYPES.includes(input as any);
 }
 
+/**
+ * @name isProof
+ * @description
+ * check the `input` is [[Proof]]
+ */
 export function isProof(input: unknown): input is Proof {
   return (
     isJsonObject(input) &&
@@ -86,6 +106,11 @@ export function isProof(input: unknown): input is Proof {
   );
 }
 
+/**
+ * @name isRawCredential
+ * @description
+ * check the `input` is [[RawCredential]]
+ */
 export function isRawCredential(input: unknown): input is RawCredential {
   return (
     isJsonObject(input) &&
@@ -99,6 +124,11 @@ export function isRawCredential(input: unknown): input is RawCredential {
   );
 }
 
+/**
+ * @name isVC
+ * @description
+ * check the `input` is [[VerifiableCredential]]
+ */
 export function isVC(input: unknown): input is VerifiableCredential {
   return (
     isJsonObject(input) &&
@@ -116,6 +146,11 @@ export function isVC(input: unknown): input is VerifiableCredential {
   );
 }
 
+/**
+ * @name isVP
+ * @description
+ * check the `input` is [[VerifiablePresentation]]
+ */
 export function isVP(input: unknown): input is VerifiablePresentation {
   return (
     isJsonObject(input) &&

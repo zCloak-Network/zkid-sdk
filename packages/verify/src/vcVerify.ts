@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
+import type { DidResolver } from '@zcloak/did-resolver';
 import type { DidDocument } from '@zcloak/did-resolver/types';
 import type { VerifiableCredential } from '@zcloak/vc/types';
 
@@ -18,7 +19,7 @@ import { proofVerify } from './proofVerify';
 async function verifyShared(
   vc: VerifiableCredential,
   rootHash: HexString,
-  didDocument?: DidDocument
+  resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
   const { ctype, digest, expirationDate, hasher, holder, proof } = vc;
 
@@ -37,16 +38,40 @@ async function verifyShared(
     hasher[1]
   );
 
-  const proofValid = await (didDocument
-    ? proofVerify(digest, proof[0], didDocument)
+  const proofValid = await (resolverOrDidDocument
+    ? proofVerify(digest, proof[0], resolverOrDidDocument)
     : proofVerify(digest, proof[0]));
 
   return digestValid && proofValid;
 }
 
+/**
+ * @name vcVerify
+ * @summary Verifies the vc is valid.
+ * @description
+ * Verifies the `vc` is valid. `true` on success, `false` otherwise.
+ *
+ * This function has below steps:
+ * 1. check the `vc` is an [[VerifiableVerifiable]] object.
+ * 2. calc `rootHash` and call `digestVerify` use `vc.digest`.
+ * 3. call `proofVerify` use `vc.proof`.
+ * 4. verify the `vc.hashes` field is valid.
+ *
+ * @see [[isVC]] `@zcloak/vc/utils`
+ * @see [[proofVerify]]
+ * @see [[digestVerify]]
+ *
+ * @example
+ * <BR>
+ * ```typescript
+ * import { vcVerify } from '@zcloak/vc'
+ *
+ * vcVerify({}); // true/false
+ * ```
+ */
 export async function vcVerify(
   vc: VerifiableCredential,
-  didDocument?: DidDocument
+  resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
   assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
 
@@ -64,12 +89,35 @@ export async function vcVerify(
     if (!credentialSubjectHashes.includes(hash)) return false;
   }
 
-  return verifyShared(vc, rootHash, didDocument);
+  return verifyShared(vc, rootHash, resolverOrDidDocument);
 }
 
+/**
+ * @name vcVerify
+ * @summary Verifies the vc is valid, only check the digest.
+ * @description
+ * Verifies the digest on `vc` is valid. `true` on success, `false` otherwise.
+ *
+ * This function has below steps:
+ * 1. check the `vc` is an [[VerifiableVerifiable]] object.
+ * 2. makesure this `vc.credentialSubject` is rootHash value, and call `digestVerify` use `vc.digest`.
+ * 3. call `proofVerify` use `vc.proof`.
+ *
+ * @see [[isVC]] `@zcloak/vc/utils`
+ * @see [[proofVerify]]
+ * @see [[digestVerify]]
+ *
+ * @example
+ * <BR>
+ * ```typescript
+ * import { vcVerifyDigest } from '@zcloak/vc'
+ *
+ * vcVerifyDigest({ credentialSubject: '0x....', ... }); // true/false
+ * ```
+ */
 export async function vcVerifyDigest(
   vc: VerifiableCredential,
-  didDocument?: DidDocument
+  resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
   assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
 
@@ -79,5 +127,5 @@ export async function vcVerifyDigest(
 
   const rootHash = credentialSubject;
 
-  return verifyShared(vc, rootHash, didDocument);
+  return verifyShared(vc, rootHash, resolverOrDidDocument);
 }

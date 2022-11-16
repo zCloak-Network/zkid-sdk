@@ -73,14 +73,13 @@ export async function fromDid(
 ): Promise<Did> {
   const document = await resolver.resolve(did);
 
-  return fromDidDocument(document, keyring, resolver);
+  return fromDidDocument(document, keyring);
 }
 
 /**
  * parse a did document to [[Did]]
  * @param document an object of [[DidDocument]]
  * @param keyring(optional) an instance of [[KeyringInstance]], if passed, will call `did.init` method
- * @param resolver(optional) a [[DidResolver]] instance, default [[ArweaveDidResolver]]
  * @returns instance of [[Did]]
  * @example
  * <BR>
@@ -92,14 +91,10 @@ export async function fromDid(
  * const did: Did = heloers.fromDidDocument(document);
  * ```
  */
-export function fromDidDocument(
-  document: DidDocument,
-  keyring?: KeyringInstance,
-  resolver: DidResolver = defaultResolver
-): Did {
+export function fromDidDocument(document: DidDocument, keyring?: KeyringInstance): Did {
   const details = parseDidDocument(document);
 
-  const did = new Did(details, resolver);
+  const did = new Did(details);
 
   if (keyring) {
     did.init(keyring);
@@ -112,7 +107,6 @@ export function fromDidDocument(
  * create [[Did]] from a [[IDidDetails]] object
  * @param details an object of [[IDidDetails]]
  * @param keyring(optional) an instance of [[KeyringInstance]], if passed, will call `did.init` method
- * @param resolver(optional) a [[DidResolver]] instance, default [[ArweaveDidResolver]]
  * @returns instance of [[Did]]
  * @example
  * <BR>
@@ -126,12 +120,8 @@ export function fromDidDocument(
  * const did: Did = helpers.create(details, keyring);
  * ```
  */
-export function create(
-  details: IDidDetails,
-  keyring?: KeyringInstance,
-  resolver: DidResolver = defaultResolver
-): Did {
-  const did = new Did(details, resolver);
+export function create(details: IDidDetails, keyring?: KeyringInstance): Did {
+  const did = new Did(details);
 
   if (keyring) {
     did.init(keyring);
@@ -157,8 +147,7 @@ export function create(
  */
 export function createEcdsaFromMnemonic(
   mnemonic: string,
-  keyring: KeyringInstance = new Keyring(),
-  resolver: DidResolver = defaultResolver
+  keyring: KeyringInstance = new Keyring()
 ): Did {
   const {
     identifier,
@@ -192,7 +181,7 @@ export function createEcdsaFromMnemonic(
     service: []
   };
 
-  const did = create(parseDidDocument(document), keyring, resolver);
+  const did = create(parseDidDocument(document), keyring);
 
   return did;
 }

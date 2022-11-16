@@ -39,6 +39,9 @@ export type DigestPayload = {
  * 2. generate hash value use provide [[hashType]]
  * @example
  * ```typescript
+ * import { calcDigest } from '@zcloak/vc';
+ *
+ * calcDigest({ rootHash: '0x...', holder: 'did:zk:...', ctype: '0x...' }); // { digest: '0x...', type: 'Keccak256' }
  * ```
  */
 export function calcDigest(

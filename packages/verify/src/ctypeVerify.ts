@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CType } from '@zcloak/ctype/types';
+import type { DidResolver } from '@zcloak/did-resolver';
 import type { DidDocument } from '@zcloak/did-resolver/types';
 
 import { decodeMultibase } from '@zcloak/crypto';
@@ -11,9 +12,20 @@ import { didVerify } from './didVerify';
 
 /**
  * @name ctypeVerify
- * @summary verify ctype signature is valid
+ * @summary Verifies ctype signature is valid.
+ * @description
+ * Verify the `ctype` is valid, it will verify `ctype.signature` on the `ctype.publisher`. Returs `true` on success, `false` otherwise.
+ * @example
+ * <BR>
+ * ```typescript
+ * import { CType } from '@zcloak/ctype/types'
+ *
+ * const ctype: CType = {...}
+ *
+ * ctypeVerify(ctype); // true or false
+ * ```
  */
-export function ctypeVerify(ctype: CType, document?: DidDocument): Promise<boolean> {
+export function ctypeVerify(ctype: CType, document?: DidDocument | DidResolver): Promise<boolean> {
   const hash = getCTypeHash(ctype, ctype.publisher, ctype.$schema);
 
   return document

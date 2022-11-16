@@ -36,9 +36,15 @@ const VERIFIERS: Record<
 
 /**
  * @name vpVerify
- * @summary verify [[VerifiablePresentation]] is valid.
+ * @summary Verifies the vp is valid.
  * @description
+ * Verifies the `vp` is valid. `true` on success, `false` otherwise.
  *
+ * This function has below steps:
+ * 1. check the `vp` is and [[VerifiablePresentation]] object.
+ * 2. check the `vp.id` is `true`.
+ * 3. check the holder on `vp.verifiableCredential` is sameUri with `proof.verificationMethod`.
+ * 4. call `vcVerify` used the `vp.verifiableCredential`, and check is `true` or `false`.
  */
 export async function vpVerify(vp: VerifiablePresentation): Promise<boolean> {
   assert(isVP(vp), 'input `vp` is not VerifiablePresentation object');

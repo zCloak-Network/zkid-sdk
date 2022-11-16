@@ -22,5 +22,8 @@
     "@zcloak/did": "0.0.1-12",
     "@zcloak/did-resolver": "0.0.1-12",
     "@zcloak/vc": "0.0.1-12"
+  },
+  "devDependencies": {
+    "@zcloak/ctype": "0.0.1-12"
   }
 }

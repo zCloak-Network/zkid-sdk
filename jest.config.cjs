@@ -10,6 +10,7 @@ module.exports = Object.assign({}, config, {
     '@zcloak/did-resolver(.*)$': '<rootDir>/packages/did-resolver/src/$1',
     '@zcloak/did(.*)$': '<rootDir>/packages/did/src/$1',
     '@zcloak/keyring(.*)$': '<rootDir>/packages/keyring/src/$1',
+    '@zcloak/message(.*)$': '<rootDir>/packages/message/src/$1',
     '@zcloak/vc(.*)$': '<rootDir>/packages/vc/src/$1',
     '@zcloak/verify(.*)$': '<rootDir>/packages/verify/src/$1',
     '@zcloak/wasm(.*)$': '<rootDir>/packages/wasm/src/$1'

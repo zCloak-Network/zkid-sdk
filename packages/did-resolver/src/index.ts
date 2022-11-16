@@ -3,3 +3,5 @@
 
 export * from './DidResolver';
 export * from './ArweaveDidResolver';
+
+export * from './MockDidResolver';

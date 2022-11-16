@@ -1,7 +1,6 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { BaseCType } from './types';
 
 import { generateMnemonic, initCrypto } from '@zcloak/crypto';
@@ -39,7 +38,7 @@ describe('publish ctype', (): void => {
     };
 
     expect(getCTypeHash(base, publisher.id)).toEqual(
-      getCTypeHash(base, publisher.getKeyUrl('authentication') as DidUrl)
+      getCTypeHash(base, publisher.getKeyUrl('authentication'))
     );
   });
 

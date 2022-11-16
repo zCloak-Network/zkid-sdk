@@ -1,7 +1,10 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { ethereumEncode } from '@zcloak/crypto';
+import { stringToU8a } from '@polkadot/util';
+
+import { ethereumEncode, generateMnemonic } from '@zcloak/crypto';
+import { MockDidResolver } from '@zcloak/did-resolver';
 import { DidDocument } from '@zcloak/did-resolver/types';
 import { Keyring } from '@zcloak/keyring';
 
@@ -33,7 +36,13 @@ const DOCUMENT: DidDocument = {
   service: []
 };
 
+const resolver = new MockDidResolver();
+
 describe('Did', (): void => {
+  beforeAll(() => {
+    resolver.addDocument(DOCUMENT);
+  });
+
   describe('create', (): void => {
     let keyring: Keyring;
 
@@ -59,6 +68,8 @@ describe('Did', (): void => {
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
       const did = createEcdsaFromMnemonic(mnemonic, keyring);
 
+      resolver.addDocument(did.getDocument());
+
       expect(did.get([...(did.authentication ?? [])][0]).publicKey).toEqual(key0);
       expect(did.get([...(did.keyAgreement ?? [])][0]).publicKey).toEqual(key1);
       expect([...did.controller][0]).toEqual(`did:zk:${ethereumEncode(controllerKey)}`);
@@ -82,6 +93,33 @@ describe('Did', (): void => {
       expect(document.capabilityInvocation).toEqual(DOCUMENT.capabilityInvocation);
       expect(document.capabilityDelegation).toEqual(DOCUMENT.capabilityDelegation);
       expect(document.service).toEqual(DOCUMENT.service);
+    });
+  });
+
+  describe('encrypt and decrypt', (): void => {
+    it('encrypt and decrypt', async (): Promise<void> => {
+      const sender = createEcdsaFromMnemonic(generateMnemonic(12));
+      const receiver = createEcdsaFromMnemonic(generateMnemonic(12));
+
+      resolver.addDocument(sender.getDocument());
+      resolver.addDocument(receiver.getDocument());
+
+      const message = stringToU8a('abcd');
+
+      const {
+        data: encrypted,
+        receiverUrl,
+        senderUrl
+      } = await sender.encrypt(
+        message,
+        receiver.getKeyUrl('keyAgreement'),
+        sender.getKeyUrl('keyAgreement'),
+        resolver
+      );
+
+      const decrypted = await receiver.decrypt(encrypted, senderUrl, receiverUrl, resolver);
+
+      expect(decrypted).toEqual(message);
     });
   });
 });

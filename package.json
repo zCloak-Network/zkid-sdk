@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@zcloak/dev": "^0.6.2"
+    "@zcloak/dev": "^0.6.3"
   },
   "resolutions": {
     "typescript": "^4.8.4"

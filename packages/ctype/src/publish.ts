@@ -34,7 +34,7 @@ export function getCTypeHash(
 export function getPublish(base: BaseCType, publisher: Did): CType {
   const hash = getCTypeHash(base, publisher.id);
 
-  const { id, signature } = publisher.signWithKey('authentication', hash);
+  const { id, signature } = publisher.signWithKey(hash, 'authentication');
 
   return {
     $id: hash,

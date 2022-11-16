@@ -1,8 +1,6 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import axios from 'axios';
-
 import { DidResolver } from './DidResolver';
 import { DidNotFoundError, ServerResponseError } from './errors';
 import { DidDocument } from './types';
@@ -25,16 +23,16 @@ export class ArweaveDidResolver extends DidResolver {
   public override async resolve(didUrl: string): Promise<DidDocument> {
     const { did } = this.parseDid(didUrl);
 
-    const res = await axios.get(`${this.server}/did/${did}`);
+    const res = await fetch(`${this.server}/did/${did}`).then((_res) => _res.json());
 
-    if (res.data.code !== 200) {
-      throw new ServerResponseError(res.data.message);
+    if (res.code !== 200) {
+      throw new ServerResponseError(res.message);
     }
 
-    if (res.data.code === 200 && !res.data.data) {
+    if (res.code === 200 && !res.data) {
       throw new DidNotFoundError();
     }
 
-    return res.data.data.rawData;
+    return res.data.rawData;
   }
 }

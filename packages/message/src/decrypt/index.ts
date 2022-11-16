@@ -14,7 +14,16 @@ import { isRawCredential, isVC, isVP } from '@zcloak/vc/utils';
 
 import { SUPPORT_MESSAGE_TYPES } from '../defaults';
 
-export function verifyMessageBody<T extends MessageType>(message: DecryptedMessage<T>): void {
+/**
+ * @name verifyMessageData
+ * @summary Verifies the message data.
+ * @description
+ * Verifies the `message` data is correct, throw `Error` when failed, no throw otherwise.
+ *
+ * 1. check the data is correct.
+ * 2. check the sender and issuer/holder.
+ */
+export function verifyMessageData<T extends MessageType>(message: DecryptedMessage<T>): void {
   const { data, msgType, sender } = message;
 
   switch (msgType) {
@@ -94,6 +103,12 @@ export function verifyMessageBody<T extends MessageType>(message: DecryptedMessa
   }
 }
 
+/**
+ * @name verifyMessageEnvelope
+ * @summary Verifies the message field is correct.
+ * @description
+ * Verifies the `message` field is correct, throw `Error` when failed, no throw otherwise.
+ */
 export function verifyMessageEnvelope<T extends MessageType>(message: BaseMessage<T>): void {
   const { createTime, ctype, id, msgType, receiver, reply, sender } = message;
 
@@ -116,6 +131,12 @@ export function verifyMessageEnvelope<T extends MessageType>(message: BaseMessag
   }
 }
 
+/**
+ * @name decryptMessage
+ * @summary Decrypted the data to Message
+ * @description
+ * Decrypted the data to [[DecryptedMessage]] by different [[MessageCtyp]]. Returns decrypted message.
+ */
 export async function decryptMessage<T extends MessageType>(
   message: Message<T>,
   did: IDidKeyring,
@@ -144,7 +165,7 @@ export async function decryptMessage<T extends MessageType>(
     data
   };
 
-  verifyMessageBody(decryptedMessage);
+  verifyMessageData(decryptedMessage);
 
   return decryptedMessage;
 }

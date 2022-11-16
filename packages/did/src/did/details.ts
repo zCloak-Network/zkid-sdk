@@ -10,15 +10,12 @@ import type {
   VerificationMethodType
 } from '@zcloak/did-resolver/types';
 import type { KeypairType, KeyringPair } from '@zcloak/keyring/types';
-import type { DidKeys, EncryptedData, IDidDetails, KeyRelationship, SignedData } from '../types';
+import type { DidKeys, IDidDetails, KeyRelationship, SignedData } from '../types';
 
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
-import { DidResolver } from '@zcloak/did-resolver';
-import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
-import { fromDid } from './helpers';
 import { DidKeyring } from './keyring';
 
 export function typeTransform(type: KeypairType): VerificationMethodType {
@@ -92,60 +89,6 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
     const didUrl = this.getKeyUrl(key);
 
     return this.sign(message, didUrl);
-  }
-
-  public override sign(message: Uint8Array | HexString, id: DidUrl): SignedData {
-    const { id: _id, publicKey } = this.get(id);
-    const pair = this.getPair(publicKey);
-
-    const signature = pair.sign(message);
-
-    return {
-      signature,
-      type: typeTransform(this.getPair(publicKey).type),
-      id: _id
-    };
-  }
-
-  public override async encrypt(
-    message: Uint8Array | HexString,
-    receiverUrlIn: DidUrl,
-    senderUrl: DidUrl = this.getKeyUrl('keyAgreement'),
-    resolver: DidResolver = defaultResolver
-  ): Promise<EncryptedData> {
-    const { id, publicKey } = this.get(senderUrl);
-    const pair = this.getPair(publicKey);
-
-    const receiver = await fromDid(receiverUrlIn, undefined, resolver);
-
-    const { id: receiverUrl, publicKey: receiverPublicKey } = receiver.get(receiverUrlIn);
-
-    const encrypted = pair.encrypt(message, receiverPublicKey);
-
-    return {
-      senderUrl: id,
-      receiverUrl,
-      type: 'X25519KeyAgreementKey2019',
-      data: encrypted
-    };
-  }
-
-  public override async decrypt(
-    encryptedMessageWithNonce: Uint8Array | HexString,
-    senderUrlIn: DidUrl,
-    receiverUrl: DidUrl,
-    resolver: DidResolver = defaultResolver
-  ): Promise<Uint8Array> {
-    const { publicKey } = this.get(receiverUrl);
-    const pair = this.getPair(publicKey);
-
-    const sender = await fromDid(senderUrlIn, undefined, resolver);
-
-    const { publicKey: senderPublicKey } = sender.get(senderUrlIn);
-
-    const decrypted = pair.decrypt(encryptedMessageWithNonce, senderPublicKey);
-
-    return decrypted;
   }
 
   public getDocument(): DidDocument {

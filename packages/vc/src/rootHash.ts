@@ -63,9 +63,10 @@ export function rootHashFromMerkle(
 }
 
 /**
- * calc rootHash from `this.credentialSubject`
- * @param hashType [[HashType]] defaults is Keccak256
- * @returns `rootHash` and `hashType` object
+ * @name calcRoothash
+ * @summary calc rootHash from any json.
+ * @description
+ * calc rootHash with supplied `input`, pass the `nonceMap` if supplied. Returns [[RootHashResult]].
  */
 export function calcRoothash(
   input: AnyJson,

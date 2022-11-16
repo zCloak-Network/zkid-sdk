@@ -10,7 +10,6 @@ import type { Message, MessageData, MessageType } from '../types';
 import { stringToU8a } from '@polkadot/util';
 
 import { base58Encode, randomAsHex } from '@zcloak/crypto';
-import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
 import { DEFAULT_MESSAGE_VERSION } from '../defaults';
 
@@ -45,13 +44,19 @@ function getCtype<T extends MessageType>(type: T, data: MessageData[T]): HexStri
   }
 }
 
+/**
+ * @name encryptMessage
+ * @summary Encrypt the data to Message
+ * @description
+ * Encrypt the data to [[Message]] by different [[MessageCtyp]]. Returns encrypted message.
+ */
 export async function encryptMessage<T extends MessageType>(
   type: T,
   data: MessageData[T],
   sender: IDidKeyring,
   receiverUrl: DidUrl,
   reply?: string,
-  resolver: DidResolver = defaultResolver
+  resolver?: DidResolver
 ): Promise<Message<T>> {
   const id = randomAsHex(32);
   const createTime = Date.now();

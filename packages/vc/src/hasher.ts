@@ -13,6 +13,7 @@ import {
   sha512AsU8a
 } from '@zcloak/crypto';
 
+// hashes function map
 export const HASHER = {
   Rescue: (data: Uint8Array | HexString | string, asU64a = false) => rescueAsU8a(data, asU64a),
   Blake2: (

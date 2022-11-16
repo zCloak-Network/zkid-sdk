@@ -10,12 +10,47 @@ import { decodeMultibase, ed25519Verify, secp256k1Verify } from '@zcloak/crypto'
 import { DidResolver } from '@zcloak/did-resolver';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
+/**
+ * @name didVerify
+ * @summary Verifies the signature on the supplied message.
+ * @description
+ * Verifies the `signature` on `message` with the supplied `didUrl`. Returns `true` on success, `false` otherwise.
+ *
+ * You alson can supply `resolverOrDidDocument`, it support [[DidDocument]] and [[DidResolver]]
+ * @example
+ * <BR>
+ * supply [[DidDocument]]
+ * ```typescript
+ * import { didVerify } from '@zcloak/verify'
+ *
+ * didVerify([...], [...], 'did:zk:...', didDocument); // true/false
+ * ```
+ * supply [[DidResolver]]
+ * ```typescript
+ * import { didVerify } from '@zcloak/verify'
+ *
+ * didVerify([...], [...], 'did:zk:...', resolver); // true/false
+ * ```
+ */
 export function didVerify(
   message: HexString | Uint8Array | string,
   signature: HexString | Uint8Array,
   didUrl: DidUrl,
   resolverOrDidDocument: DidDocument | DidResolver
 ): Promise<boolean>;
+/**
+ * @name didVerify
+ * @summary Verifies the signature on the supplied message.
+ * @description
+ * Verifies the `signature` on `message` with the supplied `didUrl`. Returns `true` on success, `false` otherwise.
+ * @example
+ * ```typescript
+ * import { didVerify } from '@zcloak/verify'
+ *
+ * // if you don't supply resolver, default to use [[ArweaveResolver]]
+ * didVerify([...], [...], 'did:zk:...'); // true/false
+ * ```
+ */
 export function didVerify(
   message: HexString | Uint8Array | string,
   signature: HexString | Uint8Array,

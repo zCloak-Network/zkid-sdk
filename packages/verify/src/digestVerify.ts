@@ -9,7 +9,7 @@ import { HashType } from '@zcloak/vc/types';
 
 /**
  * @name verifyDigest
- * @summay verify digest hash by [[DigestPayload]]
+ * @summay verify digest hash by [[DigestPayload]].
  * @description
  * verify `digestIn` hash with `payload`. Returns `true` on success, `false` otherwise.
  * @example

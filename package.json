@@ -3,7 +3,7 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "homepage": "https://github.com/zCloak-Network/zkid-sdk#readme",
   "license": "Apache-2.0",
-  "packageManager": "yarn@3.2.4",
+  "packageManager": "yarn@3.3.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -11,7 +11,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.0.2-0",
+  "version": "0.0.2",
   "versions": {
     "git": "0.0.2-0",
     "npm": "0.0.2-0"
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@zcloak/dev": "^0.6.3"
+    "@zcloak/dev": "^0.6.4"
   },
   "resolutions": {
     "typescript": "^4.8.4"

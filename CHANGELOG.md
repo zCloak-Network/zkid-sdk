@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.0.2 Nov 17, 2022
+
+Changes:
+
+- bump versions.
+- fix will not includes .js and .jsx files when build
+
 ## 0.0.1 Nov 16, 2022
 
 Changes:

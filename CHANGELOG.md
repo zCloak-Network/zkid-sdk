@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.0.3 Nov 18, 2022
+
+Changes:
+
+- fix esm build js files without .js extensions.
+
 ## 0.0.2 Nov 17, 2022
 
 Changes:

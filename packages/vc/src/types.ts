@@ -8,7 +8,7 @@ import { DidKeys } from '@zcloak/did/types';
 
 export type NativeType = string | number | boolean | null | undefined;
 
-export type NativeTypeWithOutNull = Omit<NativeType, 'null' | 'undefined'>;
+export type NativeTypeWithOutNull = Exclude<NativeType, null | undefined>;
 
 export type AnyJson = Record<string, NativeType | NativeTypeWithOutNull[]>;
 

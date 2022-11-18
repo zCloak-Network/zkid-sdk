@@ -51,7 +51,7 @@ export function rlpEncode(
     typeof input === 'boolean'
       ? Number(input)
       : Array.isArray(input)
-      ? (input.map((inp) => (typeof inp === 'boolean' ? Number(inp) : inp)) as (string | number)[])
+      ? input.map((inp) => (typeof inp === 'boolean' ? Number(inp) : inp))
       : input;
 
   const result = encode(param);

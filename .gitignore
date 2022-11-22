@@ -11,6 +11,8 @@
 !.yarn/sdks
 build/
 build-cjs/
+build-asm/
+build-wasm/
 cc-test-reporter
 coverage/
 node_modules/
@@ -21,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 target/
 pkg/
+
+binaryen/
+bindgen/

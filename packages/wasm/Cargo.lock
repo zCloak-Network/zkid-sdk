@@ -113,26 +113,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "console_error_panic_hook"
-version = "0.1.7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a06aeb73f470f66dcdbf7223caeebb85984942f22f1adb2a088cf9668146bbbc"
-dependencies = [
- "cfg-if 1.0.0",
- "wasm-bindgen",
-]
-
-[[package]]
-name = "console_log"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "501a375961cef1a0d44767200e66e4a559283097e91d0730b1d75dfb2f8a1494"
-dependencies = [
- "log",
- "web-sys",
-]
-
-[[package]]
 name = "constant_time_eq"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -276,19 +256,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "getrandom"
-version = "0.2.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c05aeb6a22b8f62540c194aac980f2115af067bfe15a0734d7277a768d396b31"
-dependencies = [
- "cfg-if 1.0.0",
- "js-sys",
- "libc",
- "wasi",
- "wasm-bindgen",
-]
-
-[[package]]
 name = "half"
 version = "1.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -302,12 +269,6 @@ checksum = "62b467343b94ba476dcb2500d242dadbb39557df889310ac77c5d99100aaac33"
 dependencies = [
  "libc",
 ]
-
-[[package]]
-name = "hex"
-version = "0.4.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "itertools"
@@ -533,16 +494,10 @@ checksum = "456c603be3e8d448b072f410900c09faf164fbce2d480456f50eea6e25f9c848"
 [[package]]
 name = "rescue"
 version = "0.1.0"
-source = "git+https://github.com/zCloak-Network/rescue-hash?branch=dev#022cabbb07b7e8d07fcfb8c8e275399c6635353a"
+source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#d424ceb506bf8f6ccfa85de6f1f631051205736e"
 dependencies = [
- "console_error_panic_hook",
- "console_log",
- "getrandom",
- "hex",
- "serde_json",
  "sp-std",
  "wasm-bindgen",
- "wasm-bindgen-test",
  "winter-crypto",
  "winter-math",
  "winter-utils",
@@ -562,12 +517,6 @@ checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
 dependencies = [
  "winapi-util",
 ]
-
-[[package]]
-name = "scoped-tls"
-version = "1.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e1cf6437eb19a8f4a6cc0f7dca544973b0b78843adbfeb3683d1a94a0024a294"
 
 [[package]]
 name = "scopeguard"
@@ -697,12 +646,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "wasi"
-version = "0.11.0+wasi-snapshot-preview1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9c8d87e72b64a3b4db28d11ce29237c246188f4f51057d65a7eab63b7987e423"
-
-[[package]]
 name = "wasm"
 version = "0.0.0"
 dependencies = [
@@ -739,18 +682,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "wasm-bindgen-futures"
-version = "0.4.29"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2eb6ec270a31b1d3c7e266b999739109abce8b6c87e4b31fcfcd788b65267395"
-dependencies = [
- "cfg-if 1.0.0",
- "js-sys",
- "wasm-bindgen",
- "web-sys",
-]
-
-[[package]]
 name = "wasm-bindgen-macro"
 version = "0.2.83"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -778,30 +709,6 @@ name = "wasm-bindgen-shared"
 version = "0.2.83"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1c38c045535d93ec4f0b4defec448e4291638ee608530863b1e2ba115d4fff7f"
-
-[[package]]
-name = "wasm-bindgen-test"
-version = "0.3.29"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45c8d417d87eefa0087e62e3c75ad086be39433449e2961add9a5d9ce5acc2f1"
-dependencies = [
- "console_error_panic_hook",
- "js-sys",
- "scoped-tls",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "wasm-bindgen-test-macro",
-]
-
-[[package]]
-name = "wasm-bindgen-test-macro"
-version = "0.3.29"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d0e560d44db5e73b69a9757a15512fe7e1ef93ed2061c928871a4025798293dd"
-dependencies = [
- "proc-macro2",
- "quote",
-]
 
 [[package]]
 name = "web-sys"
@@ -859,7 +766,7 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 [[package]]
 name = "winter-crypto"
 version = "0.4.0"
-source = "git+https://github.com/zCloak-Network/rescue-hash?branch=dev#022cabbb07b7e8d07fcfb8c8e275399c6635353a"
+source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#d424ceb506bf8f6ccfa85de6f1f631051205736e"
 dependencies = [
  "blake3",
  "serde",
@@ -871,7 +778,7 @@ dependencies = [
 [[package]]
 name = "winter-math"
 version = "0.4.0"
-source = "git+https://github.com/zCloak-Network/rescue-hash?branch=dev#022cabbb07b7e8d07fcfb8c8e275399c6635353a"
+source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#d424ceb506bf8f6ccfa85de6f1f631051205736e"
 dependencies = [
  "serde",
  "serde_json",
@@ -881,4 +788,4 @@ dependencies = [
 [[package]]
 name = "winter-utils"
 version = "0.4.0"
-source = "git+https://github.com/zCloak-Network/rescue-hash?branch=dev#022cabbb07b7e8d07fcfb8c8e275399c6635353a"
+source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#d424ceb506bf8f6ccfa85de6f1f631051205736e"

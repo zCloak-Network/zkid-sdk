@@ -20,11 +20,13 @@
     "packages/*"
   ],
   "bin": {
-    "build:wasm": "scripts/build-wasm.js"
+    "build-wasm": "scripts/build-wasm.js",
+    "install-build-deps": "scripts/install-build-deps.js"
   },
   "scripts": {
     "build": "zcloak-dev-build-ts",
     "build:release": "zcloak-ci-ghact-build",
+    "build:wasm": "install-build-deps && build-wasm",
     "clean": "zcloak-dev-clean-build",
     "lint": "zcloak-dev-run-lint && zcloak-dev-lint-dependencies",
     "postinstall": "zcloak-dev-yarn-only",
@@ -34,7 +36,8 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@zcloak/dev": "^0.6.5"
+    "@zcloak/dev": "^0.6.5",
+    "fs-extra": "^10.1.0"
   },
   "resolutions": {
     "typescript": "^4.8.4"

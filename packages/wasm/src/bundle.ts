@@ -1,10 +1,12 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-/* eslint-disable camelcase */
-
-import { rescue_hash } from './wasm';
+import { allocU64a, resultU64a, wasm } from './helper';
 
 export function rescueHash(values: BigUint64Array): BigUint64Array {
-  return rescue_hash(values);
+  const args = allocU64a(values);
+
+  wasm.rescue_hash(...args);
+
+  return resultU64a(args[0]);
 }

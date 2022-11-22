@@ -3,7 +3,7 @@
 
 import { u8aToHex } from '@polkadot/util';
 import { execSync } from 'child_process';
-import fs from 'fs';
+import fs from 'fs-extra';
 
 const COPYRIGHT = `// Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
@@ -11,9 +11,29 @@ const COPYRIGHT = `// Copyright 2021-2022 zcloak authors & contributors
 
 process.chdir('packages/wasm');
 
-execSync('wasm-pack build --target web', { stdio: 'inherit' });
+console.log('$ Build Rust sources');
+execSync('cargo build --target wasm32-unknown-unknown --release', { stdio: 'inherit' });
 
-const wasm = fs.readFileSync('pkg/wasm_bg.wasm');
+console.log('$ Converting to WASM');
+execSync(
+  '../../bindgen/wasm-bindgen target/wasm32-unknown-unknown/release/wasm.wasm --out-dir build-wasm --target web',
+  { stdio: 'inherit' }
+);
+
+// optimise
+console.log('Optimising WASM output');
+execSync('../../binaryen/bin/wasm-opt build-wasm/wasm_bg.wasm -Oz -o build-wasm/wasm_opt.wasm', {
+  stdio: 'inherit'
+});
+
+// build asmjs version from the input (optimised) WASM
+console.log('$ Building asm.js version');
+fs.createFileSync('build-asm/asm.js');
+execSync('../../binaryen/bin/wasm2js -Oz --output build-asm/asm.js build-wasm/wasm_opt.wasm', {
+  stdio: 'inherit'
+});
+
+const wasm = fs.readFileSync('build-wasm/wasm_opt.wasm');
 
 const bytes = Uint8Array.from(wasm);
 
@@ -30,25 +50,17 @@ export const bytes =
 `
 );
 
-const wasmTs = fs.readFileSync('pkg/wasm.d.ts', { encoding: 'utf-8' }).toString();
-const wasmJs = fs.readFileSync('pkg/wasm.js', { encoding: 'utf-8' }).toString();
-
+console.log('Write asm file');
 fs.writeFileSync(
-  'src/wasm.d.ts',
-  `${COPYRIGHT}
-${wasmTs}
-`
-);
-fs.writeFileSync(
-  'src/wasm.js',
-  `${COPYRIGHT}
+  'src/asm.js',
+  `// Copyright 2021-2022 zcloak authors & contributors
+// SPDX-License-Identifier: Apache-2.0
 /* tslint:disable */
 /* eslint-disable */
-${wasmJs}
+
+${fs.readFileSync('build-asm/asm.js', 'utf-8').toString()}
 `
 );
-
-fs.rmdirSync('pkg', { recursive: true });
 
 process.chdir('../..');
 

@@ -66,6 +66,9 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
     this.service = service;
   }
 
+  /**
+   * Get the first key by `key`
+   */
   public getKeyUrl(key: DidKeys): DidUrl {
     const didUrl = Array.from(this[key] ?? [])[0];
 
@@ -74,6 +77,9 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
     return didUrl;
   }
 
+  /**
+   * Get [[KeyRelationship]] by `id`
+   */
   public get(id: DidUrl): KeyRelationship {
     const method = this.keyRelationship.get(id);
 

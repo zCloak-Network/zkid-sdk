@@ -12,13 +12,19 @@ export let wasm: WasmInstance;
 let cachedBigUint64 = new BigUint64Array();
 let cachedInt32 = new Int32Array();
 
-export async function initWasm() {
-  try {
-    const source = await WebAssembly.instantiate(hexToU8a(bytes));
+export async function initWasm(onlyAsm = false) {
+  if (wasm) return;
 
-    wasm = source.instance.exports as unknown as WasmInstance;
-  } catch {
+  if (onlyAsm) {
     wasm = asm as unknown as WasmInstance;
+  } else {
+    try {
+      const source = await WebAssembly.instantiate(hexToU8a(bytes));
+
+      wasm = source.instance.exports as unknown as WasmInstance;
+    } catch {
+      wasm = asm as unknown as WasmInstance;
+    }
   }
 }
 

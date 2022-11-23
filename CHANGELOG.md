@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.1.0 Nov 23, 2022
+
+Changes:
+
+- message version upgrade to v2, add signature and signer field.
+- import cross-fetch on ArweaveDidResolver.
+- Import asm.js for some device don't support wasm, such as service worder on extension.
+- Install build-wasm dependencies, [bindgen](https://github.com/rustwasm/wasm-bindgen), [binaryen](https://github.com/WebAssembly/binaryen).
+
+
 ## 0.0.3 Nov 18, 2022
 
 Changes:

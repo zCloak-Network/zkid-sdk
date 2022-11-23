@@ -14,17 +14,17 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.0.4-1",
+  "version": "0.1.0",
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^10.1.12",
-    "@zcloak/crypto": "0.0.4-1",
-    "@zcloak/did": "0.0.4-1",
-    "@zcloak/did-resolver": "0.0.4-1",
-    "@zcloak/vc": "0.0.4-1",
-    "@zcloak/verify": "0.0.4-1"
+    "@zcloak/crypto": "0.1.0",
+    "@zcloak/did": "0.1.0",
+    "@zcloak/did-resolver": "0.1.0",
+    "@zcloak/vc": "0.1.0",
+    "@zcloak/verify": "0.1.0"
   },
   "devDependencies": {
-    "@zcloak/ctype": "0.0.4-1"
+    "@zcloak/ctype": "0.1.0"
   }
 }

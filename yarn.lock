@@ -11225,8 +11225,10 @@ __metadata:
   dependencies:
     "@types/jest": ^27.4.0
     "@zcloak/dev": ^0.6.5
+    fs-extra: ^10.1.0
   bin:
-    "build:wasm": scripts/build-wasm.js
+    build-wasm: scripts/build-wasm.js
+    install-build-deps: scripts/install-build-deps.js
   languageName: unknown
   linkType: soft
 

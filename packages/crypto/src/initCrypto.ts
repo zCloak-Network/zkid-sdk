@@ -6,5 +6,5 @@ import { initWasm as initPolkadotWasm } from '@polkadot/wasm-crypto/initWasmAsm'
 import { initWasm } from '@zcloak/wasm';
 
 export function initCrypto() {
-  return Promise.all([initWasm(), initPolkadotWasm()]);
+  return Promise.all([initWasm(false), initPolkadotWasm()]);
 }

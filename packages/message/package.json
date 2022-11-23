@@ -21,7 +21,8 @@
     "@zcloak/crypto": "0.0.4-1",
     "@zcloak/did": "0.0.4-1",
     "@zcloak/did-resolver": "0.0.4-1",
-    "@zcloak/vc": "0.0.4-1"
+    "@zcloak/vc": "0.0.4-1",
+    "@zcloak/verify": "0.0.4-1"
   },
   "devDependencies": {
     "@zcloak/ctype": "0.0.4-1"

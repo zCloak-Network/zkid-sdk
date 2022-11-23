@@ -11,10 +11,10 @@ const COPYRIGHT = `// Copyright 2021-2022 zcloak authors & contributors
 
 process.chdir('packages/wasm');
 
-console.log('$ Build Rust sources');
+console.log('### Build Rust sources');
 execSync('cargo build --target wasm32-unknown-unknown --release', { stdio: 'inherit' });
 
-console.log('$ Converting to WASM');
+console.log('### Converting to WASM');
 execSync(
   '../../bindgen/wasm-bindgen target/wasm32-unknown-unknown/release/wasm.wasm --out-dir build-wasm --target web',
   { stdio: 'inherit' }
@@ -27,7 +27,7 @@ execSync('../../binaryen/bin/wasm-opt build-wasm/wasm_bg.wasm -Oz -o build-wasm/
 });
 
 // build asmjs version from the input (optimised) WASM
-console.log('$ Building asm.js version');
+console.log('### Building asm.js version');
 fs.createFileSync('build-asm/asm.js');
 execSync('../../binaryen/bin/wasm2js -Oz --output build-asm/asm.js build-wasm/wasm_opt.wasm', {
   stdio: 'inherit'
@@ -42,9 +42,7 @@ const hex = u8aToHex(bytes);
 console.log('Write wasm bytes');
 fs.writeFileSync(
   'src/bytes.js',
-  `// Copyright 2021-2022 zcloak authors & contributors
-// SPDX-License-Identifier: Apache-2.0
-
+  `${COPYRIGHT}
 export const bytes =
   '${hex}';
 `
@@ -53,8 +51,7 @@ export const bytes =
 console.log('Write asm file');
 fs.writeFileSync(
   'src/asm.js',
-  `// Copyright 2021-2022 zcloak authors & contributors
-// SPDX-License-Identifier: Apache-2.0
+  `${COPYRIGHT}
 /* tslint:disable */
 /* eslint-disable */
 

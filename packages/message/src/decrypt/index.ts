@@ -11,6 +11,7 @@ import { decodeMultibase } from '@zcloak/crypto';
 import { isDidUrl, isSameUri } from '@zcloak/did/utils';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
 import { isRawCredential, isVC, isVP } from '@zcloak/vc/utils';
+import { didVerify } from '@zcloak/verify';
 
 import { SUPPORT_MESSAGE_TYPES } from '../defaults';
 
@@ -131,6 +132,22 @@ export function verifyMessageEnvelope<T extends MessageType>(message: BaseMessag
   }
 }
 
+export async function verifyMessageSignature<T extends MessageType>(
+  message: BaseMessage<T>,
+  resolver: DidResolver
+): Promise<void> {
+  if (message.version !== '1') {
+    assert(message.signer, 'No signer find');
+    assert(message.signature, 'No signature find');
+    assert(isSameUri(message.sender, message.signer), 'Expect signer is the sender');
+
+    assert(
+      await didVerify(message.id, decodeMultibase(message.signature), message.signer, resolver),
+      'Signature verify failed'
+    );
+  }
+}
+
 /**
  * @name decryptMessage
  * @summary Decrypted the data to Message
@@ -143,6 +160,7 @@ export async function decryptMessage<T extends MessageType>(
   resolver: DidResolver = defaultResolver
 ): Promise<DecryptedMessage<T>> {
   verifyMessageEnvelope(message);
+  await verifyMessageSignature(message, resolver);
 
   const decrypted = await did.decrypt(
     decodeMultibase(message.encryptedMsg),

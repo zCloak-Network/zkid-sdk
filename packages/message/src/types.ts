@@ -6,7 +6,7 @@ import type { DidUrl } from '@zcloak/did-resolver/types';
 
 import { RawCredential, VerifiableCredential, VerifiablePresentation } from '@zcloak/vc/types';
 
-export type MessageVersion = '1';
+export type MessageVersion = '1' | '2';
 
 export type Reject<T extends object> = {
   reason: string;
@@ -49,6 +49,9 @@ export interface BaseMessage<T extends MessageType> {
   sender: DidUrl;
   receiver: DidUrl;
   ctype?: HexString;
+  // since version 2
+  signer?: DidUrl;
+  signature?: string;
 }
 
 export interface Message<T extends MessageType> extends BaseMessage<T> {

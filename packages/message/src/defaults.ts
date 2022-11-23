@@ -3,7 +3,7 @@
 
 import type { MessageType, MessageVersion } from './types';
 
-export const DEFAULT_MESSAGE_VERSION: MessageVersion = '1';
+export const DEFAULT_MESSAGE_VERSION: MessageVersion = '2';
 
 export const SUPPORT_MESSAGE_TYPES: MessageType[] = [
   'Request_Attestation',

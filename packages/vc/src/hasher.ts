@@ -8,14 +8,15 @@ import {
   blake3AsU8a,
   keccak256AsU8a,
   keccak512AsU8a,
-  rescueAsU8a,
+  rescuePrimeAsU8a,
   sha256AsU8a,
   sha512AsU8a
 } from '@zcloak/crypto';
 
 // hashes function map
 export const HASHER = {
-  Rescue: (data: Uint8Array | HexString | string, asU64a = false) => rescueAsU8a(data, asU64a),
+  RescuePrime: (data: Uint8Array | HexString | string, asU64a = false) =>
+    rescuePrimeAsU8a(data, asU64a),
   Blake2: (
     data: Uint8Array | HexString | string,
     bitLength?: 64 | 128 | 256 | 384 | 512,

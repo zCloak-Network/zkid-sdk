@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { initCrypto } from '../initCrypto';
-import { rescueAsU8a } from '.';
+import { rescuePrimeAsU8a } from '.';
 
-describe('rescueAsU8a', (): void => {
+describe('rescuePrimeAsU8a', (): void => {
   beforeEach(async (): Promise<void> => {
     await initCrypto();
   });
@@ -13,7 +13,7 @@ describe('rescueAsU8a', (): void => {
     it('input 8 bytes length', (): void => {
       const bytes = new Uint8Array([221, 232, 185, 77, 2, 251, 43, 55]);
 
-      const hash = rescueAsU8a(bytes);
+      const hash = rescuePrimeAsU8a(bytes);
 
       expect(hash).toHaveLength(32);
       expect(hash).toEqual(
@@ -25,7 +25,7 @@ describe('rescueAsU8a', (): void => {
     });
 
     it('input string', (): void => {
-      const hash = rescueAsU8a('abcd1234');
+      const hash = rescuePrimeAsU8a('abcd1234');
 
       expect(hash).toHaveLength(32);
       expect(hash).toEqual(
@@ -39,7 +39,7 @@ describe('rescueAsU8a', (): void => {
     it('input no multiple of 8', (): void => {
       const bytes = new Uint8Array([221, 232, 73, 111, 67, 21, 2]);
 
-      expect(() => rescueAsU8a(bytes)).toThrow(
+      expect(() => rescuePrimeAsU8a(bytes)).toThrow(
         'byte length of BigUint64Array should be a multiple of 8'
       );
     });
@@ -49,7 +49,7 @@ describe('rescueAsU8a', (): void => {
     it('input 8 bytes length', (): void => {
       const bytes = new Uint8Array([221, 232, 185, 77, 2, 251, 43, 55]);
 
-      const hash = rescueAsU8a(bytes, true);
+      const hash = rescuePrimeAsU8a(bytes, true);
 
       expect(hash).toHaveLength(32);
       expect(hash).toEqual(
@@ -61,7 +61,7 @@ describe('rescueAsU8a', (): void => {
     });
 
     it('input string', (): void => {
-      const hash = rescueAsU8a('abcd1234', true);
+      const hash = rescuePrimeAsU8a('abcd1234', true);
 
       expect(hash).toHaveLength(32);
       expect(hash).toEqual(
@@ -74,7 +74,7 @@ describe('rescueAsU8a', (): void => {
 
     it('input no multiple of 8', (): void => {
       const bytes = new Uint8Array([221, 232, 73, 111, 67, 21, 2]);
-      const hash = rescueAsU8a(bytes, true);
+      const hash = rescuePrimeAsU8a(bytes, true);
 
       expect(hash).toEqual(
         new Uint8Array([

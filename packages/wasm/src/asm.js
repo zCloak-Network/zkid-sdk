@@ -3371,7 +3371,7 @@ function asmFunc(env) {
     
    }
   }), 
-  "rescue_hash": $2, 
+  "rescue_prime_hash": $2, 
   "__wbindgen_add_to_stack_pointer": $34, 
   "__wbindgen_malloc": $27, 
   "__wbindgen_free": $32
@@ -3381,7 +3381,7 @@ function asmFunc(env) {
 var retasmFunc = asmFunc(  { abort: function() { throw new Error('abort'); }
   });
 export var memory = retasmFunc.memory;
-export var rescue_hash = retasmFunc.rescue_hash;
+export var rescue_prime_hash = retasmFunc.rescue_prime_hash;
 export var __wbindgen_add_to_stack_pointer = retasmFunc.__wbindgen_add_to_stack_pointer;
 export var __wbindgen_malloc = retasmFunc.__wbindgen_malloc;
 export var __wbindgen_free = retasmFunc.__wbindgen_free;

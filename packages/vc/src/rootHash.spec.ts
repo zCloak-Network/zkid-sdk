@@ -18,7 +18,7 @@ describe('calcRoothash', (): void => {
       isUser: true
     };
 
-    const { rootHash } = calcRoothash(input, 'Rescue', {
+    const { rootHash } = calcRoothash(input, 'RescuePrime', {
       '0x88af5a7ba28c1de54ebd589dea81d30caa3f467646f6d714c0d2604599d63e1e':
         '0x357d50aac640931f9976477de30b3b476be4a14ae367b045496670d7a23c457d',
       '0x9ad57aefa90d9473f855c14221f330fe959a554b3d86c9d701db11c7559ce107':
@@ -41,7 +41,7 @@ describe('calcRoothash', (): void => {
       types: ['1', '2', '5']
     };
 
-    const { rootHash } = calcRoothash(input, 'Rescue', {
+    const { rootHash } = calcRoothash(input, 'RescuePrime', {
       '0x88af5a7ba28c1de54ebd589dea81d30caa3f467646f6d714c0d2604599d63e1e':
         '0x42ecebd0acae94843f906a9fe69e5c672c60d8d688b71aa85948d8e60becf082',
       '0x9ad57aefa90d9473f855c14221f330fe959a554b3d86c9d701db11c7559ce107':

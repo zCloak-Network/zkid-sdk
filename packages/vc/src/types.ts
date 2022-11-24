@@ -16,7 +16,7 @@ export type AnyJson = Record<string, NativeType | NativeTypeWithOutNull[]>;
 export type CredentialSubject = AnyJson | HexString;
 
 export type HashType =
-  | 'Rescue'
+  | 'RescuePrime'
   | 'Blake3'
   | 'Blake2'
   | 'Keccak256'

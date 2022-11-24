@@ -5,23 +5,26 @@ import type { HexString } from '../types';
 
 import { assert, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { rescueHash } from '@zcloak/wasm';
+import { rescuePrimeHash } from '@zcloak/wasm';
 
 /**
- * @name rescueAsU8a
- * @summary Creates a rescue u8a from the input.
+ * @name rescuePrimeAsU8a
+ * @summary Creates a rescue prime u8a from the input.
  * @description
- * From a `Uint8Array` input, create the rescue and return the result as a u8a.
+ * From a `Uint8Array` input, create the rescue prime and return the result as a u8a.
  * @example
  * <BR>
  *
  * ```javascript
- * import { rescueAsU8a } from '@zcloak/crypto';
+ * import { rescuePrimeAsU8a } from '@zcloak/crypto';
  *
- * rescueAsU8a('abcd1234'); // => [212, 187, 16, 176, 223, 111, 125, 152, 232, 223, 53, 52, 239, 99, 173, 71, 181, 59, 174, 51, 80, 175, 78, 174, 66, 122, 204, 8, 39, 100, 158, 253]
+ * rescuePrimeAsU8a('abcd1234'); // => [212, 187, 16, 176, 223, 111, 125, 152, 232, 223, 53, 52, 239, 99, 173, 71, 181, 59, 174, 51, 80, 175, 78, 174, 66, 122, 204, 8, 39, 100, 158, 253]
  * ```
  */
-export function rescueAsU8a(data: HexString | Uint8Array | string, asU64a = false): Uint8Array {
+export function rescuePrimeAsU8a(
+  data: HexString | Uint8Array | string,
+  asU64a = false
+): Uint8Array {
   const u8a = u8aToU8a(data);
 
   let u64a: BigUint64Array;
@@ -36,7 +39,7 @@ export function rescueAsU8a(data: HexString | Uint8Array | string, asU64a = fals
     u64a = new BigUint64Array(u8a.buffer);
   }
 
-  const result = rescueHash(u64a);
+  const result = rescuePrimeHash(u64a);
 
   const resultU8a = new Uint8Array(result.buffer);
 
@@ -44,8 +47,8 @@ export function rescueAsU8a(data: HexString | Uint8Array | string, asU64a = fals
 }
 
 /**
- * @description Creates a rescue hex from the input.
+ * @description Creates a rescue prime hex from the input.
  */
-export function rescueAsHex(data: HexString | Uint8Array | string): HexString {
-  return u8aToHex(rescueAsU8a(data));
+export function rescuePrimeAsHex(data: HexString | Uint8Array | string): HexString {
+  return u8aToHex(rescuePrimeAsU8a(data));
 }

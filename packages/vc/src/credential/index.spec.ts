@@ -56,7 +56,7 @@ describe('VerifiableCredential', (): void => {
       contents: CONTENTS,
       owner: holder.id,
       ctype,
-      hashType: 'Rescue'
+      hashType: 'RescuePrime'
     });
 
     raw.calcRootHash();
@@ -68,7 +68,7 @@ describe('VerifiableCredential', (): void => {
       contents: CONTENTS,
       owner: holder.id,
       ctype,
-      hashType: 'Rescue'
+      hashType: 'RescuePrime'
     });
 
     raw.calcRootHash();
@@ -77,7 +77,7 @@ describe('VerifiableCredential', (): void => {
       ctype: ctype.$id,
       credentialSubject: CONTENTS,
       holder: holder.id,
-      hasher: ['Rescue', 'Keccak256']
+      hasher: ['RescuePrime', 'Keccak256']
     });
   });
 
@@ -86,7 +86,7 @@ describe('VerifiableCredential', (): void => {
       contents: CONTENTS,
       owner: holder.id,
       ctype,
-      hashType: 'Rescue'
+      hashType: 'RescuePrime'
     });
 
     const vcBuilder = new VerifiableCredentialBuilder(raw);
@@ -117,7 +117,7 @@ describe('VerifiableCredential', (): void => {
       credentialSubject: CONTENTS,
       issuer: issuer.id,
       holder: holder.id,
-      hasher: ['Rescue', 'Keccak256'],
+      hasher: ['RescuePrime', 'Keccak256'],
       proof: [
         {
           type: 'EcdsaSecp256k1Signature2019',
@@ -132,7 +132,7 @@ describe('VerifiableCredential', (): void => {
       contents: CONTENTS,
       owner: holder.id,
       ctype,
-      hashType: 'Rescue'
+      hashType: 'RescuePrime'
     });
 
     raw.calcRootHash();
@@ -162,7 +162,7 @@ describe('VerifiableCredential', (): void => {
       credentialSubject: CONTENTS,
       issuer: issuer.id,
       holder: holder.id,
-      hasher: ['Rescue', 'Keccak256'],
+      hasher: ['RescuePrime', 'Keccak256'],
       proof: [
         {
           type: 'EcdsaSecp256k1Signature2019',

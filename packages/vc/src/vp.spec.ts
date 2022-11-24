@@ -99,19 +99,19 @@ describe('VerifiablePresentation', (): void => {
       contents: CONTENTS1,
       owner: holder.id,
       ctype: ctype1,
-      hashType: 'Rescue'
+      hashType: 'RescuePrime'
     });
     rawCtype2 = new Raw({
       contents: CONTENTS2,
       owner: holder.id,
       ctype: ctype2,
-      hashType: 'Rescue'
+      hashType: 'RescuePrime'
     });
     rawCtype3 = new Raw({
       contents: CONTENTS3,
       owner: holder.id,
       ctype: ctype3,
-      hashType: 'Rescue'
+      hashType: 'RescuePrime'
     });
 
     rawCtype1.calcRootHash();

@@ -55,7 +55,7 @@ describe('message encrypt and decrypt', (): void => {
       },
       owner: holder.id,
       ctype,
-      hashType: 'Rescue'
+      hashType: 'RescuePrime'
     });
 
     raw.calcRootHash();

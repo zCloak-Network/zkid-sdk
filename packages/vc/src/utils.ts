@@ -56,8 +56,8 @@ export function rlpEncode(
 
   const result = encode(param);
 
-  if (hashType === 'Rescue') {
-    return HASHER.Rescue(result, true);
+  if (hashType === 'RescuePrime') {
+    return HASHER.RescuePrime(result, true);
   } else {
     return HASHER[hashType](result);
   }

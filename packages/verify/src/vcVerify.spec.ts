@@ -90,7 +90,7 @@ const fullVC: VerifiableCredential = {
   ],
   issuer: 'did:zk:0xf02AC70b695b3211813a207d937719D22BeC04a7',
   holder: 'did:zk:0xC68B9B2250Cbb10e08CABCaDEF2383e76b4e4b59',
-  hasher: ['Rescue', 'Keccak256'],
+  hasher: ['RescuePrime', 'Keccak256'],
   digest: '0x01f28d1bc9860880ab068bf10d2fb389f2080b6ba9a37bea693051027ef9525f',
   proof: [
     {
@@ -133,7 +133,7 @@ const vcWithExpiration: VerifiableCredential = {
   ],
   issuer: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb',
   holder: 'did:zk:0xbBf6b56C5606Ce2D24dec5BbbD11442c6E03ca3F',
-  hasher: ['Rescue', 'Keccak256'],
+  hasher: ['RescuePrime', 'Keccak256'],
   digest: '0x523fa24c9e82018b19ae004ebb5b07a66b762bf05ddc4a35177f56635d35eb44',
   proof: [
     {

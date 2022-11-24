@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.2.0 Nov 24, 2022
+
+❗️❗️❗️ The `hashType` using `Rescue` in previous versions of vp and vc needs to be updated to `RescuePrime` ❗️❗️❗️
+
+Changes:
+
+- Rename `Rescue` in `HashType` to `RescuePrime`
+
 ## 0.1.0 Nov 23, 2022
 
 Changes:

@@ -6,7 +6,14 @@ import type { DidUrl } from '@zcloak/did-resolver/types';
 
 export type CTypeVersion = '1';
 
-export type InstanceType = 'array' | 'boolean' | 'integer' | 'null' | 'number' | 'string';
+export type InstanceType =
+  | 'object'
+  | 'array'
+  | 'boolean'
+  | 'integer'
+  | 'null'
+  | 'number'
+  | 'string';
 
 export type InstanceFormat =
   | 'date'
@@ -28,22 +35,34 @@ export type InstanceFormat =
   | 'did';
 
 export type CTypeSchema = {
-  type: InstanceType;
+  type?: InstanceType;
   format?: InstanceFormat;
+  formatMaximum?: string;
+  formatMinimum?: string;
+  formatExclusiveMaximum?: string;
+  formatExclusiveMinimum?: string;
+  enum?: (string | number)[];
+  // for number
   minimum?: number;
   maximum?: number;
   exclusiveMinimum?: number;
   exclusiveMaximum?: number;
   multipleOf?: number;
+  // for string
   minLength?: number;
   maxLength?: number;
-  formatMaximum?: string;
-  formatMinimum?: string;
-  formatExclusiveMaximum?: string;
-  formatExclusiveMinimum?: string;
+  pattern?: string;
+  // for array
+  items?: CTypeSchema | CTypeSchema[];
+  maxItems?: number;
+  minItems?: number;
+  uniqueItems?: boolean;
+  // for object
+  properties?: Record<string, CTypeSchema>;
+  required?: string[] | boolean;
 };
 
-export interface BaseCType {
+export interface BaseCType extends CTypeSchema {
   title: string;
   description: string;
   type: 'object';

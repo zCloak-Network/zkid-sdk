@@ -190,4 +190,41 @@ describe('validate', (): void => {
       ).toBe(true);
     });
   });
+
+  describe('validate subject with array', (): void => {
+    it('validate subject enum with array', (): void => {
+      const ctype: BaseCType = {
+        title: 'Test',
+        description: 'Test',
+        type: 'object',
+        properties: {
+          type: {
+            type: 'array',
+            maxItems: 3,
+            items: {
+              type: 'string',
+              enum: ['1', '2', '4', '3']
+            }
+          }
+        },
+        required: ['type']
+      };
+
+      expect(
+        validateSubject(ctype, {
+          type: ['1', '2', '4']
+        }).valid
+      ).toBe(true);
+      expect(
+        validateSubject(ctype, {
+          type: ['1', '2', '4', '3']
+        }).valid
+      ).toBe(false);
+      expect(
+        validateSubject(ctype, {
+          type: ['1', '2', '5']
+        }).valid
+      ).toBe(false);
+    });
+  });
 });

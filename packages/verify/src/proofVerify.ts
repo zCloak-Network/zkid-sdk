@@ -23,19 +23,6 @@ import { didVerify } from './didVerify';
 export async function proofVerify(
   message: HexString | Uint8Array,
   proof: Proof,
-  resolverOrDidDocument: DidDocument | DidResolver
-): Promise<boolean>;
-/**
- * @name proofVerify
- * @summary Verifies the proof on the message.
- * @description
- * Verifies the `proof.proofValue` on the `message` with the `proof.verificationMethod`. `true` on success, `false` otherwise.
- */
-export async function proofVerify(message: HexString | Uint8Array, proof: Proof): Promise<boolean>;
-
-export async function proofVerify(
-  message: HexString | Uint8Array,
-  proof: Proof,
   resolverOrDidDocument?: DidDocument | DidResolver
 ): Promise<boolean> {
   const { challenge, proofValue, verificationMethod } = proof;

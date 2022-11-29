@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
+import type { DidResolver } from '@zcloak/did-resolver';
+import type { DidDocument } from '@zcloak/did-resolver/types';
 import type {
   HashType,
   VerifiableCredential,
@@ -27,7 +29,7 @@ function idCheck(digests: HexString[], hashType: HashType, id: HexString): boole
 
 const VERIFIERS: Record<
   VerifiablePresentationType,
-  (vc: VerifiableCredential) => Promise<boolean>
+  (vc: VerifiableCredential, resolverOrDidDocument?: DidDocument | DidResolver) => Promise<boolean>
 > = {
   VP: vcVerify,
   VP_Digest: vcVerifyDigest,
@@ -46,7 +48,10 @@ const VERIFIERS: Record<
  * 3. check the holder on `vp.verifiableCredential` is sameUri with `proof.verificationMethod`.
  * 4. call `vcVerify` used the `vp.verifiableCredential`, and check is `true` or `false`.
  */
-export async function vpVerify(vp: VerifiablePresentation): Promise<boolean> {
+export async function vpVerify(
+  vp: VerifiablePresentation,
+  resolverOrDidDocument?: DidDocument | DidResolver
+): Promise<boolean> {
   assert(isVP(vp), 'input `vp` is not VerifiablePresentation object');
 
   const { hasher, id, proof, type, verifiableCredential } = vp;
@@ -63,9 +68,11 @@ export async function vpVerify(vp: VerifiablePresentation): Promise<boolean> {
     }
   }
 
-  const proofValid = await proofVerify(id, proof);
+  const proofValid = await proofVerify(id, proof, resolverOrDidDocument);
 
-  const results = await Promise.all(type.map((t, i) => VERIFIERS[t](verifiableCredential[i])));
+  const results = await Promise.all(
+    type.map((t, i) => VERIFIERS[t](verifiableCredential[i]), resolverOrDidDocument)
+  );
 
   return idValid && proofValid && !results.includes(false);
 }

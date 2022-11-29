@@ -31,18 +31,8 @@ import { defaultResolver } from '@zcloak/did-resolver/defaults';
  *
  * didVerify([...], [...], 'did:zk:...', resolver); // true/false
  * ```
- */
-export function didVerify(
-  message: HexString | Uint8Array | string,
-  signature: HexString | Uint8Array,
-  didUrl: DidUrl,
-  resolverOrDidDocument: DidDocument | DidResolver
-): Promise<boolean>;
-/**
- * @name didVerify
- * @summary Verifies the signature on the supplied message.
- * @description
- * Verifies the `signature` on `message` with the supplied `didUrl`. Returns `true` on success, `false` otherwise.
+ *
+ * use without resolver
  * @example
  * ```typescript
  * import { didVerify } from '@zcloak/verify'
@@ -51,12 +41,6 @@ export function didVerify(
  * didVerify([...], [...], 'did:zk:...'); // true/false
  * ```
  */
-export function didVerify(
-  message: HexString | Uint8Array | string,
-  signature: HexString | Uint8Array,
-  didUrl: DidUrl
-): Promise<boolean>;
-
 export async function didVerify(
   message: HexString | Uint8Array | string,
   signature: HexString | Uint8Array,

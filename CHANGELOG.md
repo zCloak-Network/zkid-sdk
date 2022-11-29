@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.2.1 Nov 29, 2022
+
+- ctype improve
+  1. add object type for ctype schema (#23)
+  2. enum type
+- add `resolverOrDidDocument` arg on function `vpVerify`
+
 ## 0.2.0 Nov 24, 2022
 
 ❗️❗️❗️ The `hashType` using `Rescue` in previous versions of vp and vc needs to be updated to `RescuePrime` ❗️❗️❗️

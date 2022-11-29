@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.2.2 Nov 29, 2022
+
+### @zcloak/message
+
+support custom `msgType`, the custom msgType must start with `Extends_`, and it't data is `any` type.
+
 ## 0.2.1 Nov 29, 2022
 
 - ctype improve

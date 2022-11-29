@@ -100,7 +100,9 @@ export function verifyMessageData<T extends MessageType>(message: DecryptedMessa
       break;
 
     default:
-      throw new Error('Unsupport msgType $:msgType}');
+      if (!msgType.startsWith('Extends_')) {
+        throw new Error(`Unsupport msgType: ${msgType}`);
+      }
   }
 }
 
@@ -117,11 +119,12 @@ export function verifyMessageEnvelope<T extends MessageType>(message: BaseMessag
 
   assert(isNumber(createTime), 'Expected createTime is number');
 
-  assert(isHex(ctype), 'Expected ctype is hex string');
+  ctype && assert(isHex(ctype), 'Expected ctype is hex string');
 
-  assert(isHex(ctype), 'Expected ctype is hex string');
-
-  assert(SUPPORT_MESSAGE_TYPES.includes(msgType), `Unsupported msgType:${msgType}`);
+  assert(
+    SUPPORT_MESSAGE_TYPES.includes(msgType) || msgType.startsWith('Extends_'),
+    `Unsupported msgType:${msgType}`
+  );
 
   assert(isDidUrl(receiver), 'Expected receiver is DidUrl');
 

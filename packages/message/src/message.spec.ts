@@ -117,4 +117,54 @@ describe('message encrypt and decrypt', (): void => {
       expect(decrypted.data).toEqual(vc);
     });
   });
+
+  describe('Send Extends msgType', () => {
+    it('Send string data', async () => {
+      const message = await encryptMessage(
+        'Extends_send_string',
+        'send string data',
+        holder,
+        issuer.getKeyUrl('keyAgreement'),
+        undefined,
+        resolver
+      );
+      const decrypted = await decryptMessage(message, issuer, resolver);
+
+      expect(decrypted.data).toEqual('send string data');
+    });
+
+    it('Send object data', async () => {
+      const message = await encryptMessage(
+        'Extends_send_object',
+        {
+          key1: 'key1',
+          key2: 'key2'
+        },
+        holder,
+        issuer.getKeyUrl('keyAgreement'),
+        undefined,
+        resolver
+      );
+      const decrypted = await decryptMessage(message, issuer, resolver);
+
+      expect(decrypted.data).toEqual({
+        key1: 'key1',
+        key2: 'key2'
+      });
+    });
+
+    it('Send boolean data', async () => {
+      const message = await encryptMessage(
+        'Extends_send_boolean',
+        true,
+        holder,
+        issuer.getKeyUrl('keyAgreement'),
+        undefined,
+        resolver
+      );
+      const decrypted = await decryptMessage(message, issuer, resolver);
+
+      expect(decrypted.data).toEqual(true);
+    });
+  });
 });

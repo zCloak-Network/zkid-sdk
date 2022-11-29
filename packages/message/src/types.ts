@@ -27,6 +27,8 @@ export type RejectVP = Reject<{
   ctypes?: HexString[];
 }>;
 
+export type ExtendsMessageType = `Extends_${string}`;
+
 export type MessageData = {
   Request_Attestation: RawCredential;
   Response_Approve_Attestation: VerifiableCredential;
@@ -36,6 +38,7 @@ export type MessageData = {
   Response_Reject_VP: RejectVP;
   Send_VP: VerifiablePresentation;
   Send_issuedVC: VerifiableCredential;
+  [key: ExtendsMessageType]: any;
 };
 
 export type MessageType = keyof MessageData;

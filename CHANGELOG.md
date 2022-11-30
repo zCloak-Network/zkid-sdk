@@ -1,10 +1,9 @@
 # CHANGELOG
 
-## 0.2.2 Nov 29, 2022
+## 0.3.0 Nov 30, 2022
 
-### @zcloak/message
+The @ethereum/rlp is incorrect for handling hex strings, we fix it and support `rlpEncode` function in @zcloak/crypto
 
-support custom `msgType`, the custom msgType must start with `Extends_`, and it't data is `any` type.
 
 ## 0.2.1 Nov 29, 2022
 

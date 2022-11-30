@@ -22,6 +22,7 @@
       "@zcloak/wasm": ["wasm/src"],
       "@zcloak/wasm/*": ["wasm/src/*"],
     },
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   }
 }

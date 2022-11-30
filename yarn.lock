@@ -1485,15 +1485,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethereumjs/rlp@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@ethereumjs/rlp@npm:4.0.0"
-  bin:
-    rlp: bin/rlp
-  checksum: 407dfb8b1e09b4282e6be561e8d74f8939da78f460c08456c7ba2fb273fc42ee16027955a07085abfd7600ffb466c4c4add159885e67abb91bc85db9dd81ffb5
-  languageName: node
-  linkType: hard
-
 "@ethersproject/abi@npm:5.7.0, @ethersproject/abi@npm:^5.7.0":
   version: 5.7.0
   resolution: "@ethersproject/abi@npm:5.7.0"
@@ -3724,7 +3715,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/vc@workspace:packages/vc"
   dependencies:
-    "@ethereumjs/rlp": ^4.0.0
     "@polkadot/util": ^10.1.12
     "@zcloak/crypto": 0.2.2
     "@zcloak/ctype": 0.2.2

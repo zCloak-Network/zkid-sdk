@@ -14,7 +14,6 @@ import type {
   VerifiablePresentationType
 } from './types';
 
-import { encode, Input } from '@ethereumjs/rlp';
 import {
   isArray,
   isHex,
@@ -25,7 +24,7 @@ import {
   isUndefined
 } from '@polkadot/util';
 
-import { isBase32, isBase58, isBase64 } from '@zcloak/crypto';
+import { isBase32, isBase58, isBase64, rlpEncode as rlpEncodeFn } from '@zcloak/crypto';
 import { isDidUrl } from '@zcloak/did/utils';
 
 import { ALL_HASH_TYPES, ALL_SIG_TYPES, ALL_VP_TYPES } from './defaults';
@@ -47,14 +46,7 @@ export function rlpEncode(
   input: NativeType | NativeTypeWithOutNull[],
   hashType: HashType
 ): Uint8Array {
-  const param: Input =
-    typeof input === 'boolean'
-      ? Number(input)
-      : Array.isArray(input)
-      ? input.map((inp) => (typeof inp === 'boolean' ? Number(inp) : inp))
-      : input;
-
-  const result = encode(param);
+  const result = rlpEncodeFn(input);
 
   if (hashType === 'RescuePrime') {
     return HASHER.RescuePrime(result, true);

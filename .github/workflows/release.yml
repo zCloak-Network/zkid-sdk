@@ -6,7 +6,7 @@ on:
 
 jobs:
   release:
-    if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && startsWith(github.event.head_commit.message, 'chore(master): release')"
+    if: "! startsWith(github.event.head_commit.message, '[CI Skip]')"
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_SCRIPTS: false

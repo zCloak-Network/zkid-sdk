@@ -1,0 +1,32 @@
+name: Master
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release-pr:
+    if: "! startsWith(github.event.head_commit.message, '[CI Skip]') && !startsWith(github.event.head_commit.message, 'chore(master): release')"
+    runs-on: ubuntu-latest
+    env:
+      GH_PAT: ${{ secrets.GH_PAT }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Install deps
+        run: |
+          yarn install --immutable | grep -v 'YN0013'
+
+      - name: release-pr
+        run: |
+          yarn zcloak-ci-ghact-release-pr

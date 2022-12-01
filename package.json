@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
-    "@zcloak/dev": "^0.6.5",
+    "@zcloak/dev": "^0.7.6",
     "fs-extra": "^10.1.0"
   },
   "resolutions": {

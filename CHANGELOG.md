@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.4.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.3.0...v0.4.0) (2022-12-01)
+
+
+### Features
+
+* **release:** release-please ([42c3cfc](https://github.com/zCloak-Network/zkid-sdk/commit/42c3cfcd8065e3ed44106e2df5221d65d01ed967))
+
 ## 0.3.0 Nov 30, 2022
 
 The @ethereum/rlp is incorrect for handling hex strings, we fix it and support `rlpEncode` function in @zcloak/crypto

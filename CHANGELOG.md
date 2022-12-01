@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.4.1](https://github.com/zCloak-Network/zkid-sdk/compare/v0.4.0...v0.4.1) (2022-12-01)
+
+
+### Bug Fixes
+
+* release ci error ([084bd0b](https://github.com/zCloak-Network/zkid-sdk/commit/084bd0b335757b0b6421c5b6971891d8e12a2c4e))
+
+
 ## [0.4.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.3.0...v0.4.0) (2022-12-01)
 
 

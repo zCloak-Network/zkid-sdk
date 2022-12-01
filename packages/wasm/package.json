@@ -14,7 +14,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^10.1.12"

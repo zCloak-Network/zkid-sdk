@@ -15,6 +15,7 @@ import type { DidKeys, IDidDetails, KeyRelationship, SignedData } from '../types
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
+import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 import { DidKeyring } from './keyring';
 
@@ -34,6 +35,7 @@ export function typeTransform(type: KeypairType): VerificationMethodType {
 
 export abstract class DidDetails extends DidKeyring implements IDidDetails {
   public id: DidUrl;
+  public identifier: string;
   public controller: Set<DidUrl>;
   public keyRelationship: Map<DidUrl, KeyRelationship>;
   public authentication?: Set<DidUrl>;
@@ -56,6 +58,7 @@ export abstract class DidDetails extends DidKeyring implements IDidDetails {
   }: IDidDetails) {
     super();
     this.id = id;
+    this.identifier = parseDid(id).identifier;
     this.controller = controller;
     this.keyRelationship = keyRelationship;
     this.authentication = authentication;

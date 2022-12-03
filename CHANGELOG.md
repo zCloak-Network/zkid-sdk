@@ -1,5 +1,13 @@
 # CHANGELOG
 
+# [0.5.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.4.1...v0.5.0) (2022-12-03)
+
+
+### Features
+
+* **did:** parse identifier from document id. ([b1289b3](https://github.com/zCloak-Network/zkid-sdk/commit/b1289b394531f7fc85854ae7d96266c288e3117a))
+
+
 ## [0.4.1](https://github.com/zCloak-Network/zkid-sdk/compare/v0.4.0...v0.4.1) (2022-12-01)
 
 

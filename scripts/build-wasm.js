@@ -12,7 +12,7 @@ const COPYRIGHT = `// Copyright 2021-2022 zcloak authors & contributors
 process.chdir('packages/wasm');
 
 console.log('### Build Rust sources');
-execSync('cargo build --target wasm32-unknown-unknown --release', { stdio: 'inherit' });
+// execSync('cargo build --target wasm32-unknown-unknown --release', { stdio: 'inherit' });
 
 console.log('### Converting to WASM');
 execSync(

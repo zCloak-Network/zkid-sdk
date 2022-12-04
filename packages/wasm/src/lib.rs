@@ -1,9 +1,6 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-#[path = "rs/bip39.rs"]
-pub mod bip39;
-
 #[path = "rs/ed25519.rs"]
 pub mod ed25519;
 

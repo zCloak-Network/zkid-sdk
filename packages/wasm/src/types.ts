@@ -4,11 +4,6 @@
 export interface WasmInstance {
   memory: WebAssembly.Memory;
 
-  ext_bip39_generate(a: number, b: number): void;
-  ext_bip39_to_entropy(a: number, b: number, c: number): void;
-  ext_bip39_to_mini_secret(a: number, b: number, c: number, d: number, e: number): void;
-  ext_bip39_to_seed(a: number, b: number, c: number, d: number, e: number): void;
-  ext_bip39_validate(a: number, b: number): number;
   ext_ed_from_seed(a: number, b: number, c: number): void;
   ext_ed_sign(a: number, b: number, c: number, d: number, e: number, f: number, g: number): void;
   ext_ed_verify(a: number, b: number, c: number, d: number, e: number, f: number): number;
@@ -37,6 +32,10 @@ export interface WasmInstance {
   ext_secp_recover(a: number, b: number, c: number, d: number, e: number, f: number): void;
   ext_secp_sign(a: number, b: number, c: number, d: number, e: number): void;
 
+  rustsecp256k1_v0_4_1_context_create(a: number): number;
+  rustsecp256k1_v0_4_1_context_destroy(a: number): void;
+  rustsecp256k1_v0_4_1_default_illegal_callback_fn(a: number, b: number): void;
+  rustsecp256k1_v0_4_1_default_error_callback_fn(a: number, b: number): void;
   __wbindgen_add_to_stack_pointer(a: number): number;
   __wbindgen_malloc(a: number): number;
   __wbindgen_free(a: number, b: number): void;

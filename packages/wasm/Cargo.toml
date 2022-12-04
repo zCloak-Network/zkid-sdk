@@ -12,9 +12,17 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
+blake2-rfc = "0.2.18"
+ed25519-dalek = { version = "1.0.0-pre.4", features = [] }
+hmac = "0.7.0"
+secp256k1 = { version = "0.21.2", default-features = false, features = ["recovery", "global-context"] }
+pbkdf2 = { version = "0.3.0", default-features = false }
+scrypt = { version = "0.2", default-features = false }
+sha2 = "0.8.1"
+tiny-bip39 = { version = "0.7", default-features = false }
+tiny-keccak = { version = "2.0.1", features = ["keccak"] }
 rescue = {git = "https://github.com/zCloak-Network/rescue-hash", branch = "main", default-features = false}
 wasm-bindgen = "=0.2.83"
-wee_alloc = "0.4.3"
 
 [dev-dependencies]
 criterion = "0.3.3"

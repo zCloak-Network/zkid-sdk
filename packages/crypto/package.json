@@ -23,6 +23,12 @@
     "@polkadot/wasm-crypto": "^6.3.1",
     "@scure/base": "^1.1.1",
     "@zcloak/wasm": "0.5.0",
-    "canonicalize": "^1.0.8"
+    "bip39": "^3.0.4",
+    "canonicalize": "^1.0.8",
+    "ed2curve": "^0.3.0",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/ed2curve": "^0.2.2"
   }
 }

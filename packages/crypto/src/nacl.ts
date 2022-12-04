@@ -4,11 +4,17 @@
 import type { HexString } from './types';
 
 import { u8aToU8a } from '@polkadot/util';
-import * as crypto from '@polkadot/util-crypto';
-import { randomAsU8a } from '@polkadot/util-crypto';
+import nacl from 'tweetnacl';
+
+import { randomAsU8a } from './random';
 
 interface Sealed {
   sealed: Uint8Array;
+  nonce: Uint8Array;
+}
+
+interface Encrypted {
+  encrypted: Uint8Array;
   nonce: Uint8Array;
 }
 
@@ -26,7 +32,10 @@ export function naclSeal(
   const senderBoxSecretU8a = u8aToU8a(senderBoxSecret);
   const receiverBoxPublicU8a = u8aToU8a(receiverBoxPublic);
 
-  return crypto.naclSeal(messageU8a, senderBoxSecretU8a, receiverBoxPublicU8a, nonceU8a);
+  return {
+    nonce: nonceU8a,
+    sealed: nacl.box(messageU8a, nonceU8a, receiverBoxPublicU8a, senderBoxSecretU8a)
+  };
 }
 
 /**
@@ -43,5 +52,38 @@ export function naclOpen(
   const senderBoxPublicU8a = u8aToU8a(senderBoxPublic);
   const receiverBoxSecretU8a = u8aToU8a(receiverBoxSecret);
 
-  return crypto.naclOpen(sealedU8a, nonceU8a, senderBoxPublicU8a, receiverBoxSecretU8a);
+  return nacl.box.open(sealedU8a, nonceU8a, senderBoxPublicU8a, receiverBoxSecretU8a) || null;
+}
+
+/**
+ * Returns an encrypted message, using the `secretKey` and `nonce`. If the `nonce` was not supplied, a random value is generated.
+ */
+export function naclEncrypt(
+  message: HexString | Uint8Array,
+  secret: HexString | Uint8Array,
+  nonce: HexString | Uint8Array = randomAsU8a(24)
+): Encrypted {
+  const messageU8a = u8aToU8a(message);
+  const nonceU8a = u8aToU8a(nonce);
+  const secretU8a = u8aToU8a(secret);
+
+  return {
+    encrypted: nacl.secretbox(messageU8a, nonceU8a, secretU8a),
+    nonce: nonceU8a
+  };
+}
+
+/**
+ * Returns an decrypted message, using the `secret` and `nonce`.
+ */
+export function naclDecrypt(
+  encrypted: HexString | Uint8Array,
+  nonce: HexString | Uint8Array,
+  secret: HexString | Uint8Array
+): Uint8Array | null {
+  const encryptedU8a = u8aToU8a(encrypted);
+  const nonceU8a = u8aToU8a(nonce);
+  const secretU8a = u8aToU8a(secret);
+
+  return nacl.secretbox.open(encryptedU8a, nonceU8a, secretU8a) || null;
 }

@@ -4,11 +4,15 @@
 import { stringToU8a } from '@polkadot/util';
 import { utils } from 'ethers';
 
-import { ed25519Verify, randomAsU8a, secp256k1Verify } from '@zcloak/crypto';
+import { ed25519Verify, initCrypto, randomAsU8a, secp256k1Verify } from '@zcloak/crypto';
 
 import { Keyring } from './keyring';
 
 describe('Keyring', (): void => {
+  beforeAll(async (): Promise<void> => {
+    await initCrypto();
+  });
+
   const publicKeyOne = new Uint8Array([
     2, 205, 25, 42, 142, 34, 155, 70, 229, 74, 177, 12, 155, 50, 22, 154, 25, 125, 200, 87, 63, 75,
     107, 11, 106, 74, 11, 9, 62, 163, 227, 195, 155

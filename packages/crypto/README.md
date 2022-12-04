@@ -17,5 +17,5 @@ yarn add @zcloak/crypto
 Functions can be imported as follows:
 
 ```js
-import { generateMnemonic } from '@zcloak/crypto';
+import { mnemonicGenerate } from '@zcloak/crypto';
 ```

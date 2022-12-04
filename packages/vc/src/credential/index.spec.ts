@@ -3,7 +3,7 @@
 
 import type { CType } from '@zcloak/ctype/types';
 
-import { generateMnemonic, initCrypto } from '@zcloak/crypto';
+import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype/publish';
 import { Did, helpers } from '@zcloak/did';
 
@@ -19,12 +19,14 @@ const CONTENTS = {
 };
 
 describe('VerifiableCredential', (): void => {
-  const holder: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
-  const issuer: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
+  let holder: Did;
+  let issuer: Did;
   let ctype: CType;
 
   beforeEach(async (): Promise<void> => {
     await initCrypto();
+    holder = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
+    issuer = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
 
     ctype = getPublish(
       {

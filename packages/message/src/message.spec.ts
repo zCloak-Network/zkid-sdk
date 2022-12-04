@@ -4,7 +4,7 @@
 import type { CType } from '@zcloak/ctype/types';
 import type { RawCredential } from '@zcloak/vc/types';
 
-import { generateMnemonic, initCrypto } from '@zcloak/crypto';
+import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype';
 import { Did, helpers } from '@zcloak/did';
 import { MockDidResolver } from '@zcloak/did-resolver';
@@ -23,8 +23,8 @@ describe('message encrypt and decrypt', (): void => {
 
   beforeAll(async () => {
     await initCrypto();
-    holder = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
-    issuer = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
+    holder = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
+    issuer = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
     resolver.addDocument(holder.getDocument());
     resolver.addDocument(issuer.getDocument());
     ctype = getPublish(

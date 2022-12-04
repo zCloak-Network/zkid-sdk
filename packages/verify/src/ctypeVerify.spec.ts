@@ -1,7 +1,7 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { generateMnemonic, initCrypto } from '@zcloak/crypto';
+import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype/publish';
 import { BaseCType } from '@zcloak/ctype/types';
 import { Did, helpers } from '@zcloak/did';
@@ -14,7 +14,7 @@ describe('publish ctype', (): void => {
   beforeAll(async (): Promise<void> => {
     await initCrypto();
 
-    publisher = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
+    publisher = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
   });
 
   it('get ctype for publish', async () => {

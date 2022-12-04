@@ -1,4 +1,4 @@
-// Copyright 2019-2022 @polkadot/wasm-crypto authors & contributors
+// Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 use std::convert::TryFrom;

@@ -3,6 +3,7 @@
 
 import {
   ed25519PairFromSeed,
+  initCrypto,
   randomAsU8a,
   secp256k1PairFromSeed,
   x25519PairFromSeed
@@ -12,6 +13,10 @@ import { decodePair } from './decode';
 import { encodePair } from './encode';
 
 describe('decode', (): void => {
+  beforeAll(async () => {
+    await initCrypto();
+  });
+
   describe('decode with pass', (): void => {
     it('encode secp256k1Pair and decode without error', (): void => {
       const keypair = secp256k1PairFromSeed(randomAsU8a(32));

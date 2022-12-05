@@ -1,7 +1,7 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HexString } from '@zcloak/crypto/types';
+import type { HexString, Keypair } from '@zcloak/crypto/types';
 import type { KeypairType, KeyringPair, KeyringPair$Json } from '../types';
 
 import { assert, u8aConcat, u8aEmpty, u8aToU8a } from '@polkadot/util';
@@ -22,8 +22,8 @@ export interface PairInfo {
 }
 
 const TYPE_SIGNATURE = {
-  ecdsa: (message: Uint8Array, secretKey: Uint8Array) => secp256k1Sign(message, secretKey),
-  ed25519: (message: Uint8Array, secretKey: Uint8Array) => ed25519Sign(message, secretKey)
+  ecdsa: (message: Uint8Array, pair: Keypair) => secp256k1Sign(message, pair),
+  ed25519: (message: Uint8Array, pair: Keypair) => ed25519Sign(message, pair)
 };
 
 function isLocked(secretKey?: Uint8Array): secretKey is undefined {
@@ -70,7 +70,10 @@ export function createPair(
 
       assert(['ecdsa', 'ed25519'].includes(type), 'only ecdsa and ed25519 support');
 
-      return TYPE_SIGNATURE[type as 'ecdsa' | 'ed25519'](u8aToU8a(message), secretKey);
+      return TYPE_SIGNATURE[type as 'ecdsa' | 'ed25519'](u8aToU8a(message), {
+        secretKey,
+        publicKey
+      });
     }
 
     public lock(): void {

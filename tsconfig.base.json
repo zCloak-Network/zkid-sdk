@@ -21,6 +21,10 @@
       "@zcloak/verify/*": ["verify/src/*"],
       "@zcloak/wasm": ["wasm/src"],
       "@zcloak/wasm/*": ["wasm/src/*"],
+      "@zcloak/wasm-asm": ["wasm-asm/src"],
+      "@zcloak/wasm-asm/*": ["wasm-asm/src/*"],
+      "@zcloak/wasm-bridge": ["wasm-bridge/src"],
+      "@zcloak/wasm-bridge/*": ["wasm-bridge/src/*"],
     },
     "skipLibCheck": true,
     "resolveJsonModule": true

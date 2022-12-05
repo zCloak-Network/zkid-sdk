@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/test/**/*"
+  ],
+  "references": [
+    { "path": "../wasm/tsconfig.build.json" },
+    { "path": "../wasm-asm/tsconfig.build.json" }
+  ]
+}

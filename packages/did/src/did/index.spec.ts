@@ -3,7 +3,7 @@
 
 import { stringToU8a } from '@polkadot/util';
 
-import { ethereumEncode, generateMnemonic } from '@zcloak/crypto';
+import { ethereumEncode, initCrypto, mnemonicGenerate } from '@zcloak/crypto';
 import { MockDidResolver } from '@zcloak/did-resolver';
 import { DidDocument } from '@zcloak/did-resolver/types';
 import { Keyring } from '@zcloak/keyring';
@@ -39,7 +39,8 @@ const DOCUMENT: DidDocument = {
 const resolver = new MockDidResolver();
 
 describe('Did', (): void => {
-  beforeAll(() => {
+  beforeAll(async () => {
+    await initCrypto();
     resolver.addDocument(DOCUMENT);
   });
 
@@ -98,8 +99,8 @@ describe('Did', (): void => {
 
   describe('encrypt and decrypt', (): void => {
     it('encrypt and decrypt', async (): Promise<void> => {
-      const sender = createEcdsaFromMnemonic(generateMnemonic(12));
-      const receiver = createEcdsaFromMnemonic(generateMnemonic(12));
+      const sender = createEcdsaFromMnemonic(mnemonicGenerate(12));
+      const receiver = createEcdsaFromMnemonic(mnemonicGenerate(12));
 
       resolver.addDocument(sender.getDocument());
       resolver.addDocument(receiver.getDocument());

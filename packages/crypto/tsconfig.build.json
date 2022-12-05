@@ -10,6 +10,6 @@
     "**/test/**/*"
   ],
   "references": [
-    { "path": "../wasm/tsconfig.build.json" }
+    { "path": "../wasm-bridge/tsconfig.build.json" }
   ]
 }

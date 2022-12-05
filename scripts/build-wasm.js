@@ -41,7 +41,7 @@ const hex = u8aToHex(bytes);
 
 console.log('Write wasm bytes');
 fs.writeFileSync(
-  'src/bytes.js',
+  'src/index.js',
   `${COPYRIGHT}
 export const bytes =
   '${hex}';
@@ -50,7 +50,7 @@ export const bytes =
 
 console.log('Write asm file');
 fs.writeFileSync(
-  'src/asm.js',
+  '../wasm-asm/src/index.js',
   `${COPYRIGHT}
 /* tslint:disable */
 /* eslint-disable */

@@ -3,7 +3,7 @@
 
 import type { BaseCType } from './types';
 
-import { generateMnemonic, initCrypto } from '@zcloak/crypto';
+import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
 import { Did, helpers } from '@zcloak/did';
 
 import { DEFAULT_CTYPE_SCHEMA } from './defaults';
@@ -15,7 +15,7 @@ describe('publish ctype', (): void => {
   beforeAll(async (): Promise<void> => {
     await initCrypto();
 
-    publisher = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
+    publisher = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
   });
 
   it('get ctype hash', (): void => {

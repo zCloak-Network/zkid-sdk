@@ -3,6 +3,7 @@
 
 import {
   ed25519PairFromSeed,
+  initCrypto,
   randomAsU8a,
   secp256k1PairFromSeed,
   x25519PairFromSeed
@@ -12,6 +13,10 @@ import { NONCE_LENGTH, PKCS8_DIVIDER, PKCS8_HEADER } from './defaults';
 import { encodePair } from './encode';
 
 describe('encode', (): void => {
+  beforeAll(async () => {
+    await initCrypto();
+  });
+
   it('returns PKCS8 when no passphrase supplied', (): void => {
     expect(encodePair(secp256k1PairFromSeed(randomAsU8a(32)))).toHaveLength(
       PKCS8_DIVIDER.length + PKCS8_HEADER.length + 32 + 33

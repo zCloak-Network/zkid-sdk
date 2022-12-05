@@ -1,11 +1,15 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { secp256k1PairFromSeed } from '@zcloak/crypto';
+import { initCrypto, secp256k1PairFromSeed } from '@zcloak/crypto';
 
 import { createPair } from '.';
 
 describe('toJson', (): void => {
+  beforeAll(async () => {
+    await initCrypto();
+  });
+
   it('creates an unencoded output with no passphrase', (): void => {
     const pair = createPair(
       secp256k1PairFromSeed('0x2497d66feca952454e02bfea63a020b8652ec333b3be45401c2ec319937b953d'),

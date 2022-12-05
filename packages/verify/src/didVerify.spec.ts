@@ -1,11 +1,16 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { initCrypto } from '@zcloak/crypto';
 import { createEcdsaFromMnemonic } from '@zcloak/did/did/helpers';
 
 import { verifyDidDocumentProof } from './verifyDidDocumentProof';
 
 describe('did verify', (): void => {
+  beforeAll(async () => {
+    await initCrypto();
+  });
+
   describe('verify did document proof', (): void => {
     it('create ecdsa did from mnemonic and getPublish and verify', async (): Promise<void> => {
       const mnemonic =

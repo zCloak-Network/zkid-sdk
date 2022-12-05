@@ -5,7 +5,7 @@ import type { HexString, Keypair } from '@zcloak/crypto/types';
 
 import { stringToU8a, u8aConcat, u8aEq, u8aToU8a } from '@polkadot/util';
 
-import { ed25519Verify, secp256k1Verify } from '@zcloak/crypto';
+import { ed25519Verify, initCrypto, secp256k1Verify } from '@zcloak/crypto';
 
 import { createPair } from '.';
 
@@ -68,6 +68,10 @@ const KEYPAIR_X25519_2: Keypair = {
 const message = stringToU8a('abcd');
 
 describe('Keyring pair', (): void => {
+  beforeAll(async () => {
+    await initCrypto();
+  });
+
   it('create ecdsa pair', (): void => {
     const pair = createPair(KEYPAIR_ECDSA, { type: 'ecdsa' });
 

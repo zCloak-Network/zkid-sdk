@@ -4,11 +4,12 @@
 import type { HexString, Keypair } from './types';
 
 import { u8aToU8a } from '@polkadot/util';
+
 import {
   convertPublicKeyToCurve25519,
   convertSecretKeyToCurve25519,
   ed25519PairFromSeed
-} from '@polkadot/util-crypto';
+} from './ed25519';
 
 /**
  * Returns a object containing a `publicKey` & `secretKey` generated from the supplied secretKey.

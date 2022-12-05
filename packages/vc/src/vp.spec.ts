@@ -3,7 +3,7 @@
 
 import type { CType } from '@zcloak/ctype/types';
 
-import { generateMnemonic, initCrypto } from '@zcloak/crypto';
+import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype/publish';
 import { Did, helpers } from '@zcloak/did';
 
@@ -27,10 +27,10 @@ const CONTENTS3 = {
 };
 
 describe('VerifiablePresentation', (): void => {
-  const holder: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
-  const issuer1: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
-  const issuer2: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
-  const issuer3: Did = helpers.createEcdsaFromMnemonic(generateMnemonic(12));
+  let holder: Did;
+  let issuer1: Did;
+  let issuer2: Did;
+  let issuer3: Did;
   let ctype1: CType;
   let ctype2: CType;
   let ctype3: CType;
@@ -40,6 +40,10 @@ describe('VerifiablePresentation', (): void => {
 
   beforeAll(async (): Promise<void> => {
     await initCrypto();
+    holder = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
+    issuer1 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
+    issuer2 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
+    issuer3 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
 
     ctype1 = getPublish(
       {

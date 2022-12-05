@@ -3,6 +3,7 @@
 
 import { u8aToHex } from '@polkadot/util';
 
+import { initCrypto } from '@zcloak/crypto';
 import { DidDocument } from '@zcloak/did-resolver/types';
 
 import { hashDidDocument } from './hasher';
@@ -64,6 +65,10 @@ const DOCUMENT_TWO: DidDocument = {
 const HASH = '0x42e2b96a18575fcd2f694cd9a58b59f26683f768e82d0b7f6bf9ce9ea86c01e5';
 
 describe('encode did document', (): void => {
+  beforeAll(async () => {
+    await initCrypto();
+  });
+
   it('encode', (): void => {
     expect(u8aToHex(hashDidDocument(DOCUMENT_ONE))).toEqual(HASH);
   });

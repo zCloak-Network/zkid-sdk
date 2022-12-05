@@ -3469,9 +3469,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.10.4":
-  version: 0.10.4
-  resolution: "@zcloak/dev@npm:0.10.4"
+"@zcloak/dev@npm:^0.10.5":
+  version: 0.10.5
+  resolution: "@zcloak/dev@npm:0.10.5"
   dependencies:
     "@babel/cli": ^7.19.3
     "@babel/core": ^7.20.2
@@ -3499,7 +3499,7 @@ __metadata:
     "@rushstack/eslint-patch": ^1.2.0
     "@typescript-eslint/eslint-plugin": ^5.42.1
     "@typescript-eslint/parser": ^5.42.1
-    "@zcloak/lint": 0.10.4
+    "@zcloak/lint": 0.10.5
     babel-jest: ^29.3.1
     babel-plugin-module-extension-resolver: ^1.0.0-rc.2
     babel-plugin-module-resolver: ^4.1.0
@@ -3567,7 +3567,7 @@ __metadata:
     zcloak-exec-rollup: scripts/zcloak-exec-rollup.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: 3ce91ac1d56ace3cd2d9de51e9777d394fec8e8a3af08dd608695ad82b5028cf6720bfda0dce565ee76aaafa59d2f3463c8e5943f87fcdac65bbf8945fe199c9
+  checksum: 594cdbdca5d5f871eaf5b10c58a0b23472a69e3dfca86feec8d62570486e45047dc67d60a142338cc79b7a7d0ac8829cc53de2e260e45fe373fefb613a615b7a
   languageName: node
   linkType: hard
 
@@ -3600,15 +3600,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/lint@npm:0.10.4":
-  version: 0.10.4
-  resolution: "@zcloak/lint@npm:0.10.4"
+"@zcloak/lint@npm:0.10.5":
+  version: 0.10.5
+  resolution: "@zcloak/lint@npm:0.10.5"
   dependencies:
     chalk: ^5.1.2
     glob: ^8.0.3
     parse-imports-ts: ^1.0.2
     throat: ^6.0.1
-  checksum: 50ba1059ff88275ccdb2576e6d72c3dee12b26215da365eff0e88d013aebcf1a5d42d6626ced1cb1731fe217d843f462a1fb2f1f0a7103b798cabd513570c0b1
+  checksum: 1159b9d7fcc6185bbc272e31a25c463ecb438abf00ea8e4b48c8f47f54a0ee603a38cc8797ff004b6625d56e16e83e8b51ff298b1c365b14a648bf2ac64833c5
   languageName: node
   linkType: hard
 
@@ -11851,7 +11851,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": ^27.4.0
-    "@zcloak/dev": ^0.10.4
+    "@zcloak/dev": ^0.10.5
     babel-plugin-dynamic-import-node: ^2.3.3
     fs-extra: ^10.1.0
     typescript: ^4.8.4

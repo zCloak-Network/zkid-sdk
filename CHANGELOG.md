@@ -1,5 +1,13 @@
 # CHANGELOG
 
+# [0.6.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.5.0...v0.6.0) (2022-12-05)
+
+
+### Features
+
+* **crypto, wasm:** build the wasm from rust and tiny the crypto package ([d794a99](https://github.com/zCloak-Network/zkid-sdk/commit/d794a9935c6b060353822c0a73efb226ef95a6f9))
+
+
 # [0.5.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.4.1...v0.5.0) (2022-12-03)
 
 

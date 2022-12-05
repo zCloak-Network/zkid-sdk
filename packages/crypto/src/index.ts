@@ -21,5 +21,3 @@ export * from './sha';
 export * from './nacl';
 export * from './x25519';
 export * from './initCrypto';
-
-export { hdEthereum, keyExtractSuri, keyFromPath } from '@polkadot/util-crypto';

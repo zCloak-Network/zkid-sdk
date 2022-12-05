@@ -2,9 +2,8 @@
 
 Various general-purpose cryptographic libraries used by [@zcloak](https://github.com/zCloak-Network) namespace.
 
-This repo is packaged based on the following libraries:
-1. [@polkadot/util-crypto](https://www.npmjs.com/package/@polkadot/util-crypto)
-2. [@scure/base](https://www.npmjs.com/package/@scure/base)
+This repo is some functions is adapted from [https://github.com/polkadot-js/common](https://github.com/polkadot-js/common), thanks jacogr.
+
 
 ## Usage
 

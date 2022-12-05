@@ -11,13 +11,13 @@ import {
   convertEd25519ToX25519,
   ed25519PairFromSeed,
   hdEthereum,
-  keyExtractSuri,
-  keyFromPath,
   mnemonicToLegacySeed,
   mnemonicToMiniSecret,
+  mnemonicValidate,
   secp256k1PairFromSeed,
   x25519PairFromSeed
 } from '@zcloak/crypto';
+import { ed25519Derive } from '@zcloak/crypto/ed25519/ed25519DeriveHard';
 
 import { createPair } from './pair';
 import { Pairs } from './pairs';
@@ -108,27 +108,29 @@ export class Keyring implements KeyringInstance {
     pathIn?: string,
     type: KeypairType = 'ecdsa'
   ): KeyringPair {
-    const suri =
-      type === 'ecdsa'
-        ? `${mnemonic}${pathIn ?? "/m/44'/60'/0'/0/0"}`
-        : `${mnemonic}${pathIn ?? ''}`;
-    const { derivePath, password, path, phrase } = keyExtractSuri(suri);
+    if (type === 'ecdsa') {
+      pathIn = pathIn ?? "/m/44'/60'/0'/0/0";
+    } else {
+      pathIn = pathIn ?? '';
+    }
 
-    const parts = phrase.split(' ');
+    const [, code, password = ''] = pathIn.split('//');
 
     let seed: Uint8Array;
 
-    if ([12, 15, 18, 21, 24].includes(parts.length)) {
+    if (mnemonicValidate(mnemonic)) {
       seed =
-        type === 'ecdsa' ? mnemonicToLegacySeed(phrase) : mnemonicToMiniSecret(phrase, password);
+        type === 'ecdsa'
+          ? mnemonicToLegacySeed(mnemonic)
+          : mnemonicToMiniSecret(mnemonic, password.startsWith('/') ? password.slice(1) : password);
     } else {
-      throw new Error('');
+      throw new Error('not a valid mnemonic');
     }
 
     const derived =
       type === 'ecdsa'
-        ? hdEthereum(seed, derivePath.substring(1))
-        : keyFromPath(PairFromSeed.ed25519(seed), path, 'ed25519');
+        ? hdEthereum(seed, pathIn.slice(1))
+        : PairFromSeed.ed25519(ed25519Derive(seed, code));
 
     return createPair(type === 'x25519' ? convertEd25519ToX25519(derived) : derived, { type });
   }

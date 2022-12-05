@@ -1,13 +1,14 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { hmac } from '@noble/hashes/hmac';
+import { sha256 } from '@noble/hashes/sha256';
+import { sha512 } from '@noble/hashes/sha512';
 import { u8aToU8a } from '@polkadot/util';
 
-import { hmacSha256, hmacSha512 } from '@zcloak/wasm';
-
-const WA_MHAC = {
-  256: hmacSha256,
-  512: hmacSha512
+const JS_HASH = {
+  256: sha256,
+  512: sha512
 };
 
 function createSha(
@@ -28,7 +29,7 @@ export function hmacShaAsU8a(
 ): Uint8Array {
   const u8aKey = u8aToU8a(key);
 
-  return WA_MHAC[bitLength](u8aKey, data);
+  return hmac(JS_HASH[bitLength], u8aKey, data);
 }
 
 /**

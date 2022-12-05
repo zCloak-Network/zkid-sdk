@@ -2252,10 +2252,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "@noble/hashes@npm:1.1.3"
-  checksum: a6f9783d2a33fc528c8709532b1c26cc3f5866f79c66256e881b28c61a1585be3899b008aa4e5e2b4e01b95c713722f52591cbb18ec51aa0ec63e7eaece1b89c
+"@noble/hashes@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "@noble/hashes@npm:1.1.4"
+  checksum: 663c1e7ebaa3ca4ff836c799a9dd697fda861ae8b9923a4850659fbf5c3d5f7cf541e77aee3c1bcc6f81a815b7f88fad75c004c0f30eda301deeedc2c9435368
+  languageName: node
+  linkType: hard
+
+"@noble/secp256k1@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@noble/secp256k1@npm:1.7.0"
+  checksum: 540a2b8e527ee1e5522af1c430e54945ad373883cac983b115136cd0950efa1f2c473ee6a36d8e69b6809b3ee586276de62f5fa705c77a9425721e81bada8116
   languageName: node
   linkType: hard
 
@@ -3437,11 +3444,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/crypto@workspace:packages/crypto"
   dependencies:
-    "@noble/hashes": ^1.1.3
+    "@noble/hashes": ^1.1.4
+    "@noble/secp256k1": ^1.7.0
     "@polkadot/util": ^10.1.12
     "@scure/base": ^1.1.1
     "@types/ed2curve": ^0.2.2
-    "@zcloak/wasm": 0.5.0
+    "@zcloak/wasm-bridge": 0.5.0
     bip39: ^3.0.4
     canonicalize: ^1.0.8
     ed2curve: ^0.3.0
@@ -3644,11 +3652,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/wasm@0.5.0, @zcloak/wasm@workspace:packages/wasm":
+"@zcloak/wasm-asm@workspace:packages/wasm-asm":
   version: 0.0.0-use.local
-  resolution: "@zcloak/wasm@workspace:packages/wasm"
+  resolution: "@zcloak/wasm-asm@workspace:packages/wasm-asm"
+  languageName: unknown
+  linkType: soft
+
+"@zcloak/wasm-bridge@0.5.0, @zcloak/wasm-bridge@workspace:packages/wasm-bridge":
+  version: 0.0.0-use.local
+  resolution: "@zcloak/wasm-bridge@workspace:packages/wasm-bridge"
   dependencies:
     "@polkadot/util": ^10.1.12
+  peerDependencies:
+    "@zcloak/wasm": ^0.5.0
+    "@zcloak/wasm-asm": ^0.5.0
+  languageName: unknown
+  linkType: soft
+
+"@zcloak/wasm@workspace:packages/wasm":
+  version: 0.0.0-use.local
+  resolution: "@zcloak/wasm@workspace:packages/wasm"
   languageName: unknown
   linkType: soft
 
@@ -4161,6 +4184,15 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.8.0
   checksum: 793848238a771a931ddeb5930b9ec8ab800522ac8d64933665698f4a39603d157e572e20b57d79610277e1df88d3ee82b180d59a21f3570388f602beeb38a595
+  languageName: node
+  linkType: hard
+
+"babel-plugin-dynamic-import-node@npm:^2.3.3":
+  version: 2.3.3
+  resolution: "babel-plugin-dynamic-import-node@npm:2.3.3"
+  dependencies:
+    object.assign: ^4.1.0
+  checksum: c9d24415bcc608d0db7d4c8540d8002ac2f94e2573d2eadced137a29d9eab7e25d2cbb4bc6b9db65cf6ee7430f7dd011d19c911a9a778f0533b4a05ce8292c9b
   languageName: node
   linkType: hard
 
@@ -10438,7 +10470,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.assign@npm:^4.1.3, object.assign@npm:^4.1.4":
+"object.assign@npm:^4.1.0, object.assign@npm:^4.1.3, object.assign@npm:^4.1.4":
   version: 4.1.4
   resolution: "object.assign@npm:4.1.4"
   dependencies:
@@ -11820,7 +11852,9 @@ __metadata:
   dependencies:
     "@types/jest": ^27.4.0
     "@zcloak/dev": ^0.8.1
+    babel-plugin-dynamic-import-node: ^2.3.3
     fs-extra: ^10.1.0
+    typescript: ^4.8.4
   bin:
     build-wasm: scripts/build-wasm.js
     install-build-deps: scripts/install-build-deps.js

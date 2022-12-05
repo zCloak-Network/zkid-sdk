@@ -13,6 +13,8 @@ module.exports = Object.assign({}, config, {
     '@zcloak/message(.*)$': '<rootDir>/packages/message/src/$1',
     '@zcloak/vc(.*)$': '<rootDir>/packages/vc/src/$1',
     '@zcloak/verify(.*)$': '<rootDir>/packages/verify/src/$1',
+    '@zcloak/wasm-asm(.*)$': '<rootDir>/packages/wasm-asm/src/$1',
+    '@zcloak/wasm-bridge(.*)$': '<rootDir>/packages/wasm-bridge/src/$1',
     '@zcloak/wasm(.*)$': '<rootDir>/packages/wasm/src/$1'
   },
   testTimeout: 30000

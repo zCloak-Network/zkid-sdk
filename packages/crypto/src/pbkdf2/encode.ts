@@ -3,9 +3,9 @@
 
 import type { HexString } from '@polkadot/util/types';
 
+import { pbkdf2 } from '@noble/hashes/pbkdf2';
+import { sha512 } from '@noble/hashes/sha512';
 import { u8aToU8a } from '@polkadot/util';
-
-import { pbkdf2 } from '@zcloak/wasm';
 
 import { randomAsU8a } from '../random/asU8a';
 
@@ -24,7 +24,7 @@ export function pbkdf2Encode(
   const u8aSalt = u8aToU8a(salt);
 
   return {
-    password: pbkdf2(u8aPass, u8aSalt, rounds),
+    password: pbkdf2(sha512, u8aPass, u8aSalt, { c: rounds, dkLen: 64 }),
     rounds,
     salt
   };

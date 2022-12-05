@@ -3,9 +3,8 @@
 
 import type { HexString } from '@polkadot/util/types';
 
+import { recoverPublicKey, Signature } from '@noble/secp256k1';
 import { u8aToU8a } from '@polkadot/util';
-
-import { secp256k1Recover as wasm } from '@zcloak/wasm';
 
 import { secp256k1Expand } from './expand';
 
@@ -20,7 +19,7 @@ export function secp256k1Recover(
 ): Uint8Array {
   const sig = u8aToU8a(signature).subarray(0, 64);
   const msg = u8aToU8a(msgHash);
-  const publicKey = wasm(msg, sig, recovery);
+  const publicKey = recoverPublicKey(msg, Signature.fromCompact(sig).toRawBytes(), recovery);
 
   if (!publicKey) {
     throw new Error('Unable to recover publicKey from signature');

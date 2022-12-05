@@ -4,8 +4,7 @@
 import type { HexString } from '@polkadot/util/types';
 
 import { u8aToU8a } from '@polkadot/util';
-
-import { ed25519Verify as wasmVerify } from '@zcloak/wasm';
+import nacl from 'tweetnacl';
 
 /**
  * @name ed25519Sign
@@ -36,5 +35,5 @@ export function ed25519Verify(
     throw new Error(`Invalid signature, received ${signatureU8a.length} bytes, expected 64`);
   }
 
-  return wasmVerify(signatureU8a, messageU8a, publicKeyU8a);
+  return nacl.sign.detached.verify(messageU8a, signatureU8a, publicKeyU8a);
 }

@@ -3,9 +3,8 @@
 
 import type { HexString } from '@polkadot/util/types';
 
+import { blake2b } from '@noble/hashes/blake2b';
 import { u8aToHex, u8aToU8a } from '@polkadot/util';
-
-import { blake2b } from '@zcloak/wasm';
 
 /**
  * @name blake2AsU8a
@@ -29,7 +28,7 @@ export function blake2AsU8a(
   const byteLength = Math.ceil(bitLength / 8);
   const u8a = u8aToU8a(data);
 
-  return blake2b(u8a, u8aToU8a(key), byteLength);
+  return blake2b(u8a, { dkLen: byteLength, key: key || undefined });
 }
 
 /**

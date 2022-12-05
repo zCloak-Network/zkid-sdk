@@ -2,13 +2,13 @@
   "author": "zCloak",
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
-  "description": "zCloak wasm package",
-  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/packages/wasm#readme",
+  "description": "zCloak wasm-asm package",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/packages/wasm-asm#readme",
   "license": "Apache-2.0",
   "maintainers": [],
-  "name": "@zcloak/wasm",
+  "name": "@zcloak/wasm-asm",
   "repository": {
-    "directory": "packages/wasm",
+    "directory": "packages/wasm-asm",
     "type": "git",
     "url": "https://github.com/zCloak-Network/zkid-sdk.git"
   },

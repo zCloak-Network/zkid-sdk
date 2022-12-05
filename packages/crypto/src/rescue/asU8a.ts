@@ -5,7 +5,7 @@ import type { HexString } from '../types';
 
 import { assert, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { rescuePrimeHash } from '@zcloak/wasm';
+import { rescuePrimeHash } from '@zcloak/wasm-bridge';
 
 /**
  * @name rescuePrimeAsU8a

@@ -8,8 +8,8 @@ module.exports = {
   ignorePatterns: [
     ...base.ignorePatterns,
     'scripts/**/*',
-    'packages/wasm/src/asm.js',
-    'packages/wasm/src/bytes.js'
+    'packages/wasm-asm/src/index.js',
+    'packages/wasm/src/index.js'
   ],
   parserOptions: {
     ...base.parserOptions,

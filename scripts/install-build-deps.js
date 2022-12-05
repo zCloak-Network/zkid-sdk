@@ -8,7 +8,7 @@ const BINDGEN_REPO = 'https://github.com/rustwasm/wasm-bindgen';
 const BINDGEN_VER = '0.2.83';
 
 const BINARYEN_REPO = 'https://github.com/WebAssembly/binaryen';
-const BINARYEN_VER = 'version_110';
+const BINARYEN_VER = 'version_111';
 
 let bindgen_zip;
 let binaryen_zip;

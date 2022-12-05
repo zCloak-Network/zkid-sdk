@@ -3,7 +3,7 @@
 
 import type { Keypair } from '../types';
 
-import { ed25519KeypairFromSeed } from '@zcloak/wasm';
+import nacl from 'tweetnacl';
 
 /**
  * @name ed25519PairFromSeed
@@ -20,10 +20,5 @@ import { ed25519KeypairFromSeed } from '@zcloak/wasm';
  * ```
  */
 export function ed25519PairFromSeed(seed: Uint8Array): Keypair {
-  const full = ed25519KeypairFromSeed(seed);
-
-  return {
-    publicKey: full.slice(32),
-    secretKey: full.slice(0, 64)
-  };
+  return nacl.sign.keyPair.fromSeed(seed);
 }

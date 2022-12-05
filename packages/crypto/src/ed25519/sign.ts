@@ -5,8 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { Keypair } from '../types';
 
 import { u8aToU8a } from '@polkadot/util';
-
-import { ed25519Sign as wasmSign } from '@zcloak/wasm';
+import nacl from 'tweetnacl';
 
 /**
  * @name ed25519Sign
@@ -24,9 +23,9 @@ import { ed25519Sign as wasmSign } from '@zcloak/wasm';
  */
 export function ed25519Sign(
   message: HexString | Uint8Array | string,
-  { publicKey, secretKey }: Keypair
+  { secretKey }: Keypair
 ): Uint8Array {
   const messageU8a = u8aToU8a(message);
 
-  return wasmSign(publicKey, secretKey.subarray(0, 32), messageU8a);
+  return nacl.sign.detached(messageU8a, secretKey);
 }

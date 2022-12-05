@@ -6,7 +6,7 @@ import { initWasm } from './helper';
 
 describe('wasm', (): void => {
   it('initWasm', async (): Promise<void> => {
-    await initWasm();
+    await initWasm(true);
     console.log(rescuePrimeHash(new BigUint64Array([1n, 1n, 1n, 1n, 1n, 1n, 1n, 1n])));
   });
 });

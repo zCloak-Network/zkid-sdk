@@ -1,9 +1,9 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { sha256 } from '@noble/hashes/sha256';
+import { sha512 } from '@noble/hashes/sha512';
 import { u8aToU8a } from '@polkadot/util';
-
-import { sha256, sha512 } from '@zcloak/wasm';
 
 import { HexString } from '../types';
 

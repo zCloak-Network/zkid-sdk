@@ -1,9 +1,8 @@
 // Copyright 2021-2022 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { keccak_256 as keccak256, keccak_512 as keccak512 } from '@noble/hashes/sha3';
 import { u8aToHex, u8aToU8a } from '@polkadot/util';
-
-import { keccak256, keccak512 } from '@zcloak/wasm';
 
 import { HexString } from '../types';
 

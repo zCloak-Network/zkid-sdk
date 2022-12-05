@@ -4,9 +4,8 @@
 import type { HexString } from '@polkadot/util/types';
 import type { Params } from './types';
 
+import { scrypt } from '@noble/hashes/scrypt';
 import { u8aToU8a } from '@polkadot/util';
-
-import { scrypt } from '@zcloak/wasm';
 
 import { randomAsU8a } from '../random/asU8a';
 import { DEFAULT_PARAMS } from './defaults';
@@ -26,7 +25,7 @@ export function scryptEncode(
 
   return {
     params,
-    password: scrypt(u8a, salt, Math.log2(params.N), params.r, params.p),
+    password: scrypt(u8a, salt, { dkLen: 64, ...params }),
     salt
   };
 }

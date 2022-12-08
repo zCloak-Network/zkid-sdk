@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.6.1](https://github.com/zCloak-Network/zkid-sdk/compare/v0.6.0...v0.6.1) (2022-12-08)
+
+
+### Bug Fixes
+
+* **wasm:** webpack build dynamic import could not use in service worker, remove the dynamic import in wasm-bridge. ([9babafd](https://github.com/zCloak-Network/zkid-sdk/commit/9babafd3d5c82ade064bc54f6ceac248deebc192))
+
+
 # [0.6.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.5.0...v0.6.0) (2022-12-05)
 
 

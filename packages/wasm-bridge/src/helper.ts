@@ -5,29 +5,27 @@ import type { WasmInstance } from './types';
 
 import { hexToU8a, stringToU8a, u8aToString } from '@polkadot/util';
 
+import { bytes } from '@zcloak/wasm';
+import * as asmBundle from '@zcloak/wasm-asm';
+
 export let wasm: WasmInstance;
 
 let cacheU8a = new Uint8Array();
 let cachedBigUint64 = new BigUint64Array();
 let cachedInt32 = new Int32Array();
 
-export async function initWasm(onlyAsm?: any) {
+export async function initWasm(onlyAsm?: boolean) {
   if (wasm) return;
 
   if (onlyAsm) {
-    const asmBundle = await import('@zcloak/wasm-asm');
-
     wasm = asmBundle as unknown as WasmInstance;
   } else {
     try {
-      const wasmBundle = await import('@zcloak/wasm');
-      const source = await WebAssembly.instantiate(hexToU8a(wasmBundle.bytes));
+      const source = await WebAssembly.instantiate(hexToU8a(bytes));
 
       wasm = source.instance.exports as unknown as WasmInstance;
     } catch (e) {
       console.error('Can not to init wasm, try to use asm');
-
-      const asmBundle = await import('@zcloak/wasm-asm');
 
       wasm = asmBundle as unknown as WasmInstance;
     }

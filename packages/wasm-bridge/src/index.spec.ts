@@ -5,7 +5,12 @@ import { rescuePrimeHash } from './bundle';
 import { initWasm } from './helper';
 
 describe('wasm', (): void => {
-  it('initWasm', async (): Promise<void> => {
+  it('initWasm with wasm', async (): Promise<void> => {
+    await initWasm();
+    console.log(rescuePrimeHash(new BigUint64Array([1n, 1n, 1n, 1n, 1n, 1n, 1n, 1n])));
+  });
+
+  it('initWasm with wasm', async (): Promise<void> => {
     await initWasm(true);
     console.log(rescuePrimeHash(new BigUint64Array([1n, 1n, 1n, 1n, 1n, 1n, 1n, 1n])));
   });

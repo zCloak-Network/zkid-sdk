@@ -3454,9 +3454,6 @@ __metadata:
     canonicalize: ^1.0.8
     ed2curve: ^0.3.0
     tweetnacl: ^1.0.3
-  peerDependencies:
-    "@zcloak/wasm": ^0.6.0
-    "@zcloak/wasm-asm": ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -3666,11 +3663,13 @@ __metadata:
   resolution: "@zcloak/wasm-bridge@workspace:packages/wasm-bridge"
   dependencies:
     "@polkadot/util": ^10.1.12
+  peerDependencies:
     "@zcloak/wasm": ^0.6.0
+    "@zcloak/wasm-asm": ^0.6.0
   languageName: unknown
   linkType: soft
 
-"@zcloak/wasm@^0.6.0, @zcloak/wasm@workspace:packages/wasm":
+"@zcloak/wasm@workspace:packages/wasm":
   version: 0.0.0-use.local
   resolution: "@zcloak/wasm@workspace:packages/wasm"
   languageName: unknown

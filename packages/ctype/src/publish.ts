@@ -31,10 +31,10 @@ export function getCTypeHash(
   return u8aToHex(keccak256AsU8a(jsonCanonicalize(obj)));
 }
 
-export function getPublish(base: BaseCType, publisher: Did): CType {
+export async function getPublish(base: BaseCType, publisher: Did): Promise<CType> {
   const hash = getCTypeHash(base, publisher.id);
 
-  const { id, signature } = publisher.signWithKey(hash, 'authentication');
+  const { id, signature } = await publisher.signWithKey(hash, 'authentication');
 
   return {
     $id: hash,

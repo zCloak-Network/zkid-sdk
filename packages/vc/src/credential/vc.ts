@@ -86,7 +86,7 @@ export class VerifiableCredentialBuilder {
   /**
    * Build to [[VerifiableCredential]], it will calc digest and  sign proof use `issuer:Did`
    */
-  public build(issuer: Did): VerifiableCredential {
+  public async build(issuer: Did): Promise<VerifiableCredential> {
     if (
       this['@context'] &&
       this.version &&
@@ -106,7 +106,7 @@ export class VerifiableCredentialBuilder {
         this.digestHashType
       );
 
-      const { id, signature, type: keyType } = issuer.signWithKey(digest, 'assertionMethod');
+      const { id, signature, type: keyType } = await issuer.signWithKey(digest, 'assertionMethod');
 
       const proof: Proof = {
         type: keyTypeToSignatureType(keyType),

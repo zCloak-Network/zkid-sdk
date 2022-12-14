@@ -30,7 +30,7 @@ export function backup(keyring: Keyring, did: Did, password: string): DidKeys$Js
     version: DEFAULT_DID_KEYS_JSON_VERSION,
     identifierKey: identifierPair.toJson(password),
     keys: Array.from(did.keyRelationship.values()).map(({ publicKey }) => {
-      const pair = did.getPair(publicKey);
+      const pair = keyring.getPair(publicKey);
 
       return pair.toJson(password);
     }),

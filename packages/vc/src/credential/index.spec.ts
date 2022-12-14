@@ -28,7 +28,7 @@ describe('VerifiableCredential', (): void => {
     holder = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
     issuer = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
 
-    ctype = getPublish(
+    ctype = await getPublish(
       {
         title: 'Test',
         description: 'Test',
@@ -83,7 +83,7 @@ describe('VerifiableCredential', (): void => {
     });
   });
 
-  it('build VC from Raw instance', (): void => {
+  it('build VC from Raw instance', async (): Promise<void> => {
     const raw = new Raw({
       contents: CONTENTS,
       owner: holder.id,
@@ -109,7 +109,7 @@ describe('VerifiableCredential', (): void => {
       digestHashType: 'Keccak256'
     });
 
-    const vc = vcBuilder.build(issuer);
+    const vc = await vcBuilder.build(issuer);
 
     expect(vc).toMatchObject({
       '@context': DEFAULT_CONTEXT,
@@ -129,7 +129,7 @@ describe('VerifiableCredential', (): void => {
     });
   });
 
-  it('build VC from RawCredential', (): void => {
+  it('build VC from RawCredential', async (): Promise<void> => {
     const raw = new Raw({
       contents: CONTENTS,
       owner: holder.id,
@@ -154,7 +154,7 @@ describe('VerifiableCredential', (): void => {
       digestHashType: 'Keccak256'
     });
 
-    const vc = vcBuilder.build(issuer);
+    const vc = await vcBuilder.build(issuer);
 
     expect(vc).toMatchObject({
       '@context': DEFAULT_CONTEXT,

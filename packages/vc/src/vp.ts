@@ -123,10 +123,10 @@ export class VerifiablePresentationBuilder {
    * build to an [[VerifiablePresentation]]
    * @param hashType the [[HashType]] to generate `id` field
    */
-  public build(
+  public async build(
     hashType: HashType = DEFAULT_VP_HASH_TYPE,
     challenge?: string
-  ): VerifiablePresentation {
+  ): Promise<VerifiablePresentation> {
     const vcs: VerifiableCredential[] = [];
     const vpTypes: VerifiablePresentationType[] = [];
 
@@ -144,7 +144,7 @@ export class VerifiablePresentationBuilder {
       id,
       signature,
       type: signType
-    } = this.#did.signWithKey(u8aConcat(hash, stringToU8a(challenge)), 'authentication');
+    } = await this.#did.signWithKey(u8aConcat(hash, stringToU8a(challenge)), 'authentication');
 
     return {
       '@context': DEFAULT_CONTEXT,

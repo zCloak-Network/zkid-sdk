@@ -42,7 +42,7 @@ describe('publish ctype', (): void => {
     );
   });
 
-  it('get ctype for publish', (): void => {
+  it('get ctype for publish', async (): Promise<void> => {
     const base: BaseCType = {
       title: 'Test',
       description: 'Test',
@@ -61,6 +61,9 @@ describe('publish ctype', (): void => {
       required: ['name', 'age']
     };
 
-    expect(getPublish(base, publisher)).toMatchObject({ ...base, $schema: DEFAULT_CTYPE_SCHEMA });
+    expect(await getPublish(base, publisher)).toMatchObject({
+      ...base,
+      $schema: DEFAULT_CTYPE_SCHEMA
+    });
   });
 });

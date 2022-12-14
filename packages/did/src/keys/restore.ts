@@ -8,6 +8,7 @@ import type { DidKeys$Json } from './types';
 import { Did } from '../did';
 import { create } from '../did/helpers';
 import { IDidDetails, KeyRelationship } from '../types';
+import { typeTransform } from '../utils';
 
 export function restore(keyring: Keyring, json: DidKeys$Json, password: string): Did {
   const keyRelationship = new Map<DidUrl, KeyRelationship>();
@@ -24,7 +25,8 @@ export function restore(keyring: Keyring, json: DidKeys$Json, password: string):
     keyRelationship.set(id, {
       id,
       controller,
-      publicKey
+      publicKey,
+      type: typeTransform(pair.type)
     });
   });
   const pair = keyring.addFromJson(json.identifierKey);

@@ -29,7 +29,8 @@ export function parseDidDocument(document: DidDocument): IDidDetails {
     didDetails.keyRelationship.set(method.id, {
       id: method.id,
       controller: method.controller,
-      publicKey: decodeMultibase(method.publicKeyMultibase)
+      publicKey: decodeMultibase(method.publicKeyMultibase),
+      type: method.type
     });
   });
 

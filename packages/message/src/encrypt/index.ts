@@ -68,7 +68,7 @@ export async function encryptMessage<T extends MessageType>(
 
   const ctype = getCtype(type, data);
 
-  const signData = sender.signWithKey(id, 'authentication');
+  const signData = await sender.signWithKey(id, 'authentication');
 
   return {
     id,

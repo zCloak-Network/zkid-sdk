@@ -45,7 +45,7 @@ describe('VerifiablePresentation', (): void => {
     issuer2 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
     issuer3 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
 
-    ctype1 = getPublish(
+    ctype1 = await getPublish(
       {
         title: 'Test',
         description: 'Test',
@@ -68,7 +68,7 @@ describe('VerifiablePresentation', (): void => {
       issuer1
     );
 
-    ctype2 = getPublish(
+    ctype2 = await getPublish(
       {
         title: 'Test',
         description: 'Test',
@@ -85,7 +85,7 @@ describe('VerifiablePresentation', (): void => {
       issuer2
     );
 
-    ctype3 = getPublish(
+    ctype3 = await getPublish(
       {
         title: 'Test',
         description: 'Test',
@@ -124,14 +124,17 @@ describe('VerifiablePresentation', (): void => {
   });
 
   describe('VerifiablePresentation single vc', (): void => {
-    it('create ctype1 vp with VPType: VP', (): void => {
-      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
+    it('create ctype1 vp with VPType: VP', async (): Promise<void> => {
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype1.toRawCredential(),
+        ctype1
+      )
         .setExpirationDate(null)
         .build(issuer1);
 
       const vpBuilder = new VerifiablePresentationBuilder(holder);
 
-      const vp = vpBuilder.addVC(vc, 'VP').build();
+      const vp = await vpBuilder.addVC(vc, 'VP').build();
 
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,
@@ -147,14 +150,17 @@ describe('VerifiablePresentation', (): void => {
       });
     });
 
-    it('create ctype1 vp with VPType: VP_Digest', (): void => {
-      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
+    it('create ctype1 vp with VPType: VP_Digest', async (): Promise<void> => {
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype1.toRawCredential(),
+        ctype1
+      )
         .setExpirationDate(null)
         .build(issuer1);
 
       const vpBuilder = new VerifiablePresentationBuilder(holder);
 
-      const vp = vpBuilder.addVC(vc, 'VP_Digest').build();
+      const vp = await vpBuilder.addVC(vc, 'VP_Digest').build();
 
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,
@@ -178,14 +184,17 @@ describe('VerifiablePresentation', (): void => {
       });
     });
 
-    it('create ctype1 vp with VPType: VP_SelectiveDisclosure', (): void => {
-      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
+    it('create ctype1 vp with VPType: VP_SelectiveDisclosure', async (): Promise<void> => {
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype1.toRawCredential(),
+        ctype1
+      )
         .setExpirationDate(null)
         .build(issuer1);
 
       const vpBuilder = new VerifiablePresentationBuilder(holder);
 
-      const vp = vpBuilder.addVC(vc, 'VP_SelectiveDisclosure', ['isUser']).build();
+      const vp = await vpBuilder.addVC(vc, 'VP_SelectiveDisclosure', ['isUser']).build();
 
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,
@@ -215,17 +224,23 @@ describe('VerifiablePresentation', (): void => {
   });
 
   describe('VerifiablePresentation multi vc by ctype2', (): void => {
-    it('create vp has multi ctype2 vc with VPType: VP', (): void => {
-      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
+    it('create vp has multi ctype2 vc with VPType: VP', async (): Promise<void> => {
+      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype2.toRawCredential(),
+        ctype2
+      )
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
+      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype2.toRawCredential(),
+        ctype2
+      )
         .setExpirationDate(null)
         .build(issuer2);
 
       const vpBuilder = new VerifiablePresentationBuilder(holder);
 
-      const vp = vpBuilder.addVC(vc1, 'VP').addVC(vc2, 'VP').build();
+      const vp = await vpBuilder.addVC(vc1, 'VP').addVC(vc2, 'VP').build();
 
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,
@@ -241,17 +256,23 @@ describe('VerifiablePresentation', (): void => {
       });
     });
 
-    it('create vp has multi ctype2 vc with VPType: VP_Digest', (): void => {
-      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
+    it('create vp has multi ctype2 vc with VPType: VP_Digest', async (): Promise<void> => {
+      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype2.toRawCredential(),
+        ctype2
+      )
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
+      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype2.toRawCredential(),
+        ctype2
+      )
         .setExpirationDate(null)
         .build(issuer2);
 
       const vpBuilder = new VerifiablePresentationBuilder(holder);
 
-      const vp = vpBuilder.addVC(vc1, 'VP_Digest').addVC(vc2, 'VP_Digest').build();
+      const vp = await vpBuilder.addVC(vc1, 'VP_Digest').addVC(vc2, 'VP_Digest').build();
 
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,
@@ -282,17 +303,23 @@ describe('VerifiablePresentation', (): void => {
       });
     });
 
-    it('create vp has multi ctype2 vc with VPType: VP_SelectiveDisclosure', (): void => {
-      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
+    it('create vp has multi ctype2 vc with VPType: VP_SelectiveDisclosure', async (): Promise<void> => {
+      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype2.toRawCredential(),
+        ctype2
+      )
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
+      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype2.toRawCredential(),
+        ctype2
+      )
         .setExpirationDate(null)
         .build(issuer2);
 
       const vpBuilder = new VerifiablePresentationBuilder(holder);
 
-      const vp = vpBuilder
+      const vp = await vpBuilder
         .addVC(vc1, 'VP_SelectiveDisclosure', ['birthday'])
         .addVC(vc2, 'VP_SelectiveDisclosure', ['No'])
         .build();
@@ -336,20 +363,29 @@ describe('VerifiablePresentation', (): void => {
   });
 
   describe('VerifiablePresentation multi vc by multi ctypes', (): void => {
-    it('create vp has multi ctypes vc with multi VPType', (): void => {
-      const vc1 = VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
+    it('create vp has multi ctypes vc with multi VPType', async (): Promise<void> => {
+      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype1.toRawCredential(),
+        ctype1
+      )
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
+      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype2.toRawCredential(),
+        ctype2
+      )
         .setExpirationDate(null)
         .build(issuer2);
-      const vc3 = VerifiableCredentialBuilder.fromRawCredential(rawCtype3.toRawCredential(), ctype3)
+      const vc3 = await VerifiableCredentialBuilder.fromRawCredential(
+        rawCtype3.toRawCredential(),
+        ctype3
+      )
         .setExpirationDate(null)
         .build(issuer3);
 
       const vpBuilder = new VerifiablePresentationBuilder(holder);
 
-      const vp = vpBuilder
+      const vp = await vpBuilder
         .addVC(vc1, 'VP_Digest')
         .addVC(vc2, 'VP_SelectiveDisclosure', ['No'])
         .addVC(vc3, 'VP')

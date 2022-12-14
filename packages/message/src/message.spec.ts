@@ -27,7 +27,7 @@ describe('message encrypt and decrypt', (): void => {
     issuer = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
     resolver.addDocument(holder.getDocument());
     resolver.addDocument(issuer.getDocument());
-    ctype = getPublish(
+    ctype = await getPublish(
       {
         title: 'Test',
         description: 'Test',
@@ -101,7 +101,7 @@ describe('message encrypt and decrypt', (): void => {
     });
 
     it('Send Response_Approve_Attestation message', async () => {
-      const vc = VerifiableCredentialBuilder.fromRawCredential(rawCredential, ctype)
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCredential, ctype)
         .setExpirationDate(null)
         .build(issuer);
       const message = await encryptMessage(

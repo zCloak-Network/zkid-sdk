@@ -3,7 +3,6 @@
 
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl, Service, VerificationMethodType } from '@zcloak/did-resolver/types';
-import type { KeyringPair } from '@zcloak/keyring/types';
 
 import { DidResolver } from '@zcloak/did-resolver';
 
@@ -31,6 +30,7 @@ export interface KeyRelationship {
   id: DidUrl;
   controller: DidUrl[];
   publicKey: Uint8Array;
+  type: VerificationMethodType;
 }
 
 export interface IDidDetails {
@@ -46,9 +46,11 @@ export interface IDidDetails {
 }
 
 export interface IDidKeyring {
-  getPair(publicKey: Uint8Array): KeyringPair;
-  signWithKey(message: Uint8Array | HexString, key: Exclude<DidKeys, 'keyAgreement'>): SignedData;
-  sign(message: Uint8Array | HexString, id: DidUrl): SignedData;
+  signWithKey(
+    message: Uint8Array | HexString,
+    key: Exclude<DidKeys, 'keyAgreement'>
+  ): Promise<SignedData>;
+  sign(message: Uint8Array | HexString, id: DidUrl): Promise<SignedData>;
   encrypt(
     message: HexString | Uint8Array,
     receiverUrl: DidUrl,

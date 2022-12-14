@@ -36,7 +36,7 @@ describe('publish ctype', (): void => {
       required: ['name', 'age']
     };
 
-    const ctype = getPublish(base, publisher);
+    const ctype = await getPublish(base, publisher);
 
     expect(await ctypeVerify(ctype, publisher.getDocument())).toBe(true);
   });

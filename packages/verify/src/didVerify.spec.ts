@@ -17,7 +17,7 @@ describe('did verify', (): void => {
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
       const did = createEcdsaFromMnemonic(mnemonic);
 
-      const document = did.getPublish();
+      const document = await did.getPublish();
 
       expect(await verifyDidDocumentProof(document)).toBe(true);
     });

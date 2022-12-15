@@ -19,7 +19,7 @@
   "dependencies": {
     "@noble/hashes": "^1.1.4",
     "@noble/secp256k1": "^1.7.0",
-    "@polkadot/util": "^10.1.12",
+    "@polkadot/util": "^10.2.1",
     "@scure/base": "^1.1.1",
     "@zcloak/wasm-bridge": "0.6.2-0",
     "bip39": "^3.0.4",

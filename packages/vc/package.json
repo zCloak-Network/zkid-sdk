@@ -17,11 +17,11 @@
   "version": "0.6.2-0",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^10.1.12",
+    "@polkadot/util": "^10.2.1",
     "@zcloak/crypto": "0.6.2-0",
     "@zcloak/ctype": "0.6.2-0",
     "@zcloak/did": "0.6.2-0",
-    "merkletreejs": "^0.3.1"
+    "merkletreejs": "^0.3.9"
   },
   "devDependencies": {
     "@zcloak/did-resolver": "0.6.2-0"

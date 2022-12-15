@@ -14,13 +14,13 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.6.2-0",
+  "version": "0.6.2-1",
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^10.2.1"
   },
   "peerDependencies": {
-    "@zcloak/wasm": "^0.6.2-0",
-    "@zcloak/wasm-asm": "^0.6.2-0"
+    "@zcloak/wasm": "^0.6.2-1",
+    "@zcloak/wasm-asm": "^0.6.2-1"
   }
 }

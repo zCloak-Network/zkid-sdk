@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.7.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.6.1...v0.7.0) (2022-12-21)
+
+
+### Features
+
+* **did:** Did Keyring extends Did Details, and rewrites the return value of the sign method as Promise ([#28](https://github.com/zCloak-Network/zkid-sdk/issues/28)) ([b211f07](https://github.com/zCloak-Network/zkid-sdk/commit/b211f07e92be1b42d6f725cb5346a85426694b66))
+
+
 ## [0.6.1](https://github.com/zCloak-Network/zkid-sdk/compare/v0.6.0...v0.6.1) (2022-12-08)
 
 

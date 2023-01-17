@@ -1,0 +1,4 @@
+W
+> test
+> zcloak-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e
+

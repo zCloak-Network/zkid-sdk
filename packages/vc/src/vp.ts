@@ -157,7 +157,8 @@ export class VerifiablePresentationBuilder {
         created: Date.now(),
         verificationMethod: id,
         proofPurpose: 'authentication',
-        proofValue: base58Encode(signature)
+        proofValue: base58Encode(signature),
+        challenge
       },
       hasher: [hashTypeOut]
     };

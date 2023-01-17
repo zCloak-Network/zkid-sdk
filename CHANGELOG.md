@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [0.7.1](https://github.com/zCloak-Network/zkid-sdk/compare/v0.7.0...v0.7.1) (2023-01-17)
+
+
+### Bug Fixes
+
+* **verify:** vpVerify will always failed when VPType: VP_Digest, VP_SelectiveDisclosure ([#30](https://github.com/zCloak-Network/zkid-sdk/issues/30)) ([6b5eb85](https://github.com/zCloak-Network/zkid-sdk/commit/6b5eb855ba913d215b2967b9a77dec1f42dc599d))
+* **vp:** vp proof without challenge ([#29](https://github.com/zCloak-Network/zkid-sdk/issues/29)) ([c98cde4](https://github.com/zCloak-Network/zkid-sdk/commit/c98cde4d0b2dd32c65be7d8f2ebc3599d5012979))
+
+
 ## [0.7.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.6.1...v0.7.0) (2022-12-21)
 
 

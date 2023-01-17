@@ -63,7 +63,7 @@ export async function vpVerify(
 
   // check vc is same did with proof's signer
   for (const vc of verifiableCredential) {
-    if (!isSameUri(vc.issuer, proof.verificationMethod)) {
+    if (!isSameUri(vc.holder, proof.verificationMethod)) {
       return false;
     }
   }
@@ -71,7 +71,7 @@ export async function vpVerify(
   const proofValid = await proofVerify(id, proof, resolverOrDidDocument);
 
   const results = await Promise.all(
-    type.map((t, i) => VERIFIERS[t](verifiableCredential[i]), resolverOrDidDocument)
+    type.map((t, i) => VERIFIERS[t](verifiableCredential[i], resolverOrDidDocument))
   );
 
   return idValid && proofValid && !results.includes(false);

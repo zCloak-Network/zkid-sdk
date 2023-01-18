@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.7.2](https://github.com/zCloak-Network/zkid-sdk/compare/v0.7.1...v0.7.2) (2023-01-18)
+
+
+### Bug Fixes
+
+* **verify:** didVerify will always return false when hash multiple signer keys and not sign with the first ([#34](https://github.com/zCloak-Network/zkid-sdk/issues/34)) ([53a8e4e](https://github.com/zCloak-Network/zkid-sdk/commit/53a8e4ea15ed3a1c2b3cc183d21ed77af33addf5))
+
+
 ## [0.7.1](https://github.com/zCloak-Network/zkid-sdk/compare/v0.7.0...v0.7.1) (2023-01-17)
 
 

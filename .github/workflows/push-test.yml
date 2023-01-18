@@ -1,0 +1,29 @@
+name: test
+on:
+  push:
+    branches:
+      - fix-gh-act
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        step: ['lint', 'test', 'build']
+    name: ${{ matrix.step }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: "16"
+        cache: "yarn"
+
+    - name: Install deps
+      run: |
+        yarn install --immutable | grep -v 'YN0013'
+
+    - name: ${{ matrix.step }}
+      run: |
+        yarn ${{ matrix.step }}

@@ -2,13 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
-import type { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
+import type { DidDocument, DidUrl, VerificationMethodType } from '@zcloak/did-resolver/types';
 
 import { u8aToU8a } from '@polkadot/util';
 
-import { decodeMultibase, ed25519Verify, secp256k1Verify } from '@zcloak/crypto';
+import { ed25519Verify, secp256k1Verify } from '@zcloak/crypto';
+import { helpers } from '@zcloak/did';
 import { DidResolver } from '@zcloak/did-resolver';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
+
+const VERIFIERS: Record<
+  VerificationMethodType,
+  (message: Uint8Array, signature: HexString | Uint8Array, publicKey: Uint8Array) => boolean
+> = {
+  EcdsaSecp256k1VerificationKey2019: secp256k1Verify,
+  Ed25519VerificationKey2020: ed25519Verify,
+  X25519KeyAgreementKey2019: () => false
+};
 
 /**
  * @name didVerify
@@ -58,18 +68,14 @@ export async function didVerify(
       ? await resolverOrDidDocument.resolve(didUrl)
       : resolverOrDidDocument;
 
-  const finded = document.verificationMethod?.find((method) => {
-    return method.id;
-  });
+  const did = helpers.fromDidDocument(document);
 
-  if (!finded) return false;
+  for (const [, { publicKey, type }] of did.keyRelationship) {
+    const isTrue = VERIFIERS[type](messageU8a, signature, publicKey);
 
-  const publicKey = decodeMultibase(finded.publicKeyMultibase);
-
-  if (finded.type === 'EcdsaSecp256k1VerificationKey2019') {
-    return secp256k1Verify(messageU8a, signature, publicKey);
-  } else if (finded.type === 'Ed25519VerificationKey2020') {
-    return ed25519Verify(messageU8a, signature, publicKey);
+    if (isTrue) {
+      return isTrue;
+    }
   }
 
   return false;

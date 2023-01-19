@@ -4,6 +4,7 @@
 import { initCrypto } from '@zcloak/crypto';
 
 import { calcDigest, DigestPayload } from './digest';
+import { calcRoothash } from './rootHash';
 
 describe('digest', (): void => {
   beforeEach(async (): Promise<void> => {
@@ -35,6 +36,36 @@ describe('digest', (): void => {
       expect(calcDigest(payload)).toEqual({
         type: 'Keccak256',
         digest: '0xafe8c82e9581af9917f20d72d997ece3ed6edad6fc25498c5a2f61324be79a2a'
+      });
+    });
+    it('digest with calcRoothash by hashType Blake32to1', (): void => {
+      const input = {
+        name: 'zCloakzCloakzCloakzCloakzCloakzCloakzCloakzCloak',
+        age: 19,
+        birthday: '2022.10.31',
+        isUser: true
+      };
+
+      const { rootHash } = calcRoothash(input, 'Blake32to1', {
+        '0x6b90277e3f4ab97b83b3fc61ecffa4ec063f70d7255233ef5afdf418dcec3b75':
+          '0x25807968a4c5f3ce2f116c5914991c97e33020408146406a36e4fa4826dd6c7d',
+        '0x1300000000000000000000000000000000000000000000000000000000000000':
+          '0x45bc02739bdb13135f43bc23fe0583410ee2b0edb552b5d64a70c9e72bfaa826',
+        '0x8a323032322e31302e3331000000000000000000000000000000000000000000':
+          '0x513e426a949975f70ef1562bec46c217c3455f8130addcc68035120f5373fcac',
+        '0x0100000000000000000000000000000000000000000000000000000000000000':
+          '0x0186debe062c28eef2a5cd1865a9190479d5713bb78ad91ea252a2ae7c9214de'
+      });
+
+      expect(
+        calcDigest({
+          rootHash,
+          holder: 'did:zk:0x4042F3631656227d92452C9561889677c48f2C4c',
+          ctype: '0x7d31ec6cceb9d313ab35dafa9058c88e758f30887362c2fab3c845902f9ccb31'
+        })
+      ).toEqual({
+        type: 'Keccak256',
+        digest: '0x20404b42f45a10a476cdd49a20c3db24c8d279cb3d009730536004a5c3ca22d6'
       });
     });
   });

@@ -17,7 +17,7 @@ export class ArweaveDidResolver extends DidResolver {
   constructor(opts: Options = {}) {
     super();
 
-    const { server = 'https://did-service.starks.network' } = opts;
+    const { server = 'https://did-service.zkid.app' } = opts;
 
     this.server = server;
   }

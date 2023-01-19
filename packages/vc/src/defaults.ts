@@ -24,6 +24,7 @@ export const DEFAULT_VP_HASH_TYPE: HashType = 'Keccak256';
 export const ALL_HASH_TYPES: HashType[] = [
   'RescuePrime',
   'Blake3',
+  'Blake32to1',
   'Blake2',
   'Keccak256',
   'Keccak512',

@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [0.8.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.7.2...v0.8.0) (2023-02-06)
+
+
+### Features
+
+* **crypto:** blake3_2to1AsU8a, add 2-to-1 blake3 Hash Function ([#32](https://github.com/zCloak-Network/zkid-sdk/issues/32)) ([6e3a0a4](https://github.com/zCloak-Network/zkid-sdk/commit/6e3a0a4d629b982bfa5fb74c80eccb82e20fe7c2))
+* upgrade deps ([#37](https://github.com/zCloak-Network/zkid-sdk/issues/37)) ([686e9b0](https://github.com/zCloak-Network/zkid-sdk/commit/686e9b02e6576e2fc92249ec4f4d15d4bfa67b73))
+* **vc:** add Blake32to1 hashType for vc ([#35](https://github.com/zCloak-Network/zkid-sdk/issues/35)) ([c69f3bf](https://github.com/zCloak-Network/zkid-sdk/commit/c69f3bfc939d5e4ab648faa419de7cf53e03f9ce))
+
+
 ## [0.7.2](https://github.com/zCloak-Network/zkid-sdk/compare/v0.7.1...v0.7.2) (2023-01-18)
 
 

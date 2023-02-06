@@ -3,7 +3,7 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
   "description": "zCloak vc package",
-  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/packages/vc#readme",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk#readme",
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/vc",
@@ -17,13 +17,13 @@
   "version": "0.7.3-1",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^10.2.1",
-    "@zcloak/crypto": "0.7.3-1",
-    "@zcloak/ctype": "0.7.3-1",
-    "@zcloak/did": "0.7.3-1",
+    "@polkadot/util": "^10.3.1",
+    "@zcloak/crypto": "workspace:^",
+    "@zcloak/ctype": "workspace:^",
+    "@zcloak/did": "workspace:^",
     "merkletreejs": "^0.3.9"
   },
   "devDependencies": {
-    "@zcloak/did-resolver": "0.7.3-1"
+    "@zcloak/did-resolver": "workspace:^"
   }
 }

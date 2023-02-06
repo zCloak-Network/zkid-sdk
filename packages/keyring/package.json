@@ -18,7 +18,7 @@
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^10.2.1",
-    "@zcloak/crypto": "0.7.3-1"
+    "@zcloak/crypto": "workspace:^"
   },
   "devDependencies": {
     "ethers": "^5.7.1"

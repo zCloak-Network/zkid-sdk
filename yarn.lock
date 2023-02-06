@@ -3155,9 +3155,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.14.1":
-  version: 0.14.1
-  resolution: "@zcloak/dev@npm:0.14.1"
+"@zcloak/dev@npm:^0.14.3":
+  version: 0.14.3
+  resolution: "@zcloak/dev@npm:0.14.3"
   dependencies:
     "@babel/cli": ^7.20.7
     "@babel/core": ^7.20.12
@@ -3244,7 +3244,7 @@ __metadata:
     zcloak-exec-prettier: scripts/zcloak-exec-prettier.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: 33914f20a20e8f617ed42202c6eb4fa8a4bcc093ca8d694f00eb14dcc6f29690b4160ae528a63e0e27e1605767daf2f822ec02a3b9b09c36adf4ef3a3f5a1b06
+  checksum: 452a071edc9deed45e35dd9b0fc8cb0767b714cbb1b21a5a357fa9ad0240db52f26cde5a5ef1e3372e4df6c46a85533728bfee260c4c19dcfb1866699159c1ae
   languageName: node
   linkType: hard
 
@@ -11834,7 +11834,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": ^29.4.0
-    "@zcloak/dev": ^0.14.1
+    "@zcloak/dev": ^0.14.3
     babel-plugin-dynamic-import-node: ^2.3.3
     fs-extra: ^11.1.0
   bin:

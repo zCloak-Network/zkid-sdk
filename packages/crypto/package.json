@@ -7,6 +7,9 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/crypto",
+  "publishConfig": {
+    "directory": "build"
+  },
   "repository": {
     "directory": "packages/crypto",
     "type": "git",

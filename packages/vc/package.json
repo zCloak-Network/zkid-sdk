@@ -7,6 +7,9 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/vc",
+  "publishConfig": {
+    "directory": "build"
+  },
   "repository": {
     "directory": "packages/vc",
     "type": "git",

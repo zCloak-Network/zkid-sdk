@@ -7,6 +7,9 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/did-resolver",
+  "publishConfig": {
+    "directory": "build"
+  },
   "repository": {
     "directory": "packages/did-resolver",
     "type": "git",

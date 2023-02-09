@@ -14,5 +14,7 @@
     "@zcloak/wasm-asm": "0.8.0",
     "@zcloak/wasm-bridge": "0.8.0"
   },
-  "changesets": []
+  "changesets": [
+    "good-forks-relate"
+  ]
 }

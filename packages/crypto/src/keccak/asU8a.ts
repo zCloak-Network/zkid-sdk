@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { keccak_256 as keccak256, keccak_512 as keccak512 } from '@noble/hashes/sha3';

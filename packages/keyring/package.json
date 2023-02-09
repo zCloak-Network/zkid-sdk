@@ -7,6 +7,9 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/keyring",
+  "publishConfig": {
+    "directory": "build"
+  },
   "repository": {
     "directory": "packages/keyring",
     "type": "git",

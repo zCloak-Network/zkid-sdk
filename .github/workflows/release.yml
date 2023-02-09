@@ -6,19 +6,17 @@ on:
 
 jobs:
   release:
-    if: "! startsWith(github.event.head_commit.message, 'chore: release')"
+    if: github.repository == 'zCloak-Network/zkid-sdk'
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_SCRIPTS: false
-      GH_PAT: ${{ secrets.GH_PAT }}
-      GH_RELEASE_GITHUB_API_TOKEN: ${{ secrets.GH_PAT }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_PAT }}
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -30,6 +28,9 @@ jobs:
         run: |
           yarn install --immutable | grep -v 'YN0013'
 
-      - name: build:release
-        run: |
-          yarn build:release
+      - name: Create Release Pull Request
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          version: yarn zcloak-dev-bump-version
+          publish: yarn zcloak-ci-ghact-release

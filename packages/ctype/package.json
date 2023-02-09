@@ -7,6 +7,9 @@
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/ctype",
+  "publishConfig": {
+    "directory": "build"
+  },
   "repository": {
     "directory": "packages/ctype",
     "type": "git",

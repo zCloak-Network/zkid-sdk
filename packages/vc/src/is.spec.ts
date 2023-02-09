@@ -3,7 +3,7 @@
 
 import type { VerifiableCredential } from './types';
 
-import { isProof, isVC, isVP } from './utils';
+import { isProof, isVC, isVP } from './is';
 
 const fullVC: VerifiableCredential = {
   '@context': ['https://www.w3.org/2018/credentials/v1'],

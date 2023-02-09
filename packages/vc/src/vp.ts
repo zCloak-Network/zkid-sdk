@@ -16,8 +16,9 @@ import { Did } from '@zcloak/did';
 import { isSameUri } from '@zcloak/did/utils';
 
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE } from './defaults';
+import { isVC } from './is';
 import { calcRoothash } from './rootHash';
-import { isVC, keyTypeToSignatureType, rlpEncode } from './utils';
+import { keyTypeToSignatureType, rlpEncode } from './utils';
 
 // @internal
 // transform Verifiable Credential by [[VerifiablePresentationType]]

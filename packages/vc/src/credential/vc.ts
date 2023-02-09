@@ -17,7 +17,8 @@ import { Did } from '@zcloak/did';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest } from '../digest';
-import { isRawCredential, keyTypeToSignatureType } from '../utils';
+import { isRawCredential } from '../is';
+import { keyTypeToSignatureType } from '../utils';
 import { Raw } from './raw';
 
 /**

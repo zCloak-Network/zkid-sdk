@@ -12,8 +12,8 @@ import { assert, isHex } from '@polkadot/util';
 import { validateSubject } from '@zcloak/ctype';
 import { isDidUrl } from '@zcloak/did/utils';
 
+import { isRawCredential } from '../is';
 import { calcRoothash, RootHashResult } from '../rootHash';
-import { isRawCredential } from '../utils';
 
 /**
  * [[IRaw]] implements

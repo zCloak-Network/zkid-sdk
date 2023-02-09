@@ -10,7 +10,7 @@ import { assert, isHex, isNumber, u8aToString } from '@polkadot/util';
 import { decodeMultibase } from '@zcloak/crypto';
 import { isDidUrl, isSameUri } from '@zcloak/did/utils';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
-import { isRawCredential, isVC, isVP } from '@zcloak/vc/utils';
+import { isRawCredential, isVC, isVP } from '@zcloak/vc/is';
 import { didVerify } from '@zcloak/verify';
 
 import { SUPPORT_MESSAGE_TYPES } from '../defaults';

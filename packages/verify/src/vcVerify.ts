@@ -10,7 +10,8 @@ import { assert, bufferToU8a, isHex, u8aConcat, u8aToHex } from '@polkadot/util'
 
 import { makeMerkleTree } from '@zcloak/vc';
 import { HASHER } from '@zcloak/vc/hasher';
-import { isVC, rlpEncode } from '@zcloak/vc/utils';
+import { isVC } from '@zcloak/vc/is';
+import { rlpEncode } from '@zcloak/vc/utils';
 
 import { digestVerify } from './digestVerify';
 import { proofVerify } from './proofVerify';

@@ -18,6 +18,7 @@ import { Did } from '@zcloak/did';
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest } from '../digest';
 import { isRawCredential } from '../is';
+import { calcRoothash, RootHashResult } from '../rootHash';
 import { keyTypeToSignatureType } from '../utils';
 import { Raw } from './raw';
 
@@ -87,7 +88,9 @@ export class VerifiableCredentialBuilder {
   /**
    * Build to [[VerifiableCredential]], it will calc digest and  sign proof use `issuer:Did`
    */
-  public async build(issuer: Did): Promise<VerifiableCredential> {
+  public async build(issuer: Did, isPublic = false): Promise<VerifiableCredential<boolean>> {
+    assert(this.raw.checkSubject(), `Subject check failed when use ctype ${this.raw.ctype}`);
+
     if (
       this['@context'] &&
       this.version &&
@@ -95,11 +98,17 @@ export class VerifiableCredentialBuilder {
       this.digestHashType &&
       this.expirationDate !== undefined
     ) {
-      const { hashes, nonceMap, rootHash, type: rootHashType } = this.raw.calcRootHash();
+      let rootHashResult: RootHashResult;
+
+      if (isPublic) {
+        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType);
+      } else {
+        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType, {});
+      }
 
       const { digest, type: digestHashType } = calcDigest(
         {
-          rootHash,
+          rootHash: rootHashResult.rootHash,
           expirationDate: this.expirationDate || undefined,
           holder: this.raw.owner,
           ctype: this.raw.ctype.$id
@@ -117,20 +126,26 @@ export class VerifiableCredentialBuilder {
         proofValue: base58Encode(signature)
       };
 
-      const vc: VerifiableCredential = {
+      let vc: VerifiableCredential<boolean> = {
         '@context': this['@context'],
         version: this.version,
         ctype: this.raw.ctype.$id,
         issuanceDate: this.issuanceDate,
         credentialSubject: this.raw.contents,
-        credentialSubjectNonceMap: nonceMap,
-        credentialSubjectHashes: hashes,
         issuer: issuer.id,
         holder: this.raw.owner,
-        hasher: [rootHashType, digestHashType],
+        hasher: [rootHashResult.type, digestHashType],
         digest,
         proof: [proof]
       };
+
+      if (!isPublic) {
+        vc = {
+          ...vc,
+          credentialSubjectHashes: rootHashResult.hashes,
+          credentialSubjectNonceMap: rootHashResult.nonceMap
+        };
+      }
 
       if (this.expirationDate) {
         vc.expirationDate = this.expirationDate;

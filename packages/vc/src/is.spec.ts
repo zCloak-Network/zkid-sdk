@@ -3,9 +3,9 @@
 
 import type { VerifiableCredential } from './types';
 
-import { isProof, isVC, isVP } from './is';
+import { isPrivateVC, isProof, isPublicVC, isVP } from './is';
 
-const fullVC: VerifiableCredential = {
+const fullVC: VerifiableCredential<false> = {
   '@context': ['https://www.w3.org/2018/credentials/v1'],
   version: '0',
   ctype: '0xc79824e312467b9d38f5448aef37791ac9d45e5c66267eb19f327005a45fb3d4',
@@ -48,7 +48,34 @@ const fullVC: VerifiableCredential = {
   ]
 };
 
-const vcWithExpiration: VerifiableCredential = {
+const fullPublicVC: VerifiableCredential<true> = {
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  version: '0',
+  ctype: '0xc79824e312467b9d38f5448aef37791ac9d45e5c66267eb19f327005a45fb3d4',
+  issuanceDate: 1668362860149,
+  credentialSubject: {
+    name: 'zCloak',
+    age: 1,
+    birthday: 1668362860149,
+    links: ['https://zcloak.network', 'https://zkid.app']
+  },
+  issuer: 'did:zk:0xf02AC70b695b3211813a207d937719D22BeC04a7',
+  holder: 'did:zk:0xC68B9B2250Cbb10e08CABCaDEF2383e76b4e4b59',
+  hasher: ['RescuePrime', 'Keccak256'],
+  digest: '0x01f28d1bc9860880ab068bf10d2fb389f2080b6ba9a37bea693051027ef9525f',
+  proof: [
+    {
+      type: 'EcdsaSecp256k1Signature2019',
+      created: 1668362860153,
+      verificationMethod: 'did:zk:0xf02AC70b695b3211813a207d937719D22BeC04a7#key-0',
+      proofPurpose: 'assertionMethod',
+      proofValue:
+        'z27SZMWaWxSrVC3GCB4YNMy63TkdFjUUeJ2aKsQGorK9Btt4v4yDU3HRZySGUL9rCP2r3DBa3nDNQyxW2L1pyYy13W'
+    }
+  ]
+};
+
+const vcWithExpiration: VerifiableCredential<false> = {
   '@context': ['https://www.w3.org/2018/credentials/v1'],
   version: '0',
   ctype: '0xa69ef32aabc84331421bc553ec5b85b6bee54789985b66c679ad68db5d69bb6a',
@@ -75,6 +102,34 @@ const vcWithExpiration: VerifiableCredential = {
     '0x12a2896d4d2541bc1ed3d3aa9a4f223d9f2a77a6a62bd7c409d0d2fc590f84e8',
     '0x52db0b0477d1f654349df3e35bb6bd92f8f5cb05f3cedf27ae3bc4063ad7e6fd'
   ],
+  issuer: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb',
+  holder: 'did:zk:0xbBf6b56C5606Ce2D24dec5BbbD11442c6E03ca3F',
+  hasher: ['RescuePrime', 'Keccak256'],
+  digest: '0x523fa24c9e82018b19ae004ebb5b07a66b762bf05ddc4a35177f56635d35eb44',
+  proof: [
+    {
+      type: 'EcdsaSecp256k1Signature2019',
+      created: 1668362768979,
+      verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
+      proofPurpose: 'assertionMethod',
+      proofValue:
+        'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+    }
+  ],
+  expirationDate: 1668362768974
+};
+
+const publicVcWithExpiration: VerifiableCredential<true> = {
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  version: '0',
+  ctype: '0xa69ef32aabc84331421bc553ec5b85b6bee54789985b66c679ad68db5d69bb6a',
+  issuanceDate: 1668362768974,
+  credentialSubject: {
+    name: 'zCloak',
+    age: 1,
+    birthday: 1668362768974,
+    links: ['https://zcloak.network', 'https://zkid.app']
+  },
   issuer: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb',
   holder: 'did:zk:0xbBf6b56C5606Ce2D24dec5BbbD11442c6E03ca3F',
   hasher: ['RescuePrime', 'Keccak256'],
@@ -125,11 +180,45 @@ describe('test is functions', (): void => {
     ).toBe(false);
   });
 
-  it('is vc object', (): void => {
-    expect(isVC(fullVC)).toBe(true);
-    expect(isVC(vcWithExpiration)).toBe(true);
+  it('is private vc object', (): void => {
+    expect(isPrivateVC(fullVC)).toBe(true);
+    expect(isPrivateVC(vcWithExpiration)).toBe(true);
     expect(
-      isVC({
+      isPrivateVC({
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        version: '0',
+        ctype: '0xa69ef32aabc84331421bc553ec5b85b6bee54789985b66c679ad68db5d69bb6a',
+        issuanceDate: 1668362768974,
+        credentialSubject: {
+          name: 'zCloak',
+          age: 1,
+          birthday: 1668362768974,
+          links: ['https://zcloak.network', 'https://zkid.app']
+        },
+        issuer: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb',
+        holder: 'did:zk',
+        hasher: ['RescuePrime', 'Keccak256'],
+        digest: '0x523fa24c9e82018b19ae004ebb5b07a66b762bf05ddc4a35177f56635d35eb44',
+        proof: [
+          {
+            type: 'EcdsaSecp256k1Signature2019',
+            created: 1668362768979,
+            verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
+            proofPurpose: 'assertionMethod',
+            proofValue:
+              'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+          }
+        ],
+        expirationDate: 1668362768974
+      })
+    ).toBe(false);
+  });
+
+  it('is public vc object', (): void => {
+    expect(isPublicVC(fullPublicVC)).toBe(true);
+    expect(isPublicVC(publicVcWithExpiration)).toBe(true);
+    expect(
+      isPublicVC({
         '@context': ['https://www.w3.org/2018/credentials/v1'],
         version: '0',
         ctype: '0xa69ef32aabc84331421bc553ec5b85b6bee54789985b66c679ad68db5d69bb6a',

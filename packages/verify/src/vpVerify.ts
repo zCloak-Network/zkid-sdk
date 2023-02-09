@@ -29,7 +29,10 @@ function idCheck(digests: HexString[], hashType: HashType, id: HexString): boole
 
 const VERIFIERS: Record<
   VerifiablePresentationType,
-  (vc: VerifiableCredential, resolverOrDidDocument?: DidDocument | DidResolver) => Promise<boolean>
+  (
+    vc: VerifiableCredential<boolean>,
+    resolverOrDidDocument?: DidDocument | DidResolver
+  ) => Promise<boolean>
 > = {
   VP: vcVerify,
   VP_Digest: vcVerifyDigest,

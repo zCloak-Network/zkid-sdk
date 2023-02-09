@@ -78,12 +78,39 @@ export function isRawCredential(input: unknown): input is RawCredential {
   return (
     isJsonObject(input) &&
     isHex(input.ctype) &&
-    (isHex(input.credentialSubject) || isJsonObject(input.credentialSubject)) &&
-    isArray(input.credentialSubjectHashes) &&
-    isJsonObject(input.credentialSubjectNonceMap) &&
+    isJsonObject(input.credentialSubject) &&
     isDidUrl(input.holder) &&
     isHashType(input.hasher?.[0]) &&
     isHashType(input.hasher?.[1])
+  );
+}
+
+/**
+ * @name isPrivateVC
+ * @description
+ * check the `input` is [[VerifiableCredential]] and be public
+ */
+export function isPrivateVC(input: unknown): input is VerifiableCredential<false> {
+  return (
+    isJsonObject(input) &&
+    isArray(input.credentialSubjectHashes) &&
+    isJsonObject(input.credentialSubjectNonceMap) &&
+    isVC(input)
+  );
+}
+
+/**
+ * @name isPublicVC
+ * @description
+ * check the `input` is [[VerifiableCredential]] and be public
+ */
+export function isPublicVC(input: unknown): input is VerifiableCredential<true> {
+  return (
+    isJsonObject(input) &&
+    !input.credentialSubjectHashes &&
+    !input.credentialSubjectNonceMap &&
+    isVC(input) &&
+    isJsonObject(input.credentialSubject)
   );
 }
 
@@ -92,7 +119,7 @@ export function isRawCredential(input: unknown): input is RawCredential {
  * @description
  * check the `input` is [[VerifiableCredential]]
  */
-export function isVC(input: unknown): input is VerifiableCredential {
+export function isVC(input: unknown): input is VerifiableCredential<boolean> {
   return (
     isJsonObject(input) &&
     isArray(input['@context']) &&
@@ -105,7 +132,11 @@ export function isVC(input: unknown): input is VerifiableCredential {
     isHex(input.digest) &&
     isArray(input.proof) &&
     !input.proof.map((p) => isProof(p)).includes(false) &&
-    isRawCredential(input)
+    isHex(input.ctype) &&
+    (isJsonObject(input.credentialSubject) || isHex(input.credentialSubject)) &&
+    isDidUrl(input.holder) &&
+    isHashType(input.hasher?.[0]) &&
+    isHashType(input.hasher?.[1])
   );
 }
 

@@ -61,7 +61,6 @@ describe('VerifiableCredential', (): void => {
       hashType: 'RescuePrime'
     });
 
-    raw.calcRootHash();
     expect(raw.checkSubject()).toBe(true);
   });
 
@@ -72,8 +71,6 @@ describe('VerifiableCredential', (): void => {
       ctype,
       hashType: 'RescuePrime'
     });
-
-    raw.calcRootHash();
 
     expect(raw.toRawCredential('Keccak256')).toMatchObject({
       ctype: ctype.$id,
@@ -137,7 +134,6 @@ describe('VerifiableCredential', (): void => {
       hashType: 'RescuePrime'
     });
 
-    raw.calcRootHash();
     const now = Date.now();
 
     const vcBuilder = VerifiableCredentialBuilder.fromRawCredential(

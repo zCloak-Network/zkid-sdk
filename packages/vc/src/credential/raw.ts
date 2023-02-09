@@ -1,19 +1,18 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HexString } from '@zcloak/crypto/types';
 import type { CType } from '@zcloak/ctype/types';
 import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { AnyJson, HashType, RawCredential } from '../types';
 import type { IRaw } from './types';
 
-import { assert, isHex } from '@polkadot/util';
+import { assert } from '@polkadot/util';
 
 import { validateSubject } from '@zcloak/ctype';
 import { isDidUrl } from '@zcloak/did/utils';
 
+import { DEFAULT_DIGEST_HASH_TYPE } from '../defaults';
 import { isRawCredential } from '../is';
-import { calcRoothash, RootHashResult } from '../rootHash';
 
 /**
  * [[IRaw]] implements
@@ -37,19 +36,15 @@ export class Raw implements IRaw {
   public ctype: CType;
   public hashType: HashType;
 
-  public nonceMap?: Record<HexString, HexString>;
-
   public static fromRawCredential(rawCredential: RawCredential, ctype: CType): Raw {
     assert(isRawCredential(rawCredential), 'input is not a RawCredential object');
-    assert(!isHex(rawCredential.credentialSubject), 'credentialSubject can not be hex string');
     assert(ctype.$id === rawCredential.ctype, '`ctype` is not the raw credential ctype');
 
     return new Raw({
       contents: rawCredential.credentialSubject,
       owner: rawCredential.holder,
       ctype,
-      hashType: rawCredential.hasher[0],
-      nonceMap: rawCredential.credentialSubjectNonceMap
+      hashType: rawCredential.hasher[0]
     });
   }
 
@@ -98,17 +93,6 @@ export class Raw implements IRaw {
   }
 
   /**
-   * calc rootHash, use `this.nonceMap` if exists.
-   * 1. check the subject is valid
-   * 2. calc `rootHash` use nonceMap
-   */
-  public calcRootHash(): RootHashResult {
-    assert(this.checkSubject(), `Subject check failed when use ctype ${this.ctype}`);
-
-    return calcRoothash(this.contents, this.hashType, this.nonceMap);
-  }
-
-  /**
    * check the `contents` is valid by ctype
    * @returns `true` or `false`
    */
@@ -116,14 +100,12 @@ export class Raw implements IRaw {
     return validateSubject(this.ctype, this.contents).valid;
   }
 
-  public toRawCredential(digestHashType: HashType = 'Keccak256'): RawCredential {
-    const { hashes, nonceMap } = this.calcRootHash();
+  public toRawCredential(digestHashType: HashType = DEFAULT_DIGEST_HASH_TYPE): RawCredential {
+    assert(this.checkSubject(), `Subject check failed when use ctype ${this.ctype}`);
 
     return {
       ctype: this.ctype.$id,
       credentialSubject: this.contents,
-      credentialSubjectHashes: hashes,
-      credentialSubjectNonceMap: nonceMap,
       holder: this.owner,
       hasher: [this.hashType, digestHashType]
     };

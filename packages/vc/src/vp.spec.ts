@@ -3,12 +3,15 @@
 
 import type { CType } from '@zcloak/ctype/types';
 
+import { assert } from '@polkadot/util';
+
 import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype/publish';
 import { Did, helpers } from '@zcloak/did';
 
 import { Raw, VerifiableCredentialBuilder } from './credential';
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE, DEFAULT_VP_VERSION } from './defaults';
+import { isPrivateVC } from './is';
 import { calcRoothash } from './rootHash';
 import { hashDigests, VerifiablePresentationBuilder } from './vp';
 
@@ -117,10 +120,6 @@ describe('VerifiablePresentation', (): void => {
       ctype: ctype3,
       hashType: 'RescuePrime'
     });
-
-    rawCtype1.calcRootHash();
-    rawCtype2.calcRootHash();
-    rawCtype3.calcRootHash();
   });
 
   describe('VerifiablePresentation single vc', (): void => {
@@ -162,6 +161,8 @@ describe('VerifiablePresentation', (): void => {
 
       const vp = await vpBuilder.addVC(vc, 'VP_Digest').build();
 
+      assert(isPrivateVC(vc), '');
+
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,
         version: DEFAULT_VP_VERSION,
@@ -195,6 +196,8 @@ describe('VerifiablePresentation', (): void => {
       const vpBuilder = new VerifiablePresentationBuilder(holder);
 
       const vp = await vpBuilder.addVC(vc, 'VP_SelectiveDisclosure', ['isUser']).build();
+
+      assert(isPrivateVC(vc), '');
 
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,
@@ -274,6 +277,9 @@ describe('VerifiablePresentation', (): void => {
 
       const vp = await vpBuilder.addVC(vc1, 'VP_Digest').addVC(vc2, 'VP_Digest').build();
 
+      assert(isPrivateVC(vc1), '');
+      assert(isPrivateVC(vc2), '');
+
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,
         version: DEFAULT_VP_VERSION,
@@ -323,6 +329,9 @@ describe('VerifiablePresentation', (): void => {
         .addVC(vc1, 'VP_SelectiveDisclosure', ['birthday'])
         .addVC(vc2, 'VP_SelectiveDisclosure', ['No'])
         .build();
+
+      assert(isPrivateVC(vc1), '');
+      assert(isPrivateVC(vc2), '');
 
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,
@@ -390,6 +399,9 @@ describe('VerifiablePresentation', (): void => {
         .addVC(vc2, 'VP_SelectiveDisclosure', ['No'])
         .addVC(vc3, 'VP')
         .build();
+
+      assert(isPrivateVC(vc1), '');
+      assert(isPrivateVC(vc2), '');
 
       expect(vp).toMatchObject({
         '@context': DEFAULT_CONTEXT,

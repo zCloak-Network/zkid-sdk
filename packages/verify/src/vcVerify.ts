@@ -24,19 +24,21 @@ async function verifyShared(
 ): Promise<boolean> {
   assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
 
-  const { ctype, digest, expirationDate, hasher, holder, proof } = vc;
+  const { ctype, digest, expirationDate, hasher, holder, issuanceDate, proof, version } = vc;
 
   if (expirationDate && expirationDate < Date.now()) {
     return false;
   }
 
   const digestValid = digestVerify(
+    version,
     digest,
     {
       rootHash,
       holder,
       expirationDate,
-      ctype
+      ctype,
+      issuanceDate: version === '0' ? undefined : issuanceDate
     },
     hasher[1]
   );

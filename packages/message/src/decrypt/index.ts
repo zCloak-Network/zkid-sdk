@@ -10,7 +10,7 @@ import { assert, isHex, isNumber, u8aToString } from '@polkadot/util';
 import { decodeMultibase } from '@zcloak/crypto';
 import { isDidUrl, isSameUri } from '@zcloak/did/utils';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
-import { isRawCredential, isVC, isVP } from '@zcloak/vc/utils';
+import { isRawCredential, isVC, isVP } from '@zcloak/vc/is';
 import { didVerify } from '@zcloak/verify';
 
 import { SUPPORT_MESSAGE_TYPES } from '../defaults';
@@ -24,7 +24,7 @@ import { SUPPORT_MESSAGE_TYPES } from '../defaults';
  * 1. check the data is correct.
  * 2. check the sender and issuer/holder.
  */
-export function verifyMessageData<T extends MessageType>(message: DecryptedMessage<T>): void {
+export function verifyMessageData(message: DecryptedMessage<MessageType>): void {
   const { data, msgType, sender } = message;
 
   switch (msgType) {
@@ -51,7 +51,7 @@ export function verifyMessageData<T extends MessageType>(message: DecryptedMessa
 
     case 'Response_Reject_Attestation':
       assert(
-        isDidUrl((data as any).holder) && isHex((data as any).ctype),
+        isDidUrl(data.holder) && isHex(data.ctype),
         `Expected message data with msgType:${msgType} has required keys holder(DidUrl) and ctype(HexString)`
       );
 

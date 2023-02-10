@@ -67,8 +67,6 @@ describe('VerifiablePresentation', (): void => {
       ctype,
       hashType: 'RescuePrime'
     });
-
-    rawCtype.calcRootHash();
   });
 
   describe('VerifiablePresentation single vc', (): void => {

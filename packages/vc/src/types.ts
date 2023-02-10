@@ -12,7 +12,6 @@ export type NativeTypeWithOutNull = Exclude<NativeType, null | undefined>;
 
 export type AnyJson = Record<string, NativeType | NativeTypeWithOutNull[]>;
 
-// when CredentialSubject is HexString, it means [[rootHash]]
 export type CredentialSubject = AnyJson | HexString;
 
 // Important NOTE: if you want to add new item, you will also add to [[ALL_HASH_TYPES]], and add function to [[HASHER]] map
@@ -47,14 +46,12 @@ export interface Proof {
 
 export interface RawCredential {
   ctype: HexString;
-  credentialSubject: CredentialSubject;
-  credentialSubjectHashes: HexString[];
-  credentialSubjectNonceMap: Record<HexString, HexString>;
+  credentialSubject: AnyJson;
   holder: DidUrl;
   hasher: [HashType, HashType];
 }
 
-export interface VerifiableCredential extends RawCredential {
+interface PublicVerifiableCredential extends RawCredential {
   '@context': string[];
   version: VerifiableCredentialVersion;
   issuanceDate: number;
@@ -64,11 +61,29 @@ export interface VerifiableCredential extends RawCredential {
   proof: Proof[];
 }
 
+interface PrivateVerifiableCredential extends Omit<RawCredential, 'credentialSubject'> {
+  '@context': string[];
+  version: VerifiableCredentialVersion;
+  issuanceDate: number;
+  expirationDate?: number;
+  issuer: DidUrl;
+  digest: HexString;
+  proof: Proof[];
+  // when CredentialSubject is HexString, it means [[rootHash]]
+  credentialSubject: AnyJson | HexString;
+  credentialSubjectHashes: HexString[];
+  credentialSubjectNonceMap: Record<HexString, HexString>;
+}
+
+export type VerifiableCredential<Public extends boolean> = Public extends false
+  ? PrivateVerifiableCredential
+  : PublicVerifiableCredential;
+
 export interface VerifiablePresentation {
   '@context': string[];
   version: VerifiablePresentationVersion;
   type: VerifiablePresentationType[];
-  verifiableCredential: VerifiableCredential[];
+  verifiableCredential: VerifiableCredential<boolean>[];
   id: HexString;
   proof: Proof;
   hasher: [HashType];

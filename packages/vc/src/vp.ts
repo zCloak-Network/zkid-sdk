@@ -16,16 +16,17 @@ import { Did } from '@zcloak/did';
 import { isSameUri } from '@zcloak/did/utils';
 
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE } from './defaults';
+import { isPublicVC, isVC } from './is';
 import { calcRoothash } from './rootHash';
-import { isVC, keyTypeToSignatureType, rlpEncode } from './utils';
+import { keyTypeToSignatureType, rlpEncode } from './utils';
 
 // @internal
-// transform Verifiable Credential by [[VerifiablePresentationType]]
+// transform private Verifiable Credential by [[VerifiablePresentationType]]
 function transformVC(
-  vc: VerifiableCredential,
+  vc: VerifiableCredential<false>,
   type: VerifiablePresentationType,
   selectedAttributes?: string[]
-): VerifiableCredential {
+): VerifiableCredential<false> {
   vc = objectCopy(vc);
   assert(vc.credentialSubjectHashes, 'Credential subject hashes no provided');
   assert(vc.credentialSubjectNonceMap, 'Credential subject nonce-map no provided');
@@ -91,7 +92,7 @@ export function hashDigests(
 export class VerifiablePresentationBuilder {
   #did: Did;
   // [[VerifiableCredential]] => [[VerifiablePresentation]]
-  public vcMap: Map<VerifiableCredential, VerifiablePresentationType> = new Map();
+  public vcMap: Map<VerifiableCredential<boolean>, VerifiablePresentationType> = new Map();
 
   constructor(did: Did) {
     this.#did = did;
@@ -104,7 +105,7 @@ export class VerifiablePresentationBuilder {
    * @param selectedAttributes optional, only used when `vpType` is `VP_SelectiveDisclosure`
    */
   public addVC(
-    vc: VerifiableCredential,
+    vc: VerifiableCredential<boolean>,
     vpType: VerifiablePresentationType,
     selectedAttributes?: string[]
   ): this {
@@ -114,7 +115,7 @@ export class VerifiablePresentationBuilder {
     );
     assert(isVC(vc), 'input `vc` is not a VerifiableCredential object');
 
-    this.vcMap.set(transformVC(vc, vpType, selectedAttributes), vpType);
+    this.vcMap.set(isPublicVC(vc) ? vc : transformVC(vc, vpType, selectedAttributes), vpType);
 
     return this;
   }
@@ -127,7 +128,7 @@ export class VerifiablePresentationBuilder {
     hashType: HashType = DEFAULT_VP_HASH_TYPE,
     challenge?: string
   ): Promise<VerifiablePresentation> {
-    const vcs: VerifiableCredential[] = [];
+    const vcs: VerifiableCredential<boolean>[] = [];
     const vpTypes: VerifiablePresentationType[] = [];
 
     for (const [vc, vpType] of this.vcMap.entries()) {

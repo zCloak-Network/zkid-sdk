@@ -15,7 +15,7 @@ import { assert } from '@polkadot/util';
 
 import { isSameUri } from '@zcloak/did/utils';
 import { hashDigests } from '@zcloak/vc';
-import { isVP } from '@zcloak/vc/utils';
+import { isVP } from '@zcloak/vc/is';
 
 import { proofVerify } from './proofVerify';
 import { vcVerify, vcVerifyDigest } from './vcVerify';
@@ -29,7 +29,10 @@ function idCheck(digests: HexString[], hashType: HashType, id: HexString): boole
 
 const VERIFIERS: Record<
   VerifiablePresentationType,
-  (vc: VerifiableCredential, resolverOrDidDocument?: DidDocument | DidResolver) => Promise<boolean>
+  (
+    vc: VerifiableCredential<boolean>,
+    resolverOrDidDocument?: DidDocument | DidResolver
+  ) => Promise<boolean>
 > = {
   VP: vcVerify,
   VP_Digest: vcVerifyDigest,

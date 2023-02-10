@@ -58,8 +58,6 @@ describe('message encrypt and decrypt', (): void => {
       hashType: 'RescuePrime'
     });
 
-    raw.calcRootHash();
-
     rawCredential = raw.toRawCredential('Keccak256');
   });
 

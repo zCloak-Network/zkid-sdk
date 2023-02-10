@@ -8,19 +8,22 @@ import type { VerifiableCredential } from '@zcloak/vc/types';
 
 import { assert, bufferToU8a, isHex, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { makeMerkleTree } from '@zcloak/vc';
+import { calcRoothash, makeMerkleTree } from '@zcloak/vc';
 import { HASHER } from '@zcloak/vc/hasher';
-import { isVC, rlpEncode } from '@zcloak/vc/utils';
+import { isPublicVC, isVC } from '@zcloak/vc/is';
+import { rlpEncode } from '@zcloak/vc/utils';
 
 import { digestVerify } from './digestVerify';
 import { proofVerify } from './proofVerify';
 
 // @internal used for all vc verify types
 async function verifyShared(
-  vc: VerifiableCredential,
+  vc: VerifiableCredential<boolean>,
   rootHash: HexString,
   resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
+  assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
+
   const { ctype, digest, expirationDate, hasher, holder, proof } = vc;
 
   if (expirationDate && expirationDate < Date.now()) {
@@ -70,23 +73,28 @@ async function verifyShared(
  * ```
  */
 export async function vcVerify(
-  vc: VerifiableCredential,
+  vc: VerifiableCredential<boolean>,
   resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
-  assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
+  let rootHash: HexString;
 
-  const { credentialSubject, credentialSubjectHashes, credentialSubjectNonceMap, hasher } = vc;
+  if (isPublicVC(vc)) {
+    rootHash = calcRoothash(vc.credentialSubject, vc.hasher[0]).rootHash;
+  } else {
+    const { credentialSubject, credentialSubjectHashes, credentialSubjectNonceMap, hasher } = vc;
 
-  assert(!isHex(credentialSubject), 'subject must be an object');
+    const tree = makeMerkleTree(credentialSubjectHashes, hasher[0]);
 
-  const tree = makeMerkleTree(credentialSubjectHashes, hasher[0]);
-  const rootHash = u8aToHex(bufferToU8a(tree.getRoot()));
+    rootHash = u8aToHex(bufferToU8a(tree.getRoot()));
 
-  for (const value of Object.values(credentialSubject)) {
-    const encode = u8aToHex(rlpEncode(value, hasher[0]));
-    const hash = u8aToHex(HASHER[hasher[0]](u8aConcat(encode, credentialSubjectNonceMap[encode])));
+    for (const value of Object.values(credentialSubject)) {
+      const encode = u8aToHex(rlpEncode(value, hasher[0]));
+      const hash = u8aToHex(
+        HASHER[hasher[0]](u8aConcat(encode, credentialSubjectNonceMap[encode]))
+      );
 
-    if (!credentialSubjectHashes.includes(hash)) return false;
+      if (!credentialSubjectHashes.includes(hash)) return false;
+    }
   }
 
   return verifyShared(vc, rootHash, resolverOrDidDocument);
@@ -116,7 +124,7 @@ export async function vcVerify(
  * ```
  */
 export async function vcVerifyDigest(
-  vc: VerifiableCredential,
+  vc: VerifiableCredential<boolean>,
   resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
   assert(isVC(vc), 'input `vc` is not a VerifiableCredential');

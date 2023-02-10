@@ -31,13 +31,13 @@ export type ExtendsMessageType = `Extends_${string}`;
 
 export type MessageData = {
   Request_Attestation: RawCredential;
-  Response_Approve_Attestation: VerifiableCredential;
+  Response_Approve_Attestation: VerifiableCredential<boolean>;
   Response_Reject_Attestation: RejectAttestation;
   Reqeust_VP: RequestVP;
   Response_Accept_VP: VerifiablePresentation;
   Response_Reject_VP: RejectVP;
   Send_VP: VerifiablePresentation;
-  Send_issuedVC: VerifiableCredential;
+  Send_issuedVC: VerifiableCredential<boolean>;
   [key: ExtendsMessageType]: any;
 };
 

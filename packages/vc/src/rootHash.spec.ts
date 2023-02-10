@@ -6,7 +6,7 @@ import { initCrypto } from '@zcloak/crypto';
 import { calcRoothash } from './rootHash';
 
 describe('calcRoothash', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 
@@ -59,6 +59,22 @@ describe('calcRoothash', (): void => {
 
       expect(rootHash).toEqual(
         '0x51d3b9ef895f61a3fcb4821002f396b8374b6b7e440944961fc63e3f8ff0ba84'
+      );
+    });
+
+    it('calcRoothash without nonceMap', (): void => {
+      const input = {
+        name: 'zCloak',
+        age: 19,
+        birthday: 1668160291923,
+        isUser: true,
+        types: ['1', '2', '5']
+      };
+
+      const { rootHash } = calcRoothash(input, 'RescuePrime');
+
+      expect(rootHash).toEqual(
+        '0x9579c93741b6979500bca88dcb104da424c2c3bb0e2fa85f13d76cd00637e46f'
       );
     });
   });

@@ -31,7 +31,7 @@ export type ProofType = SignatureType;
 
 export type VerifiablePresentationType = 'VP' | 'VP_Digest' | 'VP_SelectiveDisclosure';
 
-export type VerifiableCredentialVersion = '0';
+export type VerifiableCredentialVersion = '0' | '1';
 
 export type VerifiablePresentationVersion = '0';
 

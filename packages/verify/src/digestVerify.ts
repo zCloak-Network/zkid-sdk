@@ -4,8 +4,10 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { DigestPayload } from '@zcloak/vc';
 
+import { u8aEq } from '@polkadot/util';
+
 import { calcDigest } from '@zcloak/vc';
-import { HashType } from '@zcloak/vc/types';
+import { HashType, VerifiableCredentialVersion } from '@zcloak/vc/types';
 
 /**
  * @name verifyDigest
@@ -27,12 +29,13 @@ import { HashType } from '@zcloak/vc/types';
  * digestVerify(expectedDigest, payload, 'Keccak256'); // true
  * ```
  */
-export function digestVerify(
+export function digestVerify<Version extends VerifiableCredentialVersion>(
+  version: Version,
   digestIn: HexString,
-  payload: DigestPayload,
+  payload: DigestPayload<Version>,
   hashType?: HashType
 ): boolean {
-  const { digest } = calcDigest(payload, hashType);
+  const digest: HexString = calcDigest(version, payload, hashType).digest;
 
-  return digestIn === digest;
+  return u8aEq(digest, digestIn);
 }

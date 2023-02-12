@@ -20,6 +20,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -36,6 +37,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -55,6 +57,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -71,6 +74,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -90,6 +94,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -106,6 +111,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -125,6 +131,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -141,6 +148,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,

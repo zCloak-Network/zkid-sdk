@@ -16,7 +16,7 @@ import { CType } from '@zcloak/ctype/types';
 import { Did } from '@zcloak/did';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
-import { calcDigest } from '../digest';
+import { calcDigest, DigestPayload } from '../digest';
 import { isRawCredential } from '../is';
 import { calcRoothash, RootHashResult } from '../rootHash';
 import { keyTypeToSignatureType } from '../utils';
@@ -106,16 +106,22 @@ export class VerifiableCredentialBuilder {
         rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType, {});
       }
 
+      const digestPayload: DigestPayload<VerifiableCredentialVersion> = {
+        rootHash: rootHashResult.rootHash,
+        expirationDate: this.expirationDate || undefined,
+        holder: this.raw.owner,
+        ctype: this.raw.ctype.$id
+      };
+
+      if (this.version) {
+        (digestPayload as DigestPayload<'1'>).issuanceDate = this.issuanceDate;
+      }
+
       const { digest, type: digestHashType } = calcDigest(
-        {
-          rootHash: rootHashResult.rootHash,
-          expirationDate: this.expirationDate || undefined,
-          holder: this.raw.owner,
-          ctype: this.raw.ctype.$id
-        },
+        this.version,
+        digestPayload,
         this.digestHashType
       );
-
       const { id, signature, type: keyType } = await issuer.signWithKey(digest, 'assertionMethod');
 
       const proof: Proof = {

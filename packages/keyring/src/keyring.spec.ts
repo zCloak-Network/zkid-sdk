@@ -4,7 +4,13 @@
 import { stringToU8a, u8aToHex } from '@polkadot/util';
 import { computeAddress, getAddress } from 'ethers';
 
-import { ed25519Verify, initCrypto, randomAsU8a, secp256k1Verify } from '@zcloak/crypto';
+import {
+  ed25519Verify,
+  initCrypto,
+  keccak256AsU8a,
+  randomAsU8a,
+  secp256k1Verify
+} from '@zcloak/crypto';
 
 import { Keyring } from './keyring';
 
@@ -49,7 +55,9 @@ describe('Keyring', (): void => {
 
       expect(secp256k1Verify(MESSAGE, signature, pair.publicKey)).toBe(true);
       expect(secp256k1Verify(MESSAGE, signature, randomAsU8a(32))).toBe(false);
-      expect(secp256k1Verify(new Uint8Array(), signature, pair.publicKey)).toBe(false);
+      expect(secp256k1Verify(keccak256AsU8a(new Uint8Array()), signature, pair.publicKey)).toBe(
+        false
+      );
     });
 
     it('encodes a pair toJSON (and decodes)', (): void => {

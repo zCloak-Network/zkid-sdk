@@ -142,7 +142,7 @@ describe('VerifiablePresentation', (): void => {
         verifiableCredential: [vc],
         id: hashDigests([vc.digest], DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1Signature2019',
+          type: 'EcdsaSecp256k1SignatureEip712',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -178,7 +178,7 @@ describe('VerifiablePresentation', (): void => {
         ],
         id: hashDigests([vc.digest], DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1Signature2019',
+          type: 'EcdsaSecp256k1SignatureEip712',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -218,7 +218,7 @@ describe('VerifiablePresentation', (): void => {
         ],
         id: hashDigests([vc.digest], DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1Signature2019',
+          type: 'EcdsaSecp256k1SignatureEip712',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -252,7 +252,7 @@ describe('VerifiablePresentation', (): void => {
         verifiableCredential: [vc1, vc2],
         id: hashDigests([vc1.digest, vc2.digest], DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1Signature2019',
+          type: 'EcdsaSecp256k1SignatureEip712',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -302,7 +302,7 @@ describe('VerifiablePresentation', (): void => {
         ],
         id: hashDigests([vc1.digest, vc2.digest], DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1Signature2019',
+          type: 'EcdsaSecp256k1SignatureEip712',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -363,7 +363,7 @@ describe('VerifiablePresentation', (): void => {
         ],
         id: hashDigests([vc1.digest, vc2.digest], DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1Signature2019',
+          type: 'EcdsaSecp256k1SignatureEip712',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -430,7 +430,7 @@ describe('VerifiablePresentation', (): void => {
         ],
         id: hashDigests([vc1.digest, vc2.digest, vc3.digest], DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1Signature2019',
+          type: 'EcdsaSecp256k1SignatureEip712',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]

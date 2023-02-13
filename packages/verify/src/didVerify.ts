@@ -2,22 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
-import type { DidDocument, DidUrl, VerificationMethodType } from '@zcloak/did-resolver/types';
+import type { DidDocument, DidUrl, SignatureType } from '@zcloak/did-resolver/types';
 
 import { u8aToU8a } from '@polkadot/util';
 
-import { ed25519Verify, secp256k1Verify } from '@zcloak/crypto';
+import { ed25519Verify, keccak256AsU8a, secp256k1Verify } from '@zcloak/crypto';
 import { helpers } from '@zcloak/did';
 import { DidResolver } from '@zcloak/did-resolver';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
 const VERIFIERS: Record<
-  VerificationMethodType,
+  SignatureType,
   (message: Uint8Array, signature: HexString | Uint8Array, publicKey: Uint8Array) => boolean
 > = {
-  EcdsaSecp256k1VerificationKey2019: secp256k1Verify,
-  Ed25519VerificationKey2020: ed25519Verify,
-  X25519KeyAgreementKey2019: () => false
+  EcdsaSecp256k1Signature2019: secp256k1Verify,
+  EcdsaSecp256k1SignatureEip712: secp256k1Verify,
+  Ed25519Signature2018: ed25519Verify
 };
 
 /**
@@ -54,6 +54,7 @@ const VERIFIERS: Record<
 export async function didVerify(
   message: HexString | Uint8Array | string,
   signature: HexString | Uint8Array,
+  signatureType: SignatureType,
   didUrl: DidUrl,
   resolverOrDidDocument?: DidDocument | DidResolver
 ): Promise<boolean> {
@@ -61,7 +62,8 @@ export async function didVerify(
     resolverOrDidDocument = defaultResolver;
   }
 
-  const messageU8a = u8aToU8a(message);
+  const messageU8a: Uint8Array =
+    signatureType === 'EcdsaSecp256k1Signature2019' ? keccak256AsU8a(message) : u8aToU8a(message);
 
   const document =
     resolverOrDidDocument instanceof DidResolver
@@ -70,13 +72,8 @@ export async function didVerify(
 
   const did = helpers.fromDidDocument(document);
 
-  for (const [, { publicKey, type }] of did.keyRelationship) {
-    const isTrue = VERIFIERS[type](messageU8a, signature, publicKey);
+  const { publicKey } = did.get(didUrl);
+  const isTrue = VERIFIERS[signatureType](messageU8a, signature, publicKey);
 
-    if (isTrue) {
-      return isTrue;
-    }
-  }
-
-  return false;
+  return isTrue;
 }

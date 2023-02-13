@@ -11,11 +11,13 @@ import type {
   VerifiablePresentationType
 } from '@zcloak/vc/types';
 
-import { assert } from '@polkadot/util';
+import { assert, stringToU8a, u8aConcat } from '@polkadot/util';
 
+import { eip712 } from '@zcloak/crypto';
 import { isSameUri } from '@zcloak/did/utils';
 import { hashDigests } from '@zcloak/vc';
 import { isVP } from '@zcloak/vc/is';
+import { getPresentationTypedData } from '@zcloak/vc/utils';
 
 import { proofVerify } from './proofVerify';
 import { vcVerify, vcVerifyDigest } from './vcVerify';
@@ -71,7 +73,12 @@ export async function vpVerify(
     }
   }
 
-  const proofValid = await proofVerify(id, proof, resolverOrDidDocument);
+  const message =
+    proof.type === 'EcdsaSecp256k1SignatureEip712'
+      ? eip712.getMessage(getPresentationTypedData(id, proof.challenge || ''), true)
+      : u8aConcat(id, stringToU8a(proof.challenge));
+
+  const proofValid = await proofVerify(message, proof, resolverOrDidDocument);
 
   const results = await Promise.all(
     type.map((t, i) => VERIFIERS[t](verifiableCredential[i], resolverOrDidDocument))

@@ -28,9 +28,11 @@
     "bip39": "^3.0.4",
     "canonicalize": "^1.0.8",
     "ed2curve": "^0.3.0",
+    "ethereumjs-abi": "^0.6.8",
     "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
-    "@types/ed2curve": "^0.2.2"
+    "@types/ed2curve": "^0.2.2",
+    "@types/ethereumjs-abi": "^0.6.3"
   }
 }

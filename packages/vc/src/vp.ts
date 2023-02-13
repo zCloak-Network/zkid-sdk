@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
+import type { SignedData } from '@zcloak/did/types';
 import type {
   HashType,
   VerifiableCredential,
@@ -18,7 +19,7 @@ import { isSameUri } from '@zcloak/did/utils';
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE } from './defaults';
 import { isPublicVC, isVC } from './is';
 import { calcRoothash } from './rootHash';
-import { keyTypeToSignatureType, rlpEncode } from './utils';
+import { getPresentationTypedData, rlpEncode } from './utils';
 
 // @internal
 // transform private Verifiable Credential by [[VerifiablePresentationType]]
@@ -141,11 +142,7 @@ export class VerifiablePresentationBuilder {
       hashType
     );
 
-    const {
-      id,
-      signature,
-      type: signType
-    } = await this.#did.signWithKey(u8aConcat(hash, stringToU8a(challenge)), 'authentication');
+    const { id, signature, type: signType } = await this._sign(hash, challenge);
 
     return {
       '@context': DEFAULT_CONTEXT,
@@ -154,7 +151,7 @@ export class VerifiablePresentationBuilder {
       verifiableCredential: vcs,
       id: hash,
       proof: {
-        type: keyTypeToSignatureType(signType),
+        type: signType,
         created: Date.now(),
         verificationMethod: id,
         proofPurpose: 'authentication',
@@ -163,5 +160,17 @@ export class VerifiablePresentationBuilder {
       },
       hasher: [hashTypeOut]
     };
+  }
+
+  private _sign(hash: HexString, challenge?: string): Promise<SignedData> {
+    const { id, type } = this.#did.get(this.#did.getKeyUrl('assertionMethod'));
+
+    if (type === 'EcdsaSecp256k1VerificationKey2019') {
+      return this.#did.signWithKey(getPresentationTypedData(hash, challenge || ''), id);
+    } else if (type === 'Ed25519VerificationKey2020') {
+      return this.#did.signWithKey(u8aConcat(hash, stringToU8a(challenge)), id);
+    }
+
+    throw new Error(`Unable to sign with id: ${id}, because type is ${type}`);
   }
 }

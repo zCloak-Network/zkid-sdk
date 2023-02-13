@@ -7,7 +7,6 @@ import { Signature, signSync } from '@noble/secp256k1';
 import { bnToU8a, u8aConcat } from '@polkadot/util';
 
 import { BN_BE_256_OPTS } from '../bn';
-import { keccak256AsU8a } from '../keccak';
 
 /**
  * @name secp256k1Sign
@@ -21,9 +20,10 @@ export function secp256k1Sign(
     throw new Error('Expected valid secp256k1 secretKey, 32-bytes');
   }
 
-  const data = keccak256AsU8a(message);
-
-  const [sigBytes, recoveryParam] = signSync(data, secretKey, { canonical: true, recovered: true });
+  const [sigBytes, recoveryParam] = signSync(message, secretKey, {
+    canonical: true,
+    recovered: true
+  });
   const { r, s } = Signature.fromHex(sigBytes);
 
   return u8aConcat(

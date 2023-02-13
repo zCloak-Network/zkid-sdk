@@ -6,8 +6,6 @@ import type { HexString } from '@polkadot/util/types';
 import { recoverPublicKey, Signature } from '@noble/secp256k1';
 import { u8aToU8a } from '@polkadot/util';
 
-import { secp256k1Expand } from './expand';
-
 /**
  * @name secp256k1Recover
  * @description Recovers a publicKey from the supplied signature
@@ -25,5 +23,5 @@ export function secp256k1Recover(
     throw new Error('Unable to recover publicKey from signature');
   }
 
-  return secp256k1Expand(publicKey);
+  return publicKey;
 }

@@ -12,6 +12,7 @@ import { base58Encode, jsonCanonicalize, keccak256AsU8a } from '@zcloak/crypto';
 import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 import { DEFAULT_CTYPE_SCHEMA } from './defaults';
+import { getPublishCTypeTypedData } from './utils';
 
 export function getCTypeHash(
   base: BaseCType,
@@ -34,13 +35,19 @@ export function getCTypeHash(
 export async function getPublish(base: BaseCType, publisher: Did): Promise<CType> {
   const hash = getCTypeHash(base, publisher.id);
 
-  const { id, signature } = await publisher.signWithKey(hash, 'authentication');
+  const message = getPublishCTypeTypedData(hash);
+  const {
+    id,
+    signature,
+    type: signatureType
+  } = await publisher.signWithKey(message, 'authentication');
 
   return {
     $id: hash,
     $schema: DEFAULT_CTYPE_SCHEMA,
     ...base,
     publisher: id,
-    signature: base58Encode(signature)
+    signature: base58Encode(signature),
+    signatureType
   };
 }

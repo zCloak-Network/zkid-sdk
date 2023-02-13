@@ -1,9 +1,9 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SignatureType } from '@zcloak/did-resolver/types';
 import type {
   HashType,
-  SignatureType,
   VerifiableCredentialVersion,
   VerifiablePresentationType,
   VerifiablePresentationVersion
@@ -40,5 +40,6 @@ export const ALL_VP_TYPES: VerifiablePresentationType[] = [
 
 export const ALL_SIG_TYPES: SignatureType[] = [
   'EcdsaSecp256k1Signature2019',
+  'EcdsaSecp256k1SignatureEip712',
   'Ed25519Signature2018'
 ];

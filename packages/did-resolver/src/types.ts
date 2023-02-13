@@ -20,6 +20,11 @@ export type VerificationMethodType =
   | 'EcdsaSecp256k1VerificationKey2019'
   | 'Ed25519VerificationKey2020';
 
+export type SignatureType =
+  | 'EcdsaSecp256k1Signature2019'
+  | 'EcdsaSecp256k1SignatureEip712'
+  | 'Ed25519Signature2018';
+
 export interface VerificationMethod {
   id: DidUrl;
   controller: DidUrl[];
@@ -36,6 +41,8 @@ export interface Service {
 export interface DidDocumentProof {
   signature: string;
   type: string;
+  // since `@zcloak/did-resolver@1.0.0`
+  signatureType?: SignatureType;
   id: DidUrl;
 }
 

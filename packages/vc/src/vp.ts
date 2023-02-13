@@ -18,7 +18,7 @@ import { isSameUri } from '@zcloak/did/utils';
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE } from './defaults';
 import { isPublicVC, isVC } from './is';
 import { calcRoothash } from './rootHash';
-import { keyTypeToSignatureType, rlpEncode } from './utils';
+import { rlpEncode } from './utils';
 
 // @internal
 // transform private Verifiable Credential by [[VerifiablePresentationType]]
@@ -154,7 +154,7 @@ export class VerifiablePresentationBuilder {
       verifiableCredential: vcs,
       id: hash,
       proof: {
-        type: keyTypeToSignatureType(signType),
+        type: signType,
         created: Date.now(),
         verificationMethod: id,
         proofPurpose: 'authentication',

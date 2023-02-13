@@ -2,9 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
-import type { DidUrl } from '@zcloak/did-resolver/types';
-
-import { DidKeys } from '@zcloak/did/types';
+import type { DidKeys } from '@zcloak/did/types';
+import type { DidUrl, SignatureType } from '@zcloak/did-resolver/types';
 
 export type NativeType = string | number | boolean | null | undefined;
 
@@ -25,10 +24,6 @@ export type HashType =
   | 'Sha256'
   | 'Sha512';
 
-export type SignatureType = 'EcdsaSecp256k1Signature2019' | 'Ed25519Signature2018';
-
-export type ProofType = SignatureType;
-
 export type VerifiablePresentationType = 'VP' | 'VP_Digest' | 'VP_SelectiveDisclosure';
 
 export type VerifiableCredentialVersion = '0' | '1';
@@ -36,7 +31,7 @@ export type VerifiableCredentialVersion = '0' | '1';
 export type VerifiablePresentationVersion = '0';
 
 export interface Proof {
-  type: ProofType;
+  type: SignatureType;
   created: number;
   verificationMethod: DidUrl;
   proofPurpose: DidKeys;

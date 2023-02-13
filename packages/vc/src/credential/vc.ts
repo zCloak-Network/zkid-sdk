@@ -19,7 +19,6 @@ import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest, DigestPayload } from '../digest';
 import { isRawCredential } from '../is';
 import { calcRoothash, RootHashResult } from '../rootHash';
-import { keyTypeToSignatureType } from '../utils';
 import { Raw } from './raw';
 
 /**
@@ -122,10 +121,10 @@ export class VerifiableCredentialBuilder {
         digestPayload,
         this.digestHashType
       );
-      const { id, signature, type: keyType } = await issuer.signWithKey(digest, 'assertionMethod');
+      const { id, signature, type: signType } = await issuer.signWithKey(digest, 'assertionMethod');
 
       const proof: Proof = {
-        type: keyTypeToSignatureType(keyType),
+        type: signType,
         created: Date.now(),
         verificationMethod: id,
         proofPurpose: 'assertionMethod',

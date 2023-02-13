@@ -7,12 +7,13 @@ import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { KeyringInstance, KeyringPair } from '@zcloak/keyring/types';
 import type { DidKeys, EncryptedData, IDidKeyring, SignedData } from '../types';
 
-import { assert } from '@polkadot/util';
+import { assert, isHex, isU8a } from '@polkadot/util';
 
-import { keccak256AsU8a } from '@zcloak/crypto';
+import { eip712, keccak256AsU8a } from '@zcloak/crypto';
+import { TypedData } from '@zcloak/crypto/eip712/types';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
-import { typeTransform } from '../utils';
+import { isDidUrl } from '../utils';
 import { DidDetails } from './details';
 import { fromDid } from './helpers';
 
@@ -29,17 +30,14 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
     this.#keyring = keyring;
   }
 
-  public sign(message: Uint8Array | HexString, id: DidUrl): Promise<SignedData> {
-    const { id: _id, publicKey } = this.get(id);
-    const pair = this._getPair(publicKey);
+  /**
+   * DEPRECATED
+   * @since 1.0.0
+   */
+  public sign(): Promise<SignedData> {
+    console.warn('sign method deprecated in 1.0.0');
 
-    const signature = pair.sign(keccak256AsU8a(message));
-
-    return Promise.resolve({
-      signature,
-      type: typeTransform(pair.type),
-      id: _id
-    });
+    throw new Error('sign method deprecated in 1.0.0');
   }
 
   public async encrypt(
@@ -83,12 +81,72 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
     return decrypted;
   }
 
-  public signWithKey(
-    message: Uint8Array | HexString,
-    key: Exclude<DidKeys, 'keyAgreement'>
+  public async signWithKey(
+    message: Uint8Array | HexString | TypedData,
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'>
   ): Promise<SignedData> {
-    const didUrl = this.getKeyUrl(key);
+    const didUrl = isDidUrl(keyOrDidUrl) ? keyOrDidUrl : this.getKeyUrl(keyOrDidUrl);
+    const { type } = this.get(didUrl);
 
-    return this.sign(message, didUrl);
+    assert(
+      type !== 'X25519KeyAgreementKey2019',
+      "sign method only call with key type: 'EcdsaSecp256k1VerificationKey2019', 'Ed25519VerificationKey2020'"
+    );
+
+    if (isU8a(message) || isHex(message)) {
+      if (type === 'EcdsaSecp256k1VerificationKey2019') {
+        console.warn(
+          `Using ${type} to sign signature is not a safe way, and it will be deprecat in a future version`
+        );
+        message = keccak256AsU8a(message);
+      }
+
+      const { id, signature } = await this._sign(message, didUrl);
+
+      return {
+        id,
+        signature,
+        type:
+          type === 'EcdsaSecp256k1VerificationKey2019'
+            ? 'EcdsaSecp256k1Signature2019'
+            : 'Ed25519Signature2018'
+      };
+    }
+
+    // sign data use eip-712 when the key type is `EcdsaSecp256k1VerificationKey2019`
+    assert(
+      type === 'EcdsaSecp256k1VerificationKey2019',
+      `this method call only [EcdsaSecp256k1VerificationKey2019] with message: ${message}`
+    );
+
+    return this.signTypedData(message, didUrl);
+  }
+
+  public async signTypedData(typedData: TypedData, didUrl: DidUrl): Promise<SignedData> {
+    const message = eip712.getMessage(typedData, true);
+
+    const { id, signature } = await this._sign(message, didUrl);
+
+    return {
+      id,
+      signature,
+      type: 'EcdsaSecp256k1SignatureEip712'
+    };
+  }
+
+  private _sign(
+    message: Uint8Array | HexString,
+    id: DidUrl
+  ): Promise<{ signature: Uint8Array; id: DidUrl }> {
+    const { id: _id, publicKey } = this.get(id);
+
+    const pair = this._getPair(publicKey);
+
+    const signature = pair.sign(message);
+
+    return Promise.resolve({
+      signature,
+      id: _id
+    });
   }
 }

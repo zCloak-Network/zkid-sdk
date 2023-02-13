@@ -52,9 +52,6 @@ export interface BaseMessage<T extends MessageType> {
   sender: DidUrl;
   receiver: DidUrl;
   ctype?: HexString;
-  // since version 2
-  signer?: DidUrl;
-  signature?: string;
 }
 
 export interface Message<T extends MessageType> extends BaseMessage<T> {

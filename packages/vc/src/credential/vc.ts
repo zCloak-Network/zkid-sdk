@@ -1,6 +1,7 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@polkadot/util/types';
 import type {
   HashType,
   Proof,
@@ -14,11 +15,13 @@ import { assert } from '@polkadot/util';
 import { base58Encode } from '@zcloak/crypto';
 import { CType } from '@zcloak/ctype/types';
 import { Did } from '@zcloak/did';
+import { SignedData } from '@zcloak/did/types';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest, DigestPayload } from '../digest';
 import { isRawCredential } from '../is';
 import { calcRoothash, RootHashResult } from '../rootHash';
+import { getAttestationTypedData } from '../utils';
 import { Raw } from './raw';
 
 /**
@@ -109,19 +112,16 @@ export class VerifiableCredentialBuilder {
         rootHash: rootHashResult.rootHash,
         expirationDate: this.expirationDate || undefined,
         holder: this.raw.owner,
-        ctype: this.raw.ctype.$id
+        ctype: this.raw.ctype.$id,
+        issuanceDate: this.issuanceDate
       };
-
-      if (this.version) {
-        (digestPayload as DigestPayload<'1'>).issuanceDate = this.issuanceDate;
-      }
 
       const { digest, type: digestHashType } = calcDigest(
         this.version,
         digestPayload,
         this.digestHashType
       );
-      const { id, signature, type: signType } = await issuer.signWithKey(digest, 'assertionMethod');
+      const { id, signature, type: signType } = await this._signDigest(issuer, digest);
 
       const proof: Proof = {
         type: signType,
@@ -215,5 +215,20 @@ export class VerifiableCredentialBuilder {
     this.digestHashType = hashType;
 
     return this;
+  }
+
+  // sign digest by did, if the key type is `Ed25519VerificationKey2020`, it will sign `digest`,
+  // if the key type is `EcdsaSecp256k1VerificationKey2019`, it will sign `getAttestationTypedData`.
+  // otherwise, it will throw Error
+  private _signDigest(did: Did, digest: HexString): Promise<SignedData> {
+    const { id, type } = did.get(did.getKeyUrl('assertionMethod'));
+
+    if (type === 'EcdsaSecp256k1VerificationKey2019') {
+      return did.signWithKey(getAttestationTypedData(digest), id);
+    } else if (type === 'Ed25519VerificationKey2020') {
+      return did.signWithKey(digest, id);
+    }
+
+    throw new Error(`Unable to sign with id: ${id}, because type is ${type}`);
   }
 }

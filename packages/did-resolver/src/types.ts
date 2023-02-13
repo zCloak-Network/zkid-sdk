@@ -41,6 +41,7 @@ export interface Service {
 export interface DidDocumentProof {
   signature: string;
   type: string;
+  // since `@zcloak/did-resolver@1.0.0`
   signatureType?: SignatureType;
   id: DidUrl;
 }

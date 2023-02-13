@@ -13,7 +13,7 @@ import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
 
-import { hashDidDocument } from '../hasher';
+import { getPublishDocumentTypedData } from '../utils';
 import { DidKeyring } from './keyring';
 
 export abstract class DidChain extends DidKeyring {
@@ -84,11 +84,13 @@ export abstract class DidChain extends DidKeyring {
 
     const proof: DidDocumentProof[] = document.proof ?? [];
 
+    const message = getPublishDocumentTypedData(document);
+
     const {
       id,
       signature,
       type: signatureType
-    } = await this.signWithKey(hashDidDocument(document), 'capabilityInvocation');
+    } = await this.signWithKey(message, 'capabilityInvocation');
 
     proof.push({ id, signature: base58Encode(signature), type: 'creation', signatureType });
 

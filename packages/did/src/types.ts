@@ -57,7 +57,7 @@ export interface IDidKeyring {
   ): Promise<SignedData>;
   /**
    * DEPRECATED
-   * @since 1.0.0
+   * @since `@zcloak/did@1.0.0`
    */
   sign(message: Uint8Array | HexString, id: DidUrl): Promise<SignedData>;
   encrypt(

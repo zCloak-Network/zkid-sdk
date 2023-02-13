@@ -32,7 +32,7 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
 
   /**
    * DEPRECATED
-   * @since 1.0.0
+   * @since `@zcloak/did@1.0.0`
    */
   public sign(): Promise<SignedData> {
     console.warn('sign method deprecated in 1.0.0');

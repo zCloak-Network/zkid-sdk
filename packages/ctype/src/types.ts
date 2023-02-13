@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
-import type { DidUrl } from '@zcloak/did-resolver/types';
+import type { DidUrl, SignatureType } from '@zcloak/did-resolver/types';
 
 export type CTypeVersion = '1';
 
@@ -75,4 +75,6 @@ export interface CType extends BaseCType {
   $schema: string;
   publisher: DidUrl;
   signature: string;
+  // since `@zcloak/ctype@1.0.0`
+  signatureType?: SignatureType;
 }

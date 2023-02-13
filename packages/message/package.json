@@ -24,8 +24,7 @@
     "@zcloak/crypto": "workspace:^",
     "@zcloak/did": "workspace:^",
     "@zcloak/did-resolver": "workspace:^",
-    "@zcloak/vc": "workspace:^",
-    "@zcloak/verify": "workspace:^"
+    "@zcloak/vc": "workspace:^"
   },
   "devDependencies": {
     "@zcloak/ctype": "workspace:^"

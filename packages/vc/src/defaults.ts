@@ -40,5 +40,6 @@ export const ALL_VP_TYPES: VerifiablePresentationType[] = [
 
 export const ALL_SIG_TYPES: SignatureType[] = [
   'EcdsaSecp256k1Signature2019',
+  'EcdsaSecp256k1SignatureEip712',
   'Ed25519Signature2018'
 ];

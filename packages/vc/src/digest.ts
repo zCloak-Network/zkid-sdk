@@ -33,7 +33,7 @@ export interface DigestPayloadV0 {
 
 export interface DigestPayloadV1 extends DigestPayloadV0 {
   /**
-   * @since `v1`
+   * @since `@zcloak/vc@1.0.0` and `VerifiableCredential.version is 1`
    * issuance date
    */
   issuanceDate: number;

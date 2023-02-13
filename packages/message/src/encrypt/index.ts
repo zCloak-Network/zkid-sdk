@@ -68,8 +68,6 @@ export async function encryptMessage<T extends MessageType>(
 
   const ctype = getCtype(type, data);
 
-  const signData = await sender.signWithKey(id, 'authentication');
-
   return {
     id,
     reply,
@@ -79,8 +77,6 @@ export async function encryptMessage<T extends MessageType>(
     sender: encrypted.senderUrl,
     receiver: encrypted.receiverUrl,
     ctype,
-    signer: signData.id,
-    signature: base58Encode(signData.signature),
     encryptedMsg: base58Encode(encrypted.data)
   };
 }

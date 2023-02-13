@@ -3665,7 +3665,6 @@ __metadata:
     "@zcloak/did": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
     "@zcloak/vc": "workspace:^"
-    "@zcloak/verify": "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -3682,7 +3681,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/verify@workspace:^, @zcloak/verify@workspace:packages/verify":
+"@zcloak/verify@workspace:packages/verify":
   version: 0.0.0-use.local
   resolution: "@zcloak/verify@workspace:packages/verify"
   dependencies:

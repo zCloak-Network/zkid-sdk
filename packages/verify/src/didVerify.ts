@@ -4,9 +4,7 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidDocument, DidUrl, VerificationMethodType } from '@zcloak/did-resolver/types';
 
-import { u8aToU8a } from '@polkadot/util';
-
-import { ed25519Verify, secp256k1Verify } from '@zcloak/crypto';
+import { ed25519Verify, keccak256AsU8a, secp256k1Verify } from '@zcloak/crypto';
 import { helpers } from '@zcloak/did';
 import { DidResolver } from '@zcloak/did-resolver';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
@@ -61,7 +59,7 @@ export async function didVerify(
     resolverOrDidDocument = defaultResolver;
   }
 
-  const messageU8a = u8aToU8a(message);
+  const messageU8a = keccak256AsU8a(message);
 
   const document =
     resolverOrDidDocument instanceof DidResolver

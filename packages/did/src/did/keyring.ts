@@ -9,6 +9,7 @@ import type { DidKeys, EncryptedData, IDidKeyring, SignedData } from '../types';
 
 import { assert } from '@polkadot/util';
 
+import { keccak256AsU8a } from '@zcloak/crypto';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
 import { typeTransform } from '../utils';
@@ -32,7 +33,7 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
     const { id: _id, publicKey } = this.get(id);
     const pair = this._getPair(publicKey);
 
-    const signature = pair.sign(message);
+    const signature = pair.sign(keccak256AsU8a(message));
 
     return Promise.resolve({
       signature,

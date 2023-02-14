@@ -7,7 +7,7 @@ import { initCrypto } from '../initCrypto';
 import { secp256k1Compress } from '.';
 
 describe('secp256k1Compress', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

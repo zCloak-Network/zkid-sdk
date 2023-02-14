@@ -206,9 +206,6 @@ describe('VerifiableCredential', (): void => {
 
       const vc = await vcBuilder.build(issuer, true);
 
-      console.log(vc);
-      console.log(issuer.getDocument());
-
       expect(isPublicVC(vc)).toBe(true);
 
       expect(vc).toMatchObject({

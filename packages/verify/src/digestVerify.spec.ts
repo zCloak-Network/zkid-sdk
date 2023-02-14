@@ -10,7 +10,7 @@ describe('verify digest', (): void => {
   const holder = 'did:zk:0x082d674c00e27fBaAAE123a85f5024A1DD702e51';
   const ctype = '0xd50f5298fda74ff0b46be740e602fa5ce0bc2a48fc5ddfbbae3c0678f59b5b97';
 
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

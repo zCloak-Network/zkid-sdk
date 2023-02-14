@@ -44,7 +44,7 @@ const DOCUMENT = {
 describe.skip('ArweaveDidResolver', (): void => {
   let resolver: ArweaveDidResolver;
 
-  beforeEach(() => {
+  beforeAll(() => {
     resolver = new ArweaveDidResolver();
   });
 

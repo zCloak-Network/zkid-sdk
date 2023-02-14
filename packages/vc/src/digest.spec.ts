@@ -7,7 +7,7 @@ import { calcDigest, DigestPayloadV0 } from './digest';
 import { calcRoothash } from './rootHash';
 
 describe('digest', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

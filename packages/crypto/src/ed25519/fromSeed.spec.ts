@@ -25,7 +25,7 @@ describe('ed25519PairFromSeed', (): void => {
     ])
   };
 
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

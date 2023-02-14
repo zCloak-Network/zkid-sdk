@@ -19,7 +19,7 @@ export const KNOWN_SALT = new Uint8Array([
 ]);
 
 describe('scryptEncode', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

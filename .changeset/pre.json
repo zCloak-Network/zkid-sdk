@@ -12,9 +12,13 @@
     "@zcloak/verify": "0.8.0",
     "@zcloak/wasm": "0.8.0",
     "@zcloak/wasm-asm": "0.8.0",
-    "@zcloak/wasm-bridge": "0.8.0"
+    "@zcloak/wasm-bridge": "0.8.0",
+    "test-support": "0.0.0"
   },
   "changesets": [
-    "good-forks-relate"
+    "bright-gifts-flash",
+    "fast-cars-admire",
+    "good-forks-relate",
+    "hip-buckets-battle"
   ]
 }

@@ -2,46 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { stringToU8a } from '@polkadot/util';
+import { alice, bob, DOCUMENTS, testResolver } from 'test-support';
 
-import { ethereumEncode, initCrypto, mnemonicGenerate } from '@zcloak/crypto';
-import { MockDidResolver } from '@zcloak/did-resolver';
-import { DidDocument } from '@zcloak/did-resolver/types';
+import {
+  decodeMultibase,
+  eip712,
+  ethereumEncode,
+  initCrypto,
+  keccak256AsU8a,
+  secp256k1Verify
+} from '@zcloak/crypto';
+import { TypedData } from '@zcloak/crypto/eip712/types';
 import { Keyring } from '@zcloak/keyring';
 
+import { getPublishDocumentTypedData } from '../utils';
 import { createEcdsaFromMnemonic } from './helpers';
-
-const DOCUMENT: DidDocument = {
-  '@context': ['https://www.w3.org/ns/did/v1'],
-  id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1',
-  controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
-  verificationMethod: [
-    {
-      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0',
-      controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
-      type: 'EcdsaSecp256k1VerificationKey2019',
-      publicKeyMultibase: 'zdpxuL2ps42J5jVMJU9DpsMpwnJGsDkTS1N64JC3CbChq'
-    },
-    {
-      id: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1',
-      controller: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
-      type: 'X25519KeyAgreementKey2019',
-      publicKeyMultibase: 'z9kQXjRwuVoQXKKmotXrkwxMQRhXEQX39A8XfWmZTgb4'
-    }
-  ],
-  authentication: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
-  assertionMethod: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
-  keyAgreement: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-1'],
-  capabilityInvocation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
-  capabilityDelegation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0'],
-  service: []
-};
-
-const resolver = new MockDidResolver();
 
 describe('Did', (): void => {
   beforeAll(async () => {
     await initCrypto();
-    resolver.addDocument(DOCUMENT);
   });
 
   describe('create', (): void => {
@@ -69,8 +48,6 @@ describe('Did', (): void => {
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
       const did = createEcdsaFromMnemonic(mnemonic, keyring);
 
-      resolver.addDocument(did.getDocument());
-
       expect(did.get([...(did.authentication ?? [])][0]).publicKey).toEqual(key0);
       expect(did.get([...(did.keyAgreement ?? [])][0]).publicKey).toEqual(key1);
       expect([...did.controller][0]).toEqual(`did:zk:${ethereumEncode(controllerKey)}`);
@@ -85,42 +62,147 @@ describe('Did', (): void => {
 
       const document = did.getDocument();
 
-      expect(document.id).toEqual(DOCUMENT.id);
-      expect(document.controller).toEqual(DOCUMENT.controller);
-      expect(document.verificationMethod).toEqual(DOCUMENT.verificationMethod);
-      expect(document.authentication).toEqual(DOCUMENT.authentication);
-      expect(document.assertionMethod).toEqual(DOCUMENT.assertionMethod);
-      expect(document.keyAgreement).toEqual(DOCUMENT.keyAgreement);
-      expect(document.capabilityInvocation).toEqual(DOCUMENT.capabilityInvocation);
-      expect(document.capabilityDelegation).toEqual(DOCUMENT.capabilityDelegation);
-      expect(document.service).toEqual(DOCUMENT.service);
+      expect(document.id).toEqual(DOCUMENTS.alice.id);
+      expect(document.controller).toEqual(DOCUMENTS.alice.controller);
+      expect(document.verificationMethod).toEqual(DOCUMENTS.alice.verificationMethod);
+      expect(document.authentication).toEqual(DOCUMENTS.alice.authentication);
+      expect(document.assertionMethod).toEqual(DOCUMENTS.alice.assertionMethod);
+      expect(document.keyAgreement).toEqual(DOCUMENTS.alice.keyAgreement);
+      expect(document.capabilityInvocation).toEqual(DOCUMENTS.alice.capabilityInvocation);
+      expect(document.capabilityDelegation).toEqual(DOCUMENTS.alice.capabilityDelegation);
+      expect(document.service).toEqual(DOCUMENTS.alice.service);
+    });
+  });
+
+  describe('did.sign', (): void => {
+    it('sign a uint8array', async (): Promise<void> => {
+      const message = stringToU8a('abcd');
+
+      const signature1 = await bob.signWithKey(message, 'authentication');
+      const signature2 = await bob.signWithKey(message, 'assertionMethod');
+      const signature3 = await bob.signWithKey(message, 'capabilityDelegation');
+      const signature4 = await bob.signWithKey(message, 'capabilityInvocation');
+
+      expect(
+        secp256k1Verify(
+          keccak256AsU8a(message),
+          signature1.signature,
+          bob.get(bob.getKeyUrl('authentication')).publicKey
+        )
+      ).toBe(true);
+      expect(
+        secp256k1Verify(
+          keccak256AsU8a(message),
+          signature2.signature,
+          bob.get(bob.getKeyUrl('assertionMethod')).publicKey
+        )
+      ).toBe(true);
+      expect(
+        secp256k1Verify(
+          keccak256AsU8a(message),
+          signature3.signature,
+          bob.get(bob.getKeyUrl('capabilityDelegation')).publicKey
+        )
+      ).toBe(true);
+      expect(
+        secp256k1Verify(
+          keccak256AsU8a(message),
+          signature4.signature,
+          bob.get(bob.getKeyUrl('capabilityInvocation')).publicKey
+        )
+      ).toBe(true);
+    });
+
+    it('sign a TypedData', async (): Promise<void> => {
+      const typedData: TypedData = {
+        types: {
+          EIP712Domain: [
+            { name: 'name', type: 'string' },
+            { name: 'version', type: 'string' }
+          ],
+          Test: [{ name: 'test', type: 'bytes' }]
+        },
+        primaryType: 'Test',
+        domain: {
+          name: 'Test',
+          version: '0'
+        },
+        message: {
+          test: '0x1234'
+        }
+      };
+
+      const signature1 = await alice.signWithKey(typedData, 'authentication');
+      const signature2 = await alice.signWithKey(typedData, 'assertionMethod');
+      const signature3 = await alice.signWithKey(typedData, 'capabilityDelegation');
+      const signature4 = await alice.signWithKey(typedData, 'capabilityInvocation');
+
+      expect(
+        secp256k1Verify(
+          eip712.getMessage(typedData, true),
+          signature1.signature,
+          alice.get(alice.getKeyUrl('authentication')).publicKey
+        )
+      ).toBe(true);
+      expect(
+        secp256k1Verify(
+          eip712.getMessage(typedData, true),
+          signature2.signature,
+          alice.get(alice.getKeyUrl('assertionMethod')).publicKey
+        )
+      ).toBe(true);
+      expect(
+        secp256k1Verify(
+          eip712.getMessage(typedData, true),
+          signature3.signature,
+          alice.get(alice.getKeyUrl('capabilityDelegation')).publicKey
+        )
+      ).toBe(true);
+      expect(
+        secp256k1Verify(
+          eip712.getMessage(typedData, true),
+          signature4.signature,
+          alice.get(alice.getKeyUrl('capabilityInvocation')).publicKey
+        )
+      ).toBe(true);
     });
   });
 
   describe('encrypt and decrypt', (): void => {
     it('encrypt and decrypt', async (): Promise<void> => {
-      const sender = createEcdsaFromMnemonic(mnemonicGenerate(12));
-      const receiver = createEcdsaFromMnemonic(mnemonicGenerate(12));
-
-      resolver.addDocument(sender.getDocument());
-      resolver.addDocument(receiver.getDocument());
-
       const message = stringToU8a('abcd');
 
       const {
         data: encrypted,
         receiverUrl,
         senderUrl
-      } = await sender.encrypt(
+      } = await alice.encrypt(
         message,
-        receiver.getKeyUrl('keyAgreement'),
-        sender.getKeyUrl('keyAgreement'),
-        resolver
+        bob.getKeyUrl('keyAgreement'),
+        alice.getKeyUrl('keyAgreement'),
+        testResolver
       );
 
-      const decrypted = await receiver.decrypt(encrypted, senderUrl, receiverUrl, resolver);
+      const decrypted = await bob.decrypt(encrypted, senderUrl, receiverUrl, testResolver);
 
       expect(decrypted).toEqual(message);
+    });
+  });
+
+  describe('did.getPublish', (): void => {
+    it('getPublish verify', async (): Promise<void> => {
+      const document = await alice.getPublish();
+
+      expect(document.proof[0].signatureType).toBe('EcdsaSecp256k1SignatureEip712');
+
+      console.log(decodeMultibase(document.proof[0].signature));
+      expect(
+        secp256k1Verify(
+          eip712.getMessage(getPublishDocumentTypedData(document), true),
+          decodeMultibase(document.proof[0].signature),
+          alice.get(alice.getKeyUrl('capabilityInvocation')).publicKey
+        )
+      ).toBe(true);
     });
   });
 });

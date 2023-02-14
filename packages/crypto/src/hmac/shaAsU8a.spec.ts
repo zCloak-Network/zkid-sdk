@@ -7,7 +7,7 @@ import { initCrypto } from '../initCrypto';
 import { hmacShaAsU8a } from '.';
 
 describe('hmacShaAsU8a', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

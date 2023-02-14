@@ -5,7 +5,7 @@ import { initCrypto } from '../initCrypto';
 import { sha512AsU8a } from '.';
 
 describe('sha512AsU8a', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

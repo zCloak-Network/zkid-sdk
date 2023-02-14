@@ -15,7 +15,8 @@ module.exports = Object.assign({}, config, {
     '@zcloak/verify(.*)$': '<rootDir>/packages/verify/src/$1',
     '@zcloak/wasm-asm(.*)$': '<rootDir>/packages/wasm-asm/src/$1',
     '@zcloak/wasm-bridge(.*)$': '<rootDir>/packages/wasm-bridge/src/$1',
-    '@zcloak/wasm(.*)$': '<rootDir>/packages/wasm/src/$1'
+    '@zcloak/wasm(.*)$': '<rootDir>/packages/wasm/src/$1',
+    'test-support(.*)$': '<rootDir>/packages/test-support/src/$1'
   },
   testTimeout: 30000
 });

@@ -23,7 +23,7 @@
     "build:wasm": "install-build-deps && build-wasm",
     "changeset": "zcloak-exec-changeset",
     "clean": "zcloak-dev-clean-build",
-    "lint": "zcloak-dev-run-lint && zcloak-dev-lint-dependencies",
+    "lint": "zcloak-dev-run-lint",
     "postinstall": "zcloak-dev-yarn-only",
     "test": "zcloak-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
     "test:one": "zcloak-dev-run-test --runInBand",

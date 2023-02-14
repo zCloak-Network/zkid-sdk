@@ -5,7 +5,7 @@ import { initCrypto } from '../initCrypto';
 import { blake3AsU8a } from './asU8a';
 
 describe('blake3AsU8a', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

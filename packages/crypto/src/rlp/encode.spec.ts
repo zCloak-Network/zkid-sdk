@@ -8,7 +8,7 @@ import { rlpEncode } from './encode';
 import * as official from './rlptest.json';
 
 describe('encode rlp', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

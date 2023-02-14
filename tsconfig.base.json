@@ -25,6 +25,8 @@
       "@zcloak/wasm-asm/*": ["wasm-asm/src/*"],
       "@zcloak/wasm-bridge": ["wasm-bridge/src"],
       "@zcloak/wasm-bridge/*": ["wasm-bridge/src/*"],
+      "test-support": ["test-support/src"],
+      "test-support/*": ["test-support/src/*"],
     },
     "skipLibCheck": true,
     "resolveJsonModule": true

@@ -13,7 +13,7 @@ const KNOWN_SALT = new Uint8Array([
 const TEST_PASSWORD = 'test password';
 
 describe('pbkdf2Encode', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

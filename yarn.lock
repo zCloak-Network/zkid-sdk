@@ -13524,6 +13524,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"test-support@workspace:packages/test-support":
+  version: 0.0.0-use.local
+  resolution: "test-support@workspace:packages/test-support"
+  dependencies:
+    "@zcloak/crypto": "workspace:^"
+    "@zcloak/ctype": "workspace:^"
+    "@zcloak/did": "workspace:^"
+    "@zcloak/did-resolver": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
 "text-extensions@npm:^1.0.0":
   version: 1.9.0
   resolution: "text-extensions@npm:1.9.0"

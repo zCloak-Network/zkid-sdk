@@ -5,7 +5,7 @@ import { initCrypto } from '../initCrypto';
 import { rescuePrimeAsU8a } from '.';
 
 describe('rescuePrimeAsU8a', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

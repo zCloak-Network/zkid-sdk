@@ -16,6 +16,7 @@ describe('mnemonicGenerate', (): void => {
 
   it.each([12, 15, 18, 21, 24] as 12[])('generates a valid mnemonic (%p words)', (num): void => {
     const mnemonic = mnemonicGenerate(num);
+
     const isValid = mnemonicValidate(mnemonic);
 
     expect(mnemonic.split(' ')).toHaveLength(num);
@@ -25,6 +26,12 @@ describe('mnemonicGenerate', (): void => {
   it('generates not deterministic', (): void => {
     const m1 = mnemonicGenerate(24);
     const m2 = mnemonicGenerate(24);
+
+    console.log(mnemonicGenerate());
+    console.log(mnemonicGenerate());
+    console.log(mnemonicGenerate());
+    console.log(mnemonicGenerate());
+    console.log(mnemonicGenerate());
 
     expect(m1 === m2).toEqual(false);
     expect(mnemonicValidate(m1)).toEqual(true);

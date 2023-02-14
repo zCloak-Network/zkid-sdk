@@ -34,3 +34,5 @@ jobs:
         with:
           version: yarn zcloak-dev-bump-version
           publish: yarn zcloak-ci-ghact-release
+          commit: "chore: Version Packages"
+          title: "chore: Version Packages"

@@ -1,5 +1,16 @@
 # @zcloak/verify
 
+## 1.0.0-beta.2
+
+### Minor Changes
+
+- [#47](https://github.com/zCloak-Network/zkid-sdk/pull/47) [`66c7c43`](https://github.com/zCloak-Network/zkid-sdk/commit/66c7c4388adc6f34cace0c00902e70512b090a3e) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - getAttestationTypedData function add version field
+
+### Patch Changes
+
+- Updated dependencies [[`66c7c43`](https://github.com/zCloak-Network/zkid-sdk/commit/66c7c4388adc6f34cace0c00902e70512b090a3e)]:
+  - @zcloak/vc@1.0.0-beta.2
+
 ## 1.0.0-beta.1
 
 ### Minor Changes

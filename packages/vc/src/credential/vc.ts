@@ -121,7 +121,11 @@ export class VerifiableCredentialBuilder {
         digestPayload,
         this.digestHashType
       );
-      const { id, signature, type: signType } = await this._signDigest(issuer, digest);
+      const {
+        id,
+        signature,
+        type: signType
+      } = await this._signDigest(issuer, digest, this.version);
 
       const proof: Proof = {
         type: signType,
@@ -220,11 +224,15 @@ export class VerifiableCredentialBuilder {
   // sign digest by did, if the key type is `Ed25519VerificationKey2020`, it will sign `digest`,
   // if the key type is `EcdsaSecp256k1VerificationKey2019`, it will sign `getAttestationTypedData`.
   // otherwise, it will throw Error
-  private _signDigest(did: Did, digest: HexString): Promise<SignedData> {
+  private _signDigest(
+    did: Did,
+    digest: HexString,
+    version: VerifiableCredentialVersion
+  ): Promise<SignedData> {
     const { id, type } = did.get(did.getKeyUrl('assertionMethod'));
 
     if (type === 'EcdsaSecp256k1VerificationKey2019') {
-      return did.signWithKey(getAttestationTypedData(digest), id);
+      return did.signWithKey(getAttestationTypedData(digest, version), id);
     } else if (type === 'Ed25519VerificationKey2020') {
       return did.signWithKey(digest, id);
     }

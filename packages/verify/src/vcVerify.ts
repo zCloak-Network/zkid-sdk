@@ -46,7 +46,7 @@ async function verifyShared(
 
   const message =
     proof[0].type === 'EcdsaSecp256k1SignatureEip712'
-      ? eip712.getMessage(getAttestationTypedData(digest), true)
+      ? eip712.getMessage(getAttestationTypedData(digest, version), true)
       : digest;
 
   const proofValid = await (resolverOrDidDocument

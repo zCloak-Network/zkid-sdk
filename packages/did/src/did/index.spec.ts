@@ -195,7 +195,6 @@ describe('Did', (): void => {
 
       expect(document.proof[0].signatureType).toBe('EcdsaSecp256k1SignatureEip712');
 
-      console.log(decodeMultibase(document.proof[0].signature));
       expect(
         secp256k1Verify(
           eip712.getMessage(getPublishDocumentTypedData(document), true),

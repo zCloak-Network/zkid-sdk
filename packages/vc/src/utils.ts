@@ -3,7 +3,12 @@
 
 import type { HexString } from '@polkadot/util/types';
 import type { TypedData } from '@zcloak/crypto/eip712/types';
-import type { HashType, NativeType, NativeTypeWithOutNull } from './types';
+import type {
+  HashType,
+  NativeType,
+  NativeTypeWithOutNull,
+  VerifiableCredentialVersion
+} from './types';
 
 import { rlpEncode as rlpEncodeFn } from '@zcloak/crypto';
 
@@ -22,14 +27,20 @@ export function rlpEncode(
   }
 }
 
-export function getAttestationTypedData(digest: HexString): TypedData {
+export function getAttestationTypedData(
+  digest: HexString,
+  version: VerifiableCredentialVersion
+): TypedData {
   return {
     types: {
       EIP712Domain: [
         { name: 'name', type: 'string' },
         { name: 'version', type: 'string' }
       ],
-      Attestation: [{ name: 'digest', type: 'bytes' }]
+      Attestation: [
+        { name: 'digest', type: 'bytes' },
+        { name: 'version', type: 'uint256' }
+      ]
     },
     primaryType: 'Attestation',
     domain: {
@@ -37,7 +48,8 @@ export function getAttestationTypedData(digest: HexString): TypedData {
       version: '0'
     },
     message: {
-      digest
+      digest,
+      version
     }
   };
 }

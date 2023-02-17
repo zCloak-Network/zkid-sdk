@@ -1,5 +1,15 @@
 # @zcloak/verify
 
+## 1.0.0-beta.3
+
+### Patch Changes
+
+- Updated dependencies [[`f52b7a7`](https://github.com/zCloak-Network/zkid-sdk/commit/f52b7a774c48222cf861426467442f530c0783a4)]:
+  - @zcloak/crypto@1.0.0-beta.2
+  - @zcloak/did@1.0.0-beta.2
+  - @zcloak/ctype@1.0.0-beta.2
+  - @zcloak/vc@1.0.0-beta.3
+
 ## 1.0.0-beta.2
 
 ### Minor Changes

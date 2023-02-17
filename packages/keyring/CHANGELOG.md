@@ -1,5 +1,16 @@
 # @zcloak/keyring
 
+## 1.0.0-beta.2
+
+### Minor Changes
+
+- [#49](https://github.com/zCloak-Network/zkid-sdk/pull/49) [`f52b7a7`](https://github.com/zCloak-Network/zkid-sdk/commit/f52b7a774c48222cf861426467442f530c0783a4) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - add hdKeyFromSeed function
+
+### Patch Changes
+
+- Updated dependencies [[`f52b7a7`](https://github.com/zCloak-Network/zkid-sdk/commit/f52b7a774c48222cf861426467442f530c0783a4)]:
+  - @zcloak/crypto@1.0.0-beta.2
+
 ## 1.0.0-beta.1
 
 ### Minor Changes

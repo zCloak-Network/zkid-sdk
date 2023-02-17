@@ -88,9 +88,14 @@ export class VerifiableCredentialBuilder {
   }
 
   /**
-   * Build to [[VerifiableCredential]], it will calc digest and  sign proof use `issuer:Did`
+   * Build to [[PublicVerifiableCredential]]
    */
-  public async build(issuer: Did, isPublic = false): Promise<VerifiableCredential<boolean>> {
+  public async build(issuer: Did, isPublic: true): Promise<VerifiableCredential<true>>;
+  /**
+   * Build to [[PrivateVerifiableCredential]]
+   */
+  public async build(issuer: Did, isPublic?: false): Promise<VerifiableCredential<false>>;
+  public async build(issuer: Did, isPublic?: boolean): Promise<VerifiableCredential<boolean>> {
     assert(this.raw.checkSubject(), `Subject check failed when use ctype ${this.raw.ctype}`);
 
     if (

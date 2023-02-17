@@ -10,7 +10,7 @@ import {
   base64Decode,
   convertEd25519ToX25519,
   ed25519PairFromSeed,
-  hdEthereum,
+  hdKeyFromSeed,
   mnemonicToLegacySeed,
   mnemonicToMiniSecret,
   mnemonicValidate,
@@ -129,7 +129,7 @@ export class Keyring implements KeyringInstance {
 
     const derived =
       type === 'ecdsa'
-        ? hdEthereum(seed, pathIn.slice(1))
+        ? PairFromSeed.ecdsa(hdKeyFromSeed(seed, 'secp256k1', pathIn.slice(1)).seed)
         : PairFromSeed.ed25519(ed25519Derive(seed, code));
 
     return createPair(type === 'x25519' ? convertEd25519ToX25519(derived) : derived, { type });

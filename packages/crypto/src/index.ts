@@ -7,6 +7,7 @@ export * from './blake3-2to1';
 export * from './ed25519';
 export * from './eip712';
 export * from './ethereum';
+export * from './hdkey';
 export * from './hmac';
 export * from './json';
 export * from './keccak';

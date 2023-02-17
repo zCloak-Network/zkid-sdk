@@ -24,8 +24,5 @@
     "@zcloak/crypto": "workspace:^",
     "@zcloak/did-resolver": "workspace:^",
     "@zcloak/keyring": "workspace:^"
-  },
-  "devDependencies": {
-    "test-support": "workspace:^"
   }
 }

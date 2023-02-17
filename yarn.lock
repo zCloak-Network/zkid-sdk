@@ -3512,13 +3512,12 @@ __metadata:
     "@zcloak/did": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
     jsonschema: ^1.4.1
-    test-support: "workspace:^"
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.21.0":
-  version: 0.21.0
-  resolution: "@zcloak/dev@npm:0.21.0"
+"@zcloak/dev@npm:^0.21.1":
+  version: 0.21.1
+  resolution: "@zcloak/dev@npm:0.21.1"
   dependencies:
     "@babel/cli": ^7.20.7
     "@babel/core": ^7.20.12
@@ -3543,7 +3542,7 @@ __metadata:
     "@rushstack/eslint-patch": ^1.2.0
     "@typescript-eslint/eslint-plugin": ^5.50.0
     "@typescript-eslint/parser": ^5.50.0
-    "@zcloak/lint": 0.18.0
+    "@zcloak/lint": 0.19.0
     babel-jest: ^29.4.1
     babel-plugin-module-extension-resolver: ^1.0.0
     babel-plugin-module-resolver: ^5.0.0
@@ -3611,7 +3610,7 @@ __metadata:
     zcloak-exec-prettier: scripts/zcloak-exec-prettier.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: 180549d36972aa6673f4f1ccd421914bfbc18de905e9c80a04f1f912266d9f742a2b11895cf335c31512ce4cd5cdbad713e3b2e732885e69fb08bc1e1cb85d25
+  checksum: 9f729a149b8728e69a8087b3891a33e2b2514b8a508d7dafe48cca827598ad0d7ea290856b25996f85bcee986b32f04cbf20674e492e756cd2a089e0610154f2
   languageName: node
   linkType: hard
 
@@ -3631,7 +3630,6 @@ __metadata:
     "@zcloak/crypto": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
     "@zcloak/keyring": "workspace:^"
-    test-support: "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -3645,15 +3643,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/lint@npm:0.18.0":
-  version: 0.18.0
-  resolution: "@zcloak/lint@npm:0.18.0"
+"@zcloak/lint@npm:0.19.0":
+  version: 0.19.0
+  resolution: "@zcloak/lint@npm:0.19.0"
   dependencies:
     chalk: ^5.2.0
     glob: ^8.1.0
     parse-imports-ts: ^1.0.3
     throat: ^6.0.2
-  checksum: c57dc05c2714925be3dc7038930b9e40626cdde3ebb3bf387e7df103bfe0e427ceb8c8739abb4a4c2c4edc6cbe74cfbb543a691a2d3a5585ec66d6d3dfe29898
+  checksum: f69d640aefb2dccff9f3858b2a1af10b5e1875853cf47cabb7f5c875697cce07acb137ba18d5edc889c6c848a63a85223d5ab201721b4b138e0c4389f2dc22a8
   languageName: node
   linkType: hard
 
@@ -12561,7 +12559,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": ^29.4.0
-    "@zcloak/dev": ^0.21.0
+    "@zcloak/dev": ^0.21.1
     babel-plugin-dynamic-import-node: ^2.3.3
     fs-extra: ^11.1.0
   bin:
@@ -13526,7 +13524,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"test-support@workspace:^, test-support@workspace:packages/test-support":
+"test-support@workspace:packages/test-support":
   version: 0.0.0-use.local
   resolution: "test-support@workspace:packages/test-support"
   dependencies:

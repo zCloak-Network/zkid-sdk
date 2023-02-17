@@ -1,5 +1,32 @@
 # CHANGELOG
 
+## [0.8.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.7.2...v0.8.0) (2023-02-06)
+
+
+### Features
+
+* **crypto:** blake3_2to1AsU8a, add 2-to-1 blake3 Hash Function ([#32](https://github.com/zCloak-Network/zkid-sdk/issues/32)) ([6e3a0a4](https://github.com/zCloak-Network/zkid-sdk/commit/6e3a0a4d629b982bfa5fb74c80eccb82e20fe7c2))
+* upgrade deps ([#37](https://github.com/zCloak-Network/zkid-sdk/issues/37)) ([686e9b0](https://github.com/zCloak-Network/zkid-sdk/commit/686e9b02e6576e2fc92249ec4f4d15d4bfa67b73))
+* **vc:** add Blake32to1 hashType for vc ([#35](https://github.com/zCloak-Network/zkid-sdk/issues/35)) ([c69f3bf](https://github.com/zCloak-Network/zkid-sdk/commit/c69f3bfc939d5e4ab648faa419de7cf53e03f9ce))
+
+
+## [0.7.2](https://github.com/zCloak-Network/zkid-sdk/compare/v0.7.1...v0.7.2) (2023-01-18)
+
+
+### Bug Fixes
+
+* **verify:** didVerify will always return false when hash multiple signer keys and not sign with the first ([#34](https://github.com/zCloak-Network/zkid-sdk/issues/34)) ([53a8e4e](https://github.com/zCloak-Network/zkid-sdk/commit/53a8e4ea15ed3a1c2b3cc183d21ed77af33addf5))
+
+
+## [0.7.1](https://github.com/zCloak-Network/zkid-sdk/compare/v0.7.0...v0.7.1) (2023-01-17)
+
+
+### Bug Fixes
+
+* **verify:** vpVerify will always failed when VPType: VP_Digest, VP_SelectiveDisclosure ([#30](https://github.com/zCloak-Network/zkid-sdk/issues/30)) ([6b5eb85](https://github.com/zCloak-Network/zkid-sdk/commit/6b5eb855ba913d215b2967b9a77dec1f42dc599d))
+* **vp:** vp proof without challenge ([#29](https://github.com/zCloak-Network/zkid-sdk/issues/29)) ([c98cde4](https://github.com/zCloak-Network/zkid-sdk/commit/c98cde4d0b2dd32c65be7d8f2ebc3599d5012979))
+
+
 ## [0.7.0](https://github.com/zCloak-Network/zkid-sdk/compare/v0.6.1...v0.7.0) (2022-12-21)
 
 

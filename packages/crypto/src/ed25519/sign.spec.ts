@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { Keypair } from '../types';
@@ -11,7 +11,7 @@ import { ed25519PairFromSeed, ed25519Sign } from '.';
 describe('ed25519Sign', (): void => {
   let pair: Keypair;
 
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
     pair = ed25519PairFromSeed(stringToU8a('12345678901234567890123456789012'));
   });

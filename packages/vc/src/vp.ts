@@ -1,7 +1,8 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
+import type { SignedData } from '@zcloak/did/types';
 import type {
   HashType,
   VerifiableCredential,
@@ -16,16 +17,17 @@ import { Did } from '@zcloak/did';
 import { isSameUri } from '@zcloak/did/utils';
 
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE } from './defaults';
+import { isPublicVC, isVC } from './is';
 import { calcRoothash } from './rootHash';
-import { isVC, keyTypeToSignatureType, rlpEncode } from './utils';
+import { getPresentationTypedData, rlpEncode } from './utils';
 
 // @internal
-// transform Verifiable Credential by [[VerifiablePresentationType]]
+// transform private Verifiable Credential by [[VerifiablePresentationType]]
 function transformVC(
-  vc: VerifiableCredential,
+  vc: VerifiableCredential<false>,
   type: VerifiablePresentationType,
   selectedAttributes?: string[]
-): VerifiableCredential {
+): VerifiableCredential<false> {
   vc = objectCopy(vc);
   assert(vc.credentialSubjectHashes, 'Credential subject hashes no provided');
   assert(vc.credentialSubjectNonceMap, 'Credential subject nonce-map no provided');
@@ -91,7 +93,7 @@ export function hashDigests(
 export class VerifiablePresentationBuilder {
   #did: Did;
   // [[VerifiableCredential]] => [[VerifiablePresentation]]
-  public vcMap: Map<VerifiableCredential, VerifiablePresentationType> = new Map();
+  public vcMap: Map<VerifiableCredential<boolean>, VerifiablePresentationType> = new Map();
 
   constructor(did: Did) {
     this.#did = did;
@@ -104,7 +106,7 @@ export class VerifiablePresentationBuilder {
    * @param selectedAttributes optional, only used when `vpType` is `VP_SelectiveDisclosure`
    */
   public addVC(
-    vc: VerifiableCredential,
+    vc: VerifiableCredential<boolean>,
     vpType: VerifiablePresentationType,
     selectedAttributes?: string[]
   ): this {
@@ -114,7 +116,7 @@ export class VerifiablePresentationBuilder {
     );
     assert(isVC(vc), 'input `vc` is not a VerifiableCredential object');
 
-    this.vcMap.set(transformVC(vc, vpType, selectedAttributes), vpType);
+    this.vcMap.set(isPublicVC(vc) ? vc : transformVC(vc, vpType, selectedAttributes), vpType);
 
     return this;
   }
@@ -127,7 +129,7 @@ export class VerifiablePresentationBuilder {
     hashType: HashType = DEFAULT_VP_HASH_TYPE,
     challenge?: string
   ): Promise<VerifiablePresentation> {
-    const vcs: VerifiableCredential[] = [];
+    const vcs: VerifiableCredential<boolean>[] = [];
     const vpTypes: VerifiablePresentationType[] = [];
 
     for (const [vc, vpType] of this.vcMap.entries()) {
@@ -140,11 +142,7 @@ export class VerifiablePresentationBuilder {
       hashType
     );
 
-    const {
-      id,
-      signature,
-      type: signType
-    } = await this.#did.signWithKey(u8aConcat(hash, stringToU8a(challenge)), 'authentication');
+    const { id, signature, type: signType } = await this._sign(hash, challenge);
 
     return {
       '@context': DEFAULT_CONTEXT,
@@ -153,13 +151,26 @@ export class VerifiablePresentationBuilder {
       verifiableCredential: vcs,
       id: hash,
       proof: {
-        type: keyTypeToSignatureType(signType),
+        type: signType,
         created: Date.now(),
         verificationMethod: id,
         proofPurpose: 'authentication',
-        proofValue: base58Encode(signature)
+        proofValue: base58Encode(signature),
+        challenge
       },
       hasher: [hashTypeOut]
     };
+  }
+
+  private _sign(hash: HexString, challenge?: string): Promise<SignedData> {
+    const { id, type } = this.#did.get(this.#did.getKeyUrl('assertionMethod'));
+
+    if (type === 'EcdsaSecp256k1VerificationKey2019') {
+      return this.#did.signWithKey(getPresentationTypedData(hash, challenge || ''), id);
+    } else if (type === 'Ed25519VerificationKey2020') {
+      return this.#did.signWithKey(u8aConcat(hash, stringToU8a(challenge)), id);
+    }
+
+    throw new Error(`Unable to sign with id: ${id}, because type is ${type}`);
   }
 }

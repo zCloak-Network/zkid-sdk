@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { initCrypto } from '@zcloak/crypto';
@@ -10,7 +10,7 @@ describe('verify digest', (): void => {
   const holder = 'did:zk:0x082d674c00e27fBaAAE123a85f5024A1DD702e51';
   const ctype = '0xd50f5298fda74ff0b46be740e602fa5ce0bc2a48fc5ddfbbae3c0678f59b5b97';
 
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 
@@ -20,6 +20,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -36,6 +37,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -55,6 +57,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -71,6 +74,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -90,6 +94,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -106,6 +111,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -125,6 +131,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,
@@ -141,6 +148,7 @@ describe('verify digest', (): void => {
 
       expect(
         digestVerify(
+          '0',
           expectedDigest,
           {
             rootHash,

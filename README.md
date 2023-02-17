@@ -25,15 +25,6 @@ This repository is split up into a number of internal packages
 |  [`@zcloak/wasm-asm`](packages/wasm-asm) | [![npm](https://img.shields.io/npm/v/@zcloak/wasm-asm)](https://www.npmjs.com/package/@zcloak/wasm-asm) | [![beta](https://img.shields.io/npm/v/@zcloak/wasm-asm/beta)](https://www.npmjs.com/package/@zcloak/wasm-asm) | [![minzip](https://img.shields.io/bundlephobia/minzip/@zcloak/wasm-asm)](https://bundlephobia.com/result?p=@zcloak/wasm-asm) |
 |  [`@zcloak/wasm-bridge`](packages/wasm-bridge) | [![npm](https://img.shields.io/npm/v/@zcloak/wasm-bridge)](https://www.npmjs.com/package/@zcloak/wasm-bridge) | [![beta](https://img.shields.io/npm/v/@zcloak/wasm-bridge/beta)](https://www.npmjs.com/package/@zcloak/wasm-bridge) | [![minzip](https://img.shields.io/bundlephobia/minzip/@zcloak/wasm-bridge)](https://bundlephobia.com/result?p=@zcloak/wasm-bridge) |
 
-## development
+## CONTRIBUTING
 
-To start off, this repo (along with others in the @zcloak uses yarn workspaces to organise the code. As such, after cloning, its dependencies _should_ be installed via `yarn`, not via npm; the latter will result in broken dependencies.
-
-To get started:
-
-1. Clone the repo locally, via `git clone https://github.com/zCloak-Network/zkid-sdk.git`
-2. Ensure that you have a recent version of Node.js, for development purposes [Node 16](https://nodejs.org/en/) is recommended.
-3. Ensure that you have a recent version of Yarn, for development purposes [Yarn >=1.10.1](https://yarnpkg.com/getting-started/install) is required.
-4. Install the dependencies by running `yarn`
-5. Test the spec files via `yarn test`
-6. Build the everything via `yarn build`
+See [CONTRIBUTING.md](./CONTRIBUTING.md)

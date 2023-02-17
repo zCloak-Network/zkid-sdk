@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import fetch from 'cross-fetch';
@@ -17,7 +17,7 @@ export class ArweaveDidResolver extends DidResolver {
   constructor(opts: Options = {}) {
     super();
 
-    const { server = 'https://did-service.starks.network' } = opts;
+    const { server = 'https://did-service.zkid.app' } = opts;
 
     this.server = server;
   }

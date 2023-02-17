@@ -3,10 +3,13 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
   "description": "zCloak keyring package",
-  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/packages/keyring#readme",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk#readme",
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/keyring",
+  "publishConfig": {
+    "directory": "build"
+  },
   "repository": {
     "directory": "packages/keyring",
     "type": "git",
@@ -14,13 +17,13 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "0.7.0",
+  "version": "1.0.0-beta.1",
   "main": "index.js",
   "dependencies": {
-    "@polkadot/util": "^10.2.1",
-    "@zcloak/crypto": "0.7.0"
+    "@polkadot/util": "^10.3.1",
+    "@zcloak/crypto": "workspace:^"
   },
   "devDependencies": {
-    "ethers": "^5.7.1"
+    "ethers": "^6.0.2"
   }
 }

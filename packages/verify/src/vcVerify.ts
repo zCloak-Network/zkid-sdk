@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
@@ -8,39 +8,50 @@ import type { VerifiableCredential } from '@zcloak/vc/types';
 
 import { assert, bufferToU8a, isHex, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { makeMerkleTree } from '@zcloak/vc';
+import { eip712 } from '@zcloak/crypto';
+import { calcRoothash, makeMerkleTree } from '@zcloak/vc';
 import { HASHER } from '@zcloak/vc/hasher';
-import { isVC, rlpEncode } from '@zcloak/vc/utils';
+import { isPublicVC, isVC } from '@zcloak/vc/is';
+import { getAttestationTypedData, rlpEncode } from '@zcloak/vc/utils';
 
 import { digestVerify } from './digestVerify';
 import { proofVerify } from './proofVerify';
 
 // @internal used for all vc verify types
 async function verifyShared(
-  vc: VerifiableCredential,
+  vc: VerifiableCredential<boolean>,
   rootHash: HexString,
   resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
-  const { ctype, digest, expirationDate, hasher, holder, proof } = vc;
+  assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
+
+  const { ctype, digest, expirationDate, hasher, holder, issuanceDate, proof, version } = vc;
 
   if (expirationDate && expirationDate < Date.now()) {
     return false;
   }
 
   const digestValid = digestVerify(
+    version,
     digest,
     {
       rootHash,
       holder,
       expirationDate,
-      ctype
+      ctype,
+      issuanceDate: version === '0' ? undefined : issuanceDate
     },
     hasher[1]
   );
 
+  const message =
+    proof[0].type === 'EcdsaSecp256k1SignatureEip712'
+      ? eip712.getMessage(getAttestationTypedData(digest, version), true)
+      : digest;
+
   const proofValid = await (resolverOrDidDocument
-    ? proofVerify(digest, proof[0], resolverOrDidDocument)
-    : proofVerify(digest, proof[0]));
+    ? proofVerify(message, proof[0], resolverOrDidDocument)
+    : proofVerify(message, proof[0]));
 
   return digestValid && proofValid;
 }
@@ -70,23 +81,28 @@ async function verifyShared(
  * ```
  */
 export async function vcVerify(
-  vc: VerifiableCredential,
+  vc: VerifiableCredential<boolean>,
   resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
-  assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
+  let rootHash: HexString;
 
-  const { credentialSubject, credentialSubjectHashes, credentialSubjectNonceMap, hasher } = vc;
+  if (isPublicVC(vc)) {
+    rootHash = calcRoothash(vc.credentialSubject, vc.hasher[0]).rootHash;
+  } else {
+    const { credentialSubject, credentialSubjectHashes, credentialSubjectNonceMap, hasher } = vc;
 
-  assert(!isHex(credentialSubject), 'subject must be an object');
+    const tree = makeMerkleTree(credentialSubjectHashes, hasher[0]);
 
-  const tree = makeMerkleTree(credentialSubjectHashes, hasher[0]);
-  const rootHash = u8aToHex(bufferToU8a(tree.getRoot()));
+    rootHash = u8aToHex(bufferToU8a(tree.getRoot()));
 
-  for (const value of Object.values(credentialSubject)) {
-    const encode = u8aToHex(rlpEncode(value, hasher[0]));
-    const hash = u8aToHex(HASHER[hasher[0]](u8aConcat(encode, credentialSubjectNonceMap[encode])));
+    for (const value of Object.values(credentialSubject)) {
+      const encode = u8aToHex(rlpEncode(value, hasher[0]));
+      const hash = u8aToHex(
+        HASHER[hasher[0]](u8aConcat(encode, credentialSubjectNonceMap[encode]))
+      );
 
-    if (!credentialSubjectHashes.includes(hash)) return false;
+      if (!credentialSubjectHashes.includes(hash)) return false;
+    }
   }
 
   return verifyShared(vc, rootHash, resolverOrDidDocument);
@@ -116,7 +132,7 @@ export async function vcVerify(
  * ```
  */
 export async function vcVerifyDigest(
-  vc: VerifiableCredential,
+  vc: VerifiableCredential<boolean>,
   resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
   assert(isVC(vc), 'input `vc` is not a VerifiableCredential');

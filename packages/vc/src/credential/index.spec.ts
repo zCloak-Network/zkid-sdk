@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { CType } from '@zcloak/ctype/types';
@@ -8,6 +8,7 @@ import { getPublish } from '@zcloak/ctype/publish';
 import { Did, helpers } from '@zcloak/did';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
+import { isPrivateVC, isPublicVC } from '../is';
 import { Raw } from './raw';
 import { VerifiableCredentialBuilder } from './vc';
 
@@ -23,7 +24,7 @@ describe('VerifiableCredential', (): void => {
   let issuer: Did;
   let ctype: CType;
 
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
     holder = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
     issuer = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
@@ -61,7 +62,6 @@ describe('VerifiableCredential', (): void => {
       hashType: 'RescuePrime'
     });
 
-    raw.calcRootHash();
     expect(raw.checkSubject()).toBe(true);
   });
 
@@ -73,8 +73,6 @@ describe('VerifiableCredential', (): void => {
       hashType: 'RescuePrime'
     });
 
-    raw.calcRootHash();
-
     expect(raw.toRawCredential('Keccak256')).toMatchObject({
       ctype: ctype.$id,
       credentialSubject: CONTENTS,
@@ -83,94 +81,149 @@ describe('VerifiableCredential', (): void => {
     });
   });
 
-  it('build VC from Raw instance', async (): Promise<void> => {
-    const raw = new Raw({
-      contents: CONTENTS,
-      owner: holder.id,
-      ctype,
-      hashType: 'RescuePrime'
+  describe('PrivateVerifiableCredential', () => {
+    it('build VC from Raw instance', async (): Promise<void> => {
+      const raw = new Raw({
+        contents: CONTENTS,
+        owner: holder.id,
+        ctype,
+        hashType: 'RescuePrime'
+      });
+
+      const vcBuilder = new VerifiableCredentialBuilder(raw);
+
+      const now = Date.now();
+
+      vcBuilder
+        .setContext(DEFAULT_CONTEXT)
+        .setVersion(DEFAULT_VC_VERSION)
+        .setIssuanceDate(now)
+        .setDigestHashType('Keccak256')
+        .setExpirationDate(null);
+
+      expect(vcBuilder).toMatchObject({
+        raw,
+        '@context': DEFAULT_CONTEXT,
+        issuanceDate: now,
+        digestHashType: 'Keccak256'
+      });
+
+      const vc = await vcBuilder.build(issuer);
+
+      expect(isPrivateVC(vc)).toBe(true);
+
+      expect(vc).toMatchObject({
+        '@context': DEFAULT_CONTEXT,
+        version: DEFAULT_VC_VERSION,
+        ctype: ctype.$id,
+        issuanceDate: now,
+        credentialSubject: CONTENTS,
+        issuer: issuer.id,
+        holder: holder.id,
+        hasher: ['RescuePrime', 'Keccak256'],
+        proof: [
+          {
+            type: 'EcdsaSecp256k1SignatureEip712',
+            proofPurpose: 'assertionMethod'
+          }
+        ]
+      });
     });
 
-    const vcBuilder = new VerifiableCredentialBuilder(raw);
+    it('build VC from RawCredential', async (): Promise<void> => {
+      const raw = new Raw({
+        contents: CONTENTS,
+        owner: holder.id,
+        ctype,
+        hashType: 'RescuePrime'
+      });
 
-    const now = Date.now();
+      const now = Date.now();
 
-    vcBuilder
-      .setContext(DEFAULT_CONTEXT)
-      .setVersion(DEFAULT_VC_VERSION)
-      .setIssuanceDate(now)
-      .setDigestHashType('Keccak256')
-      .setExpirationDate(null);
+      const vcBuilder = VerifiableCredentialBuilder.fromRawCredential(
+        raw.toRawCredential('Keccak256'),
+        ctype
+      )
+        .setExpirationDate(null)
+        .setIssuanceDate(now);
 
-    expect(vcBuilder).toMatchObject({
-      raw,
-      '@context': DEFAULT_CONTEXT,
-      issuanceDate: now,
-      digestHashType: 'Keccak256'
-    });
+      expect(vcBuilder).toMatchObject({
+        raw,
+        '@context': DEFAULT_CONTEXT,
+        issuanceDate: now,
+        digestHashType: 'Keccak256'
+      });
 
-    const vc = await vcBuilder.build(issuer);
+      const vc = await vcBuilder.build(issuer);
 
-    expect(vc).toMatchObject({
-      '@context': DEFAULT_CONTEXT,
-      version: DEFAULT_VC_VERSION,
-      ctype: ctype.$id,
-      issuanceDate: now,
-      credentialSubject: CONTENTS,
-      issuer: issuer.id,
-      holder: holder.id,
-      hasher: ['RescuePrime', 'Keccak256'],
-      proof: [
-        {
-          type: 'EcdsaSecp256k1Signature2019',
-          proofPurpose: 'assertionMethod'
-        }
-      ]
+      expect(isPrivateVC(vc)).toBe(true);
+
+      expect(vc).toMatchObject({
+        '@context': DEFAULT_CONTEXT,
+        version: DEFAULT_VC_VERSION,
+        ctype: ctype.$id,
+        issuanceDate: now,
+        credentialSubject: CONTENTS,
+        issuer: issuer.id,
+        holder: holder.id,
+        hasher: ['RescuePrime', 'Keccak256'],
+        proof: [
+          {
+            type: 'EcdsaSecp256k1SignatureEip712',
+            proofPurpose: 'assertionMethod'
+          }
+        ]
+      });
     });
   });
 
-  it('build VC from RawCredential', async (): Promise<void> => {
-    const raw = new Raw({
-      contents: CONTENTS,
-      owner: holder.id,
-      ctype,
-      hashType: 'RescuePrime'
-    });
+  describe('PublicVerifiableCredential', () => {
+    it('build public VC from Raw instance', async (): Promise<void> => {
+      const raw = new Raw({
+        contents: CONTENTS,
+        owner: holder.id,
+        ctype,
+        hashType: 'RescuePrime'
+      });
 
-    raw.calcRootHash();
-    const now = Date.now();
+      const vcBuilder = new VerifiableCredentialBuilder(raw);
 
-    const vcBuilder = VerifiableCredentialBuilder.fromRawCredential(
-      raw.toRawCredential('Keccak256'),
-      ctype
-    )
-      .setExpirationDate(null)
-      .setIssuanceDate(now);
+      const now = Date.now();
 
-    expect(vcBuilder).toMatchObject({
-      raw,
-      '@context': DEFAULT_CONTEXT,
-      issuanceDate: now,
-      digestHashType: 'Keccak256'
-    });
+      vcBuilder
+        .setContext(DEFAULT_CONTEXT)
+        .setVersion(DEFAULT_VC_VERSION)
+        .setIssuanceDate(now)
+        .setDigestHashType('Keccak256')
+        .setExpirationDate(null);
 
-    const vc = await vcBuilder.build(issuer);
+      expect(vcBuilder).toMatchObject({
+        raw,
+        '@context': DEFAULT_CONTEXT,
+        issuanceDate: now,
+        digestHashType: 'Keccak256'
+      });
 
-    expect(vc).toMatchObject({
-      '@context': DEFAULT_CONTEXT,
-      version: DEFAULT_VC_VERSION,
-      ctype: ctype.$id,
-      issuanceDate: now,
-      credentialSubject: CONTENTS,
-      issuer: issuer.id,
-      holder: holder.id,
-      hasher: ['RescuePrime', 'Keccak256'],
-      proof: [
-        {
-          type: 'EcdsaSecp256k1Signature2019',
-          proofPurpose: 'assertionMethod'
-        }
-      ]
+      const vc = await vcBuilder.build(issuer, true);
+
+      expect(isPublicVC(vc)).toBe(true);
+
+      expect(vc).toMatchObject({
+        '@context': DEFAULT_CONTEXT,
+        version: DEFAULT_VC_VERSION,
+        ctype: ctype.$id,
+        issuanceDate: now,
+        credentialSubject: CONTENTS,
+        issuer: issuer.id,
+        holder: holder.id,
+        hasher: ['RescuePrime', 'Keccak256'],
+        proof: [
+          {
+            type: 'EcdsaSecp256k1SignatureEip712',
+            proofPurpose: 'assertionMethod'
+          }
+        ]
+      });
     });
   });
 });

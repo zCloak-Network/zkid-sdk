@@ -1,10 +1,16 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { stringToU8a } from '@polkadot/util';
-import { utils } from 'ethers';
+import { stringToU8a, u8aToHex } from '@polkadot/util';
+import { computeAddress, getAddress } from 'ethers';
 
-import { ed25519Verify, initCrypto, randomAsU8a, secp256k1Verify } from '@zcloak/crypto';
+import {
+  ed25519Verify,
+  initCrypto,
+  keccak256AsU8a,
+  randomAsU8a,
+  secp256k1Verify
+} from '@zcloak/crypto';
 
 import { Keyring } from './keyring';
 
@@ -36,8 +42,8 @@ describe('Keyring', (): void => {
     });
 
     it('adds from a mnemonic', (): void => {
-      expect(utils.computeAddress(keyring.addFromMnemonic(PHRASE).publicKey)).toEqual(
-        utils.getAddress('0x9cdc88edf924a757b4c9b86d051fdfbafce141b4')
+      expect(computeAddress(u8aToHex(keyring.addFromMnemonic(PHRASE).publicKey))).toEqual(
+        getAddress('0x9cdc88edf924a757b4c9b86d051fdfbafce141b4')
       );
     });
 
@@ -49,7 +55,9 @@ describe('Keyring', (): void => {
 
       expect(secp256k1Verify(MESSAGE, signature, pair.publicKey)).toBe(true);
       expect(secp256k1Verify(MESSAGE, signature, randomAsU8a(32))).toBe(false);
-      expect(secp256k1Verify(new Uint8Array(), signature, pair.publicKey)).toBe(false);
+      expect(secp256k1Verify(keccak256AsU8a(new Uint8Array()), signature, pair.publicKey)).toBe(
+        false
+      );
     });
 
     it('encodes a pair toJSON (and decodes)', (): void => {

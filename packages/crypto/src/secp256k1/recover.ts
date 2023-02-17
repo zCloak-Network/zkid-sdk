@@ -1,12 +1,10 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
 
 import { recoverPublicKey, Signature } from '@noble/secp256k1';
 import { u8aToU8a } from '@polkadot/util';
-
-import { secp256k1Expand } from './expand';
 
 /**
  * @name secp256k1Recover
@@ -25,5 +23,5 @@ export function secp256k1Recover(
     throw new Error('Unable to recover publicKey from signature');
   }
 
-  return secp256k1Expand(publicKey);
+  return publicKey;
 }

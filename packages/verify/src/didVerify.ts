@@ -1,14 +1,24 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
-import type { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
+import type { DidDocument, DidUrl, SignatureType } from '@zcloak/did-resolver/types';
 
 import { u8aToU8a } from '@polkadot/util';
 
-import { decodeMultibase, ed25519Verify, secp256k1Verify } from '@zcloak/crypto';
+import { ed25519Verify, keccak256AsU8a, secp256k1Verify } from '@zcloak/crypto';
+import { helpers } from '@zcloak/did';
 import { DidResolver } from '@zcloak/did-resolver';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
+
+const VERIFIERS: Record<
+  SignatureType,
+  (message: Uint8Array, signature: HexString | Uint8Array, publicKey: Uint8Array) => boolean
+> = {
+  EcdsaSecp256k1Signature2019: secp256k1Verify,
+  EcdsaSecp256k1SignatureEip712: secp256k1Verify,
+  Ed25519Signature2018: ed25519Verify
+};
 
 /**
  * @name didVerify
@@ -44,6 +54,7 @@ import { defaultResolver } from '@zcloak/did-resolver/defaults';
 export async function didVerify(
   message: HexString | Uint8Array | string,
   signature: HexString | Uint8Array,
+  signatureType: SignatureType,
   didUrl: DidUrl,
   resolverOrDidDocument?: DidDocument | DidResolver
 ): Promise<boolean> {
@@ -51,26 +62,18 @@ export async function didVerify(
     resolverOrDidDocument = defaultResolver;
   }
 
-  const messageU8a = u8aToU8a(message);
+  const messageU8a: Uint8Array =
+    signatureType === 'EcdsaSecp256k1Signature2019' ? keccak256AsU8a(message) : u8aToU8a(message);
 
   const document =
     resolverOrDidDocument instanceof DidResolver
       ? await resolverOrDidDocument.resolve(didUrl)
       : resolverOrDidDocument;
 
-  const finded = document.verificationMethod?.find((method) => {
-    return method.id;
-  });
+  const did = helpers.fromDidDocument(document);
 
-  if (!finded) return false;
+  const { publicKey } = did.get(didUrl);
+  const isTrue = VERIFIERS[signatureType](messageU8a, signature, publicKey);
 
-  const publicKey = decodeMultibase(finded.publicKeyMultibase);
-
-  if (finded.type === 'EcdsaSecp256k1VerificationKey2019') {
-    return secp256k1Verify(messageU8a, signature, publicKey);
-  } else if (finded.type === 'Ed25519VerificationKey2020') {
-    return ed25519Verify(messageU8a, signature, publicKey);
-  }
-
-  return false;
+  return isTrue;
 }

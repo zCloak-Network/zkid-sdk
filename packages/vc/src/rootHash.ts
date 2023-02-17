@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
@@ -9,14 +9,13 @@ import { MerkleTree } from 'merkletreejs';
 
 import { randomAsHex } from '@zcloak/crypto';
 
-import { DEFAULT_ROOT_HASH_TYPE } from './defaults';
 import { HASHER } from './hasher';
 import { rlpEncode } from './utils';
 
 export type RootHashResult = {
   rootHash: HexString;
-  hashes: HexString[];
-  nonceMap: Record<HexString, HexString>;
+  hashes?: HexString[];
+  nonceMap?: Record<HexString, HexString>;
   type: HashType;
 };
 
@@ -35,21 +34,25 @@ export function makeMerkleTree(leaves: (Uint8Array | HexString)[], hashType: Has
 }
 
 /**
- * generate roothash from merkle tree
+ * generate roothash from merkle tree, the merkle tree leaves is `hash(encoded[i], nonceMap[encoded[i]])`,
+ * if you don't provide `nonceMap` param, the merkle tree leaves is `hash(encoded[i])`
  * @param encoded the encoded value, used to generate with nonce
- * @param nonceMap the map of `encoded => nonce`, used to generate with encoded
  * @param hashType [[HashType]]
+ * @param nonceMap the map of `encoded => nonce`, used to generate with encoded
  */
 export function rootHashFromMerkle(
   encoded: HexString[],
-  nonceMap: Record<HexString, HexString>,
-  hashType: HashType
+  hashType: HashType,
+  nonceMap?: Record<HexString, HexString>
 ): Omit<RootHashResult, 'type' | 'nonceMap'> {
   const leaves: Uint8Array[] = [];
 
   for (const encode of encoded) {
-    assert(nonceMap[encode], `Nonce not found in nonceMap with encode: ${encode}`);
-    const leave = HASHER[hashType](u8aConcat(encode, nonceMap[encode]));
+    if (nonceMap) {
+      assert(nonceMap[encode], `Nonce not found in nonceMap with encode: ${encode}`);
+    }
+
+    const leave = HASHER[hashType](nonceMap ? u8aConcat(encode, nonceMap[encode]) : encode);
 
     leaves.push(leave);
   }
@@ -66,11 +69,26 @@ export function rootHashFromMerkle(
  * @name calcRoothash
  * @summary calc rootHash from any json.
  * @description
- * calc rootHash with supplied `input`, pass the `nonceMap` if supplied. Returns [[RootHashResult]].
+ * calc rootHash with supplied `input` and `hashType`. Returns [[RootHashResult]].
+ */
+export function calcRoothash(input: AnyJson, hashType: HashType): RootHashResult;
+/**
+ * @name calcRoothash
+ * @summary calc rootHash from any json.
+ * @description
+ * calc rootHash with supplied `input` and `hashType`, the `nonceMap` must be passed. Returns [[RootHashResult]].
+ *
+ * if you pass an empty object for `nonceMap`, it will random 32-bytes value to the obect.
  */
 export function calcRoothash(
   input: AnyJson,
-  hashType: HashType = DEFAULT_ROOT_HASH_TYPE,
+  hashType: HashType,
+  nonceMap: Record<HexString, HexString>
+): RootHashResult;
+
+export function calcRoothash(
+  input: AnyJson,
+  hashType: HashType,
   nonceMap?: Record<HexString, HexString>
 ): RootHashResult {
   const values = Object.values(input);
@@ -78,17 +96,15 @@ export function calcRoothash(
     .map((value) => rlpEncode(value, hashType))
     .map((value) => u8aToHex(value));
 
-  if (!nonceMap) {
-    nonceMap = {};
-
+  if (nonceMap) {
     for (const encode of encoded) {
-      nonceMap[encode] = randomAsHex(32);
+      if (!nonceMap[encode]) nonceMap[encode] = randomAsHex(32);
     }
   }
 
   return {
     type: hashType,
     nonceMap,
-    ...rootHashFromMerkle(encoded, nonceMap, hashType)
+    ...rootHashFromMerkle(encoded, hashType, nonceMap)
   };
 }

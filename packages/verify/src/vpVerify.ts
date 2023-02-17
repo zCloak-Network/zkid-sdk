@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
@@ -11,11 +11,13 @@ import type {
   VerifiablePresentationType
 } from '@zcloak/vc/types';
 
-import { assert } from '@polkadot/util';
+import { assert, stringToU8a, u8aConcat } from '@polkadot/util';
 
+import { eip712 } from '@zcloak/crypto';
 import { isSameUri } from '@zcloak/did/utils';
 import { hashDigests } from '@zcloak/vc';
-import { isVP } from '@zcloak/vc/utils';
+import { isVP } from '@zcloak/vc/is';
+import { getPresentationTypedData } from '@zcloak/vc/utils';
 
 import { proofVerify } from './proofVerify';
 import { vcVerify, vcVerifyDigest } from './vcVerify';
@@ -29,7 +31,10 @@ function idCheck(digests: HexString[], hashType: HashType, id: HexString): boole
 
 const VERIFIERS: Record<
   VerifiablePresentationType,
-  (vc: VerifiableCredential, resolverOrDidDocument?: DidDocument | DidResolver) => Promise<boolean>
+  (
+    vc: VerifiableCredential<boolean>,
+    resolverOrDidDocument?: DidDocument | DidResolver
+  ) => Promise<boolean>
 > = {
   VP: vcVerify,
   VP_Digest: vcVerifyDigest,
@@ -63,15 +68,20 @@ export async function vpVerify(
 
   // check vc is same did with proof's signer
   for (const vc of verifiableCredential) {
-    if (!isSameUri(vc.issuer, proof.verificationMethod)) {
+    if (!isSameUri(vc.holder, proof.verificationMethod)) {
       return false;
     }
   }
 
-  const proofValid = await proofVerify(id, proof, resolverOrDidDocument);
+  const message =
+    proof.type === 'EcdsaSecp256k1SignatureEip712'
+      ? eip712.getMessage(getPresentationTypedData(id, proof.challenge || ''), true)
+      : u8aConcat(id, stringToU8a(proof.challenge));
+
+  const proofValid = await proofVerify(message, proof, resolverOrDidDocument);
 
   const results = await Promise.all(
-    type.map((t, i) => VERIFIERS[t](verifiableCredential[i]), resolverOrDidDocument)
+    type.map((t, i) => VERIFIERS[t](verifiableCredential[i], resolverOrDidDocument))
   );
 
   return idValid && proofValid && !results.includes(false);

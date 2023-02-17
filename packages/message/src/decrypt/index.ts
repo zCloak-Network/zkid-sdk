@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { IDidKeyring } from '@zcloak/did/types';
@@ -10,8 +10,7 @@ import { assert, isHex, isNumber, u8aToString } from '@polkadot/util';
 import { decodeMultibase } from '@zcloak/crypto';
 import { isDidUrl, isSameUri } from '@zcloak/did/utils';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
-import { isRawCredential, isVC, isVP } from '@zcloak/vc/utils';
-import { didVerify } from '@zcloak/verify';
+import { isRawCredential, isVC, isVP } from '@zcloak/vc/is';
 
 import { SUPPORT_MESSAGE_TYPES } from '../defaults';
 
@@ -24,7 +23,7 @@ import { SUPPORT_MESSAGE_TYPES } from '../defaults';
  * 1. check the data is correct.
  * 2. check the sender and issuer/holder.
  */
-export function verifyMessageData<T extends MessageType>(message: DecryptedMessage<T>): void {
+export function verifyMessageData(message: DecryptedMessage<MessageType>): void {
   const { data, msgType, sender } = message;
 
   switch (msgType) {
@@ -51,7 +50,7 @@ export function verifyMessageData<T extends MessageType>(message: DecryptedMessa
 
     case 'Response_Reject_Attestation':
       assert(
-        isDidUrl((data as any).holder) && isHex((data as any).ctype),
+        isDidUrl(data.holder) && isHex(data.ctype),
         `Expected message data with msgType:${msgType} has required keys holder(DidUrl) and ctype(HexString)`
       );
 
@@ -135,22 +134,6 @@ export function verifyMessageEnvelope<T extends MessageType>(message: BaseMessag
   }
 }
 
-export async function verifyMessageSignature<T extends MessageType>(
-  message: BaseMessage<T>,
-  resolver: DidResolver
-): Promise<void> {
-  if (message.version !== '1') {
-    assert(message.signer, 'No signer find');
-    assert(message.signature, 'No signature find');
-    assert(isSameUri(message.sender, message.signer), 'Expect signer is the sender');
-
-    assert(
-      await didVerify(message.id, decodeMultibase(message.signature), message.signer, resolver),
-      'Signature verify failed'
-    );
-  }
-}
-
 /**
  * @name decryptMessage
  * @summary Decrypted the data to Message
@@ -163,7 +146,6 @@ export async function decryptMessage<T extends MessageType>(
   resolver: DidResolver = defaultResolver
 ): Promise<DecryptedMessage<T>> {
   verifyMessageEnvelope(message);
-  await verifyMessageSignature(message, resolver);
 
   const decrypted = await did.decrypt(
     decodeMultibase(message.encryptedMsg),

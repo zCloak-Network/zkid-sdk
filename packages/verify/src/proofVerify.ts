@@ -1,11 +1,9 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidDocument } from '@zcloak/did-resolver/types';
 import type { Proof } from '@zcloak/vc/types';
-
-import { stringToU8a, u8aConcat } from '@polkadot/util';
 
 import { decodeMultibase } from '@zcloak/crypto';
 import { DidResolver } from '@zcloak/did-resolver';
@@ -25,15 +23,13 @@ export async function proofVerify(
   proof: Proof,
   resolverOrDidDocument?: DidDocument | DidResolver
 ): Promise<boolean> {
-  const { challenge, proofValue, verificationMethod } = proof;
+  const { proofValue, verificationMethod } = proof;
 
   const signature = decodeMultibase(proofValue);
 
-  message = u8aConcat(message, stringToU8a(challenge));
-
   if (!resolverOrDidDocument) {
-    return didVerify(message, signature, verificationMethod);
+    return didVerify(message, signature, proof.type, verificationMethod);
   } else {
-    return didVerify(message, signature, verificationMethod, resolverOrDidDocument);
+    return didVerify(message, signature, proof.type, verificationMethod, resolverOrDidDocument);
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DidDocument } from '@zcloak/did-resolver/types';
@@ -8,6 +8,8 @@ import { stringToU8a } from '@polkadot/util';
 import { jsonCanonicalize, sha256AsU8a } from '@zcloak/crypto';
 
 /**
+ * since `@zcloak/did@1.0.0`, this function is not used when publish, please use [[getPublishDocumentTypedData]].
+ *
  * serialize did document as sha256, used to sign it, do not encode proof, because the signature will push to.
  * @param document an object of [[DidDocument]]
  * @returns [[Uint8Array]]

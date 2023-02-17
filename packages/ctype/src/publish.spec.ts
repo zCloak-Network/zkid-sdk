@@ -1,21 +1,18 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { BaseCType } from './types';
 
-import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
-import { Did, helpers } from '@zcloak/did';
+import { charlie } from 'test-support';
+
+import { initCrypto } from '@zcloak/crypto';
 
 import { DEFAULT_CTYPE_SCHEMA } from './defaults';
 import { getCTypeHash, getPublish } from './publish';
 
 describe('publish ctype', (): void => {
-  let publisher: Did;
-
   beforeAll(async (): Promise<void> => {
     await initCrypto();
-
-    publisher = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
   });
 
   it('get ctype hash', (): void => {
@@ -37,8 +34,8 @@ describe('publish ctype', (): void => {
       required: ['name', 'age']
     };
 
-    expect(getCTypeHash(base, publisher.id)).toEqual(
-      getCTypeHash(base, publisher.getKeyUrl('authentication'))
+    expect(getCTypeHash(base, charlie.id)).toEqual(
+      getCTypeHash(base, charlie.getKeyUrl('authentication'))
     );
   });
 
@@ -61,7 +58,7 @@ describe('publish ctype', (): void => {
       required: ['name', 'age']
     };
 
-    expect(await getPublish(base, publisher)).toMatchObject({
+    expect(await getPublish(base, charlie)).toMatchObject({
       ...base,
       $schema: DEFAULT_CTYPE_SCHEMA
     });

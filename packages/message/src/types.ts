@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
@@ -31,13 +31,13 @@ export type ExtendsMessageType = `Extends_${string}`;
 
 export type MessageData = {
   Request_Attestation: RawCredential;
-  Response_Approve_Attestation: VerifiableCredential;
+  Response_Approve_Attestation: VerifiableCredential<boolean>;
   Response_Reject_Attestation: RejectAttestation;
   Reqeust_VP: RequestVP;
   Response_Accept_VP: VerifiablePresentation;
   Response_Reject_VP: RejectVP;
   Send_VP: VerifiablePresentation;
-  Send_issuedVC: VerifiableCredential;
+  Send_issuedVC: VerifiableCredential<boolean>;
   [key: ExtendsMessageType]: any;
 };
 
@@ -52,9 +52,6 @@ export interface BaseMessage<T extends MessageType> {
   sender: DidUrl;
   receiver: DidUrl;
   ctype?: HexString;
-  // since version 2
-  signer?: DidUrl;
-  signature?: string;
 }
 
 export interface Message<T extends MessageType> extends BaseMessage<T> {

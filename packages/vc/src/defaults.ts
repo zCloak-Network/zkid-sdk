@@ -1,15 +1,15 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { SignatureType } from '@zcloak/did-resolver/types';
 import type {
   HashType,
-  SignatureType,
   VerifiableCredentialVersion,
   VerifiablePresentationType,
   VerifiablePresentationVersion
 } from './types';
 
-export const DEFAULT_VC_VERSION: VerifiableCredentialVersion = '0';
+export const DEFAULT_VC_VERSION: VerifiableCredentialVersion = '1';
 
 export const DEFAULT_VP_VERSION: VerifiablePresentationVersion = '0';
 
@@ -24,6 +24,7 @@ export const DEFAULT_VP_HASH_TYPE: HashType = 'Keccak256';
 export const ALL_HASH_TYPES: HashType[] = [
   'RescuePrime',
   'Blake3',
+  'Blake32to1',
   'Blake2',
   'Keccak256',
   'Keccak512',
@@ -39,5 +40,6 @@ export const ALL_VP_TYPES: VerifiablePresentationType[] = [
 
 export const ALL_SIG_TYPES: SignatureType[] = [
   'EcdsaSecp256k1Signature2019',
+  'EcdsaSecp256k1SignatureEip712',
   'Ed25519Signature2018'
 ];

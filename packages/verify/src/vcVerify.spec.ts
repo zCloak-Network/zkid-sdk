@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import type { DidDocument } from '@zcloak/did-resolver/types';
@@ -61,7 +61,7 @@ const document2: DidDocument = {
   service: []
 };
 
-const fullVC: VerifiableCredential = {
+const fullVC: VerifiableCredential<false> = {
   '@context': ['https://www.w3.org/2018/credentials/v1'],
   version: '0',
   ctype: '0xc79824e312467b9d38f5448aef37791ac9d45e5c66267eb19f327005a45fb3d4',
@@ -104,7 +104,7 @@ const fullVC: VerifiableCredential = {
   ]
 };
 
-const vcWithExpiration: VerifiableCredential = {
+const vcWithExpiration: VerifiableCredential<false> = {
   '@context': ['https://www.w3.org/2018/credentials/v1'],
   version: '0',
   ctype: '0xa69ef32aabc84331421bc553ec5b85b6bee54789985b66c679ad68db5d69bb6a',
@@ -262,7 +262,7 @@ describe('vc verify', (): void => {
             credentialSubject: calcRoothash(
               fullVC.credentialSubject as AnyJson,
               fullVC.hasher[0],
-              fullVC.credentialSubjectNonceMap
+              fullVC.credentialSubjectNonceMap || {}
             ).rootHash,
             credentialSubjectNonceMap: {},
             credentialSubjectHashes: []

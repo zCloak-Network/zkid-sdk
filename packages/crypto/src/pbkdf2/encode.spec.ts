@@ -1,4 +1,4 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { u8aToHex } from '@polkadot/util';
@@ -13,7 +13,7 @@ const KNOWN_SALT = new Uint8Array([
 const TEST_PASSWORD = 'test password';
 
 describe('pbkdf2Encode', (): void => {
-  beforeEach(async (): Promise<void> => {
+  beforeAll(async (): Promise<void> => {
     await initCrypto();
   });
 

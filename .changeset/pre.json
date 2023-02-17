@@ -1,0 +1,25 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "@zcloak/crypto": "0.8.0",
+    "@zcloak/ctype": "0.8.0",
+    "@zcloak/did": "0.8.0",
+    "@zcloak/did-resolver": "0.8.0",
+    "@zcloak/keyring": "0.8.0",
+    "@zcloak/message": "0.8.0",
+    "@zcloak/vc": "0.8.0",
+    "@zcloak/verify": "0.8.0",
+    "@zcloak/wasm": "0.8.0",
+    "@zcloak/wasm-asm": "0.8.0",
+    "@zcloak/wasm-bridge": "0.8.0",
+    "test-support": "0.0.0"
+  },
+  "changesets": [
+    "bright-gifts-flash",
+    "fast-cars-admire",
+    "good-forks-relate",
+    "hip-buckets-battle",
+    "loud-apples-hug"
+  ]
+}

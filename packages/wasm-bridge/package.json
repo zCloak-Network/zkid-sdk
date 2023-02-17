@@ -17,13 +17,13 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^10.3.1"
   },
   "peerDependencies": {
-    "@zcloak/wasm": "1.0.0-beta.0",
-    "@zcloak/wasm-asm": "1.0.0-beta.0"
+    "@zcloak/wasm": "1.0.0",
+    "@zcloak/wasm-asm": "1.0.0"
   }
 }

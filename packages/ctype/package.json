@@ -25,5 +25,8 @@
     "@zcloak/did": "workspace:^",
     "@zcloak/did-resolver": "workspace:^",
     "jsonschema": "^1.4.1"
+  },
+  "devDependencies": {
+    "test-support": "workspace:^"
   }
 }

@@ -1,5 +1,11 @@
 # @zcloak/vc
 
+## 1.0.0-beta.4
+
+### Patch Changes
+
+- [#51](https://github.com/zCloak-Network/zkid-sdk/pull/51) [`258e259`](https://github.com/zCloak-Network/zkid-sdk/commit/258e25907ca5d5a2954bc174173f41c668dab4ff) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - make build method overloading, return `PublicVerifiableCredential` or `PrivateVerifiableCredential`
+
 ## 1.0.0-beta.3
 
 ### Patch Changes

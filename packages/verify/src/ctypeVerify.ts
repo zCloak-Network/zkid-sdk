@@ -5,9 +5,8 @@ import type { CType } from '@zcloak/ctype/types';
 import type { DidResolver } from '@zcloak/did-resolver';
 import type { DidDocument } from '@zcloak/did-resolver/types';
 
-import { decodeMultibase, eip712 } from '@zcloak/crypto';
-import { getCTypeHash } from '@zcloak/ctype/publish';
-import { getPublishCTypeTypedData } from '@zcloak/ctype/utils';
+import { decodeMultibase } from '@zcloak/crypto';
+import { getCTypeHash, signedCTypeMessage } from '@zcloak/ctype/publish';
 
 import { didVerify } from './didVerify';
 
@@ -29,10 +28,7 @@ import { didVerify } from './didVerify';
 export function ctypeVerify(ctype: CType, document?: DidDocument | DidResolver): Promise<boolean> {
   const hash = getCTypeHash(ctype, ctype.publisher, ctype.$schema);
 
-  const message =
-    ctype.signatureType === 'EcdsaSecp256k1SignatureEip712'
-      ? eip712.getMessage(getPublishCTypeTypedData(hash), true)
-      : hash;
+  const message = ctype.version === '0' ? signedCTypeMessage(hash, ctype.version) : hash;
 
   const signatureType = ctype.signatureType || 'EcdsaSecp256k1Signature2019';
 

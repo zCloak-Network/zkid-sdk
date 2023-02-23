@@ -13,7 +13,7 @@ import { Raw, VerifiableCredentialBuilder } from './credential';
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE, DEFAULT_VP_VERSION } from './defaults';
 import { isPrivateVC } from './is';
 import { calcRoothash } from './rootHash';
-import { hashDigests, VerifiablePresentationBuilder } from './vp';
+import { VerifiablePresentationBuilder, vpID } from './vp';
 
 const CONTENTS1 = {
   name: 'zCloak',
@@ -140,9 +140,9 @@ describe('VerifiablePresentation', (): void => {
         version: DEFAULT_VP_VERSION,
         type: ['VP'],
         verifiableCredential: [vc],
-        id: hashDigests([vc.digest], DEFAULT_VP_HASH_TYPE).hash,
+        id: vpID([vc.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1SignatureEip712',
+          type: 'EcdsaSecp256k1SignatureEip191',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -176,9 +176,9 @@ describe('VerifiablePresentation', (): void => {
             credentialSubjectNonceMap: {}
           }
         ],
-        id: hashDigests([vc.digest], DEFAULT_VP_HASH_TYPE).hash,
+        id: vpID([vc.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1SignatureEip712',
+          type: 'EcdsaSecp256k1SignatureEip191',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -216,9 +216,9 @@ describe('VerifiablePresentation', (): void => {
             }
           }
         ],
-        id: hashDigests([vc.digest], DEFAULT_VP_HASH_TYPE).hash,
+        id: vpID([vc.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1SignatureEip712',
+          type: 'EcdsaSecp256k1SignatureEip191',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -250,9 +250,9 @@ describe('VerifiablePresentation', (): void => {
         version: DEFAULT_VP_VERSION,
         type: ['VP', 'VP'],
         verifiableCredential: [vc1, vc2],
-        id: hashDigests([vc1.digest, vc2.digest], DEFAULT_VP_HASH_TYPE).hash,
+        id: vpID([vc1.digest, vc2.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1SignatureEip712',
+          type: 'EcdsaSecp256k1SignatureEip191',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -300,9 +300,9 @@ describe('VerifiablePresentation', (): void => {
             credentialSubjectNonceMap: {}
           }
         ],
-        id: hashDigests([vc1.digest, vc2.digest], DEFAULT_VP_HASH_TYPE).hash,
+        id: vpID([vc1.digest, vc2.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1SignatureEip712',
+          type: 'EcdsaSecp256k1SignatureEip191',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -361,9 +361,9 @@ describe('VerifiablePresentation', (): void => {
             }
           }
         ],
-        id: hashDigests([vc1.digest, vc2.digest], DEFAULT_VP_HASH_TYPE).hash,
+        id: vpID([vc1.digest, vc2.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1SignatureEip712',
+          type: 'EcdsaSecp256k1SignatureEip191',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
@@ -428,9 +428,9 @@ describe('VerifiablePresentation', (): void => {
           },
           vc3
         ],
-        id: hashDigests([vc1.digest, vc2.digest, vc3.digest], DEFAULT_VP_HASH_TYPE).hash,
+        id: vpID([vc1.digest, vc2.digest, vc3.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
-          type: 'EcdsaSecp256k1SignatureEip712',
+          type: 'EcdsaSecp256k1SignatureEip191',
           proofPurpose: 'authentication'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]

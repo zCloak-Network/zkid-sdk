@@ -13,7 +13,7 @@ import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
 
-import { getPublishDocumentTypedData } from '../utils';
+import { hashDidDocument, signedDidDocumentMessage } from '../hasher';
 import { DidKeyring } from './keyring';
 
 export abstract class DidChain extends DidKeyring {
@@ -22,6 +22,7 @@ export abstract class DidChain extends DidKeyring {
 
     const document: DidDocument = {
       '@context': ['https://www.w3.org/ns/did/v1'],
+      version: '0',
       id: this.id,
       controller: [...this.controller]
     };
@@ -80,11 +81,11 @@ export abstract class DidChain extends DidKeyring {
   public async getPublish(): Promise<DidDocumentWithProof> {
     const document = this.getDocument();
 
-    document.creationTime = Date.now();
-
     const proof: DidDocumentProof[] = document.proof ?? [];
 
-    const message = getPublishDocumentTypedData(document);
+    assert(document.version, 'Must have version field when publish');
+
+    const message = signedDidDocumentMessage(hashDidDocument(document), document.version);
 
     const {
       id,
@@ -96,6 +97,7 @@ export abstract class DidChain extends DidKeyring {
 
     return {
       ...document,
+      creationTime: Date.now(),
       proof
     };
   }

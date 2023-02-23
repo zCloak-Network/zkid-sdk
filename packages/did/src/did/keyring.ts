@@ -7,10 +7,9 @@ import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { KeyringInstance, KeyringPair } from '@zcloak/keyring/types';
 import type { DidKeys, EncryptedData, IDidKeyring, SignedData } from '../types';
 
-import { assert, isHex, isU8a } from '@polkadot/util';
+import { assert } from '@polkadot/util';
 
-import { eip712, keccak256AsU8a } from '@zcloak/crypto';
-import { TypedData } from '@zcloak/crypto/eip712/types';
+import { eip191HashMessage } from '@zcloak/crypto';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
 import { isDidUrl } from '../utils';
@@ -82,7 +81,7 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
   }
 
   public async signWithKey(
-    message: Uint8Array | HexString | TypedData,
+    message: Uint8Array | HexString,
     keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'>
   ): Promise<SignedData> {
     const didUrl = isDidUrl(keyOrDidUrl) ? keyOrDidUrl : this.getKeyUrl(keyOrDidUrl);
@@ -93,44 +92,19 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
       "sign method only call with key type: 'EcdsaSecp256k1VerificationKey2019', 'Ed25519VerificationKey2020'"
     );
 
-    if (isU8a(message) || isHex(message)) {
-      if (type === 'EcdsaSecp256k1VerificationKey2019') {
-        console.warn(
-          `Using ${type} to sign signature is not a safe way, and it will be deprecat in a future version`
-        );
-        message = keccak256AsU8a(message);
-      }
-
-      const { id, signature } = await this._sign(message, didUrl);
-
-      return {
-        id,
-        signature,
-        type:
-          type === 'EcdsaSecp256k1VerificationKey2019'
-            ? 'EcdsaSecp256k1Signature2019'
-            : 'Ed25519Signature2018'
-      };
+    if (type === 'EcdsaSecp256k1VerificationKey2019') {
+      message = eip191HashMessage(message);
     }
-
-    // sign data use eip-712 when the key type is `EcdsaSecp256k1VerificationKey2019`
-    assert(
-      type === 'EcdsaSecp256k1VerificationKey2019',
-      `this method call only [EcdsaSecp256k1VerificationKey2019] with message: ${message}`
-    );
-
-    return this.signTypedData(message, didUrl);
-  }
-
-  public async signTypedData(typedData: TypedData, didUrl: DidUrl): Promise<SignedData> {
-    const message = eip712.getMessage(typedData, true);
 
     const { id, signature } = await this._sign(message, didUrl);
 
     return {
       id,
       signature,
-      type: 'EcdsaSecp256k1SignatureEip712'
+      type:
+        type === 'EcdsaSecp256k1VerificationKey2019'
+          ? 'EcdsaSecp256k1SignatureEip191'
+          : 'Ed25519Signature2018'
     };
   }
 

@@ -123,7 +123,7 @@ describe('VerifiableCredential', (): void => {
         hasher: ['RescuePrime', 'Keccak256'],
         proof: [
           {
-            type: 'EcdsaSecp256k1SignatureEip712',
+            type: 'EcdsaSecp256k1SignatureEip191',
             proofPurpose: 'assertionMethod'
           }
         ]
@@ -169,7 +169,7 @@ describe('VerifiableCredential', (): void => {
         hasher: ['RescuePrime', 'Keccak256'],
         proof: [
           {
-            type: 'EcdsaSecp256k1SignatureEip712',
+            type: 'EcdsaSecp256k1SignatureEip191',
             proofPurpose: 'assertionMethod'
           }
         ]
@@ -219,7 +219,7 @@ describe('VerifiableCredential', (): void => {
         hasher: ['RescuePrime', 'Keccak256'],
         proof: [
           {
-            type: 'EcdsaSecp256k1SignatureEip712',
+            type: 'EcdsaSecp256k1SignatureEip191',
             proofPurpose: 'assertionMethod'
           }
         ]

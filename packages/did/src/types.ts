@@ -1,7 +1,6 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import type { TypedData } from '@zcloak/crypto/eip712/types';
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidResolver } from '@zcloak/did-resolver';
 import type {
@@ -52,7 +51,7 @@ export interface IDidDetails {
 
 export interface IDidKeyring {
   signWithKey(
-    message: Uint8Array | HexString | TypedData,
+    message: Uint8Array | HexString,
     keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'>
   ): Promise<SignedData>;
   /**

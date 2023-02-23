@@ -11,7 +11,7 @@ import type {
 
 export const DEFAULT_VC_VERSION: VerifiableCredentialVersion = '1';
 
-export const DEFAULT_VP_VERSION: VerifiablePresentationVersion = '0';
+export const DEFAULT_VP_VERSION: VerifiablePresentationVersion = '1';
 
 export const DEFAULT_CONTEXT: string[] = ['https://www.w3.org/2018/credentials/v1'];
 
@@ -40,6 +40,6 @@ export const ALL_VP_TYPES: VerifiablePresentationType[] = [
 
 export const ALL_SIG_TYPES: SignatureType[] = [
   'EcdsaSecp256k1Signature2019',
-  'EcdsaSecp256k1SignatureEip712',
+  'EcdsaSecp256k1SignatureEip191',
   'Ed25519Signature2018'
 ];

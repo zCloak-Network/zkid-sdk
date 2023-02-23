@@ -8,23 +8,28 @@ import type {
   HashType,
   VerifiableCredential,
   VerifiablePresentation,
-  VerifiablePresentationType
+  VerifiablePresentationType,
+  VerifiablePresentationVersion
 } from '@zcloak/vc/types';
 
 import { assert, stringToU8a, u8aConcat } from '@polkadot/util';
 
-import { eip712 } from '@zcloak/crypto';
 import { isSameUri } from '@zcloak/did/utils';
-import { hashDigests } from '@zcloak/vc';
+import { vpID } from '@zcloak/vc';
 import { isVP } from '@zcloak/vc/is';
-import { getPresentationTypedData } from '@zcloak/vc/utils';
+import { signedVPMessage } from '@zcloak/vc/utils';
 
 import { proofVerify } from './proofVerify';
 import { vcVerify, vcVerifyDigest } from './vcVerify';
 
 // @internal check the id is right
-function idCheck(digests: HexString[], hashType: HashType, id: HexString): boolean {
-  const { hash } = hashDigests(digests, hashType);
+function idCheck(
+  digests: HexString[],
+  hashType: HashType,
+  id: HexString,
+  version: VerifiablePresentationVersion
+): boolean {
+  const { hash } = vpID(digests, version, hashType);
 
   return hash === id;
 }
@@ -59,11 +64,12 @@ export async function vpVerify(
 ): Promise<boolean> {
   assert(isVP(vp), 'input `vp` is not VerifiablePresentation object');
 
-  const { hasher, id, proof, type, verifiableCredential } = vp;
+  const { hasher, id, proof, type, verifiableCredential, version } = vp;
   const idValid = idCheck(
     verifiableCredential.map(({ digest }) => digest),
     hasher[0],
-    id
+    id,
+    version
   );
 
   // check vc is same did with proof's signer
@@ -74,8 +80,8 @@ export async function vpVerify(
   }
 
   const message =
-    proof.type === 'EcdsaSecp256k1SignatureEip712'
-      ? eip712.getMessage(getPresentationTypedData(id, proof.challenge || ''), true)
+    version === '1'
+      ? signedVPMessage(id, version, proof.challenge)
       : u8aConcat(id, stringToU8a(proof.challenge));
 
   const proofValid = await proofVerify(message, proof, resolverOrDidDocument);

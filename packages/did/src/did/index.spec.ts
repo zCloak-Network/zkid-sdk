@@ -6,16 +6,14 @@ import { alice, bob, DOCUMENTS, testResolver } from 'test-support';
 
 import {
   decodeMultibase,
-  eip712,
+  eip191HashMessage,
   ethereumEncode,
   initCrypto,
-  keccak256AsU8a,
   secp256k1Verify
 } from '@zcloak/crypto';
-import { TypedData } from '@zcloak/crypto/eip712/types';
 import { Keyring } from '@zcloak/keyring';
 
-import { getPublishDocumentTypedData } from '../utils';
+import { hashDidDocument, signedDidDocumentMessage } from '../hasher';
 import { createEcdsaFromMnemonic } from './helpers';
 
 describe('Did', (): void => {
@@ -85,84 +83,30 @@ describe('Did', (): void => {
 
       expect(
         secp256k1Verify(
-          keccak256AsU8a(message),
+          eip191HashMessage(message),
           signature1.signature,
           bob.get(bob.getKeyUrl('authentication')).publicKey
         )
       ).toBe(true);
       expect(
         secp256k1Verify(
-          keccak256AsU8a(message),
+          eip191HashMessage(message),
           signature2.signature,
           bob.get(bob.getKeyUrl('assertionMethod')).publicKey
         )
       ).toBe(true);
       expect(
         secp256k1Verify(
-          keccak256AsU8a(message),
+          eip191HashMessage(message),
           signature3.signature,
           bob.get(bob.getKeyUrl('capabilityDelegation')).publicKey
         )
       ).toBe(true);
       expect(
         secp256k1Verify(
-          keccak256AsU8a(message),
+          eip191HashMessage(message),
           signature4.signature,
           bob.get(bob.getKeyUrl('capabilityInvocation')).publicKey
-        )
-      ).toBe(true);
-    });
-
-    it('sign a TypedData', async (): Promise<void> => {
-      const typedData: TypedData = {
-        types: {
-          EIP712Domain: [
-            { name: 'name', type: 'string' },
-            { name: 'version', type: 'string' }
-          ],
-          Test: [{ name: 'test', type: 'bytes' }]
-        },
-        primaryType: 'Test',
-        domain: {
-          name: 'Test',
-          version: '0'
-        },
-        message: {
-          test: '0x1234'
-        }
-      };
-
-      const signature1 = await alice.signWithKey(typedData, 'authentication');
-      const signature2 = await alice.signWithKey(typedData, 'assertionMethod');
-      const signature3 = await alice.signWithKey(typedData, 'capabilityDelegation');
-      const signature4 = await alice.signWithKey(typedData, 'capabilityInvocation');
-
-      expect(
-        secp256k1Verify(
-          eip712.getMessage(typedData, true),
-          signature1.signature,
-          alice.get(alice.getKeyUrl('authentication')).publicKey
-        )
-      ).toBe(true);
-      expect(
-        secp256k1Verify(
-          eip712.getMessage(typedData, true),
-          signature2.signature,
-          alice.get(alice.getKeyUrl('assertionMethod')).publicKey
-        )
-      ).toBe(true);
-      expect(
-        secp256k1Verify(
-          eip712.getMessage(typedData, true),
-          signature3.signature,
-          alice.get(alice.getKeyUrl('capabilityDelegation')).publicKey
-        )
-      ).toBe(true);
-      expect(
-        secp256k1Verify(
-          eip712.getMessage(typedData, true),
-          signature4.signature,
-          alice.get(alice.getKeyUrl('capabilityInvocation')).publicKey
         )
       ).toBe(true);
     });
@@ -193,11 +137,13 @@ describe('Did', (): void => {
     it('getPublish verify', async (): Promise<void> => {
       const document = await alice.getPublish();
 
-      expect(document.proof[0].signatureType).toBe('EcdsaSecp256k1SignatureEip712');
+      expect(document.proof[0].signatureType).toBe('EcdsaSecp256k1SignatureEip191');
 
       expect(
         secp256k1Verify(
-          eip712.getMessage(getPublishDocumentTypedData(document), true),
+          eip191HashMessage(
+            signedDidDocumentMessage(hashDidDocument(document), document.version || '0')
+          ),
           decodeMultibase(document.proof[0].signature),
           alice.get(alice.getKeyUrl('capabilityInvocation')).publicKey
         )

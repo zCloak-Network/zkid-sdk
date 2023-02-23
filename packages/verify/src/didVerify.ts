@@ -4,9 +4,7 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidDocument, DidUrl, SignatureType } from '@zcloak/did-resolver/types';
 
-import { u8aToU8a } from '@polkadot/util';
-
-import { ed25519Verify, keccak256AsU8a, secp256k1Verify } from '@zcloak/crypto';
+import { ed25519Verify, eip191HashMessage, keccak256AsU8a, secp256k1Verify } from '@zcloak/crypto';
 import { helpers } from '@zcloak/did';
 import { DidResolver } from '@zcloak/did-resolver';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
@@ -16,7 +14,7 @@ const VERIFIERS: Record<
   (message: Uint8Array, signature: HexString | Uint8Array, publicKey: Uint8Array) => boolean
 > = {
   EcdsaSecp256k1Signature2019: secp256k1Verify,
-  EcdsaSecp256k1SignatureEip712: secp256k1Verify,
+  EcdsaSecp256k1SignatureEip191: secp256k1Verify,
   Ed25519Signature2018: ed25519Verify
 };
 
@@ -52,7 +50,7 @@ const VERIFIERS: Record<
  * ```
  */
 export async function didVerify(
-  message: HexString | Uint8Array | string,
+  message: HexString | Uint8Array,
   signature: HexString | Uint8Array,
   signatureType: SignatureType,
   didUrl: DidUrl,
@@ -63,7 +61,9 @@ export async function didVerify(
   }
 
   const messageU8a: Uint8Array =
-    signatureType === 'EcdsaSecp256k1Signature2019' ? keccak256AsU8a(message) : u8aToU8a(message);
+    signatureType === 'EcdsaSecp256k1SignatureEip191'
+      ? eip191HashMessage(message)
+      : keccak256AsU8a(message);
 
   const document =
     resolverOrDidDocument instanceof DidResolver

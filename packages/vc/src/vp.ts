@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
-import type { SignedData } from '@zcloak/did/types';
 import type {
   HashType,
+  Proof,
   VerifiableCredential,
   VerifiablePresentation,
-  VerifiablePresentationType
+  VerifiablePresentationType,
+  VerifiablePresentationVersion
 } from './types';
 
 import { assert, isHex, objectCopy, stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
@@ -16,10 +17,11 @@ import { base58Encode } from '@zcloak/crypto';
 import { Did } from '@zcloak/did';
 import { isSameUri } from '@zcloak/did/utils';
 
-import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE } from './defaults';
+import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE, DEFAULT_VP_VERSION } from './defaults';
+import { HASHER } from './hasher';
 import { isPublicVC, isVC } from './is';
 import { calcRoothash } from './rootHash';
-import { getPresentationTypedData, rlpEncode } from './utils';
+import { rlpEncode, signedVPMessage } from './utils';
 
 // @internal
 // transform private Verifiable Credential by [[VerifiablePresentationType]]
@@ -65,11 +67,20 @@ function transformVC(
   return vc;
 }
 
-export function hashDigests(
+export function vpID(
   digests: HexString[],
+  version: VerifiablePresentationVersion,
   hashType: HashType = 'Keccak256'
 ): { hash: HexString; type: HashType } {
-  const hash = u8aToHex(u8aConcat(...digests));
+  const content = u8aConcat(...digests);
+
+  let hash: HexString;
+
+  if (version === '0') {
+    hash = u8aToHex(content);
+  } else {
+    hash = u8aToHex(HASHER[hashType](content));
+  }
 
   return { hash, type: hashType };
 }
@@ -94,9 +105,11 @@ export class VerifiablePresentationBuilder {
   #did: Did;
   // [[VerifiableCredential]] => [[VerifiablePresentation]]
   public vcMap: Map<VerifiableCredential<boolean>, VerifiablePresentationType> = new Map();
+  public version: VerifiablePresentationVersion;
 
-  constructor(did: Did) {
+  constructor(did: Did, version = DEFAULT_VP_VERSION) {
     this.#did = did;
+    this.version = version;
   }
 
   /**
@@ -137,40 +150,48 @@ export class VerifiablePresentationBuilder {
       vpTypes.push(vpType);
     }
 
-    const { hash, type: hashTypeOut } = hashDigests(
+    const { hash, type: hashTypeOut } = vpID(
       vcs.map(({ digest }) => digest),
+      this.version,
       hashType
     );
 
-    const { id, signature, type: signType } = await this._sign(hash, challenge);
+    const proof = await this._sign(hash, challenge);
 
     return {
       '@context': DEFAULT_CONTEXT,
-      version: '0',
+      version: this.version,
       type: vpTypes,
       verifiableCredential: vcs,
       id: hash,
-      proof: {
-        type: signType,
-        created: Date.now(),
-        verificationMethod: id,
-        proofPurpose: 'authentication',
-        proofValue: base58Encode(signature),
-        challenge
-      },
+      proof,
       hasher: [hashTypeOut]
     };
   }
 
-  private _sign(hash: HexString, challenge?: string): Promise<SignedData> {
-    const { id, type } = this.#did.get(this.#did.getKeyUrl('assertionMethod'));
+  // sign digest by did, the signed message is `concat(VersionedCredPresentation, version, id, challenge)`
+  private async _sign(hash: HexString, challenge?: string): Promise<Proof> {
+    let message: Uint8Array;
 
-    if (type === 'EcdsaSecp256k1VerificationKey2019') {
-      return this.#did.signWithKey(getPresentationTypedData(hash, challenge || ''), id);
-    } else if (type === 'Ed25519VerificationKey2020') {
-      return this.#did.signWithKey(u8aConcat(hash, stringToU8a(challenge)), id);
+    if (this.version === '0') {
+      message = u8aConcat(hash, stringToU8a(challenge));
+    } else {
+      message = signedVPMessage(hash, this.version, challenge);
     }
 
-    throw new Error(`Unable to sign with id: ${id}, because type is ${type}`);
+    const {
+      id,
+      signature,
+      type: signType
+    } = await this.#did.signWithKey(message, 'authentication');
+
+    return {
+      type: signType,
+      created: Date.now(),
+      verificationMethod: id,
+      proofPurpose: 'authentication',
+      proofValue: base58Encode(signature),
+      challenge
+    };
   }
 }

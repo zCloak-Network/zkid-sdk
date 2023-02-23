@@ -62,7 +62,7 @@ const DOCUMENT_TWO: DidDocument = {
   capabilityInvocation: ['did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0']
 };
 
-const HASH = '0x42e2b96a18575fcd2f694cd9a58b59f26683f768e82d0b7f6bf9ce9ea86c01e5';
+const HASH = '0x1086bc9b75ba37f82225b0fd4d118314f3b34f4d10681a36593509e79552a056';
 
 describe('encode did document', (): void => {
   beforeAll(async () => {
@@ -80,6 +80,6 @@ describe('encode did document', (): void => {
   });
 
   it('without creationTime', (): void => {
-    expect(hashDidDocument(DOCUMENT_ONE, false)).toEqual(hashDidDocument(DOCUMENT_TWO, false));
+    expect(hashDidDocument(DOCUMENT_ONE)).toEqual(hashDidDocument(DOCUMENT_TWO));
   });
 });

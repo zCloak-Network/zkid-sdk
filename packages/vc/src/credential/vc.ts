@@ -15,13 +15,12 @@ import { assert } from '@polkadot/util';
 import { base58Encode } from '@zcloak/crypto';
 import { CType } from '@zcloak/ctype/types';
 import { Did } from '@zcloak/did';
-import { SignedData } from '@zcloak/did/types';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest, DigestPayload } from '../digest';
 import { isRawCredential } from '../is';
 import { calcRoothash, RootHashResult } from '../rootHash';
-import { getAttestationTypedData } from '../utils';
+import { signedVCMessage } from '../utils';
 import { Raw } from './raw';
 
 /**
@@ -126,19 +125,8 @@ export class VerifiableCredentialBuilder {
         digestPayload,
         this.digestHashType
       );
-      const {
-        id,
-        signature,
-        type: signType
-      } = await this._signDigest(issuer, digest, this.version);
 
-      const proof: Proof = {
-        type: signType,
-        created: Date.now(),
-        verificationMethod: id,
-        proofPurpose: 'assertionMethod',
-        proofValue: base58Encode(signature)
-      };
+      const proof = await this._signDigest(issuer, digest, this.version);
 
       let vc: VerifiableCredential<boolean> = {
         '@context': this['@context'],
@@ -226,22 +214,28 @@ export class VerifiableCredentialBuilder {
     return this;
   }
 
-  // sign digest by did, if the key type is `Ed25519VerificationKey2020`, it will sign `digest`,
-  // if the key type is `EcdsaSecp256k1VerificationKey2019`, it will sign `getAttestationTypedData`.
-  // otherwise, it will throw Error
-  private _signDigest(
+  // sign digest by did, the signed message is `concat('CredentialVersionedDigest', version, digest)`
+  private async _signDigest(
     did: Did,
     digest: HexString,
     version: VerifiableCredentialVersion
-  ): Promise<SignedData> {
-    const { id, type } = did.get(did.getKeyUrl('assertionMethod'));
+  ): Promise<Proof> {
+    let message: Uint8Array | HexString;
 
-    if (type === 'EcdsaSecp256k1VerificationKey2019') {
-      return did.signWithKey(getAttestationTypedData(digest, version), id);
-    } else if (type === 'Ed25519VerificationKey2020') {
-      return did.signWithKey(digest, id);
+    if (version === '1') {
+      message = signedVCMessage(digest, version);
+    } else {
+      message = digest;
     }
 
-    throw new Error(`Unable to sign with id: ${id}, because type is ${type}`);
+    const { id, signature, type: signType } = await did.signWithKey(message, 'assertionMethod');
+
+    return {
+      type: signType,
+      created: Date.now(),
+      verificationMethod: id,
+      proofPurpose: 'assertionMethod',
+      proofValue: base58Encode(signature)
+    };
   }
 }

@@ -4,15 +4,14 @@
 import type { HexString } from '@zcloak/crypto/types';
 import type { Did } from '@zcloak/did';
 import type { DidUrl } from '@zcloak/did-resolver/types';
-import type { BaseCType, CType } from './types';
+import type { BaseCType, CType, CTypeVersion } from './types';
 
-import { u8aToHex } from '@polkadot/util';
+import { numberToU8a, stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { base58Encode, jsonCanonicalize, keccak256AsU8a } from '@zcloak/crypto';
 import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 import { DEFAULT_CTYPE_SCHEMA } from './defaults';
-import { getPublishCTypeTypedData } from './utils';
 
 export function getCTypeHash(
   base: BaseCType,
@@ -32,10 +31,17 @@ export function getCTypeHash(
   return u8aToHex(keccak256AsU8a(jsonCanonicalize(obj)));
 }
 
+export function signedCTypeMessage(hash: HexString, version: CTypeVersion): Uint8Array {
+  return u8aConcat(stringToU8a('VersionedCtypeCreation'), numberToU8a(Number(version), 16), hash);
+}
+
 export async function getPublish(base: BaseCType, publisher: Did): Promise<CType> {
   const hash = getCTypeHash(base, publisher.id);
 
-  const message = getPublishCTypeTypedData(hash);
+  const version: CTypeVersion = '0';
+
+  const message = signedCTypeMessage(hash, version);
+
   const {
     id,
     signature,
@@ -48,6 +54,7 @@ export async function getPublish(base: BaseCType, publisher: Did): Promise<CType
     ...base,
     publisher: id,
     signature: base58Encode(signature),
-    signatureType
+    signatureType,
+    version
   };
 }

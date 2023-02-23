@@ -5,6 +5,8 @@ export type DidMethod = 'zk';
 
 export type DidUrl = `did:${DidMethod}:${string}`;
 
+export type DidDocumentVersion = '0';
+
 export interface ParsedDid {
   did: DidUrl;
   didUrl: DidUrl;
@@ -22,7 +24,7 @@ export type VerificationMethodType =
 
 export type SignatureType =
   | 'EcdsaSecp256k1Signature2019'
-  | 'EcdsaSecp256k1SignatureEip712'
+  | 'EcdsaSecp256k1SignatureEip191'
   | 'Ed25519Signature2018';
 
 export interface VerificationMethod {
@@ -48,6 +50,8 @@ export interface DidDocumentProof {
 
 export interface DidDocument {
   '@context': ['https://www.w3.org/ns/did/v1'];
+  // since `@zcloak/did-resolver@1.1.0`
+  version?: DidDocumentVersion;
   id: DidUrl;
   controller: DidUrl[];
   verificationMethod?: VerificationMethod[];

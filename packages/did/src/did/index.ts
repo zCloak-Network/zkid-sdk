@@ -22,7 +22,7 @@ export class Did extends DidChain {
 
     const document = this.getDocument();
 
-    return u8aEq(hashDidDocument(onChainDocument, false), hashDidDocument(document, false));
+    return u8aEq(hashDidDocument(onChainDocument), hashDidDocument(document));
   }
 
   public addService(service: Service): void {

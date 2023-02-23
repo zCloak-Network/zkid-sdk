@@ -28,7 +28,7 @@ export type VerifiablePresentationType = 'VP' | 'VP_Digest' | 'VP_SelectiveDiscl
 
 export type VerifiableCredentialVersion = '0' | '1';
 
-export type VerifiablePresentationVersion = '0';
+export type VerifiablePresentationVersion = '0' | '1';
 
 export interface Proof {
   type: SignatureType;

@@ -8,11 +8,10 @@ import type { VerifiableCredential } from '@zcloak/vc/types';
 
 import { assert, bufferToU8a, isHex, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { eip712 } from '@zcloak/crypto';
 import { calcRoothash, makeMerkleTree } from '@zcloak/vc';
 import { HASHER } from '@zcloak/vc/hasher';
 import { isPublicVC, isVC } from '@zcloak/vc/is';
-import { getAttestationTypedData, rlpEncode } from '@zcloak/vc/utils';
+import { rlpEncode, signedVCMessage } from '@zcloak/vc/utils';
 
 import { digestVerify } from './digestVerify';
 import { proofVerify } from './proofVerify';
@@ -44,10 +43,7 @@ async function verifyShared(
     hasher[1]
   );
 
-  const message =
-    proof[0].type === 'EcdsaSecp256k1SignatureEip712'
-      ? eip712.getMessage(getAttestationTypedData(digest, version), true)
-      : digest;
+  const message = version === '1' ? signedVCMessage(digest, version) : digest;
 
   const proofValid = await (resolverOrDidDocument
     ? proofVerify(message, proof[0], resolverOrDidDocument)

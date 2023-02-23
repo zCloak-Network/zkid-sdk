@@ -5,6 +5,7 @@ export * from './blake2';
 export * from './blake3';
 export * from './blake3-2to1';
 export * from './ed25519';
+export * from './eip191';
 export * from './eip712';
 export * from './ethereum';
 export * from './hdkey';

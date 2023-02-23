@@ -4,11 +4,9 @@
 import type { DidResolver } from '@zcloak/did-resolver';
 import type { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
 import type { KeyringInstance } from '@zcloak/keyring/types';
-import type { KeyGen } from './types';
 
-import { base58Encode, decodeMultibase, ethereumEncode } from '@zcloak/crypto';
+import { decodeMultibase } from '@zcloak/crypto';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
-import { Keyring } from '@zcloak/keyring';
 
 import { IDidDetails } from '../types';
 import { Did } from '.';
@@ -129,90 +127,4 @@ export function create(details: IDidDetails, keyring?: KeyringInstance): Did {
   }
 
   return did;
-}
-
-/**
- * pass `mnemonic`, and create [[Did]] from a [[IDidDetails]] object
- * @returns instance of [[Did]]
- * @example
- * <BR>
- * ```typescript
- * import { helpers, Did } from '@zcloak/did'
- * import { Keyring } from '@zcloak/keyring'
- * import type { IDidDetails } from '@zcloak/did/types';
- *
- * const mnemonic = 'health correct setup usage father decorate curious copper sorry recycle skin equal';
- * const keyring: Keyring = new Keyring();
- * const did: Did = helpers.createEcdsaFromMnemonic(mnemonic, keyring);
- * ```
- */
-export function createEcdsaFromMnemonic(
-  mnemonic: string,
-  keyring: KeyringInstance = new Keyring()
-): Did {
-  const {
-    identifier,
-    keys: [key0, key1]
-  } = keyFromMnemonic(keyring, mnemonic, 'ecdsa');
-
-  const didUri: DidUrl = `did:zk:${ethereumEncode(identifier)}`;
-  const document: DidDocument = {
-    '@context': ['https://www.w3.org/ns/did/v1'],
-    id: didUri,
-    controller: [didUri],
-    verificationMethod: [
-      {
-        id: `${didUri}#key-0`,
-        controller: [didUri],
-        type: 'EcdsaSecp256k1VerificationKey2019',
-        publicKeyMultibase: base58Encode(key0)
-      },
-      {
-        id: `${didUri}#key-1`,
-        controller: [didUri],
-        type: 'X25519KeyAgreementKey2019',
-        publicKeyMultibase: base58Encode(key1)
-      }
-    ],
-    authentication: [`${didUri}#key-0`],
-    assertionMethod: [`${didUri}#key-0`],
-    keyAgreement: [`${didUri}#key-1`],
-    capabilityInvocation: [`${didUri}#key-0`],
-    capabilityDelegation: [`${didUri}#key-0`],
-    service: []
-  };
-
-  const did = create(parseDidDocument(document), keyring);
-
-  return did;
-}
-
-export function keyFromMnemonic(keyring: KeyringInstance, mnemonic: string, type: 'ecdsa'): KeyGen;
-export function keyFromMnemonic(
-  keyring: KeyringInstance,
-  mnemonic: string,
-  type: 'ed25519'
-): KeyGen;
-
-export function keyFromMnemonic(
-  keyring: KeyringInstance,
-  mnemonic: string,
-  type: 'ecdsa' | 'ed25519'
-): KeyGen {
-  const identifier = keyring.addFromMnemonic(
-    mnemonic,
-    type === 'ecdsa' ? "/m/44'/60'/0'/0/0" : undefined,
-    type
-  );
-  const pair1 = keyring.addFromMnemonic(
-    mnemonic,
-    type === 'ecdsa' ? "/m/44'/60'/0'/0/0/0" : '//0',
-    type
-  );
-  const pair2 = keyring.addFromMnemonic(mnemonic, '//1', 'x25519');
-
-  return {
-    identifier: identifier.publicKey,
-    keys: [pair1.publicKey, pair2.publicKey]
-  };
 }

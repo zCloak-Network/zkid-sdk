@@ -3,33 +3,33 @@
 
 import type { DidDocument } from '@zcloak/did-resolver/types';
 
-import { helpers } from '@zcloak/did';
+import { keys } from '@zcloak/did';
 
 import { testKeyring } from './keyring';
 
-export const alice = helpers.createEcdsaFromMnemonic(
-  'health correct setup usage father decorate curious copper sorry recycle skin equal',
-  testKeyring
+export const alice = keys.fromMnemonic(
+  testKeyring,
+  'health correct setup usage father decorate curious copper sorry recycle skin equal'
 );
-export const bob = helpers.createEcdsaFromMnemonic(
-  'increase help fortune noise jelly bronze hand among like powder crowd swamp',
-  testKeyring
+export const bob = keys.fromMnemonic(
+  testKeyring,
+  'increase help fortune noise jelly bronze hand among like powder crowd swamp'
 );
-export const charlie = helpers.createEcdsaFromMnemonic(
-  'volume daring fancy soccer verify chronic category hurdle jungle ranch night zoo',
-  testKeyring
+export const charlie = keys.fromMnemonic(
+  testKeyring,
+  'volume daring fancy soccer verify chronic category hurdle jungle ranch night zoo'
 );
-export const dave = helpers.createEcdsaFromMnemonic(
-  'risk split police harsh domain radio this country moon screen tragic faith',
-  testKeyring
+export const dave = keys.fromMnemonic(
+  testKeyring,
+  'risk split police harsh domain radio this country moon screen tragic faith'
 );
-export const eve = helpers.createEcdsaFromMnemonic(
-  'group drift eagle symptom pride hour cat seven various exercise sphere raccoon',
-  testKeyring
+export const eve = keys.fromMnemonic(
+  testKeyring,
+  'group drift eagle symptom pride hour cat seven various exercise sphere raccoon'
 );
-export const ferdie = helpers.createEcdsaFromMnemonic(
-  'lyrics window whale trial web dizzy axis fall use tiny drift anger',
-  testKeyring
+export const ferdie = keys.fromMnemonic(
+  testKeyring,
+  'lyrics window whale trial web dizzy axis fall use tiny drift anger'
 );
 
 export const DOCUMENTS: Record<string, DidDocument> = {

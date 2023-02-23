@@ -2,4 +2,5 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export * from './backup';
+export * from './from';
 export * from './restore';

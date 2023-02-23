@@ -14,16 +14,17 @@ import {
 import { Keyring } from '@zcloak/keyring';
 
 import { hashDidDocument, signedDidDocumentMessage } from '../hasher';
-import { createEcdsaFromMnemonic } from './helpers';
+import { fromMnemonic } from '../keys';
 
 describe('Did', (): void => {
+  let keyring: Keyring;
+
   beforeAll(async () => {
     await initCrypto();
+    keyring = new Keyring();
   });
 
   describe('create', (): void => {
-    let keyring: Keyring;
-
     const controllerKey = new Uint8Array([
       2, 68, 184, 160, 24, 144, 34, 70, 58, 237, 53, 113, 14, 220, 94, 35, 175, 119, 18, 97, 44,
       234, 243, 237, 184, 253, 96, 196, 125, 196, 127, 56, 220
@@ -37,14 +38,10 @@ describe('Did', (): void => {
       192, 33, 128, 145, 213, 119, 16, 125, 214, 227, 70, 3
     ]);
 
-    beforeEach((): void => {
-      keyring = new Keyring();
-    });
-
     it('create ecdsa did from mnemonic', (): void => {
       const mnemonic =
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
-      const did = createEcdsaFromMnemonic(mnemonic, keyring);
+      const did = fromMnemonic(keyring, mnemonic);
 
       expect(did.get([...(did.authentication ?? [])][0]).publicKey).toEqual(key0);
       expect(did.get([...(did.keyAgreement ?? [])][0]).publicKey).toEqual(key1);
@@ -56,7 +53,7 @@ describe('Did', (): void => {
     it('create ecdsa did from mnemonic and get document', (): void => {
       const mnemonic =
         'health correct setup usage father decorate curious copper sorry recycle skin equal';
-      const did = createEcdsaFromMnemonic(mnemonic);
+      const did = fromMnemonic(keyring, mnemonic);
 
       const document = did.getDocument();
 

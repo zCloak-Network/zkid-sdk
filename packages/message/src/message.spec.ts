@@ -4,29 +4,22 @@
 import type { CType } from '@zcloak/ctype/types';
 import type { RawCredential } from '@zcloak/vc/types';
 
-import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
+import { alice, bob, testResolver } from 'test-support';
+
+import { initCrypto } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype';
-import { Did, helpers } from '@zcloak/did';
-import { MockDidResolver } from '@zcloak/did-resolver';
 import { Raw, VerifiableCredentialBuilder } from '@zcloak/vc';
 
 import { decryptMessage } from './decrypt';
 import { encryptMessage } from './encrypt';
 
 describe('message encrypt and decrypt', (): void => {
-  const resolver = new MockDidResolver();
-  let holder: Did;
-  let issuer: Did;
   let rawCredential: RawCredential;
 
   let ctype: CType;
 
   beforeAll(async () => {
     await initCrypto();
-    holder = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    issuer = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    resolver.addDocument(holder.getDocument());
-    resolver.addDocument(issuer.getDocument());
     ctype = await getPublish(
       {
         title: 'Test',
@@ -45,7 +38,7 @@ describe('message encrypt and decrypt', (): void => {
         },
         required: ['name', 'age']
       },
-      issuer
+      bob
     );
     const raw = new Raw({
       contents: {
@@ -53,7 +46,7 @@ describe('message encrypt and decrypt', (): void => {
         age: 1,
         no: '1234'
       },
-      owner: holder.id,
+      owner: alice.id,
       ctype,
       hashType: 'RescuePrime'
     });
@@ -66,12 +59,12 @@ describe('message encrypt and decrypt', (): void => {
       const message = await encryptMessage(
         'Request_Attestation',
         rawCredential,
-        holder,
-        issuer.getKeyUrl('keyAgreement'),
+        alice,
+        bob.getKeyUrl('keyAgreement'),
         undefined,
-        resolver
+        testResolver
       );
-      const decrypted = await decryptMessage(message, issuer, resolver);
+      const decrypted = await decryptMessage(message, bob, testResolver);
 
       expect(decrypted.data).toEqual(rawCredential);
     });
@@ -82,35 +75,35 @@ describe('message encrypt and decrypt', (): void => {
         {
           reason: 'No reason',
           ctype: ctype.$id,
-          holder: holder.id
+          holder: alice.id
         },
-        issuer,
-        holder.getKeyUrl('keyAgreement'),
+        bob,
+        alice.getKeyUrl('keyAgreement'),
         undefined,
-        resolver
+        testResolver
       );
-      const decrypted = await decryptMessage(message, holder, resolver);
+      const decrypted = await decryptMessage(message, alice, testResolver);
 
       expect(decrypted.data).toEqual({
         reason: 'No reason',
         ctype: ctype.$id,
-        holder: holder.id
+        holder: alice.id
       });
     });
 
     it('Send Response_Approve_Attestation message', async () => {
       const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCredential, ctype)
         .setExpirationDate(null)
-        .build(issuer);
+        .build(bob);
       const message = await encryptMessage(
         'Response_Approve_Attestation',
         vc,
-        issuer,
-        holder.getKeyUrl('keyAgreement'),
+        bob,
+        alice.getKeyUrl('keyAgreement'),
         undefined,
-        resolver
+        testResolver
       );
-      const decrypted = await decryptMessage(message, holder, resolver);
+      const decrypted = await decryptMessage(message, alice, testResolver);
 
       expect(decrypted.data).toEqual(vc);
     });
@@ -121,12 +114,12 @@ describe('message encrypt and decrypt', (): void => {
       const message = await encryptMessage(
         'Extends_send_string',
         'send string data',
-        holder,
-        issuer.getKeyUrl('keyAgreement'),
+        alice,
+        bob.getKeyUrl('keyAgreement'),
         undefined,
-        resolver
+        testResolver
       );
-      const decrypted = await decryptMessage(message, issuer, resolver);
+      const decrypted = await decryptMessage(message, bob, testResolver);
 
       expect(decrypted.data).toEqual('send string data');
     });
@@ -138,12 +131,12 @@ describe('message encrypt and decrypt', (): void => {
           key1: 'key1',
           key2: 'key2'
         },
-        holder,
-        issuer.getKeyUrl('keyAgreement'),
+        alice,
+        bob.getKeyUrl('keyAgreement'),
         undefined,
-        resolver
+        testResolver
       );
-      const decrypted = await decryptMessage(message, issuer, resolver);
+      const decrypted = await decryptMessage(message, bob, testResolver);
 
       expect(decrypted.data).toEqual({
         key1: 'key1',
@@ -155,12 +148,12 @@ describe('message encrypt and decrypt', (): void => {
       const message = await encryptMessage(
         'Extends_send_boolean',
         true,
-        holder,
-        issuer.getKeyUrl('keyAgreement'),
+        alice,
+        bob.getKeyUrl('keyAgreement'),
         undefined,
-        resolver
+        testResolver
       );
-      const decrypted = await decryptMessage(message, issuer, resolver);
+      const decrypted = await decryptMessage(message, bob, testResolver);
 
       expect(decrypted.data).toEqual(true);
     });

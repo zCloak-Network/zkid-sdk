@@ -4,10 +4,11 @@
 import type { CType } from '@zcloak/ctype/types';
 
 import { assert } from '@polkadot/util';
+import { alice, bob, charlie, dave } from 'test-support';
 
-import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
+import { initCrypto } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype/publish';
-import { Did, helpers } from '@zcloak/did';
+import { Did } from '@zcloak/did';
 
 import { Raw, VerifiableCredentialBuilder } from './credential';
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE, DEFAULT_VP_VERSION } from './defaults';
@@ -30,10 +31,10 @@ const CONTENTS3 = {
 };
 
 describe('VerifiablePresentation', (): void => {
-  let holder: Did;
-  let issuer1: Did;
-  let issuer2: Did;
-  let issuer3: Did;
+  const holder: Did = alice;
+  const issuer1: Did = bob;
+  const issuer2: Did = charlie;
+  const issuer3: Did = dave;
   let ctype1: CType;
   let ctype2: CType;
   let ctype3: CType;
@@ -43,10 +44,6 @@ describe('VerifiablePresentation', (): void => {
 
   beforeAll(async (): Promise<void> => {
     await initCrypto();
-    holder = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    issuer1 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    issuer2 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    issuer3 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
 
     ctype1 = await getPublish(
       {

@@ -3,9 +3,11 @@
 
 import type { CType } from '@zcloak/ctype/types';
 
-import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
+import { alice, bob } from 'test-support';
+
+import { initCrypto } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype/publish';
-import { Did, helpers } from '@zcloak/did';
+import { Did } from '@zcloak/did';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { isPrivateVC, isPublicVC } from '../is';
@@ -26,8 +28,8 @@ describe('VerifiableCredential', (): void => {
 
   beforeAll(async (): Promise<void> => {
     await initCrypto();
-    holder = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    issuer = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
+    holder = alice;
+    issuer = bob;
 
     ctype = await getPublish(
       {

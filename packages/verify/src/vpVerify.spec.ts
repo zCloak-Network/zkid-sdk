@@ -3,15 +3,14 @@
 
 import type { CType } from '@zcloak/ctype/types';
 
-import { initCrypto, mnemonicGenerate, randomAsHex } from '@zcloak/crypto';
+import { alice, bob, testResolver } from 'test-support';
+
+import { initCrypto, randomAsHex } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype/publish';
-import { Did, helpers } from '@zcloak/did';
-import { MockDidResolver } from '@zcloak/did-resolver';
+import { Did } from '@zcloak/did';
 import { Raw, VerifiableCredentialBuilder, VerifiablePresentationBuilder } from '@zcloak/vc';
 
 import { vpVerify } from './vpVerify';
-
-const resolver = new MockDidResolver();
 
 const CONTENTS1 = {
   name: 'zCloak',
@@ -21,23 +20,13 @@ const CONTENTS1 = {
 };
 
 describe('VerifiablePresentation', (): void => {
-  let holder: Did;
-  let issuer1: Did;
-  let issuer2: Did;
-  let issuer3: Did;
+  const holder: Did = alice;
+  const issuer1: Did = bob;
   let ctype: CType;
   let rawCtype: Raw;
 
   beforeAll(async (): Promise<void> => {
     await initCrypto();
-    holder = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    issuer1 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    issuer2 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    issuer3 = helpers.createEcdsaFromMnemonic(mnemonicGenerate(12));
-    resolver.addDocument(holder.getDocument());
-    resolver.addDocument(issuer1.getDocument());
-    resolver.addDocument(issuer2.getDocument());
-    resolver.addDocument(issuer3.getDocument());
 
     ctype = await getPublish(
       {
@@ -83,7 +72,7 @@ describe('VerifiablePresentation', (): void => {
       const challenge = randomAsHex();
       const vp = await vpBuilder.addVC(vc, 'VP').build(undefined, challenge);
 
-      expect(await vpVerify(vp, resolver)).toBe(true);
+      expect(await vpVerify(vp, testResolver)).toBe(true);
     });
 
     it('create ctype vp with VPType: VP_Digest', async (): Promise<void> => {
@@ -99,7 +88,7 @@ describe('VerifiablePresentation', (): void => {
       const challenge = randomAsHex();
       const vp = await vpBuilder.addVC(vc, 'VP_Digest').build(undefined, challenge);
 
-      expect(await vpVerify(vp, resolver)).toBe(true);
+      expect(await vpVerify(vp, testResolver)).toBe(true);
     });
 
     it('verify vp with VPType: VP_SelectiveDisclosure', async (): Promise<void> => {
@@ -117,7 +106,7 @@ describe('VerifiablePresentation', (): void => {
         .addVC(vc, 'VP_SelectiveDisclosure', ['isUser'])
         .build(undefined, challenge);
 
-      expect(await vpVerify(vp, resolver)).toBe(true);
+      expect(await vpVerify(vp, testResolver)).toBe(true);
     });
   });
 });

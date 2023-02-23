@@ -8,6 +8,8 @@ import { assert } from '@polkadot/util';
 
 import { parseDid } from '@zcloak/did-resolver/parseDid';
 
+import { encodeDidUrl } from '../utils';
+
 export abstract class DidDetails implements IDidDetails {
   public id: DidUrl;
   public identifier: string;
@@ -63,5 +65,9 @@ export abstract class DidDetails implements IDidDetails {
     assert(method, `Not find verficationMethod with id: ${id}`);
 
     return method;
+  }
+
+  public encodeDidUrl(): Uint8Array {
+    return encodeDidUrl(this.id);
   }
 }

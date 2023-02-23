@@ -4,6 +4,8 @@
 import type { DidUrl, VerificationMethodType } from '@zcloak/did-resolver/types';
 import type { KeypairType } from '@zcloak/keyring/types';
 
+import { stringToU8a, u8aConcat } from '@polkadot/util';
+
 import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 /**
@@ -47,4 +49,25 @@ export function typeTransform(type: KeypairType): VerificationMethodType {
     default:
       throw new Error(`Can not transform type: ${type}`);
   }
+}
+
+/**
+ * @name encodeDidUrl
+ * @summary
+ * encode `didUrl` to a bytes.
+ * @description
+ * encode `didUrl` to bytes with the identifier as HexString, and the prefix is `did:zk:`. Returns `Uint8Array`.
+ * @example
+ * ```typescript
+ * import { encodeDidUrl } from '@zcloak/did'
+ *
+ * encodeDidUrl('did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'); // [...]
+ * ```
+ */
+export function encodeDidUrl(didUrl: DidUrl): Uint8Array {
+  const { identifier, method } = parseDid(didUrl);
+
+  const prefix = stringToU8a(`did:${method}:`);
+
+  return u8aConcat(prefix, identifier);
 }

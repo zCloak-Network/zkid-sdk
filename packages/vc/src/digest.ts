@@ -7,6 +7,8 @@ import type { HashType, VerifiableCredentialVersion } from './types';
 
 import { numberToU8a, stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
+import { encodeDidUrl } from '@zcloak/did';
+
 import { DEFAULT_DIGEST_HASH_TYPE } from './defaults';
 import { HASHER } from './hasher';
 
@@ -73,7 +75,7 @@ export function calcDigest<Version extends VerifiableCredentialVersion>(
   } else {
     encoded = u8aConcat(
       payload.rootHash,
-      stringToU8a(payload.holder),
+      encodeDidUrl(payload.holder),
       numberToU8a((payload as DigestPayload<'1'>).issuanceDate),
       numberToU8a(payload.expirationDate || 0),
       payload.ctype

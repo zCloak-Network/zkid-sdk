@@ -56,7 +56,7 @@ export function typeTransform(type: KeypairType): VerificationMethodType {
  * @summary
  * encode `didUrl` to a bytes.
  * @description
- * encode `didUrl` to bytes with the identifier as HexString, and the prefix is `did:zk:'. Returns `Uint8Array`.
+ * encode `didUrl` to bytes with the identifier as HexString, and the prefix is `did:zk:`. Returns `Uint8Array`.
  * @example
  * ```typescript
  * import { encodeDidUrl } from '@zcloak/did'

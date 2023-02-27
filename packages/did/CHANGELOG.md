@@ -1,5 +1,27 @@
 # @zcloak/did
 
+## 1.1.0
+
+### Minor Changes
+
+- [#54](https://github.com/zCloak-Network/zkid-sdk/pull/54) [`e259185`](https://github.com/zCloak-Network/zkid-sdk/commit/e259185927d3c10a3e899493cfaf6e02c045bd6b) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - Sining Data change, replace eip712 to eip191.
+
+  - use eip191 to sign data when use `EcdsaSecp256k1VerificationKey2019` VerificationMethodType.
+  - upgrade vp version to `1`.
+  - verify functions support eip191 message.
+  - ctype, document add version field, default to set `0`.
+
+- [#57](https://github.com/zCloak-Network/zkid-sdk/pull/57) [`579c000`](https://github.com/zCloak-Network/zkid-sdk/commit/579c00075c4e52e2bdc6bfe920ed905035663772) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - remove helper.createEcdsaFromMnemonic function, instead to use keys.fromMnemonic.
+
+- [#56](https://github.com/zCloak-Network/zkid-sdk/pull/56) [`7a4b2e3`](https://github.com/zCloak-Network/zkid-sdk/commit/7a4b2e37d5d35101cde6a3c531972f0949f2df67) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - encodeDidUrl: the identifier as HexString, and prefix is `did:zk`.
+
+### Patch Changes
+
+- Updated dependencies [[`e259185`](https://github.com/zCloak-Network/zkid-sdk/commit/e259185927d3c10a3e899493cfaf6e02c045bd6b)]:
+  - @zcloak/did-resolver@1.1.0
+  - @zcloak/crypto@1.1.0
+  - @zcloak/keyring@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

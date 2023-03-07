@@ -140,7 +140,7 @@ describe('VerifiablePresentation', (): void => {
         id: vpID([vc.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
           type: 'EcdsaSecp256k1SignatureEip191',
-          proofPurpose: 'authentication'
+          proofPurpose: 'controller'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
       });
@@ -176,7 +176,7 @@ describe('VerifiablePresentation', (): void => {
         id: vpID([vc.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
           type: 'EcdsaSecp256k1SignatureEip191',
-          proofPurpose: 'authentication'
+          proofPurpose: 'controller'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
       });
@@ -216,7 +216,7 @@ describe('VerifiablePresentation', (): void => {
         id: vpID([vc.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
           type: 'EcdsaSecp256k1SignatureEip191',
-          proofPurpose: 'authentication'
+          proofPurpose: 'controller'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
       });
@@ -250,7 +250,7 @@ describe('VerifiablePresentation', (): void => {
         id: vpID([vc1.digest, vc2.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
           type: 'EcdsaSecp256k1SignatureEip191',
-          proofPurpose: 'authentication'
+          proofPurpose: 'controller'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
       });
@@ -300,7 +300,7 @@ describe('VerifiablePresentation', (): void => {
         id: vpID([vc1.digest, vc2.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
           type: 'EcdsaSecp256k1SignatureEip191',
-          proofPurpose: 'authentication'
+          proofPurpose: 'controller'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
       });
@@ -361,7 +361,7 @@ describe('VerifiablePresentation', (): void => {
         id: vpID([vc1.digest, vc2.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
           type: 'EcdsaSecp256k1SignatureEip191',
-          proofPurpose: 'authentication'
+          proofPurpose: 'controller'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
       });
@@ -428,7 +428,7 @@ describe('VerifiablePresentation', (): void => {
         id: vpID([vc1.digest, vc2.digest, vc3.digest], vp.version, DEFAULT_VP_HASH_TYPE).hash,
         proof: {
           type: 'EcdsaSecp256k1SignatureEip191',
-          proofPurpose: 'authentication'
+          proofPurpose: 'controller'
         },
         hasher: [DEFAULT_VP_HASH_TYPE]
       });

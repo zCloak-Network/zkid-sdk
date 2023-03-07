@@ -2,6 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@polkadot/util/types';
+import type { CType } from '@zcloak/ctype/types';
+import type { Did } from '@zcloak/did';
+import type { DidKeys } from '@zcloak/did/types';
+import type { DidUrl } from '@zcloak/did-resolver/types';
 import type {
   HashType,
   Proof,
@@ -13,8 +17,6 @@ import type {
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
-import { CType } from '@zcloak/ctype/types';
-import { Did } from '@zcloak/did';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest, DigestPayload } from '../digest';
@@ -89,12 +91,26 @@ export class VerifiableCredentialBuilder {
   /**
    * Build to [[PublicVerifiableCredential]]
    */
-  public async build(issuer: Did, isPublic: true): Promise<VerifiableCredential<true>>;
+  public async build(
+    issuer: Did,
+    isPublic: true,
+    didKey?: Exclude<DidKeys, 'keyAgreement'>
+  ): Promise<VerifiableCredential<true>>;
+
   /**
    * Build to [[PrivateVerifiableCredential]]
    */
-  public async build(issuer: Did, isPublic?: false): Promise<VerifiableCredential<false>>;
-  public async build(issuer: Did, isPublic?: boolean): Promise<VerifiableCredential<boolean>> {
+  public async build(
+    issuer: Did,
+    isPublic?: false,
+    didKey?: Exclude<DidKeys, 'keyAgreement'>
+  ): Promise<VerifiableCredential<false>>;
+
+  public async build(
+    issuer: Did,
+    isPublic?: boolean,
+    didKey: Exclude<DidKeys, 'keyAgreement'> = 'assertionMethod'
+  ): Promise<VerifiableCredential<boolean>> {
     assert(this.raw.checkSubject(), `Subject check failed when use ctype ${this.raw.ctype}`);
 
     if (
@@ -126,7 +142,7 @@ export class VerifiableCredentialBuilder {
         this.digestHashType
       );
 
-      const proof = await this._signDigest(issuer, digest, this.version);
+      const proof = await this._signDigest(issuer, digest, this.version, didKey);
 
       let vc: VerifiableCredential<boolean> = {
         '@context': this['@context'],
@@ -218,7 +234,8 @@ export class VerifiableCredentialBuilder {
   private async _signDigest(
     did: Did,
     digest: HexString,
-    version: VerifiableCredentialVersion
+    version: VerifiableCredentialVersion,
+    didKey: Exclude<DidKeys, 'keyAgreement'> = 'assertionMethod'
   ): Promise<Proof> {
     let message: Uint8Array | HexString;
 
@@ -228,13 +245,23 @@ export class VerifiableCredentialBuilder {
       message = digest;
     }
 
-    const { id, signature, type: signType } = await did.signWithKey(message, 'assertionMethod');
+    let signDidUrl: DidUrl;
+
+    // try to use support didKey, if it not exist, try use controller key
+    try {
+      signDidUrl = did.getKeyUrl(didKey);
+    } catch {
+      didKey = 'controller';
+      signDidUrl = did.getKeyUrl('controller');
+    }
+
+    const { id, signature, type: signType } = await did.signWithKey(message, signDidUrl);
 
     return {
       type: signType,
       created: Date.now(),
       verificationMethod: id,
-      proofPurpose: 'assertionMethod',
+      proofPurpose: didKey,
       proofValue: base58Encode(signature)
     };
   }

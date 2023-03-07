@@ -82,7 +82,7 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
 
   public async signWithKey(
     message: Uint8Array | HexString,
-    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'>
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller'
   ): Promise<SignedData> {
     const didUrl = isDidUrl(keyOrDidUrl) ? keyOrDidUrl : this.getKeyUrl(keyOrDidUrl);
     const { type } = this.get(didUrl);

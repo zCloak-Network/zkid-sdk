@@ -1,6 +1,7 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '@zcloak/crypto/types';
 import type { DidUrl, Service } from '@zcloak/did-resolver/types';
 import type { DidKeys, IDidDetails, KeyRelationship } from '../types';
 
@@ -58,8 +59,18 @@ export abstract class DidDetails implements IDidDetails {
 
   /**
    * Get [[KeyRelationship]] by `id`
+   * When the `id` equal to `detail.id`, it means use controller key
    */
   public get(id: DidUrl): KeyRelationship {
+    if (id === this.id) {
+      return {
+        id: this.id,
+        controller: [this.id],
+        publicKey: this.identifier as HexString,
+        type: 'EcdsaSecp256k1VerificationKey2019'
+      };
+    }
+
     const method = this.keyRelationship.get(id);
 
     assert(method, `Not find verficationMethod with id: ${id}`);

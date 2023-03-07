@@ -87,11 +87,7 @@ export abstract class DidChain extends DidKeyring {
 
     const message = signedDidDocumentMessage(hashDidDocument(document), document.version);
 
-    const {
-      id,
-      signature,
-      type: signatureType
-    } = await this.signWithKey(message, 'capabilityInvocation');
+    const { id, signature, type: signatureType } = await this.signWithKey(message, 'controller');
 
     proof.push({ id, signature: base58Encode(signature), type: 'creation', signatureType });
 

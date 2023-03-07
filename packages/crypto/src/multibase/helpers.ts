@@ -1,6 +1,10 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import type { HexString } from '../types';
+
+import { u8aToU8a } from '@polkadot/util';
+
 interface Coder {
   decode: (value: string) => Uint8Array;
   encode: (value: Uint8Array) => string;
@@ -14,7 +18,7 @@ interface Config {
 }
 type DecodeFn = (value: string) => Uint8Array;
 
-type EncodeFn = (value: Uint8Array) => string;
+type EncodeFn = (value: Uint8Array | HexString) => string;
 
 type ValidateFn = (value?: unknown) => value is string;
 
@@ -29,8 +33,8 @@ export function createDecode({ coder }: Config, validate: ValidateFn): DecodeFn 
 
 /** @internal */
 export function createEncode({ coder, prefix }: Config): EncodeFn {
-  return (value: Uint8Array): string => {
-    const out = coder.encode(value);
+  return (value: Uint8Array | HexString): string => {
+    const out = coder.encode(u8aToU8a(value));
 
     return `${prefix}${out}`;
   };

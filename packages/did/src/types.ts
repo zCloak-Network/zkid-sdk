@@ -11,6 +11,7 @@ import type {
 } from '@zcloak/did-resolver/types';
 
 export type DidKeys =
+  | 'controller'
   | 'authentication'
   | 'keyAgreement'
   | 'assertionMethod'
@@ -33,7 +34,7 @@ export type EncryptedData = {
 export interface KeyRelationship {
   id: DidUrl;
   controller: DidUrl[];
-  publicKey: Uint8Array;
+  publicKey: Uint8Array | HexString;
   type: VerificationMethodType;
 }
 

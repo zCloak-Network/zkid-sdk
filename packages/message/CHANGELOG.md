@@ -1,5 +1,14 @@
 # @zcloak/message
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`c3ad20f`](https://github.com/zCloak-Network/zkid-sdk/commit/c3ad20feaf1d5487d439667162e93c22493c417b)]:
+  - @zcloak/crypto@1.2.0
+  - @zcloak/did@1.2.0
+  - @zcloak/vc@1.2.0
+
 ## 1.0.1
 
 ### Patch Changes

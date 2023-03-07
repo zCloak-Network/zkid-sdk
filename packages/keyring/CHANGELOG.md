@@ -1,5 +1,16 @@
 # @zcloak/keyring
 
+## 1.1.0
+
+### Minor Changes
+
+- [#58](https://github.com/zCloak-Network/zkid-sdk/pull/58) [`c3ad20f`](https://github.com/zCloak-Network/zkid-sdk/commit/c3ad20feaf1d5487d439667162e93c22493c417b) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - add ethereum address mapping for ecdsa pair
+
+### Patch Changes
+
+- Updated dependencies [[`c3ad20f`](https://github.com/zCloak-Network/zkid-sdk/commit/c3ad20feaf1d5487d439667162e93c22493c417b)]:
+  - @zcloak/crypto@1.2.0
+
 ## 1.0.1
 
 ### Patch Changes

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
+import type { Did } from '@zcloak/did';
 import type {
   HashType,
   Proof,
@@ -14,7 +15,6 @@ import type {
 import { assert, isHex, objectCopy, stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
-import { Did } from '@zcloak/did';
 import { isSameUri } from '@zcloak/did/utils';
 
 import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE, DEFAULT_VP_VERSION } from './defaults';
@@ -179,17 +179,13 @@ export class VerifiablePresentationBuilder {
       message = signedVPMessage(hash, this.version, challenge);
     }
 
-    const {
-      id,
-      signature,
-      type: signType
-    } = await this.#did.signWithKey(message, 'authentication');
+    const { id, signature, type: signType } = await this.#did.signWithKey(message, 'controller');
 
     return {
       type: signType,
       created: Date.now(),
       verificationMethod: id,
-      proofPurpose: 'authentication',
+      proofPurpose: 'controller',
       proofValue: base58Encode(signature),
       challenge
     };

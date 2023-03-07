@@ -142,7 +142,7 @@ describe('Did', (): void => {
             signedDidDocumentMessage(hashDidDocument(document), document.version || '0')
           ),
           decodeMultibase(document.proof[0].signature),
-          alice.get(alice.getKeyUrl('capabilityInvocation')).publicKey
+          alice.get(alice.getKeyUrl('controller')).publicKey
         )
       ).toBe(true);
     });

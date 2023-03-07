@@ -42,11 +42,7 @@ export async function getPublish(base: BaseCType, publisher: Did): Promise<CType
 
   const message = signedCTypeMessage(hash, version);
 
-  const {
-    id,
-    signature,
-    type: signatureType
-  } = await publisher.signWithKey(message, 'authentication');
+  const { id, signature, type: signatureType } = await publisher.signWithKey(message, 'controller');
 
   return {
     $id: hash,

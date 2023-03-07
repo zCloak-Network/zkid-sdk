@@ -11,7 +11,11 @@ import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
 const VERIFIERS: Record<
   SignatureType,
-  (message: Uint8Array, signature: HexString | Uint8Array, publicKey: Uint8Array) => boolean
+  (
+    message: Uint8Array,
+    signature: HexString | Uint8Array,
+    publicKey: HexString | Uint8Array
+  ) => boolean
 > = {
   EcdsaSecp256k1Signature2019: secp256k1Verify,
   EcdsaSecp256k1SignatureEip191: secp256k1Verify,

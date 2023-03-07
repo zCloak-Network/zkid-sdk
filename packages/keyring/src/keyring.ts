@@ -144,8 +144,8 @@ export class Keyring implements KeyringInstance {
     return createPair(keypair, { type });
   }
 
-  public getPair(publicKey: Uint8Array | HexString): KeyringPair {
-    return this.#pairs.get(publicKey);
+  public getPair(publicKeyOrAddress: Uint8Array | HexString): KeyringPair {
+    return this.#pairs.get(publicKeyOrAddress);
   }
 
   public getPairs(): KeyringPair[] {

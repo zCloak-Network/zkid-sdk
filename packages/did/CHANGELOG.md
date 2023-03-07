@@ -1,5 +1,22 @@
 # @zcloak/did
 
+## 1.2.0
+
+### Minor Changes
+
+- [#58](https://github.com/zCloak-Network/zkid-sdk/pull/58) [`c3ad20f`](https://github.com/zCloak-Network/zkid-sdk/commit/c3ad20feaf1d5487d439667162e93c22493c417b) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - add controller sign key for did keyring
+
+  1. publish did document default to use controller key
+  2. vp presentation default to use controller key
+  3. publish ctype default to use controller key
+  4. try to use assertionMethod, if it not exist, use controller to sign vc
+
+### Patch Changes
+
+- Updated dependencies [[`c3ad20f`](https://github.com/zCloak-Network/zkid-sdk/commit/c3ad20feaf1d5487d439667162e93c22493c417b), [`c3ad20f`](https://github.com/zCloak-Network/zkid-sdk/commit/c3ad20feaf1d5487d439667162e93c22493c417b)]:
+  - @zcloak/crypto@1.2.0
+  - @zcloak/keyring@1.1.0
+
 ## 1.1.0
 
 ### Minor Changes

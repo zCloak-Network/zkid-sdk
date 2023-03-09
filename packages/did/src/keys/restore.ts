@@ -3,6 +3,7 @@
 
 import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { Keyring } from '@zcloak/keyring';
+import type { KeyringPair } from '@zcloak/keyring/types';
 import type { DidKeys$Json } from './types';
 
 import { Did } from '../did';
@@ -13,10 +14,14 @@ import { typeTransform } from '../utils';
 export function restore(keyring: Keyring, json: DidKeys$Json, password: string): Did {
   const keyRelationship = new Map<DidUrl, KeyRelationship>();
 
+  const pairs: KeyringPair[] = [];
+
   json.keys.forEach((key, index) => {
-    const pair = keyring.addFromJson(key);
+    const pair = keyring.createFromJson(key);
 
     pair.unlock(password);
+
+    pairs.push(pair);
 
     const id: DidUrl = `${json.didUrl}#key-${index}`;
     const controller: DidUrl[] = [`${json.didUrl}`];
@@ -29,9 +34,13 @@ export function restore(keyring: Keyring, json: DidKeys$Json, password: string):
       type: typeTransform(pair.type)
     });
   });
-  const pair = keyring.addFromJson(json.identifierKey);
+  const pair = keyring.createFromJson(json.identifierKey);
 
   pair.unlock(password);
+
+  pairs.push(pair);
+
+  pairs.forEach((pair) => keyring.addPair(pair));
 
   const details: IDidDetails = {
     id: json.didUrl,

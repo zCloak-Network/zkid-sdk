@@ -45,9 +45,7 @@ async function verifyShared(
 
   const message = version === '1' ? signedVCMessage(digest, version) : digest;
 
-  const proofValid = await (resolverOrDidDocument
-    ? proofVerify(message, proof[0], resolverOrDidDocument)
-    : proofVerify(message, proof[0]));
+  const proofValid = await proofVerify(message, proof[0], resolverOrDidDocument);
 
   return digestValid && proofValid;
 }
@@ -115,7 +113,7 @@ export async function vcVerify(
  * 2. makesure this `vc.credentialSubject` is rootHash value, and call `digestVerify` use `vc.digest`.
  * 3. call `proofVerify` use `vc.proof`.
  *
- * @see [[isVC]] `@zcloak/vc/utils`
+ * @see [[isVC]] `@zcloak/vc/is`
  * @see [[proofVerify]]
  * @see [[digestVerify]]
  *

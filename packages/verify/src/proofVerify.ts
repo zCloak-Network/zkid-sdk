@@ -27,9 +27,5 @@ export async function proofVerify(
 
   const signature = decodeMultibase(proofValue);
 
-  if (!resolverOrDidDocument) {
-    return didVerify(message, signature, proof.type, verificationMethod);
-  } else {
-    return didVerify(message, signature, proof.type, verificationMethod, resolverOrDidDocument);
-  }
+  return didVerify(message, signature, proof.type, verificationMethod, resolverOrDidDocument);
 }

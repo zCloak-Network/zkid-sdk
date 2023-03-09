@@ -4,13 +4,7 @@
 import { stringToU8a, u8aToHex } from '@polkadot/util';
 import { computeAddress, getAddress } from 'ethers';
 
-import {
-  ed25519Verify,
-  initCrypto,
-  keccak256AsU8a,
-  randomAsU8a,
-  secp256k1Verify
-} from '@zcloak/crypto';
+import { ed25519Verify, initCrypto, keccak256AsU8a, randomAsU8a, secp256k1Verify } from '@zcloak/crypto';
 
 import { Keyring } from './keyring';
 
@@ -20,12 +14,12 @@ describe('Keyring', (): void => {
   });
 
   const publicKeyOne = new Uint8Array([
-    2, 205, 25, 42, 142, 34, 155, 70, 229, 74, 177, 12, 155, 50, 22, 154, 25, 125, 200, 87, 63, 75,
-    107, 11, 106, 74, 11, 9, 62, 163, 227, 195, 155
+    2, 205, 25, 42, 142, 34, 155, 70, 229, 74, 177, 12, 155, 50, 22, 154, 25, 125, 200, 87, 63, 75, 107, 11, 106, 74,
+    11, 9, 62, 163, 227, 195, 155
   ]);
   const publicKeyTwo = new Uint8Array([
-    204, 156, 197, 219, 207, 229, 90, 222, 152, 163, 250, 68, 54, 105, 148, 170, 235, 167, 132, 161,
-    168, 11, 25, 245, 196, 192, 42, 14, 204, 6, 107, 153
+    204, 156, 197, 219, 207, 229, 90, 222, 152, 163, 250, 68, 54, 105, 148, 170, 235, 167, 132, 161, 168, 11, 25, 245,
+    196, 192, 42, 14, 204, 6, 107, 153
   ]);
 
   const PHRASE = 'potato act energy ahead stone taxi receive fame gossip equip chest round';
@@ -55,9 +49,7 @@ describe('Keyring', (): void => {
 
       expect(secp256k1Verify(MESSAGE, signature, pair.publicKey)).toBe(true);
       expect(secp256k1Verify(MESSAGE, signature, randomAsU8a(32))).toBe(false);
-      expect(secp256k1Verify(keccak256AsU8a(new Uint8Array()), signature, pair.publicKey)).toBe(
-        false
-      );
+      expect(secp256k1Verify(keccak256AsU8a(new Uint8Array()), signature, pair.publicKey)).toBe(false);
     });
 
     it('encodes a pair toJSON (and decodes)', (): void => {
@@ -135,8 +127,8 @@ describe('Keyring', (): void => {
     it('adds from a mnemonic', (): void => {
       expect(keyring.createFromMnemonic(PHRASE, '//0///1', 'x25519').publicKey).toEqual(
         new Uint8Array([
-          101, 111, 177, 164, 252, 50, 24, 234, 6, 105, 145, 221, 146, 149, 5, 230, 159, 46, 251,
-          240, 155, 108, 150, 8, 224, 17, 208, 122, 126, 157, 100, 8
+          101, 111, 177, 164, 252, 50, 24, 234, 6, 105, 145, 221, 146, 149, 5, 230, 159, 46, 251, 240, 155, 108, 150, 8,
+          224, 17, 208, 122, 126, 157, 100, 8
         ])
       );
     });

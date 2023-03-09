@@ -10,14 +10,10 @@ describe('mnemonicValidate', (): void => {
   });
 
   it('returns true on valid', (): void => {
-    expect(
-      mnemonicValidate('seed sock milk update focus rotate barely fade car face mechanic mercy')
-    ).toEqual(true);
+    expect(mnemonicValidate('seed sock milk update focus rotate barely fade car face mechanic mercy')).toEqual(true);
   });
 
   it('returns false on invalid', (): void => {
-    expect(
-      mnemonicValidate('wine photo extra cushion basket dwarf humor cloud truck job boat submit')
-    ).toEqual(false);
+    expect(mnemonicValidate('wine photo extra cushion basket dwarf humor cloud truck job boat submit')).toEqual(false);
   });
 });

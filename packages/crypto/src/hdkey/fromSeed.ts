@@ -63,9 +63,7 @@ function createCoded(seed: Uint8Array, chainCode: Uint8Array, curve: CurveType):
 function deriveChild(hd: HdKey, index: number, curve: CurveType): HdKey {
   const indexBuffer = bnToU8a(index, BN_BE_32_OPTS);
   const data =
-    index >= HARDENED
-      ? u8aConcat(new Uint8Array(1), hd.seed, indexBuffer)
-      : u8aConcat(hd.publicKey, indexBuffer);
+    index >= HARDENED ? u8aConcat(new Uint8Array(1), hd.seed, indexBuffer) : u8aConcat(hd.publicKey, indexBuffer);
 
   try {
     const I = hmacShaAsU8a(hd.chainCode, data, 512);

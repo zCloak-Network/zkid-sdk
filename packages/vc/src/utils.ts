@@ -16,10 +16,7 @@ import { rlpEncode as rlpEncodeFn } from '@zcloak/crypto';
 
 import { HASHER } from './hasher';
 
-export function rlpEncode(
-  input: NativeType | NativeTypeWithOutNull[],
-  hashType: HashType
-): Uint8Array {
+export function rlpEncode(input: NativeType | NativeTypeWithOutNull[], hashType: HashType): Uint8Array {
   const result = rlpEncodeFn(input);
 
   if (hashType === 'RescuePrime') {
@@ -29,15 +26,8 @@ export function rlpEncode(
   }
 }
 
-export function signedVCMessage(
-  digest: HexString,
-  version: VerifiableCredentialVersion
-): Uint8Array {
-  return u8aConcat(
-    stringToU8a('CredentialVersionedDigest'),
-    numberToU8a(Number(version), 16),
-    digest
-  );
+export function signedVCMessage(digest: HexString, version: VerifiableCredentialVersion): Uint8Array {
+  return u8aConcat(stringToU8a('CredentialVersionedDigest'), numberToU8a(Number(version), 16), digest);
 }
 
 export function signedVPMessage(

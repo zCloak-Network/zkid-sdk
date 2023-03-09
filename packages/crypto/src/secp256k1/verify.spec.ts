@@ -5,8 +5,7 @@ import { initCrypto } from '../initCrypto';
 import { keccak256AsU8a } from '../keccak';
 import { secp256k1Verify } from '.';
 
-const message =
-  'Pay KSMs to the Kusama account:88dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee';
+const message = 'Pay KSMs to the Kusama account:88dc3417d5058ec4b4503e0c12ea1a0a89be200fe98922423d4334014fa6b0ee';
 
 describe('secp256k1Verify', (): void => {
   beforeAll(async (): Promise<void> => {

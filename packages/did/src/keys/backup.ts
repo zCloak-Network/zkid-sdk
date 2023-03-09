@@ -13,9 +13,7 @@ import { Keyring } from '@zcloak/keyring';
 import { DEFAULT_DID_KEYS_JSON_VERSION } from './defaults';
 
 export function getEcdsaIdentifierPair(keyring: Keyring, did: Did): KeyringPair | undefined {
-  const identifierPair = keyring
-    .getPairs()
-    .find((pair) => ethereumEncode(pair.publicKey) === did.identifier);
+  const identifierPair = keyring.getPairs().find((pair) => ethereumEncode(pair.publicKey) === did.identifier);
 
   return identifierPair;
 }

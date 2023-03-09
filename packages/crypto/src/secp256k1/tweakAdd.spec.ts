@@ -24,10 +24,7 @@ describe('TweakAdd', (): void => {
     ]);
 
     expect(secp256k1PrivateKeyTweakAdd(A, B)).toEqual(
-      new Uint8Array([
-        3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3,
-        4
-      ])
+      new Uint8Array([3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4])
     );
   });
 });

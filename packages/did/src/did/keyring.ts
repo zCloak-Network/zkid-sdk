@@ -101,17 +101,11 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
     return {
       id,
       signature,
-      type:
-        type === 'EcdsaSecp256k1VerificationKey2019'
-          ? 'EcdsaSecp256k1SignatureEip191'
-          : 'Ed25519Signature2018'
+      type: type === 'EcdsaSecp256k1VerificationKey2019' ? 'EcdsaSecp256k1SignatureEip191' : 'Ed25519Signature2018'
     };
   }
 
-  private _sign(
-    message: Uint8Array | HexString,
-    id: DidUrl
-  ): Promise<{ signature: Uint8Array; id: DidUrl }> {
+  private _sign(message: Uint8Array | HexString, id: DidUrl): Promise<{ signature: Uint8Array; id: DidUrl }> {
     const { id: _id, publicKey } = this.get(id);
 
     const pair = this._getPair(publicKey);

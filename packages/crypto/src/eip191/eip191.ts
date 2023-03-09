@@ -16,10 +16,6 @@ export function eip191HashMessage(message: Uint8Array | HexString): Uint8Array {
   const messageU8a = u8aToU8a(message);
 
   return keccak256AsU8a(
-    u8aConcat(
-      stringToU8a('\x19Ethereum Signed Message:\n'),
-      stringToU8a(String(messageU8a.length)),
-      messageU8a
-    )
+    u8aConcat(stringToU8a('\x19Ethereum Signed Message:\n'), stringToU8a(String(messageU8a.length)), messageU8a)
   );
 }

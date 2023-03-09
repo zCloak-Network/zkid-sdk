@@ -38,9 +38,7 @@ describe('formatAddress', () => {
     const ADDRESS = '0x4119b2e6c3Cb618F4f0B93ac77f9BeeC7FF02887';
 
     it('encodes a compressed publicKey', (): void => {
-      expect(
-        ethereumEncode('0x03b9dc646dd71118e5f7fda681ad9eca36eb3ee96f344f582fbe7b5bcdebb13077')
-      ).toEqual(ADDRESS);
+      expect(ethereumEncode('0x03b9dc646dd71118e5f7fda681ad9eca36eb3ee96f344f582fbe7b5bcdebb13077')).toEqual(ADDRESS);
     });
 
     it('encodes an expanded publicKey', (): void => {

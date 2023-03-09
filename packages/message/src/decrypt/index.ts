@@ -28,23 +28,14 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
 
   switch (msgType) {
     case 'Request_Attestation':
-      assert(
-        isRawCredential(data),
-        `Expected message data with msgType:${msgType} is RawCredential object`
-      );
+      assert(isRawCredential(data), `Expected message data with msgType:${msgType} is RawCredential object`);
       assert(isSameUri(sender, data.holder), 'Message sender is not the holder of RawCredential');
 
       break;
 
     case 'Response_Approve_Attestation':
-      assert(
-        isVC(data),
-        `Expected message data with msgType:${msgType} is VerifiableCredential object`
-      );
-      assert(
-        isSameUri(sender, data.issuer),
-        'Message sender is not the issuer of VerifiableCredential'
-      );
+      assert(isVC(data), `Expected message data with msgType:${msgType} is VerifiableCredential object`);
+      assert(isSameUri(sender, data.issuer), 'Message sender is not the issuer of VerifiableCredential');
 
       break;
 
@@ -60,10 +51,7 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
       break;
 
     case 'Response_Accept_VP':
-      assert(
-        isVP(data),
-        `Expected message data with msgType:${msgType} is VerifiablePresentation object`
-      );
+      assert(isVP(data), `Expected message data with msgType:${msgType} is VerifiablePresentation object`);
       assert(
         isSameUri(sender, data.proof.verificationMethod),
         'Message sender is not the signer of VerifiablePresentation'
@@ -75,10 +63,7 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
       break;
 
     case 'Send_VP':
-      assert(
-        isVP(data),
-        `Expected message data with msgType:${msgType} is VerifiablePresentation object`
-      );
+      assert(isVP(data), `Expected message data with msgType:${msgType} is VerifiablePresentation object`);
       assert(
         isSameUri(sender, data.proof.verificationMethod),
         'Message sender is not the signer of VerifiablePresentation'
@@ -87,14 +72,8 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
       break;
 
     case 'Send_issuedVC':
-      assert(
-        isVC(data),
-        `Expected message data with msgType:${msgType} is VerifiableCredential object`
-      );
-      assert(
-        isSameUri(sender, data.issuer),
-        'Message sender is not the issuer of VerifiableCredential'
-      );
+      assert(isVC(data), `Expected message data with msgType:${msgType} is VerifiableCredential object`);
+      assert(isSameUri(sender, data.issuer), 'Message sender is not the issuer of VerifiableCredential');
 
       break;
 
@@ -120,10 +99,7 @@ export function verifyMessageEnvelope<T extends MessageType>(message: BaseMessag
 
   ctype && assert(isHex(ctype), 'Expected ctype is hex string');
 
-  assert(
-    SUPPORT_MESSAGE_TYPES.includes(msgType) || msgType.startsWith('Extends_'),
-    `Unsupported msgType:${msgType}`
-  );
+  assert(SUPPORT_MESSAGE_TYPES.includes(msgType) || msgType.startsWith('Extends_'), `Unsupported msgType:${msgType}`);
 
   assert(isDidUrl(receiver), 'Expected receiver is DidUrl');
 

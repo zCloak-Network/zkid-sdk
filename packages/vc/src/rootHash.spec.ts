@@ -30,9 +30,7 @@ describe('calcRoothash', (): void => {
           '0x186474372ad7b8dd8e22d42832424b5d7a7b26390f4fd60918a43dbb45dc127b'
       });
 
-      expect(rootHash).toEqual(
-        '0x0a86d6642395770ac481f8a215b08a881e9e0229de2686d498893dec0572649a'
-      );
+      expect(rootHash).toEqual('0x0a86d6642395770ac481f8a215b08a881e9e0229de2686d498893dec0572649a');
     });
 
     it('calcRoothash with string array', (): void => {
@@ -57,9 +55,7 @@ describe('calcRoothash', (): void => {
           '0x9eb35f2ed9a24b0fd60faf3d63be84fb69bdcb997c2c37c2566e5870819b8211'
       });
 
-      expect(rootHash).toEqual(
-        '0x51d3b9ef895f61a3fcb4821002f396b8374b6b7e440944961fc63e3f8ff0ba84'
-      );
+      expect(rootHash).toEqual('0x51d3b9ef895f61a3fcb4821002f396b8374b6b7e440944961fc63e3f8ff0ba84');
     });
 
     it('calcRoothash without nonceMap', (): void => {
@@ -73,9 +69,7 @@ describe('calcRoothash', (): void => {
 
       const { rootHash } = calcRoothash(input, 'RescuePrime');
 
-      expect(rootHash).toEqual(
-        '0x9579c93741b6979500bca88dcb104da424c2c3bb0e2fa85f13d76cd00637e46f'
-      );
+      expect(rootHash).toEqual('0x9579c93741b6979500bca88dcb104da424c2c3bb0e2fa85f13d76cd00637e46f');
     });
   });
 
@@ -99,9 +93,7 @@ describe('calcRoothash', (): void => {
           '0x0186debe062c28eef2a5cd1865a9190479d5713bb78ad91ea252a2ae7c9214de'
       });
 
-      expect(rootHash).toEqual(
-        '0x4bf37b064a4c0063f0af05f53be10c1daaa1135ff656a02b326d8dfbf57879ff'
-      );
+      expect(rootHash).toEqual('0x4bf37b064a4c0063f0af05f53be10c1daaa1135ff656a02b326d8dfbf57879ff');
     });
   });
 });

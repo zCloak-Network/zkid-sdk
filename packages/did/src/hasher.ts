@@ -30,10 +30,7 @@ export function hashDidDocument(document: DidDocument): Uint8Array {
   return hash;
 }
 
-export function signedDidDocumentMessage(
-  hash: Uint8Array | HexString,
-  version: DidDocumentVersion
-): Uint8Array {
+export function signedDidDocumentMessage(hash: Uint8Array | HexString, version: DidDocumentVersion): Uint8Array {
   return u8aConcat(
     stringToU8a('VersionedDidDocument'),
     numberToU8a(Number(version), 16), // default to set version `0`

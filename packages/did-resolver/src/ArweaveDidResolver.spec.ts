@@ -19,8 +19,7 @@ const DOCUMENT = {
   proof: [
     {
       id: 'did:zk:0x8A63688576294474862cE18486CD489144721D77#key-0',
-      signature:
-        'zMkj3eCzxioVEhSxFJyQPKbZ93bnnWbDafpWmvRke6NfTUW8z1bAXRAXK48wbhqfXZxb3yPEMrN2m9nkSqk5zF6i7S',
+      signature: 'zMkj3eCzxioVEhSxFJyQPKbZ93bnnWbDafpWmvRke6NfTUW8z1bAXRAXK48wbhqfXZxb3yPEMrN2m9nkSqk5zF6i7S',
       type: 'publish'
     }
   ],

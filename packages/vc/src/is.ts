@@ -11,15 +11,7 @@ import type {
   VerifiablePresentationType
 } from './types';
 
-import {
-  isArray,
-  isHex,
-  isJsonObject,
-  isNull,
-  isNumber,
-  isString,
-  isUndefined
-} from '@polkadot/util';
+import { isArray, isHex, isJsonObject, isNull, isNumber, isString, isUndefined } from '@polkadot/util';
 
 import { isBase32, isBase58, isBase64 } from '@zcloak/crypto';
 import { isDidUrl } from '@zcloak/did/utils';
@@ -125,9 +117,7 @@ export function isVC(input: unknown): input is VerifiableCredential<boolean> {
     isArray(input['@context']) &&
     isString(input.version) &&
     isNumber(input.issuanceDate) &&
-    (isUndefined(input.expirationDate) ||
-      isNull(input.expirationDate) ||
-      isNumber(input.expirationDate)) &&
+    (isUndefined(input.expirationDate) || isNull(input.expirationDate) || isNumber(input.expirationDate)) &&
     isDidUrl(input.issuer) &&
     isHex(input.digest) &&
     isArray(input.proof) &&

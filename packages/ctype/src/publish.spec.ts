@@ -34,9 +34,7 @@ describe('publish ctype', (): void => {
       required: ['name', 'age']
     };
 
-    expect(getCTypeHash(base, charlie.id)).toEqual(
-      getCTypeHash(base, charlie.getKeyUrl('authentication'))
-    );
+    expect(getCTypeHash(base, charlie.id)).toEqual(getCTypeHash(base, charlie.getKeyUrl('authentication')));
   });
 
   it('get ctype for publish', async (): Promise<void> => {

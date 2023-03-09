@@ -44,11 +44,7 @@ export function fromMnemonic(
   const xPath = `//${index * 2 + 1}`;
 
   const controller = keyring.addFromMnemonic(mnemonic, controllerPath, 'ecdsa');
-  const singingKey = keyring.addFromMnemonic(
-    mnemonic,
-    signingKeyType === 'ecdsa' ? ecdsaPath : edPath,
-    signingKeyType
-  );
+  const singingKey = keyring.addFromMnemonic(mnemonic, signingKeyType === 'ecdsa' ? ecdsaPath : edPath, signingKeyType);
   const encryptionKey = keyring.addFromMnemonic(mnemonic, xPath, 'x25519');
 
   const didUri: DidUrl = `did:zk:${ethereumEncode(controller.publicKey)}`;
@@ -60,10 +56,7 @@ export function fromMnemonic(
       {
         id: `${didUri}#key-0`,
         controller: [didUri],
-        type:
-          signingKeyType === 'ecdsa'
-            ? 'EcdsaSecp256k1VerificationKey2019'
-            : 'Ed25519VerificationKey2020',
+        type: signingKeyType === 'ecdsa' ? 'EcdsaSecp256k1VerificationKey2019' : 'Ed25519VerificationKey2020',
         publicKeyMultibase: base58Encode(singingKey.publicKey)
       },
       {

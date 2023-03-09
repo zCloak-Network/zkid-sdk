@@ -21,8 +21,6 @@ export abstract class DidResolver {
    * @returns `Promise<DidDocument>`
    */
   public resolve(didUrl: string): Promise<DidDocument> {
-    throw new Error(
-      `Resolving not implemented in base class, please extend. ${this.constructor.name} ${didUrl}`
-    );
+    throw new Error(`Resolving not implemented in base class, please extend. ${this.constructor.name} ${didUrl}`);
   }
 }

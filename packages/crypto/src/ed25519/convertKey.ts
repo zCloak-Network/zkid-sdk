@@ -9,8 +9,5 @@ export function convertSecretKeyToCurve25519(secretKey: Uint8Array): Uint8Array 
 }
 
 export function convertPublicKeyToCurve25519(publicKey: Uint8Array): Uint8Array {
-  return assertReturn(
-    ed2curve.convertPublicKey(publicKey),
-    'Unable to convert publicKey to ed25519'
-  );
+  return assertReturn(ed2curve.convertPublicKey(publicKey), 'Unable to convert publicKey to ed25519');
 }

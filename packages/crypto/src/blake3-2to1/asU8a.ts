@@ -37,8 +37,7 @@ export function blake32to1AsU8a(
 ): Uint8Array {
   const byteLength = Math.ceil(bitLength / 8);
   const u8a = u8aToU8a(data);
-  const sliceCount =
-    u8a.length % 32 === 0 ? Math.floor(u8a.length / 32) : Math.floor(u8a.length / 32) + 1;
+  const sliceCount = u8a.length % 32 === 0 ? Math.floor(u8a.length / 32) : Math.floor(u8a.length / 32) + 1;
 
   const dataPadding = new Uint8Array(32 * sliceCount);
 
@@ -59,9 +58,7 @@ export function blake32to1AsU8a(
     }
   }
 
-  return byteLength === 32
-    ? blake3Result
-    : blake3(u8a, { dkLen: byteLength, key: key || undefined });
+  return byteLength === 32 ? blake3Result : blake3(u8a, { dkLen: byteLength, key: key || undefined });
 }
 
 /**

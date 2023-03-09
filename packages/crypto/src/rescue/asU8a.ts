@@ -21,10 +21,7 @@ import { rescuePrimeHash } from '@zcloak/wasm-bridge';
  * rescuePrimeAsU8a('abcd1234'); // => [212, 187, 16, 176, 223, 111, 125, 152, 232, 223, 53, 52, 239, 99, 173, 71, 181, 59, 174, 51, 80, 175, 78, 174, 66, 122, 204, 8, 39, 100, 158, 253]
  * ```
  */
-export function rescuePrimeAsU8a(
-  data: HexString | Uint8Array | string,
-  asU64a = false
-): Uint8Array {
+export function rescuePrimeAsU8a(data: HexString | Uint8Array | string, asU64a = false): Uint8Array {
   const u8a = u8aToU8a(data);
 
   let u64a: BigUint64Array;

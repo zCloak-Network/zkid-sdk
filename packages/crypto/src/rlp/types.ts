@@ -3,12 +3,4 @@
 
 import type { HexString } from '../types';
 
-export type RlpInput =
-  | string
-  | number
-  | boolean
-  | bigint
-  | HexString
-  | Uint8Array
-  | null
-  | undefined;
+export type RlpInput = string | number | boolean | bigint | HexString | Uint8Array | null | undefined;

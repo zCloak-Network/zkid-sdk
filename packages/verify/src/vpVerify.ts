@@ -36,10 +36,7 @@ function idCheck(
 
 const VERIFIERS: Record<
   VerifiablePresentationType,
-  (
-    vc: VerifiableCredential<boolean>,
-    resolverOrDidDocument?: DidDocument | DidResolver
-  ) => Promise<boolean>
+  (vc: VerifiableCredential<boolean>, resolverOrDidDocument?: DidDocument | DidResolver) => Promise<boolean>
 > = {
   VP: vcVerify,
   VP_Digest: vcVerifyDigest,
@@ -80,15 +77,11 @@ export async function vpVerify(
   }
 
   const message =
-    version === '1'
-      ? signedVPMessage(id, version, proof.challenge)
-      : u8aConcat(id, stringToU8a(proof.challenge));
+    version === '1' ? signedVPMessage(id, version, proof.challenge) : u8aConcat(id, stringToU8a(proof.challenge));
 
   const proofValid = await proofVerify(message, proof, resolverOrDidDocument);
 
-  const results = await Promise.all(
-    type.map((t, i) => VERIFIERS[t](verifiableCredential[i], resolverOrDidDocument))
-  );
+  const results = await Promise.all(type.map((t, i) => VERIFIERS[t](verifiableCredential[i], resolverOrDidDocument)));
 
   return idValid && proofValid && !results.includes(false);
 }

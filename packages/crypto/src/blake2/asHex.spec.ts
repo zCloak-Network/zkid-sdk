@@ -20,9 +20,7 @@ describe('blake2AsHex', (): void => {
   });
 
   it('returns a 128-bit value (as specified, with key)', (): void => {
-    expect(blake2AsHex('abc', 128, new Uint8Array([1, 2]))).toEqual(
-      '0x36f3d08cda72a00ddf2be103eb5770d9'
-    );
+    expect(blake2AsHex('abc', 128, new Uint8Array([1, 2]))).toEqual('0x36f3d08cda72a00ddf2be103eb5770d9');
   });
 
   it('returns a 256-bit value (default)', (): void => {

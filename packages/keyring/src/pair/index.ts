@@ -30,11 +30,7 @@ function isLocked(secretKey?: Uint8Array): secretKey is undefined {
   return !secretKey || u8aEmpty(secretKey);
 }
 
-export function createPair(
-  { publicKey, secretKey }: PairInfo,
-  { type }: Options,
-  encoded?: Uint8Array
-): KeyringPair {
+export function createPair({ publicKey, secretKey }: PairInfo, { type }: Options, encoded?: Uint8Array): KeyringPair {
   const decodePkcs8 = (passphrase?: string): void => {
     const decoded = decodePair(encoded, passphrase);
 
@@ -104,10 +100,7 @@ export function createPair(
       return u8aConcat(sealed.nonce, sealed.sealed);
     }
 
-    decrypt(
-      encryptedMessageWithNonce: HexString | Uint8Array,
-      senderPublicKey: HexString | Uint8Array
-    ): Uint8Array {
+    decrypt(encryptedMessageWithNonce: HexString | Uint8Array, senderPublicKey: HexString | Uint8Array): Uint8Array {
       if (isLocked(secretKey)) {
         throw new Error('Cannot sign with a locked key pair');
       }

@@ -121,10 +121,7 @@ describe('VerifiablePresentation', (): void => {
 
   describe('VerifiablePresentation single vc', (): void => {
     it('create ctype1 vp with VPType: VP', async (): Promise<void> => {
-      const vc = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype1.toRawCredential(),
-        ctype1
-      )
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
         .setExpirationDate(null)
         .build(issuer1);
 
@@ -147,10 +144,7 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('create ctype1 vp with VPType: VP_Digest', async (): Promise<void> => {
-      const vc = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype1.toRawCredential(),
-        ctype1
-      )
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
         .setExpirationDate(null)
         .build(issuer1);
 
@@ -167,8 +161,7 @@ describe('VerifiablePresentation', (): void => {
         verifiableCredential: [
           {
             ...vc,
-            credentialSubject: calcRoothash(CONTENTS1, vc.hasher[0], vc.credentialSubjectNonceMap)
-              .rootHash,
+            credentialSubject: calcRoothash(CONTENTS1, vc.hasher[0], vc.credentialSubjectNonceMap).rootHash,
             credentialSubjectHashes: [],
             credentialSubjectNonceMap: {}
           }
@@ -183,10 +176,7 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('create ctype1 vp with VPType: VP_SelectiveDisclosure', async (): Promise<void> => {
-      const vc = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype1.toRawCredential(),
-        ctype1
-      )
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
         .setExpirationDate(null)
         .build(issuer1);
 
@@ -207,9 +197,7 @@ describe('VerifiablePresentation', (): void => {
               isUser: true
             },
             credentialSubjectNonceMap: {
-              [Object.keys(vc.credentialSubjectNonceMap)[3]]: Object.values(
-                vc.credentialSubjectNonceMap
-              )[3]
+              [Object.keys(vc.credentialSubjectNonceMap)[3]]: Object.values(vc.credentialSubjectNonceMap)[3]
             }
           }
         ],
@@ -225,16 +213,10 @@ describe('VerifiablePresentation', (): void => {
 
   describe('VerifiablePresentation multi vc by ctype2', (): void => {
     it('create vp has multi ctype2 vc with VPType: VP', async (): Promise<void> => {
-      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype2.toRawCredential(),
-        ctype2
-      )
+      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype2.toRawCredential(),
-        ctype2
-      )
+      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer2);
 
@@ -257,16 +239,10 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('create vp has multi ctype2 vc with VPType: VP_Digest', async (): Promise<void> => {
-      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype2.toRawCredential(),
-        ctype2
-      )
+      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype2.toRawCredential(),
-        ctype2
-      )
+      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer2);
 
@@ -284,15 +260,13 @@ describe('VerifiablePresentation', (): void => {
         verifiableCredential: [
           {
             ...vc1,
-            credentialSubject: calcRoothash(CONTENTS2, vc1.hasher[0], vc1.credentialSubjectNonceMap)
-              .rootHash,
+            credentialSubject: calcRoothash(CONTENTS2, vc1.hasher[0], vc1.credentialSubjectNonceMap).rootHash,
             credentialSubjectHashes: [],
             credentialSubjectNonceMap: {}
           },
           {
             ...vc2,
-            credentialSubject: calcRoothash(CONTENTS2, vc2.hasher[0], vc2.credentialSubjectNonceMap)
-              .rootHash,
+            credentialSubject: calcRoothash(CONTENTS2, vc2.hasher[0], vc2.credentialSubjectNonceMap).rootHash,
             credentialSubjectHashes: [],
             credentialSubjectNonceMap: {}
           }
@@ -307,16 +281,10 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('create vp has multi ctype2 vc with VPType: VP_SelectiveDisclosure', async (): Promise<void> => {
-      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype2.toRawCredential(),
-        ctype2
-      )
+      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype2.toRawCredential(),
-        ctype2
-      )
+      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer2);
 
@@ -341,9 +309,7 @@ describe('VerifiablePresentation', (): void => {
               birthday: CONTENTS2.birthday
             },
             credentialSubjectNonceMap: {
-              [Object.keys(vc1.credentialSubjectNonceMap)[1]]: Object.values(
-                vc1.credentialSubjectNonceMap
-              )[1]
+              [Object.keys(vc1.credentialSubjectNonceMap)[1]]: Object.values(vc1.credentialSubjectNonceMap)[1]
             }
           },
           {
@@ -352,9 +318,7 @@ describe('VerifiablePresentation', (): void => {
               No: CONTENTS2.No
             },
             credentialSubjectNonceMap: {
-              [Object.keys(vc2.credentialSubjectNonceMap)[0]]: Object.values(
-                vc2.credentialSubjectNonceMap
-              )[0]
+              [Object.keys(vc2.credentialSubjectNonceMap)[0]]: Object.values(vc2.credentialSubjectNonceMap)[0]
             }
           }
         ],
@@ -370,22 +334,13 @@ describe('VerifiablePresentation', (): void => {
 
   describe('VerifiablePresentation multi vc by multi ctypes', (): void => {
     it('create vp has multi ctypes vc with multi VPType', async (): Promise<void> => {
-      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype1.toRawCredential(),
-        ctype1
-      )
+      const vc1 = await VerifiableCredentialBuilder.fromRawCredential(rawCtype1.toRawCredential(), ctype1)
         .setExpirationDate(null)
         .build(issuer1);
-      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype2.toRawCredential(),
-        ctype2
-      )
+      const vc2 = await VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype2)
         .setExpirationDate(null)
         .build(issuer2);
-      const vc3 = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype3.toRawCredential(),
-        ctype3
-      )
+      const vc3 = await VerifiableCredentialBuilder.fromRawCredential(rawCtype3.toRawCredential(), ctype3)
         .setExpirationDate(null)
         .build(issuer3);
 
@@ -407,8 +362,7 @@ describe('VerifiablePresentation', (): void => {
         verifiableCredential: [
           {
             ...vc1,
-            credentialSubject: calcRoothash(CONTENTS1, vc1.hasher[0], vc1.credentialSubjectNonceMap)
-              .rootHash,
+            credentialSubject: calcRoothash(CONTENTS1, vc1.hasher[0], vc1.credentialSubjectNonceMap).rootHash,
             credentialSubjectHashes: [],
             credentialSubjectNonceMap: {}
           },
@@ -418,9 +372,7 @@ describe('VerifiablePresentation', (): void => {
               No: CONTENTS2.No
             },
             credentialSubjectNonceMap: {
-              [Object.keys(vc2.credentialSubjectNonceMap)[0]]: Object.values(
-                vc2.credentialSubjectNonceMap
-              )[0]
+              [Object.keys(vc2.credentialSubjectNonceMap)[0]]: Object.values(vc2.credentialSubjectNonceMap)[0]
             }
           },
           vc3

@@ -32,11 +32,7 @@ export const ALL_HASH_TYPES: HashType[] = [
   'Sha512'
 ];
 
-export const ALL_VP_TYPES: VerifiablePresentationType[] = [
-  'VP',
-  'VP_Digest',
-  'VP_SelectiveDisclosure'
-];
+export const ALL_VP_TYPES: VerifiablePresentationType[] = ['VP', 'VP_Digest', 'VP_SelectiveDisclosure'];
 
 export const ALL_SIG_TYPES: SignatureType[] = [
   'EcdsaSecp256k1Signature2019',

@@ -49,10 +49,8 @@ function withWasm<T, F extends (wasm: [WasmInstance, number], ...params: never[]
   };
 }
 
-export const rescuePrimeHash = withWasm(
-  ([wasm, retptr], values: BigUint64Array): BigUint64Array => {
-    wasm.ext_rescue_prime_hash(retptr, ...allocU64a(values));
+export const rescuePrimeHash = withWasm(([wasm, retptr], values: BigUint64Array): BigUint64Array => {
+  wasm.ext_rescue_prime_hash(retptr, ...allocU64a(values));
 
-    return resultU64a(retptr);
-  }
-);
+  return resultU64a(retptr);
+});

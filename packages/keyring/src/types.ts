@@ -31,10 +31,7 @@ export interface KeyringPair {
     recipientPublicKey: HexString | Uint8Array,
     nonce?: HexString | Uint8Array
   ): Uint8Array;
-  decrypt(
-    encryptedMessageWithNonce: HexString | Uint8Array,
-    senderPublicKey: HexString | Uint8Array
-  ): Uint8Array;
+  decrypt(encryptedMessageWithNonce: HexString | Uint8Array, senderPublicKey: HexString | Uint8Array): Uint8Array;
 }
 
 export interface KeyringPairs {

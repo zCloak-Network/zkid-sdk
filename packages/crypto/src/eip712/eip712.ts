@@ -30,11 +30,7 @@ function encode(types: string[], values: any[]) {
  * Get the dependencies of a struct type. If a struct has the same dependency multiple times, it's only included once
  * in the resulting array.
  */
-export function getDependencies(
-  typedData: TypedData,
-  type: string,
-  dependencies: string[] = []
-): string[] {
+export function getDependencies(typedData: TypedData, type: string, dependencies: string[] = []): string[] {
   if (dependencies.includes(type)) {
     return dependencies;
   }
@@ -48,9 +44,7 @@ export function getDependencies(
     ...typedData.types[type].reduce<string[]>(
       (previous, type) => [
         ...previous,
-        ...getDependencies(typedData, type.type, previous).filter(
-          (dependency) => !previous.includes(dependency)
-        )
+        ...getDependencies(typedData, type.type, previous).filter((dependency) => !previous.includes(dependency))
       ],
       []
     )
@@ -68,9 +62,7 @@ export function encodeType(typedData: TypedData, type: string): string {
 
   return types
     .map((dependency) => {
-      return `${dependency}(${typedData.types[dependency].map(
-        (type) => `${type.type} ${type.name}`
-      )})`;
+      return `${dependency}(${typedData.types[dependency].map((type) => `${type.type} ${type.name}`)})`;
     })
     .join('');
 }
@@ -90,11 +82,7 @@ export function typeHash(typedData: TypedData, type: string): Uint8Array {
  * Encodes a single value to an ABI serialisable string, number or Buffer. Returns the data as tuple, which consists of
  * an array of ABI compatible types, and an array of corresponding values.
  */
-function encodeValue(
-  typedData: TypedData,
-  type: string,
-  data: unknown
-): [string, string | Uint8Array | number] {
+function encodeValue(typedData: TypedData, type: string, data: unknown): [string, string | Uint8Array | number] {
   const match = type.match(ARRAY_REGEX);
 
   // Checks for array types
@@ -139,11 +127,7 @@ function encodeValue(
  * Encode the data to an ABI encoded Buffer. The data should be a key -> value object with all the required values. All
  * dependant types are automatically encoded.
  */
-export function encodeData(
-  typedData: TypedData,
-  type: string,
-  data: Record<string, unknown>
-): Uint8Array {
+export function encodeData(typedData: TypedData, type: string, data: Record<string, unknown>): Uint8Array {
   const [types, values] = typedData.types[type].reduce<[string[], unknown[]]>(
     ([types, values], field) => {
       if (data[field.name] === undefined || data[field.name] === null) {
@@ -170,11 +154,7 @@ export function encodeData(
  * Get encoded data as a hash. The data should be a key -> value object with all the required values. All dependant
  * types are automatically encoded.
  */
-export function structHash(
-  typedData: TypedData,
-  type: string,
-  data: Record<string, unknown>
-): Uint8Array {
+export function structHash(typedData: TypedData, type: string, data: Record<string, unknown>): Uint8Array {
   return keccak256AsU8a(encodeData(typedData, type, data));
 }
 

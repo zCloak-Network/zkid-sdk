@@ -64,15 +64,10 @@ export function createValidate({ chars, prefix, type }: Config): ValidateFn {
 
     for (let i = 1; i < value.length; i++) {
       if (
-        !(
-          chars.includes(value[i]) ||
-          (value[i] === '=' && (i === value.length - 1 || !chars.includes(value[i + 1])))
-        )
+        !(chars.includes(value[i]) || (value[i] === '=' && (i === value.length - 1 || !chars.includes(value[i + 1]))))
       ) {
         throw new Error(
-          `Invalid ${type} character "${value[i]}" (0x${value
-            .charCodeAt(i)
-            .toString(16)}) at index ${i}`
+          `Invalid ${type} character "${value[i]}" (0x${value.charCodeAt(i).toString(16)}) at index ${i}`
         );
       }
     }

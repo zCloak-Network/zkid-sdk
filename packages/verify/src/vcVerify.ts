@@ -91,9 +91,7 @@ export async function vcVerify(
 
     for (const value of Object.values(credentialSubject)) {
       const encode = u8aToHex(rlpEncode(value, hasher[0]));
-      const hash = u8aToHex(
-        HASHER[hasher[0]](u8aConcat(encode, credentialSubjectNonceMap[encode]))
-      );
+      const hash = u8aToHex(HASHER[hasher[0]](u8aConcat(encode, credentialSubjectNonceMap[encode])));
 
       if (!credentialSubjectHashes.includes(hash)) return false;
     }

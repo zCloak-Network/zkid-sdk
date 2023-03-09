@@ -11,11 +11,7 @@ import { defaultResolver } from '@zcloak/did-resolver/defaults';
 
 const VERIFIERS: Record<
   SignatureType,
-  (
-    message: Uint8Array,
-    signature: HexString | Uint8Array,
-    publicKey: HexString | Uint8Array
-  ) => boolean
+  (message: Uint8Array, signature: HexString | Uint8Array, publicKey: HexString | Uint8Array) => boolean
 > = {
   EcdsaSecp256k1Signature2019: secp256k1Verify,
   EcdsaSecp256k1SignatureEip191: secp256k1Verify,
@@ -65,14 +61,10 @@ export async function didVerify(
   }
 
   const messageU8a: Uint8Array =
-    signatureType === 'EcdsaSecp256k1SignatureEip191'
-      ? eip191HashMessage(message)
-      : keccak256AsU8a(message);
+    signatureType === 'EcdsaSecp256k1SignatureEip191' ? eip191HashMessage(message) : keccak256AsU8a(message);
 
   const document =
-    resolverOrDidDocument instanceof DidResolver
-      ? await resolverOrDidDocument.resolve(didUrl)
-      : resolverOrDidDocument;
+    resolverOrDidDocument instanceof DidResolver ? await resolverOrDidDocument.resolve(didUrl) : resolverOrDidDocument;
 
   const did = helpers.fromDidDocument(document);
 

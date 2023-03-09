@@ -46,9 +46,7 @@ export abstract class DidChain extends DidKeyring {
     ] as const) {
       for (const id of [...(this[key] ?? [])]) {
         const { publicKey, type } = this.get(id);
-        const method = verificationMethod.find(
-          (method) => method.publicKeyMultibase === base58Encode(publicKey)
-        );
+        const method = verificationMethod.find((method) => method.publicKeyMultibase === base58Encode(publicKey));
 
         if (!method) {
           const id: DidUrl = `${this.id}#key-${verificationMethod.length}`;

@@ -142,10 +142,7 @@ describe('VerifiableCredential', (): void => {
 
       const now = Date.now();
 
-      const vcBuilder = VerifiableCredentialBuilder.fromRawCredential(
-        raw.toRawCredential('Keccak256'),
-        ctype
-      )
+      const vcBuilder = VerifiableCredentialBuilder.fromRawCredential(raw.toRawCredential('Keccak256'), ctype)
         .setExpirationDate(null)
         .setIssuanceDate(now);
 

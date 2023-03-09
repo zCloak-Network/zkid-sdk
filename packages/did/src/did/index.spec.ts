@@ -4,13 +4,7 @@
 import { stringToU8a } from '@polkadot/util';
 import { alice, bob, DOCUMENTS, testResolver } from 'test-support';
 
-import {
-  decodeMultibase,
-  eip191HashMessage,
-  ethereumEncode,
-  initCrypto,
-  secp256k1Verify
-} from '@zcloak/crypto';
+import { decodeMultibase, eip191HashMessage, ethereumEncode, initCrypto, secp256k1Verify } from '@zcloak/crypto';
 import { Keyring } from '@zcloak/keyring';
 
 import { hashDidDocument, signedDidDocumentMessage } from '../hasher';
@@ -26,21 +20,20 @@ describe('Did', (): void => {
 
   describe('create', (): void => {
     const controllerKey = new Uint8Array([
-      2, 68, 184, 160, 24, 144, 34, 70, 58, 237, 53, 113, 14, 220, 94, 35, 175, 119, 18, 97, 44,
-      234, 243, 237, 184, 253, 96, 196, 125, 196, 127, 56, 220
+      2, 68, 184, 160, 24, 144, 34, 70, 58, 237, 53, 113, 14, 220, 94, 35, 175, 119, 18, 97, 44, 234, 243, 237, 184,
+      253, 96, 196, 125, 196, 127, 56, 220
     ]);
     const key0 = new Uint8Array([
-      2, 35, 46, 60, 119, 231, 40, 153, 127, 254, 189, 73, 215, 29, 11, 112, 172, 81, 51, 159, 187,
-      229, 95, 166, 84, 171, 103, 65, 20, 251, 242, 238, 76
+      2, 35, 46, 60, 119, 231, 40, 153, 127, 254, 189, 73, 215, 29, 11, 112, 172, 81, 51, 159, 187, 229, 95, 166, 84,
+      171, 103, 65, 20, 251, 242, 238, 76
     ]);
     const key1 = new Uint8Array([
-      2, 61, 185, 182, 103, 137, 1, 30, 95, 138, 105, 135, 188, 241, 237, 18, 250, 107, 205, 251,
-      192, 33, 128, 145, 213, 119, 16, 125, 214, 227, 70, 3
+      2, 61, 185, 182, 103, 137, 1, 30, 95, 138, 105, 135, 188, 241, 237, 18, 250, 107, 205, 251, 192, 33, 128, 145,
+      213, 119, 16, 125, 214, 227, 70, 3
     ]);
 
     it('create ecdsa did from mnemonic', (): void => {
-      const mnemonic =
-        'health correct setup usage father decorate curious copper sorry recycle skin equal';
+      const mnemonic = 'health correct setup usage father decorate curious copper sorry recycle skin equal';
       const did = fromMnemonic(keyring, mnemonic);
 
       expect(did.get([...(did.authentication ?? [])][0]).publicKey).toEqual(key0);
@@ -51,8 +44,7 @@ describe('Did', (): void => {
 
   describe('did details', (): void => {
     it('create ecdsa did from mnemonic and get document', (): void => {
-      const mnemonic =
-        'health correct setup usage father decorate curious copper sorry recycle skin equal';
+      const mnemonic = 'health correct setup usage father decorate curious copper sorry recycle skin equal';
       const did = fromMnemonic(keyring, mnemonic);
 
       const document = did.getDocument();
@@ -117,12 +109,7 @@ describe('Did', (): void => {
         data: encrypted,
         receiverUrl,
         senderUrl
-      } = await alice.encrypt(
-        message,
-        bob.getKeyUrl('keyAgreement'),
-        alice.getKeyUrl('keyAgreement'),
-        testResolver
-      );
+      } = await alice.encrypt(message, bob.getKeyUrl('keyAgreement'), alice.getKeyUrl('keyAgreement'), testResolver);
 
       const decrypted = await bob.decrypt(encrypted, senderUrl, receiverUrl, testResolver);
 
@@ -138,9 +125,7 @@ describe('Did', (): void => {
 
       expect(
         secp256k1Verify(
-          eip191HashMessage(
-            signedDidDocumentMessage(hashDidDocument(document), document.version || '0')
-          ),
+          eip191HashMessage(signedDidDocumentMessage(hashDidDocument(document), document.version || '0')),
           decodeMultibase(document.proof[0].signature),
           alice.get(alice.getKeyUrl('controller')).publicKey
         )

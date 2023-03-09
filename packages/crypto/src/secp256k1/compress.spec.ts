@@ -12,11 +12,9 @@ describe('secp256k1Compress', (): void => {
   });
 
   it('returns a compressed key as-is', (): void => {
-    expect(
-      secp256k1Compress(
-        hexToU8a('0x03b9dc646dd71118e5f7fda681ad9eca36eb3ee96f344f582fbe7b5bcdebb13077')
-      )
-    ).toEqual(hexToU8a('0x03b9dc646dd71118e5f7fda681ad9eca36eb3ee96f344f582fbe7b5bcdebb13077'));
+    expect(secp256k1Compress(hexToU8a('0x03b9dc646dd71118e5f7fda681ad9eca36eb3ee96f344f582fbe7b5bcdebb13077'))).toEqual(
+      hexToU8a('0x03b9dc646dd71118e5f7fda681ad9eca36eb3ee96f344f582fbe7b5bcdebb13077')
+    );
   });
 
   it('compresses a known key', (): void => {

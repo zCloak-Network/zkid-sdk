@@ -93,9 +93,7 @@ describe('EIP-712', (): void => {
   it('eip712 getMessage signature', () => {
     const message = getMessage(typedData, true);
 
-    expect(ethereumEncode(pair.publicKey)).toBe(
-      ethereumEncode('0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826')
-    );
+    expect(ethereumEncode(pair.publicKey)).toBe(ethereumEncode('0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826'));
     const signature = secp256k1Sign(message, pair);
 
     const v = signature.slice(-1);

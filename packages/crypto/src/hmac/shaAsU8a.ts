@@ -11,22 +11,15 @@ const JS_HASH = {
   512: sha512
 };
 
-function createSha(
-  bitLength: 256 | 512
-): (key: Uint8Array | string, data: Uint8Array) => Uint8Array {
-  return (key: Uint8Array | string, data: Uint8Array): Uint8Array =>
-    hmacShaAsU8a(key, data, bitLength);
+function createSha(bitLength: 256 | 512): (key: Uint8Array | string, data: Uint8Array) => Uint8Array {
+  return (key: Uint8Array | string, data: Uint8Array): Uint8Array => hmacShaAsU8a(key, data, bitLength);
 }
 
 /**
  * @name hmacShaAsU8a
  * @description creates a Hmac Sha (256/512) Uint8Array from the key & data
  */
-export function hmacShaAsU8a(
-  key: Uint8Array | string,
-  data: Uint8Array,
-  bitLength: 256 | 512 = 256
-): Uint8Array {
+export function hmacShaAsU8a(key: Uint8Array | string, data: Uint8Array, bitLength: 256 | 512 = 256): Uint8Array {
   const u8aKey = u8aToU8a(key);
 
   return hmac(JS_HASH[bitLength], u8aKey, data);

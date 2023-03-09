@@ -6,14 +6,7 @@ import type { DidUrl, SignatureType } from '@zcloak/did-resolver/types';
 
 export type CTypeVersion = '0';
 
-export type InstanceType =
-  | 'object'
-  | 'array'
-  | 'boolean'
-  | 'integer'
-  | 'null'
-  | 'number'
-  | 'string';
+export type InstanceType = 'object' | 'array' | 'boolean' | 'integer' | 'null' | 'number' | 'string';
 
 export type InstanceFormat =
   | 'date'

@@ -16,8 +16,7 @@ export async function verifyDidDocumentProof(document: DidDocument): Promise<boo
 
   if (proof.type === 'creation') {
     const hash = hashDidDocument(document);
-    const message =
-      document.version === '0' ? signedDidDocumentMessage(hash, document.version) : hash;
+    const message = document.version === '0' ? signedDidDocumentMessage(hash, document.version) : hash;
 
     return await didVerify(
       message,

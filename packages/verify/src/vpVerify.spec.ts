@@ -60,10 +60,7 @@ describe('VerifiablePresentation', (): void => {
 
   describe('VerifiablePresentation single vc', (): void => {
     it('verify vp with VPType: VP', async (): Promise<void> => {
-      const vc = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype.toRawCredential(),
-        ctype
-      )
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCtype.toRawCredential(), ctype)
         .setExpirationDate(null)
         .build(issuer1);
 
@@ -76,10 +73,7 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('create ctype vp with VPType: VP_Digest', async (): Promise<void> => {
-      const vc = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype.toRawCredential(),
-        ctype
-      )
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCtype.toRawCredential(), ctype)
         .setExpirationDate(null)
         .build(issuer1);
 
@@ -92,19 +86,14 @@ describe('VerifiablePresentation', (): void => {
     });
 
     it('verify vp with VPType: VP_SelectiveDisclosure', async (): Promise<void> => {
-      const vc = await VerifiableCredentialBuilder.fromRawCredential(
-        rawCtype.toRawCredential(),
-        ctype
-      )
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCtype.toRawCredential(), ctype)
         .setExpirationDate(null)
         .build(issuer1);
 
       const vpBuilder = new VerifiablePresentationBuilder(holder);
 
       const challenge = randomAsHex();
-      const vp = await vpBuilder
-        .addVC(vc, 'VP_SelectiveDisclosure', ['isUser'])
-        .build(undefined, challenge);
+      const vp = await vpBuilder.addVC(vc, 'VP_SelectiveDisclosure', ['isUser']).build(undefined, challenge);
 
       expect(await vpVerify(vp, testResolver)).toBe(true);
     });

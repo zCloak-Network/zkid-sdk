@@ -16,18 +16,11 @@ import {
 
 // hashes function map
 export const HASHER = {
-  RescuePrime: (data: Uint8Array | HexString | string, asU64a = false) =>
-    rescuePrimeAsU8a(data, asU64a),
-  Blake2: (
-    data: Uint8Array | HexString | string,
-    bitLength?: 64 | 128 | 256 | 384 | 512,
-    key?: Uint8Array | null
-  ) => blake2AsU8a(data, bitLength, key),
-  Blake3: (
-    data: Uint8Array | HexString | string,
-    bitLength?: 64 | 128 | 256 | 384 | 512,
-    key?: Uint8Array | null
-  ) => blake3AsU8a(data, bitLength, key),
+  RescuePrime: (data: Uint8Array | HexString | string, asU64a = false) => rescuePrimeAsU8a(data, asU64a),
+  Blake2: (data: Uint8Array | HexString | string, bitLength?: 64 | 128 | 256 | 384 | 512, key?: Uint8Array | null) =>
+    blake2AsU8a(data, bitLength, key),
+  Blake3: (data: Uint8Array | HexString | string, bitLength?: 64 | 128 | 256 | 384 | 512, key?: Uint8Array | null) =>
+    blake3AsU8a(data, bitLength, key),
   Blake32to1: (
     data: Uint8Array | HexString | string,
     bitLength?: 64 | 128 | 256 | 384 | 512,

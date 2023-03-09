@@ -53,11 +53,7 @@ function transformVC(
       vc.credentialSubjectNonceMap[encode] = nonceMap[encode];
     }
   } else {
-    const { rootHash } = calcRoothash(
-      vc.credentialSubject,
-      vc.hasher[0],
-      vc.credentialSubjectNonceMap
-    );
+    const { rootHash } = calcRoothash(vc.credentialSubject, vc.hasher[0], vc.credentialSubjectNonceMap);
 
     vc.credentialSubject = rootHash;
     vc.credentialSubjectHashes = [];
@@ -123,10 +119,7 @@ export class VerifiablePresentationBuilder {
     vpType: VerifiablePresentationType,
     selectedAttributes?: string[]
   ): this {
-    assert(
-      isSameUri(this.#did.id, vc.holder),
-      `the did "${this.#did.id}" is not the holder of "${vc.digest}" VC`
-    );
+    assert(isSameUri(this.#did.id, vc.holder), `the did "${this.#did.id}" is not the holder of "${vc.digest}" VC`);
     assert(isVC(vc), 'input `vc` is not a VerifiableCredential object');
 
     this.vcMap.set(isPublicVC(vc) ? vc : transformVC(vc, vpType, selectedAttributes), vpType);
@@ -138,10 +131,7 @@ export class VerifiablePresentationBuilder {
    * build to an [[VerifiablePresentation]]
    * @param hashType the [[HashType]] to generate `id` field
    */
-  public async build(
-    hashType: HashType = DEFAULT_VP_HASH_TYPE,
-    challenge?: string
-  ): Promise<VerifiablePresentation> {
+  public async build(hashType: HashType = DEFAULT_VP_HASH_TYPE, challenge?: string): Promise<VerifiablePresentation> {
     const vcs: VerifiableCredential<boolean>[] = [];
     const vpTypes: VerifiablePresentationType[] = [];
 

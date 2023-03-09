@@ -42,8 +42,7 @@ const fullVC: VerifiableCredential<false> = {
       created: 1668362860153,
       verificationMethod: 'did:zk:0xf02AC70b695b3211813a207d937719D22BeC04a7#key-0',
       proofPurpose: 'assertionMethod',
-      proofValue:
-        'z27SZMWaWxSrVC3GCB4YNMy63TkdFjUUeJ2aKsQGorK9Btt4v4yDU3HRZySGUL9rCP2r3DBa3nDNQyxW2L1pyYy13W'
+      proofValue: 'z27SZMWaWxSrVC3GCB4YNMy63TkdFjUUeJ2aKsQGorK9Btt4v4yDU3HRZySGUL9rCP2r3DBa3nDNQyxW2L1pyYy13W'
     }
   ]
 };
@@ -69,8 +68,7 @@ const fullPublicVC: VerifiableCredential<true> = {
       created: 1668362860153,
       verificationMethod: 'did:zk:0xf02AC70b695b3211813a207d937719D22BeC04a7#key-0',
       proofPurpose: 'assertionMethod',
-      proofValue:
-        'z27SZMWaWxSrVC3GCB4YNMy63TkdFjUUeJ2aKsQGorK9Btt4v4yDU3HRZySGUL9rCP2r3DBa3nDNQyxW2L1pyYy13W'
+      proofValue: 'z27SZMWaWxSrVC3GCB4YNMy63TkdFjUUeJ2aKsQGorK9Btt4v4yDU3HRZySGUL9rCP2r3DBa3nDNQyxW2L1pyYy13W'
     }
   ]
 };
@@ -112,8 +110,7 @@ const vcWithExpiration: VerifiableCredential<false> = {
       created: 1668362768979,
       verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
       proofPurpose: 'assertionMethod',
-      proofValue:
-        'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+      proofValue: 'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
     }
   ],
   expirationDate: 1668362768974
@@ -140,8 +137,7 @@ const publicVcWithExpiration: VerifiableCredential<true> = {
       created: 1668362768979,
       verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
       proofPurpose: 'assertionMethod',
-      proofValue:
-        'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+      proofValue: 'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
     }
   ],
   expirationDate: 1668362768974
@@ -155,8 +151,7 @@ describe('test is functions', (): void => {
         created: 1668362768979,
         verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
         proofPurpose: 'assertionMethod',
-        proofValue:
-          'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+        proofValue: 'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
       })
     ).toBe(true);
     expect(
@@ -165,8 +160,7 @@ describe('test is functions', (): void => {
         created: 1668362768979,
         verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
         proofPurpose: 'assertionMethod',
-        proofValue:
-          'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+        proofValue: 'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
       })
     ).toBe(false);
     expect(
@@ -205,8 +199,7 @@ describe('test is functions', (): void => {
             created: 1668362768979,
             verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
             proofPurpose: 'assertionMethod',
-            proofValue:
-              'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+            proofValue: 'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
           }
         ],
         expirationDate: 1668362768974
@@ -239,8 +232,7 @@ describe('test is functions', (): void => {
             created: 1668362768979,
             verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
             proofPurpose: 'assertionMethod',
-            proofValue:
-              'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+            proofValue: 'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
           }
         ],
         expirationDate: 1668362768974
@@ -261,8 +253,7 @@ describe('test is functions', (): void => {
           created: 1668362768979,
           verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
           proofPurpose: 'assertionMethod',
-          proofValue:
-            'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+          proofValue: 'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
         },
         hasher: ['Keccak256']
       })
@@ -279,8 +270,7 @@ describe('test is functions', (): void => {
           created: 1668362768979,
           verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
           proofPurpose: 'assertionMethod',
-          proofValue:
-            'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+          proofValue: 'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
         },
         hasher: ['Keccak256']
       })

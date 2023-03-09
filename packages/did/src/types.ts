@@ -3,12 +3,7 @@
 
 import type { HexString } from '@zcloak/crypto/types';
 import type { DidResolver } from '@zcloak/did-resolver';
-import type {
-  DidUrl,
-  Service,
-  SignatureType,
-  VerificationMethodType
-} from '@zcloak/did-resolver/types';
+import type { DidUrl, Service, SignatureType, VerificationMethodType } from '@zcloak/did-resolver/types';
 
 export type DidKeys =
   | 'controller'

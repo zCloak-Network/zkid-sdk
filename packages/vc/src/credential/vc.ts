@@ -5,13 +5,7 @@ import type { HexString } from '@polkadot/util/types';
 import type { CType } from '@zcloak/ctype/types';
 import type { Did } from '@zcloak/did';
 import type { DidUrl } from '@zcloak/did-resolver/types';
-import type {
-  HashType,
-  Proof,
-  RawCredential,
-  VerifiableCredential,
-  VerifiableCredentialVersion
-} from '../types';
+import type { HashType, Proof, RawCredential, VerifiableCredential, VerifiableCredentialVersion } from '../types';
 
 import { assert } from '@polkadot/util';
 
@@ -66,10 +60,7 @@ export class VerifiableCredentialBuilder {
   /**
    * instance by [[RawCredential]]
    */
-  public static fromRawCredential(
-    rawCredential: RawCredential,
-    ctype: CType
-  ): VerifiableCredentialBuilder {
+  public static fromRawCredential(rawCredential: RawCredential, ctype: CType): VerifiableCredentialBuilder {
     assert(isRawCredential(rawCredential), 'input is not a RawCredential object');
     assert(ctype.$id === rawCredential.ctype, '`ctype` is not the raw credential ctype');
 
@@ -123,11 +114,7 @@ export class VerifiableCredentialBuilder {
         issuanceDate: this.issuanceDate
       };
 
-      const { digest, type: digestHashType } = calcDigest(
-        this.version,
-        digestPayload,
-        this.digestHashType
-      );
+      const { digest, type: digestHashType } = calcDigest(this.version, digestPayload, this.digestHashType);
 
       const proof = await this._signDigest(issuer, digest, this.version);
 
@@ -218,11 +205,7 @@ export class VerifiableCredentialBuilder {
   }
 
   // sign digest by did, the signed message is `concat('CredentialVersionedDigest', version, digest)`
-  private async _signDigest(
-    did: Did,
-    digest: HexString,
-    version: VerifiableCredentialVersion
-  ): Promise<Proof> {
+  private async _signDigest(did: Did, digest: HexString, version: VerifiableCredentialVersion): Promise<Proof> {
     let message: Uint8Array | HexString;
 
     if (version === '1') {

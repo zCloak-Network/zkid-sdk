@@ -13,11 +13,7 @@ import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 import { DEFAULT_CTYPE_SCHEMA } from './defaults';
 
-export function getCTypeHash(
-  base: BaseCType,
-  publisher: DidUrl,
-  schema = DEFAULT_CTYPE_SCHEMA
-): HexString {
+export function getCTypeHash(base: BaseCType, publisher: DidUrl, schema = DEFAULT_CTYPE_SCHEMA): HexString {
   const obj = {
     title: base.title,
     description: base.description,

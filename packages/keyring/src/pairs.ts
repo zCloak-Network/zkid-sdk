@@ -42,9 +42,7 @@ export class Pairs implements KeyringPairs {
 
     if (!pair) {
       throw new Error(
-        `Unable to retrieve keypair '${
-          isHex(publicKeyOrAddress) ? publicKeyOrAddress : u8aToHex(publicKeyOrAddress)
-        }'`
+        `Unable to retrieve keypair '${isHex(publicKeyOrAddress) ? publicKeyOrAddress : u8aToHex(publicKeyOrAddress)}'`
       );
     }
 

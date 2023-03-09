@@ -98,8 +98,7 @@ const fullVC: VerifiableCredential<false> = {
       created: 1668362860153,
       verificationMethod: 'did:zk:0xf02AC70b695b3211813a207d937719D22BeC04a7#key-0',
       proofPurpose: 'assertionMethod',
-      proofValue:
-        'z27SZMWaWxSrVC3GCB4YNMy63TkdFjUUeJ2aKsQGorK9Btt4v4yDU3HRZySGUL9rCP2r3DBa3nDNQyxW2L1pyYy13W'
+      proofValue: 'z27SZMWaWxSrVC3GCB4YNMy63TkdFjUUeJ2aKsQGorK9Btt4v4yDU3HRZySGUL9rCP2r3DBa3nDNQyxW2L1pyYy13W'
     }
   ]
 };
@@ -141,8 +140,7 @@ const vcWithExpiration: VerifiableCredential<false> = {
       created: 1668362768979,
       verificationMethod: 'did:zk:0x565ee4a279Ad611010DF17082220987CcaD381fb#key-0',
       proofPurpose: 'assertionMethod',
-      proofValue:
-        'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
+      proofValue: 'zx4yCEGm6tbZ7bDVLkZor5UrmSDjbLdL1YCVbYfteA4bwi5ZsdpW5CZHtFgvMiukWSpfQpXyjvrfaa9wZ7k2k1tHd'
     }
   ],
   expirationDate: 1668362768974
@@ -164,9 +162,7 @@ describe('vc verify', (): void => {
     });
 
     it('vc verify with expiration and falsify expirationDate', async (): Promise<void> => {
-      expect(
-        await vcVerify({ ...vcWithExpiration, expirationDate: Date.now() + 1000000000 }, document2)
-      ).toBe(false);
+      expect(await vcVerify({ ...vcWithExpiration, expirationDate: Date.now() + 1000000000 }, document2)).toBe(false);
     });
 
     it('vc verify without expiration and falsify subject', async (): Promise<void> => {

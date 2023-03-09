@@ -21,10 +21,7 @@ import nacl from 'tweetnacl';
  * ed25519Sign([...], [...]); // => [...]
  * ```
  */
-export function ed25519Sign(
-  message: HexString | Uint8Array | string,
-  { secretKey }: Keypair
-): Uint8Array {
+export function ed25519Sign(message: HexString | Uint8Array | string, { secretKey }: Keypair): Uint8Array {
   const messageU8a = u8aToU8a(message);
 
   return nacl.sign.detached(messageU8a, secretKey);

@@ -35,11 +35,7 @@ describe('sign and verify', (): void => {
 
       try {
         expect(
-          secp256k1Verify(
-            MESSAGE,
-            secp256k1Sign(MESSAGE, pair),
-            keccak256AsU8a(secp256k1Expand(pair.publicKey))
-          )
+          secp256k1Verify(MESSAGE, secp256k1Sign(MESSAGE, pair), keccak256AsU8a(secp256k1Expand(pair.publicKey)))
         ).toEqual(true);
       } catch (error) {
         console.error(`keccak failed on #${i}`);

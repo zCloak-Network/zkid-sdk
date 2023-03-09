@@ -82,32 +82,20 @@ export class Keyring implements KeyringInstance {
   /**
    * create pair from json file
    */
-  public createFromJson({
-    encoded,
-    encoding: { content },
-    publicKey
-  }: KeyringPair$Json): KeyringPair {
+  public createFromJson({ encoded, encoding: { content }, publicKey }: KeyringPair$Json): KeyringPair {
     const cryptoType = content[1];
 
     if (!['ed25519', 'x25519', 'ecdsa'].includes(cryptoType)) {
       throw new Error(`Unknown crypto type ${cryptoType}`);
     }
 
-    return createPair(
-      { publicKey: base64Decode(publicKey) },
-      { type: cryptoType },
-      base64Decode(encoded)
-    );
+    return createPair({ publicKey: base64Decode(publicKey) }, { type: cryptoType }, base64Decode(encoded));
   }
 
   /**
    * create pair from mnemonic
    */
-  public createFromMnemonic(
-    mnemonic: string,
-    pathIn?: string,
-    type: KeypairType = 'ecdsa'
-  ): KeyringPair {
+  public createFromMnemonic(mnemonic: string, pathIn?: string, type: KeypairType = 'ecdsa'): KeyringPair {
     if (type === 'ecdsa') {
       pathIn = pathIn ?? "/m/44'/60'/0'/0/0";
     } else {

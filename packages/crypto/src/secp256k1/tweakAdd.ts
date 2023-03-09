@@ -7,10 +7,7 @@ const BN_BE_256_OPTS = { bitLength: 256, isLe: false };
 
 // pre-defined curve param as lifted form elliptic
 // https://github.com/indutny/elliptic/blob/e71b2d9359c5fe9437fbf46f1f05096de447de57/lib/elliptic/curves.js#L182
-const N = 'ffffffff ffffffff ffffffff fffffffe baaedce6 af48a03b bfd25e8c d0364141'.replace(
-  / /g,
-  ''
-);
+const N = 'ffffffff ffffffff ffffffff fffffffe baaedce6 af48a03b bfd25e8c d0364141'.replace(/ /g, '');
 const N_BN = new BN(N, 'hex');
 
 function addBn(seckey: Uint8Array, tweak: Uint8Array): Uint8Array {

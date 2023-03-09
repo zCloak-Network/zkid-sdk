@@ -1,5 +1,11 @@
 # @zcloak/vc
 
+## 1.2.1
+
+### Patch Changes
+
+- [`a3a14b8`](https://github.com/zCloak-Network/zkid-sdk/commit/a3a14b8c1bce5728ee70f1fc55fd3bcc88961dbd) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - fix sign vc with error key, only support assertionMethod to sign
+
 ## 1.2.0
 
 ### Minor Changes

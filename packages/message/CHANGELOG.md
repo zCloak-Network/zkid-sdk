@@ -1,5 +1,12 @@
 # @zcloak/message
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`a3a14b8`](https://github.com/zCloak-Network/zkid-sdk/commit/a3a14b8c1bce5728ee70f1fc55fd3bcc88961dbd)]:
+  - @zcloak/vc@1.2.1
+
 ## 1.0.2
 
 ### Patch Changes

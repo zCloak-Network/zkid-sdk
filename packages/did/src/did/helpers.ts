@@ -7,6 +7,7 @@ import type { KeyringInstance } from '@zcloak/keyring/types';
 
 import { decodeMultibase } from '@zcloak/crypto';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
+import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 import { IDidDetails } from '../types';
 import { Did } from '.';
@@ -53,7 +54,7 @@ export function parseDidDocument(document: DidDocument): IDidDetails {
 
 /**
  * query did document from `VDR`, and parse it to [[Did]]
- * @param did a string that conforms to the DID Syntax.
+ * @param didUrl a string that conforms to the DID Syntax.
  * @param keyring(optional) an instance of [[KeyringInstance]], if passed, will call `did.init` method
  * @param resolver(optional) a [[DidResolver]] instance, default [[ArweaveDidResolver]]
  * @returns instance of [[Did]]
@@ -66,13 +67,26 @@ export function parseDidDocument(document: DidDocument): IDidDetails {
  * ```
  */
 export async function fromDid(
-  did: DidUrl,
+  didUrl: DidUrl,
   keyring?: KeyringInstance,
   resolver: DidResolver = defaultResolver
 ): Promise<Did> {
-  const document = await resolver.resolve(did);
+  try {
+    const document = await resolver.resolve(didUrl);
 
-  return fromDidDocument(document, keyring);
+    return fromDidDocument(document, keyring);
+  } catch (error) {
+    // if query document failed, try to use no document did
+    const { did: didUri } = parseDid(didUrl);
+
+    const did = new Did({
+      id: didUri,
+      controller: new Set([didUri]),
+      keyRelationship: new Map()
+    });
+
+    return did;
+  }
 }
 
 /**

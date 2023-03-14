@@ -1,5 +1,11 @@
 # @zcloak/did
 
+## 1.3.0
+
+### Minor Changes
+
+- [#62](https://github.com/zCloak-Network/zkid-sdk/pull/62) [`fe54b0c`](https://github.com/zCloak-Network/zkid-sdk/commit/fe54b0cbcfd99d409c7b8708f2f74cea9405d98b) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - change fromDid function: if not query did document, use no document did.
+
 ## 1.2.1
 
 ### Patch Changes

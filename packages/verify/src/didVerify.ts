@@ -5,9 +5,10 @@ import type { HexString } from '@zcloak/crypto/types';
 import type { DidDocument, DidUrl, SignatureType } from '@zcloak/did-resolver/types';
 
 import { ed25519Verify, eip191HashMessage, keccak256AsU8a, secp256k1Verify } from '@zcloak/crypto';
-import { helpers } from '@zcloak/did';
+import { Did, helpers } from '@zcloak/did';
 import { DidResolver } from '@zcloak/did-resolver';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
+import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 const VERIFIERS: Record<
   SignatureType,
@@ -63,10 +64,25 @@ export async function didVerify(
   const messageU8a: Uint8Array =
     signatureType === 'EcdsaSecp256k1SignatureEip191' ? eip191HashMessage(message) : keccak256AsU8a(message);
 
-  const document =
-    resolverOrDidDocument instanceof DidResolver ? await resolverOrDidDocument.resolve(didUrl) : resolverOrDidDocument;
+  const { did: didUri } = parseDid(didUrl);
 
-  const did = helpers.fromDidDocument(document);
+  let did: Did;
+
+  if (didUri === didUrl) {
+    // this means sign with controller
+    did = new Did({
+      id: didUri,
+      controller: new Set([didUri]),
+      keyRelationship: new Map()
+    });
+  } else {
+    const document =
+      resolverOrDidDocument instanceof DidResolver
+        ? await resolverOrDidDocument.resolve(didUrl)
+        : resolverOrDidDocument;
+
+    did = helpers.fromDidDocument(document);
+  }
 
   const { publicKey } = did.get(didUrl);
   const isTrue = VERIFIERS[signatureType](messageU8a, signature, publicKey);

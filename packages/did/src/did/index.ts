@@ -3,12 +3,6 @@
 
 import type { Service } from '@zcloak/did-resolver/types';
 
-import { u8aEq } from '@polkadot/util';
-
-import { DidResolver } from '@zcloak/did-resolver';
-import { defaultResolver } from '@zcloak/did-resolver/defaults';
-
-import { hashDidDocument } from '../hasher';
 import { DidChain } from './chain';
 
 /**
@@ -17,14 +11,6 @@ import { DidChain } from './chain';
  * @see helpers
  */
 export class Did extends DidChain {
-  public async isEqualOnChain(resolver: DidResolver = defaultResolver): Promise<boolean> {
-    const onChainDocument = await resolver.resolve(this.id);
-
-    const document = this.getDocument();
-
-    return u8aEq(hashDidDocument(onChainDocument), hashDidDocument(document));
-  }
-
   public addService(service: Service): void {
     if (!this.service) {
       this.service = new Map();

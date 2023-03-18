@@ -1,5 +1,13 @@
 # @zcloak/did
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`dee583c`](https://github.com/zCloak-Network/zkid-sdk/commit/dee583c310db267baa744eece9802f3ccc384d1d)]:
+  - @zcloak/crypto@1.2.1
+  - @zcloak/keyring@1.1.1
+
 ## 1.3.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @zcloak/crypto
 
+## 1.2.1
+
+### Patch Changes
+
+- [#64](https://github.com/zCloak-Network/zkid-sdk/pull/64) [`dee583c`](https://github.com/zCloak-Network/zkid-sdk/commit/dee583c310db267baa744eece9802f3ccc384d1d) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - calc recovery param, support signature when use ethereum sign. See more: https://eips.ethereum.org/EIPS/eip-155
+
 ## 1.2.0
 
 ### Minor Changes

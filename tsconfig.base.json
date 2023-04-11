@@ -3,6 +3,8 @@
   "compilerOptions": {
     "composite": true,
     "paths": {
+      "@zcloak/cli": ["cli/src"],
+      "@zcloak/cli/*": ["cli/src/*"],
       "@zcloak/crypto": ["crypto/src"],
       "@zcloak/crypto/*": ["crypto/src/*"],
       "@zcloak/ctype": ["ctype/src"],

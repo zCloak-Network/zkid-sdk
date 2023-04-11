@@ -24,20 +24,21 @@
     "changeset": "zcloak-exec-changeset",
     "clean": "zcloak-dev-clean-build",
     "lint": "yarn lint:ts && yarn lint:dependencies",
-    "lint:dependencies": "zcloak-dev-lint-dependencies --fix",
+    "lint:dependencies": "zcloak-dev-lint-dependencies",
     "lint:ts": "zcloak-dev-run-lint",
     "postinstall": "zcloak-dev-yarn-only",
+    "run:zkid": "node --loader @esbuild-kit/esm-loader packages/cli/scripts/zkid.mjs",
     "test": "zcloak-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",
     "test:one": "zcloak-dev-run-test --runInBand",
     "test:watch": "zcloak-dev-run-test --watch"
   },
   "devDependencies": {
+    "@esbuild-kit/esm-loader": "^2.5.5",
     "@types/jest": "^29.4.0",
-    "@zcloak/dev": "^0.26.0",
-    "babel-plugin-dynamic-import-node": "^2.3.3",
-    "fs-extra": "^11.1.0"
+    "@zcloak/dev": "^0.26.1",
+    "fs-extra": "^11.1.1"
   },
   "resolutions": {
-    "typescript": "^5.0.1-rc"
+    "typescript": "^5.0.4"
   }
 }

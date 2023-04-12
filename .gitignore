@@ -26,3 +26,5 @@ pkg/
 
 binaryen/
 bindgen/
+
+.idea/

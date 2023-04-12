@@ -36,7 +36,7 @@ Options:
 2. `--isPublic` this flag indicates that what type of credential you will create, default is false, that is private credential
 
 ```bash
-zkid-cli rawCredential --raw /path/to/raw.json( or {...rawObj}) --hashType keccak256
+zkid-cli sendVCFromRaw --attester did:zk:0x1234abcd...5678defg --raw /path/to/raw.json ( or raw object {...})
 ```
 
 **Send VC to Claimer**
@@ -55,5 +55,5 @@ Options:
 3. `--isPublic` this flag indicates that what type of credential you will create, default is false, that is private credential
 
 ```bash
-zkid-cli buildVC --attester did:zk:0x1234abcd...5678defg --claimer did:zk:0x5678defg...1234abcd --ctypeHash 0x123abcd...67890rtyu --content /path/to/content.csv ( or name john age 24 ...)
+zkid-cli sendVC --attester did:zk:0x1234abcd...5678defg --claimer did:zk:0x5678defg...1234abcd --ctypeHash 0x123abcd...67890rtyu --content /path/to/content.csv ( or name john age 24 ...)
 ```

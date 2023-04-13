@@ -4167,8 +4167,8 @@ __metadata:
   dependencies:
     "@polkadot/util": "npm:^11.1.3"
   peerDependencies:
-    "@zcloak/wasm": 1.0.0
-    "@zcloak/wasm-asm": 1.0.0
+    "@zcloak/wasm": 1.0.1
+    "@zcloak/wasm-asm": 1.0.1
   languageName: unknown
   linkType: soft
 

@@ -1,5 +1,11 @@
 # @zcloak/did-resolver
 
+## 1.1.2
+
+### Patch Changes
+
+- [`f4497d8`](https://github.com/zCloak-Network/zkid-sdk/commit/f4497d8b04383507ac068e28f67f6c9539e4b2b7) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - fix esm build assets
+
 ## 1.1.1
 
 ### Patch Changes

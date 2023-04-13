@@ -1,5 +1,16 @@
 # @zcloak/did
 
+## 1.3.3
+
+### Patch Changes
+
+- [`f4497d8`](https://github.com/zCloak-Network/zkid-sdk/commit/f4497d8b04383507ac068e28f67f6c9539e4b2b7) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - fix esm build assets
+
+- Updated dependencies [[`f4497d8`](https://github.com/zCloak-Network/zkid-sdk/commit/f4497d8b04383507ac068e28f67f6c9539e4b2b7)]:
+  - @zcloak/did-resolver@1.1.2
+  - @zcloak/crypto@1.2.3
+  - @zcloak/keyring@1.1.3
+
 ## 1.3.2
 
 ### Patch Changes

@@ -7,6 +7,8 @@ import { hideBin } from 'yargs/helpers';
 import { mnemonicGenerate } from '@zcloak/crypto';
 
 import { generate } from './commands/generate';
+import { queryCType } from './commands/queryCType';
+import { queryDidDoc } from './commands/queryDidDoc';
 
 export async function main() {
   await yargs(hideBin(process.argv))
@@ -21,6 +23,17 @@ export async function main() {
     .option('issue-url', {
       type: 'string',
       description: 'URL for sending the issued credentials by message. e.g. https://did-service.zkid.app/message'
+    })
+    .option('env', {
+      alias: 'e',
+      type: 'string',
+      description: 'indicate query enviroment',
+      default: 'dev'
+    })
+    .option('output', {
+      alias: 'o',
+      type: 'string',
+      description: 'output file with path, like /path/to/FILE_NAME.json'
     })
     .command(
       'generate',
@@ -76,6 +89,35 @@ ${mnemonicGenerate(12)}
       (argv) => {
         // TODO issue
         console.log(`Issueing credentials from ${argv.file}...`);
+      }
+    )
+    .command(
+      'did',
+      'Query a DID Document',
+      (yargs) => {
+        return yargs.option('query', {
+          alias: 'q',
+          type: 'string',
+          description: 'query did document'
+        });
+      },
+      (argv) => {
+        queryDidDoc(argv.env, argv.query as string, argv.output as string);
+      }
+    )
+    .command(
+      'ctype',
+      'Query a ctype object',
+      (yargs) => {
+        return yargs.option('ctype-hash', {
+          alias: 'c',
+          type: 'string',
+          description: 'ctype hash',
+          default: ''
+        });
+      },
+      (argv) => {
+        queryCType(argv.env, argv.ctypeHash, argv.output);
       }
     )
     .demandCommand(1, 'You must provide a valid command.')

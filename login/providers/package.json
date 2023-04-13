@@ -1,0 +1,28 @@
+{
+  "author": "zCloak",
+  "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
+  "contributors": [],
+  "description": "zCloak login providers",
+  "homepage": "https:/github.com/zCloak-Network/zkid-sdk/tree/master/login/providers/#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@zcloak/login-providers",
+  "publishConfig": {
+    "directory": "build"
+  },
+  "repository": {
+    "directory": "login/providers",
+    "type": "git",
+    "url": "https://github.com/zCloak-Network/zkid-sdk.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "1.2.0",
+  "main": "index.js",
+  "dependencies": {
+    "@polkadot/util": "^11.1.3",
+    "@zcloak/login-rpc": "workspace:^",
+    "@zcloak/login-rpc-defines": "workspace:^",
+    "eventemitter3": "^5.0.0"
+  }
+}

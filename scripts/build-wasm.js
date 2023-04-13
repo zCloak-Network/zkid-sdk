@@ -1,15 +1,15 @@
-// Copyright 2021-2022 zcloak authors & contributors
+// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
 import { u8aToHex } from '@polkadot/util';
 import { execSync } from 'child_process';
 import fs from 'fs-extra';
 
-const COPYRIGHT = `// Copyright 2021-2022 zcloak authors & contributors
+const COPYRIGHT = `// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 `;
 
-process.chdir('packages/wasm');
+process.chdir('utility/wasm');
 
 console.log('### Build Rust sources');
 execSync('cargo build --target wasm32-unknown-unknown --release', { stdio: 'inherit' });

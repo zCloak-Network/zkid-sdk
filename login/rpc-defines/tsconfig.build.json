@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "exclude": [
+    "**/mod.ts"
+  ],
+  "references": [
+    { "path": "../rpc/tsconfig.build.json" },
+    { "path": "../../protocol/did/tsconfig.build.json" },
+    { "path": "../../protocol/did-resolver/tsconfig.build.json" },
+    { "path": "../../protocol/vc/tsconfig.build.json" },
+  ]
+}

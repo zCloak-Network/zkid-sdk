@@ -3057,7 +3057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/qs@npm:*":
+"@types/qs@npm:*, @types/qs@npm:^6":
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
   checksum: 6ad8b468d122ef64878bef150efb428532cc8768ec66fac61b9abb1ff0f30520d86138290e753d5f179e6fd01ba3a51c56e2e0a7a6e40b5d1cfd8b701f70367d
@@ -3547,13 +3547,16 @@ __metadata:
     "@types/fs-extra": "npm:^11"
     "@types/inquirer": "npm:^9"
     "@types/progress": "npm:^2"
+    "@types/qs": "npm:^6"
     "@types/yargs": "npm:^17"
     "@zcloak/crypto": "workspace:^"
     "@zcloak/did": "workspace:^"
     "@zcloak/keyring": "workspace:^"
+    axios: "npm:^1.3.5"
     fs-extra: "npm:^11.1.1"
     inquirer: "npm:^9.1.5"
     progress: "npm:^2.0.3"
+    qs: "npm:^6.11.1"
     yargs: "npm:^17.7.1"
   bin:
     zkid: ./scripts/zkid.mjs
@@ -4342,6 +4345,17 @@ __metadata:
   version: 4.6.3
   resolution: "axe-core@npm:4.6.3"
   checksum: 0dea15ef524fdc92071f15958485cfc2d5b2c1820b79d542cf7368a5eade9fb9e03f9735ac6f03444238ec1aa544ddc93846925105c2f4edfb302e520c4c3076
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.3.5":
+  version: 1.3.5
+  resolution: "axios@npm:1.3.5"
+  dependencies:
+    follow-redirects: "npm:^1.15.0"
+    form-data: "npm:^4.0.0"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: 57538c073d0c572b6467fc158870f12c4a183a76148883f7f8afcc2b3d260df83f5e8543e8d8b6fa01bbef380b7dd02db54b37a9c24499ad11f285f9e8d7fbd7
   languageName: node
   linkType: hard
 
@@ -7721,7 +7735,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.15.0":
   version: 1.15.2
   resolution: "follow-redirects@npm:1.15.2"
   peerDependenciesMeta:
@@ -12144,6 +12158,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"proxy-from-env@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "proxy-from-env@npm:1.1.0"
+  checksum: 0bba2ef7c8374b384e94e4477764e53df66fcdfa7d19e2c4a063cb39eea979c139ce13981970223665422e72b7d149609a927046e2e40ab340b84d91af082591
+  languageName: node
+  linkType: hard
+
 "pseudomap@npm:^1.0.2":
   version: 1.0.2
   resolution: "pseudomap@npm:1.0.2"
@@ -12215,6 +12236,15 @@ __metadata:
   dependencies:
     side-channel: "npm:^1.0.4"
   checksum: 337966e2e957a7d2a69821c528f3d18a8b346ddb0f16cc08d11c6206aed3b6624927781ff437aa3909e54ad32ebdee2c5396ad4094b1c722760774f7082f6124
+  languageName: node
+  linkType: hard
+
+"qs@npm:^6.11.1":
+  version: 6.11.1
+  resolution: "qs@npm:6.11.1"
+  dependencies:
+    side-channel: "npm:^1.0.4"
+  checksum: 5c9a1a3e1f2a7f53ca71d50ccabc4edb3018692b5d31a31ecad8db7a39d80c8f8ac5ed4cf49a881bac226f6b1c6e4add361e792e3146240c49d90cc610d738f4
   languageName: node
   linkType: hard
 

@@ -5,8 +5,10 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import { mnemonicGenerate } from '@zcloak/crypto';
+import { DidUrl } from '@zcloak/did-resolver/types';
 
 import { generate } from './commands/generate';
+import { issueVC } from './commands/issueVC';
 import { queryCType } from './commands/queryCType';
 import { queryDidDoc } from './commands/queryDidDoc';
 
@@ -118,6 +120,65 @@ ${mnemonicGenerate(12)}
       },
       (argv) => {
         queryCType(argv.env, argv.ctypeHash, argv.output);
+      }
+    )
+    .command(
+      'vc',
+      'Send VC to claimer',
+      (yargs) => {
+        return yargs
+          .option('attester-mnemonic', {
+            alias: 'am',
+            type: 'string',
+            description: "attester mnemonic json file { mnemonic: 'xxx' }, like /path/to/mnemonic.json",
+            default: ''
+          })
+          .option('claimer-did', {
+            alias: 'c',
+            type: 'string',
+            description: 'claimer DID account'
+          })
+          .option('ctype-hash', {
+            alias: 'cth',
+            type: 'string',
+            description: 'ctype hash'
+          })
+          .option('content', {
+            alias: 'ct',
+            type: 'string',
+            description: "ctype content json file { name: 'vss', age: 24 }, like /path/to/content.json"
+          })
+          .option('raw-hash-type', {
+            alias: 'rht',
+            type: 'string',
+            description: 'what crypto method will use when building a raw',
+            default: 'Blake3'
+          })
+          .option('raw-cred-hash-type', {
+            alias: 'rcht',
+            type: 'string',
+            description: 'what crypto method will use when building a raw credential',
+            default: 'Keccak256'
+          })
+          .option('is-public', {
+            alias: 'p',
+            type: 'number',
+            description: 'what type of credential you will create. The default is false, that is private credential',
+            default: 0
+          });
+      },
+      (argv) => {
+        issueVC(
+          argv.env,
+          argv.attesterMnemonic,
+          argv.claimerDid,
+          argv.ctypeHash,
+          argv.content,
+          argv.rawHashType,
+          argv.rawCredHashType,
+          argv.isPublic,
+          argv.output
+        );
       }
     )
     .demandCommand(1, 'You must provide a valid command.')

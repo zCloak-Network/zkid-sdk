@@ -1,5 +1,14 @@
 # @zcloak/keyring
 
+## 1.1.2
+
+### Patch Changes
+
+- [#67](https://github.com/zCloak-Network/zkid-sdk/pull/67) [`1636328`](https://github.com/zCloak-Network/zkid-sdk/commit/1636328030fc894ed68186e01113211cdf73c5da) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - import zkid-login to repo
+
+- Updated dependencies [[`1636328`](https://github.com/zCloak-Network/zkid-sdk/commit/1636328030fc894ed68186e01113211cdf73c5da)]:
+  - @zcloak/crypto@1.2.2
+
 ## 1.1.1
 
 ### Patch Changes

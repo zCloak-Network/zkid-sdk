@@ -1,5 +1,31 @@
 # @zcloak/verify
 
+## 1.3.3
+
+### Patch Changes
+
+- [`f4497d8`](https://github.com/zCloak-Network/zkid-sdk/commit/f4497d8b04383507ac068e28f67f6c9539e4b2b7) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - fix esm build assets
+
+- Updated dependencies [[`f4497d8`](https://github.com/zCloak-Network/zkid-sdk/commit/f4497d8b04383507ac068e28f67f6c9539e4b2b7)]:
+  - @zcloak/ctype@1.2.5
+  - @zcloak/did@1.3.3
+  - @zcloak/did-resolver@1.1.2
+  - @zcloak/vc@1.2.6
+  - @zcloak/crypto@1.2.3
+
+## 1.3.2
+
+### Patch Changes
+
+- [#67](https://github.com/zCloak-Network/zkid-sdk/pull/67) [`1636328`](https://github.com/zCloak-Network/zkid-sdk/commit/1636328030fc894ed68186e01113211cdf73c5da) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - import zkid-login to repo
+
+- Updated dependencies [[`1636328`](https://github.com/zCloak-Network/zkid-sdk/commit/1636328030fc894ed68186e01113211cdf73c5da)]:
+  - @zcloak/ctype@1.2.4
+  - @zcloak/did@1.3.2
+  - @zcloak/did-resolver@1.1.1
+  - @zcloak/vc@1.2.5
+  - @zcloak/crypto@1.2.2
+
 ## 1.3.1
 
 ### Patch Changes

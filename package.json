@@ -12,7 +12,10 @@
   "sideEffects": false,
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "login/*",
+    "packages/*",
+    "protocol/*",
+    "utility/*"
   ],
   "bin": {
     "build-wasm": "scripts/build-wasm.js",
@@ -20,9 +23,11 @@
   },
   "scripts": {
     "build": "zcloak-dev-build-ts",
+    "build:extra": "(cd packages/cli && copyfiles scripts/** build)",
     "build:wasm": "install-build-deps && build-wasm",
     "changeset": "zcloak-exec-changeset",
     "clean": "zcloak-dev-clean-build",
+    "clean:test": "zcloak-dev-run-test --clearCache",
     "lint": "yarn lint:ts && yarn lint:dependencies",
     "lint:dependencies": "zcloak-dev-lint-dependencies",
     "lint:ts": "zcloak-dev-run-lint",
@@ -34,9 +39,11 @@
   },
   "devDependencies": {
     "@esbuild-kit/esm-loader": "^2.5.5",
+    "@types/copyfiles": "^2",
     "@types/jest": "^29.4.0",
-    "@zcloak/dev": "^0.26.1",
-    "fs-extra": "^11.1.1"
+    "@zcloak/dev": "^0.27.3",
+    "copyfiles": "^2.4.1",
+    "fs-extra": "^11.1.0"
   },
   "resolutions": {
     "typescript": "^5.0.4"

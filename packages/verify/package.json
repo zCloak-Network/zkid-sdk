@@ -3,7 +3,7 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
   "description": "zCloak verify package",
-  "homepage": "https://github.com/zCloak-Network/zkid-sdk#readme",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/packages/verify#readme",
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/verify",
@@ -17,7 +17,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "1.3.1",
+  "version": "1.3.3",
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^11.1.3",

@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "..",
+    "baseUrl": "../..",
     "outDir": "./build",
     "rootDir": "./src"
   },
@@ -10,10 +10,10 @@
     "**/test/**/*"
   ],
   "references": [
-    { "path": "../crypto/tsconfig.build.json" },
-    { "path": "../ctype/tsconfig.build.json" },
-    { "path": "../did/tsconfig.build.json" },
-    { "path": "../did-resolver/tsconfig.build.json" },
-    { "path": "../vc/tsconfig.build.json" }
+    { "path": "../../utility/crypto/tsconfig.build.json" },
+    { "path": "../../protocol/ctype/tsconfig.build.json" },
+    { "path": "../../protocol/did/tsconfig.build.json" },
+    { "path": "../../protocol/did-resolver/tsconfig.build.json" },
+    { "path": "../../protocol/vc/tsconfig.build.json" }
   ]
 }

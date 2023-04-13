@@ -3,7 +3,7 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
   "description": "zCloak message package",
-  "homepage": "https://github.com/zCloak-Network/zkid-sdk#readme",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/packages/message#readme",
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/message",
@@ -17,7 +17,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "main": "index.js",
   "dependencies": {
     "@polkadot/util": "^11.1.3",

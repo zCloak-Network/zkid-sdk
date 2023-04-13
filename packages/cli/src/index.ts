@@ -5,7 +5,6 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
 import { mnemonicGenerate } from '@zcloak/crypto';
-import { DidUrl } from '@zcloak/did-resolver/types';
 
 import { generate } from './commands/generate';
 import { issueVC } from './commands/issueVC';

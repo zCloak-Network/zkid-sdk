@@ -9,7 +9,7 @@ const COPYRIGHT = `// Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 `;
 
-process.chdir('packages/wasm');
+process.chdir('utility/wasm');
 
 console.log('### Build Rust sources');
 execSync('cargo build --target wasm32-unknown-unknown --release', { stdio: 'inherit' });

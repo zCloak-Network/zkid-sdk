@@ -1,0 +1,22 @@
+{
+  "author": "zCloak",
+  "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
+  "contributors": [],
+  "description": "zCloak wasm package",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/utility/wasm#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@zcloak/wasm",
+  "publishConfig": {
+    "directory": "build"
+  },
+  "repository": {
+    "directory": "utility/wasm",
+    "type": "git",
+    "url": "https://github.com/zCloak-Network/zkid-sdk.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "1.0.2",
+  "main": "index.js"
+}

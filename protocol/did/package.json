@@ -1,0 +1,28 @@
+{
+  "author": "zCloak",
+  "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
+  "contributors": [],
+  "description": "zCloak did package",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/protocol/did#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@zcloak/did",
+  "publishConfig": {
+    "directory": "build"
+  },
+  "repository": {
+    "directory": "protocol/did",
+    "type": "git",
+    "url": "https://github.com/zCloak-Network/zkid-sdk.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "1.3.3",
+  "main": "index.js",
+  "dependencies": {
+    "@polkadot/util": "^11.1.3",
+    "@zcloak/crypto": "workspace:^",
+    "@zcloak/did-resolver": "workspace:^",
+    "@zcloak/keyring": "workspace:^"
+  }
+}

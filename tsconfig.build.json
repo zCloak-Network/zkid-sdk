@@ -4,14 +4,21 @@
   },
   "files": [],
   "references": [
-    { "path": "./packages/crypto/tsconfig.build.json" },
-    { "path": "./packages/ctype/tsconfig.build.json" },
-    { "path": "./packages/did/tsconfig.build.json" },
-    { "path": "./packages/did-resolver/tsconfig.build.json" },
-    { "path": "./packages/keyring/tsconfig.build.json" },
+    { "path": "./utility/crypto/tsconfig.build.json" },
+    { "path": "./utility/keyring/tsconfig.build.json" },
+    { "path": "./utility/wasm/tsconfig.build.json" },
+    { "path": "./utility/wasm-asm/tsconfig.build.json" },
+    { "path": "./utility/wasm-bridge/tsconfig.build.json" },
+    { "path": "./protocol/ctype/tsconfig.build.json" },
+    { "path": "./protocol/did/tsconfig.build.json" },
+    { "path": "./protocol/did-resolver/tsconfig.build.json" },
+    { "path": "./protocol/vc/tsconfig.build.json" },
     { "path": "./packages/message/tsconfig.build.json" },
-    { "path": "./packages/vc/tsconfig.build.json" },
     { "path": "./packages/verify/tsconfig.build.json" },
-    { "path": "./packages/wasm/tsconfig.build.json" }
+    { "path": "./login/did/tsconfig.build.json" },
+    { "path": "./login/providers/tsconfig.build.json" },
+    { "path": "./login/rpc/tsconfig.build.json" },
+    { "path": "./login/rpc-defines/tsconfig.build.json" },
+    { "path": "./login/verify/tsconfig.build.json" },
   ]
 }

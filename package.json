@@ -1,7 +1,7 @@
 {
   "author": "zCloak",
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
-  "homepage": "https://github.com/zCloak-Network/zkid-sdk#readme",
+  "homepage": "https:/github.com/zCloak-Network/zkid-sdk/#readme",
   "license": "Apache-2.0",
   "packageManager": "yarn@4.0.0-rc.40",
   "private": true,
@@ -12,7 +12,10 @@
   "sideEffects": false,
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "login/*",
+    "packages/*",
+    "protocol/*",
+    "utility/*"
   ],
   "bin": {
     "build-wasm": "scripts/build-wasm.js",
@@ -23,6 +26,7 @@
     "build:wasm": "install-build-deps && build-wasm",
     "changeset": "zcloak-exec-changeset",
     "clean": "zcloak-dev-clean-build",
+    "clean:test": "zcloak-dev-run-test --clearCache",
     "lint": "yarn lint:ts && yarn lint:dependencies",
     "lint:dependencies": "zcloak-dev-lint-dependencies --fix",
     "lint:ts": "zcloak-dev-run-lint",
@@ -33,11 +37,10 @@
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
-    "@zcloak/dev": "^0.26.0",
-    "babel-plugin-dynamic-import-node": "^2.3.3",
+    "@zcloak/dev": "^0.27.1",
     "fs-extra": "^11.1.0"
   },
   "resolutions": {
-    "typescript": "^5.0.1-rc"
+    "typescript": "^5.0.4"
   }
 }

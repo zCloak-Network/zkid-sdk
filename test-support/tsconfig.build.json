@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "outDir": "./build",
+    "rootDir": "./src"
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/test/**/*"
+  ],
+  "references": [
+    { "path": "../utility/crypto/tsconfig.build.json" },
+    { "path": "../utility/keyring/tsconfig.build.json" },
+    { "path": "../packages/ctype/tsconfig.build.json" },
+    { "path": "../protocol/did/tsconfig.build.json" },
+    { "path": "../protocol/did-resolver/tsconfig.build.json" },
+  ]
+}

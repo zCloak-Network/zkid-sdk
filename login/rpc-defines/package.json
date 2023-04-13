@@ -1,0 +1,28 @@
+{
+  "author": "zCloak",
+  "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
+  "contributors": [],
+  "description": "zCloak login transport rpc-defines",
+  "homepage": "https:/github.com/zCloak-Network/zkid-sdk/tree/master/login/rpc-defines/#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@zcloak/login-rpc-defines",
+  "publishConfig": {
+    "directory": "build"
+  },
+  "repository": {
+    "directory": "login/rpc-defines",
+    "type": "git",
+    "url": "https://github.com/zCloak-Network/zkid-sdk.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "1.2.0",
+  "main": "index.js",
+  "dependencies": {
+    "@zcloak/login-rpc": "workspace:^"
+  },
+  "devDependencies": {
+    "@kiltprotocol/types": "^0.28.2"
+  }
+}

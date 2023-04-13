@@ -3920,9 +3920,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.27.1":
-  version: 0.27.1
-  resolution: "@zcloak/dev@npm:0.27.1"
+"@zcloak/dev@npm:^0.27.2":
+  version: 0.27.2
+  resolution: "@zcloak/dev@npm:0.27.2"
   dependencies:
     "@babel/cli": "npm:^7.21.0"
     "@babel/core": "npm:^7.21.3"
@@ -3948,7 +3948,7 @@ __metadata:
     "@rushstack/eslint-patch": "npm:^1.2.0"
     "@typescript-eslint/eslint-plugin": "npm:^5.55.0"
     "@typescript-eslint/parser": "npm:^5.55.0"
-    "@zcloak/lint": "npm:0.24.0"
+    "@zcloak/lint": "npm:0.24.1"
     babel-jest: "npm:^29.5.0"
     babel-plugin-module-extension-resolver: "npm:^1.0.0"
     babel-plugin-module-resolver: "npm:^5.0.0"
@@ -4015,7 +4015,7 @@ __metadata:
     zcloak-exec-prettier: scripts/zcloak-exec-prettier.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: 16742a123ba26f55298687e93383b64fc4dd67c20f0d23853ea0f3fbb03e01663d78a319409d0e60431be104aa843d34af83c3c0e73aa1d90678cd8146fcded3
+  checksum: 2e4cc1ddf92b69e239d5f78d66331ae6c659df6372353914456854f184c44a86441dacc9c537a992ef4bcd80da4095e80213bab344fa6c0564bd594067bfe757
   languageName: node
   linkType: hard
 
@@ -4048,15 +4048,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/lint@npm:0.24.0":
-  version: 0.24.0
-  resolution: "@zcloak/lint@npm:0.24.0"
+"@zcloak/lint@npm:0.24.1":
+  version: 0.24.1
+  resolution: "@zcloak/lint@npm:0.24.1"
   dependencies:
     chalk: "npm:^5.2.0"
     glob: "npm:^9.3.0"
     parse-imports-ts: "npm:^1.0.3"
     throat: "npm:^6.0.2"
-  checksum: 6a1f3b0ef5ce2b6c92c574f51e231aa1f35802787067990647633c659a6e40333ec4ebb5bdcadb1679a8cc4fc6424ed0cce1ba4d9f7d65be0b93ea936763fc06
+  checksum: 2a87dc8fd90404de8f90abb2fecdeb996715a2eed942926e120d3b34633e0b209992657bfe9311deb2754da3c33e3a9bd78f4d540cf02ba2cc123b79ec872032
   languageName: node
   linkType: hard
 
@@ -13131,7 +13131,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": "npm:^29.4.0"
-    "@zcloak/dev": "npm:^0.27.1"
+    "@zcloak/dev": "npm:^0.27.2"
     fs-extra: "npm:^11.1.0"
   bin:
     build-wasm: scripts/build-wasm.js

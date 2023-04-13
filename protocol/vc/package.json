@@ -3,7 +3,7 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
   "description": "zCloak vc package",
-  "homepage": "https:/github.com/zCloak-Network/zkid-sdk/tree/master/protocol/vc/#readme",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/protocol/vc#readme",
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/vc",

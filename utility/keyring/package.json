@@ -3,7 +3,7 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
   "description": "zCloak keyring package",
-  "homepage": "https:/github.com/zCloak-Network/zkid-sdk/tree/master/utility/keyring/#readme",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/utility/keyring#readme",
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/keyring",

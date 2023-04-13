@@ -3,7 +3,7 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
   "description": "zCloak ctype package",
-  "homepage": "https:/github.com/zCloak-Network/zkid-sdk/tree/master/protocol/ctype/#readme",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/protocol/ctype#readme",
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/ctype",

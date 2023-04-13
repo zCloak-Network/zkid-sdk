@@ -3,7 +3,7 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
   "description": "zCloak wasm-asm package",
-  "homepage": "https:/github.com/zCloak-Network/zkid-sdk/tree/master/utility/wasm-asm/#readme",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/utility/wasm-asm#readme",
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/wasm-asm",

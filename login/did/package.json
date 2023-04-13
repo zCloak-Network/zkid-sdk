@@ -3,7 +3,7 @@
   "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
   "contributors": [],
   "description": "zCloak login did",
-  "homepage": "https:/github.com/zCloak-Network/zkid-sdk/tree/master/login/did/#readme",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/login/did#readme",
   "license": "Apache-2.0",
   "maintainers": [],
   "name": "@zcloak/login-did",

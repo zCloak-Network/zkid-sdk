@@ -164,6 +164,10 @@ ${mnemonicGenerate(12)}
             type: 'number',
             description: 'what type of credential you will create. The default is false, that is private credential',
             default: 0
+          })
+          .option('claimers', {
+            type: 'string',
+            description: 'claimer csv file, only inclue claimer DID column, like /path/to/claimers.csv'
           });
       },
       (argv) => {
@@ -176,6 +180,7 @@ ${mnemonicGenerate(12)}
           argv.rawHashType,
           argv.rawCredHashType,
           argv.isPublic,
+          argv.claimers,
           argv.output
         );
       }

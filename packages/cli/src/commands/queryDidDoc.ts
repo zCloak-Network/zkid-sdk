@@ -1,8 +1,9 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import axios from 'axios';
 import fs from 'fs';
+
+import { getDidDoc } from '../utils';
 
 export const queryDidDoc = async (env: string, didUrl: string, output?: string) => {
   let baseUrl: string;
@@ -17,16 +18,10 @@ export const queryDidDoc = async (env: string, didUrl: string, output?: string) 
     return;
   }
 
-  const didRes = await axios.get(`${baseUrl}/did/${didUrl}`);
-
-  if (didRes.status !== 200) {
-    throw new Error(`get ${didUrl} did document failed`);
-  }
-
-  const holderDidDoc = didRes.data.data.rawData;
+  const holderDidDoc = await getDidDoc(baseUrl, didUrl);
 
   if (output === undefined) {
-    console.log(`holder Did Doc: ${JSON.stringify(holderDidDoc)}`);
+    console.log(`${JSON.stringify(holderDidDoc)}`);
   } else {
     console.log(`output did object into: ${output}`);
     fs.writeFileSync(output, JSON.stringify(holderDidDoc));

@@ -7,7 +7,7 @@ import { hideBin } from 'yargs/helpers';
 import { mnemonicGenerate } from '@zcloak/crypto';
 
 import { generate } from './commands/generate';
-import { issueVC } from './commands/issueVC';
+import { issueVCs } from './commands/issueVC';
 import { queryCType } from './commands/queryCType';
 import { queryDidDoc } from './commands/queryDidDoc';
 
@@ -135,7 +135,7 @@ ${mnemonicGenerate(12)}
           .option('claimer-did', {
             alias: 'c',
             type: 'string',
-            description: 'claimer DID account'
+            description: "claimer DID URL or path to claimers' did url csv file which must inclued a DID column"
           })
           .option('ctype-hash', {
             alias: 'cth',
@@ -164,14 +164,10 @@ ${mnemonicGenerate(12)}
             type: 'number',
             description: 'what type of credential you will create. The default is false, that is private credential',
             default: 0
-          })
-          .option('claimers', {
-            type: 'string',
-            description: 'claimer csv file, only inclue claimer DID column, like /path/to/claimers.csv'
           });
       },
       (argv) => {
-        issueVC(
+        issueVCs(
           argv.env,
           argv.attesterMnemonic,
           argv.claimerDid,
@@ -180,7 +176,6 @@ ${mnemonicGenerate(12)}
           argv.rawHashType,
           argv.rawCredHashType,
           argv.isPublic,
-          argv.claimers,
           argv.output
         );
       }

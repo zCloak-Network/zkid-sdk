@@ -9,7 +9,7 @@ export const queryDidDoc = async (env: string, didUrl: string, output?: string) 
   let baseUrl: string;
 
   if (env === 'dev') {
-    baseUrl = 'https://did-service.starks.network';
+    baseUrl = 'https://did-service.zkid.xyz';
   } else if (env === 'prod') {
     baseUrl = 'https://did-service.zkid.app';
   } else {

@@ -17,7 +17,7 @@ export const queryCType = async (env: string, ctypeHash: string, output?: string
   }
 
   if (env === 'dev') {
-    baseUrl = 'https://did-service.starks.network';
+    baseUrl = 'https://did-service.zkid.xyz';
   } else if (env === 'prod') {
     baseUrl = 'https://did-service.zkid.app';
   } else {

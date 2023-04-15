@@ -4176,6 +4176,7 @@ __metadata:
     "@zcloak/message": "workspace:^"
     "@zcloak/vc": "workspace:^"
     axios: "npm:^1.3.5"
+    csv-parser: "npm:^3.0.0"
     fs-extra: "npm:^11.1.1"
     inquirer: "npm:^9.1.5"
     progress: "npm:^2.0.3"
@@ -6502,6 +6503,17 @@ __metadata:
   version: 4.16.3
   resolution: "csv-parse@npm:4.16.3"
   checksum: 77bd3cffe0d5617cecea625ac74f3afd48e94fe3edce8b73fb721dda049b9376d0a11c8164fdaa6449f03dbabc80be5e4c5f072bf1eeceb320f3e93f337cefcf
+  languageName: node
+  linkType: hard
+
+"csv-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "csv-parser@npm:3.0.0"
+  dependencies:
+    minimist: "npm:^1.2.0"
+  bin:
+    csv-parser: bin/csv-parser
+  checksum: f5016661697517cd28ff36bf156cf00fa62b213f046b85932003d80079a6bcc6d8f97f069e2581223643bb5f7b8ade4567469d0840abb975a92088b96b89ddbb
   languageName: node
   linkType: hard
 

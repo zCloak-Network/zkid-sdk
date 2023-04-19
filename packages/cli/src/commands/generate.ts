@@ -1,8 +1,6 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import fs from 'fs-extra';
-
 import { mnemonicGenerate } from '@zcloak/crypto';
 import { keys } from '@zcloak/did';
 import { Keyring } from '@zcloak/keyring';
@@ -12,9 +10,9 @@ import { passwordPrompt } from '../utils';
 export async function generate(
   deriveIndex: number,
   mnemonic?: string,
-  output?: string,
   showMn = false,
-  dryRun = false
+  dryRun = false,
+  output?: string
 ): Promise<void> {
   const keyring = new Keyring();
 
@@ -45,12 +43,16 @@ export async function generate(
     return;
   }
 
-  fs.writeJsonSync(output, result.output);
+  // fs.writeJsonSync(output, result.output);
 
-  console.log(`DID-keys file export to ${output}`);
+  // console.log(`DID-keys file export to ${output}`);
+
+  // console.log(`DID-keys file: ${JSON.stringify(result.output)}`);
+
+  console.log(`${JSON.stringify(result.output)}`);
 
   if (result.mnemonic) {
     console.log();
-    console.log('mnemonic phrase', mnemonic);
+    console.log('mnemonic phrase:', mnemonic);
   }
 }

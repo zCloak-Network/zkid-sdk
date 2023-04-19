@@ -7,7 +7,7 @@ import { CType } from '@zcloak/ctype/types';
 
 import { getCType } from '../utils';
 
-export const queryCType = async (env: string, ctypeHash: string, output?: string) => {
+export const queryCType = async (didResolver: string, ctypeHash: string, output?: string) => {
   let baseUrl: string;
 
   if (ctypeHash === null) {
@@ -16,17 +16,21 @@ export const queryCType = async (env: string, ctypeHash: string, output?: string
     return;
   }
 
-  if (env === 'dev') {
+  if (didResolver === 'dev') {
     baseUrl = 'https://did-service.zkid.xyz';
-  } else if (env === 'prod') {
+  } else if (didResolver === 'prod') {
     baseUrl = 'https://did-service.zkid.app';
   } else {
-    console.log('wrong enviroment !!!');
+    console.log('wrong did resolver !!!');
 
     return;
   }
 
-  const ctype: CType = await getCType(baseUrl, ctypeHash);
+  const ctype: CType | undefined = await getCType(baseUrl, ctypeHash);
+
+  if (!ctype) {
+    return false;
+  }
 
   if (output === undefined) {
     console.log(`${JSON.stringify(ctype)}`);

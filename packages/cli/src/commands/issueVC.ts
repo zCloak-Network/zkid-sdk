@@ -22,7 +22,7 @@ import {
 } from '../utils';
 
 export const issueVC = async (
-  env: string,
+  didResolver: string,
   attesterMnemonic: string,
   claimerDid: string | undefined,
   ctypeHash: string | undefined,
@@ -41,12 +41,12 @@ export const issueVC = async (
     return;
   }
 
-  if (env === 'dev') {
+  if (didResolver === 'dev') {
     baseUrl = 'https://did-service.zkid.xyz';
-  } else if (env === 'prod') {
+  } else if (didResolver === 'prod') {
     baseUrl = 'https://did-service.zkid.app';
   } else {
-    console.log('wrong enviroment !!!');
+    console.log('wrong did resolver !!!');
 
     return;
   }
@@ -66,7 +66,7 @@ export const issueVC = async (
 
   // step 2: create VC
   const rawContent = fs.readFileSync(content, { encoding: 'utf-8' });
-  const vc: VerifiableCredential<false | true> = await createVC(
+  const vc: VerifiableCredential<false | true> | false = await createVC(
     baseUrl,
     attester,
     claimerDid,
@@ -90,15 +90,17 @@ export const issueVC = async (
   }
 
   // step 3: encrypt message and send it to server
-  const message = await encryptMessage('Send_issuedVC', vc, attester, claimer.getKeyUrl('keyAgreement'));
+  if (vc) {
+    const message = await encryptMessage('Send_issuedVC', vc, attester, claimer.getKeyUrl('keyAgreement'));
 
-  await sendEncryptedMessage(baseUrl, message);
+    await sendEncryptedMessage(baseUrl, message);
+  }
 
   return true;
 };
 
 export const issueVCs = async (
-  env: string,
+  didResolver: string,
   attesterMnemonic: string,
   claimerDid: string | undefined,
   ctypeHash: string | undefined,
@@ -114,7 +116,7 @@ export const issueVCs = async (
     return false;
   } else if (isValidDidUrl(claimerDid)) {
     return await issueVC(
-      env,
+      didResolver,
       attesterMnemonic,
       claimerDid,
       ctypeHash,
@@ -133,7 +135,7 @@ export const issueVCs = async (
       .on('end', async () => {
         for (let i = 0; i < results.length; i++) {
           await issueVC(
-            env,
+            didResolver,
             attesterMnemonic,
             results[i].DID,
             ctypeHash,

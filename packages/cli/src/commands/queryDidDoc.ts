@@ -5,15 +5,15 @@ import fs from 'fs';
 
 import { getDidDoc } from '../utils';
 
-export const queryDidDoc = async (env: string, didUrl: string, output?: string) => {
+export const queryDidDoc = async (didResolver: string, didUrl: string, output?: string) => {
   let baseUrl: string;
 
-  if (env === 'dev') {
+  if (didResolver === 'dev') {
     baseUrl = 'https://did-service.zkid.xyz';
-  } else if (env === 'prod') {
+  } else if (didResolver === 'prod') {
     baseUrl = 'https://did-service.zkid.app';
   } else {
-    console.log('wrong enviroment !!!');
+    console.log('wrong did resolver !!!');
 
     return;
   }

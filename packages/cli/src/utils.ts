@@ -34,12 +34,26 @@ export async function passwordPrompt(description: string, validate?: (input: str
   return passwordPrompt.password;
 }
 
+export function choseResolver(resolver: string): string | undefined {
+  if (resolver === 'prod') {
+    return 'https://did-service.zkid.app';
+  } else if (resolver === 'dev') {
+    return 'https://did-service.zkid.xyz';
+  } else {
+    console.log('wrong did resolver');
+
+    return undefined;
+  }
+}
+
 export function writeFileOfJsonArray<T>(filePath: string, newObj: T) {
   const absolutePath = path.resolve(filePath);
 
   if (!fs.existsSync(absolutePath)) {
     fs.writeFileSync(absolutePath, JSON.stringify([newObj]));
   } else {
+    // TODO: 应该加一段 检查文件内容是否为 json obj array 的逻辑，有可能出现
+    // 文件重名 但文件内容不是 json对象数组 的情况
     const fileContent = fs.readFileSync(absolutePath, { encoding: 'utf-8' });
 
     const jsonArray: Array<any> = JSON.parse(fileContent);
@@ -85,7 +99,7 @@ export function isValidPath(filePath: string): boolean {
   }
 }
 
-export async function getCType(baseUrl: string, ctypeHash: string): Promise<CType> {
+export async function getCType(baseUrl: string, ctypeHash: string): Promise<CType | undefined> {
   const ctypeRes = await axios.get(`${baseUrl}/ctype?${qs.stringify({ id: ctypeHash })}`);
 
   if (ctypeRes.status !== 200) {
@@ -93,6 +107,12 @@ export async function getCType(baseUrl: string, ctypeHash: string): Promise<CTyp
   }
 
   const ctype: CType = ctypeRes.data.data[0].rawData;
+
+  if (!ctype) {
+    console.log('ctype is null');
+
+    return undefined;
+  }
 
   return ctype;
 }
@@ -133,9 +153,13 @@ export async function createVC(
   isPublic: number,
   rawHashType = 'Blake3',
   rawCredHashType = 'Keccak256'
-): Promise<VerifiableCredential<false> | VerifiableCredential<true>> {
+): Promise<VerifiableCredential<false> | VerifiableCredential<true> | false> {
   // step 1: get ctype
-  const ctype: CType = await getCType(baseUrl, ctypeHash);
+  const ctype: CType | undefined = await getCType(baseUrl, ctypeHash);
+
+  if (!ctype) {
+    return false;
+  }
 
   // step 2: build raw
   const claimerDidUrl = claimerDid as DidUrl;

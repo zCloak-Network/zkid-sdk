@@ -7,11 +7,12 @@ import { hideBin } from 'yargs/helpers';
 import { mnemonicGenerate } from '@zcloak/crypto';
 
 import { buildRawCredential } from './commands/buildRawCredential';
-import { buildVC } from './commands/buildVC';
+import { encryptVcMessage } from './commands/encryptVcMessage';
 import { generate } from './commands/generate';
 import { issueVCs } from './commands/issueVC';
 import { queryCType } from './commands/queryCType';
 import { queryDidDoc } from './commands/queryDidDoc';
+import { signRawVC } from './commands/signRawVC';
 
 export async function main() {
   await yargs(hideBin(process.argv))
@@ -75,21 +76,6 @@ export async function main() {
         return generate(argv.deriveIndex, argv.mnemonic, argv.showMnemonic);
       }
     )
-    // .command(
-    //   'issue <file>',
-    //   'Issue credentials by reading data from a file',
-    //   (yargs) => {
-    //     return yargs.positional('file', {
-    //       type: 'string',
-    //       description: 'Path to the input file',
-    //       demandOption: 'You must provide a file path'
-    //     });
-    //   },
-    //   (argv) => {
-    //     // TODO issue
-    //     console.log(`Issueing credentials from ${argv.file}...`);
-    //   }
-    // )
     .command(
       'did',
       'Query a DID Document',
@@ -177,105 +163,105 @@ export async function main() {
         );
       }
     )
-    .command(
-      'rc',
-      'Build a raw credential (raw => rawCredential)',
-      (yargs) => {
-        return yargs
-          .option('ctype-hash', {
-            alias: 'c',
-            type: 'string',
-            description: 'ctype hash that you want to use',
-            demandOption: true
-          })
-          .option('content', {
-            type: 'string',
-            description: 'crdential main content',
-            demandOption: true
-          })
-          .option('claimer-did-url', {
-            type: 'string',
-            description: 'claimer did url',
-            demandOption: true
-          })
-          .option('raw-hash', {
-            type: 'string',
-            describe: 'hash method that is used to built raw object'
-          })
-          .option('raw-credential-hash', {
-            type: 'string',
-            describe: 'hash method that is used to built rawCredential object'
-          })
-          .demandOption(
-            ['ctype-hash', 'content', 'claimer-did-url'],
-            'Please provide missing argument(s) to work with this tool'
-          );
-      },
-      (argv) => {
-        buildRawCredential(
-          argv.didResolver,
-          argv.content,
-          argv.claimerDidUrl,
-          argv.ctypeHash,
-          argv.rawHash,
-          argv.rawCredentialHash
+    .command('vc', 'verifiable credential operate flow', (yargs) => {
+      return yargs
+        .command(
+          'raw',
+          'Build a raw credential (raw => rawCredential)',
+          (yargs) => {
+            return yargs
+              .option('ctype-hash', {
+                alias: 'c',
+                type: 'string',
+                description: 'ctype hash that you want to use',
+                demandOption: true
+              })
+              .option('content', {
+                type: 'string',
+                description: 'crdential main content',
+                demandOption: true
+              })
+              .option('claimer-did-url', {
+                type: 'string',
+                description: 'claimer did url',
+                demandOption: true
+              })
+              .option('raw-hash', {
+                type: 'string',
+                describe: 'hash method that is used to built raw object'
+              })
+              .option('raw-credential-hash', {
+                type: 'string',
+                describe: 'hash method that is used to built rawCredential object'
+              })
+              .demandOption(
+                ['ctype-hash', 'content', 'claimer-did-url'],
+                'Please provide missing argument(s) to work with this tool'
+              );
+          },
+          (argv) => {
+            buildRawCredential(
+              argv.didResolver,
+              argv.content,
+              argv.claimerDidUrl,
+              argv.ctypeHash,
+              argv.rawHash,
+              argv.rawCredentialHash
+            );
+          }
+        )
+        .command(
+          'sign',
+          // TODO: sign what
+          'Attester sign ??? to build Verifiable Credential from RawCredential (RawCredential => VC)',
+          (yargs) => {
+            return yargs
+              .option('raw-credential', {
+                alias: 'r',
+                type: 'string',
+                describe: 'Raw-credential string object or file with path',
+                demandOption: true
+              })
+              .option('attester-identity', {
+                alias: 'a',
+                type: 'string',
+                describe: 'Attester DID-Keys file or mnemonic string',
+                demandOption: true
+              })
+              .option('is-public', {
+                alias: 'p',
+                type: 'boolean',
+                describe: 'Build a public vc or private vc, default is private vc',
+                default: false
+              });
+          },
+          (argv) => {
+            signRawVC(argv.didResolver, argv.attesterIdentity, argv.rawCredential, argv.isPublic);
+          }
+        )
+        .command(
+          'encrypt',
+          'Build encryption communication message',
+          (yargs) => {
+            return yargs
+              .option('vc', {
+                alias: 'v',
+                type: 'string',
+                describe: 'vc object string',
+                demandOption: true
+              })
+              .option('attester-identity', {
+                alias: 'a',
+                type: 'string',
+                describe: 'Attester DID-Keys file or mnemonic string',
+                demandOption: true
+              });
+          },
+          (argv) => {
+            encryptVcMessage(argv.didResolver, argv.vc, argv.attesterIdentity);
+          }
         );
-      }
-    )
-    .command(
-      'vc',
-      'Build Verifiable Credential from RawCredential (RawCredential => VC)',
-      (yargs) => {
-        return yargs
-          .option('raw-credential', {
-            alias: 'r',
-            type: 'string',
-            describe: 'Raw-credential string object or file with path',
-            demandOption: true
-          })
-          .option('attester-mnemonic', {
-            alias: 'a',
-            type: 'string',
-            describe: 'Attester mnemonic string or json file',
-            demandOption: true
-          })
-          .option('is-public', {
-            alias: 'p',
-            type: 'boolean',
-            describe: 'Build a public vc or private vc, default is private vc',
-            default: false
-          });
-      },
-      (argv) => {
-        buildVC(argv.didResolver, argv.attesterMnemonic, argv.rawCredential, argv.isPublic);
-      }
-    )
-    // .command(
-    //   'message',
-    //   'Encryption and decryption communication with message',
-    //   (yargs) => {
-    //     return yargs
-    //       .option('message-type', {
-    //         alias: 'm',
-    //         type: 'string',
-    //         describe: 'communication message type',
-    //         demandOption: true
-    //       })
-    //       .option('vc', {
-    //         alias: 'v',
-    //         type: 'string',
-    //         describe: 'vc string or json file',
-    //         demandOption: true
-    //       })
-    //       .option('attester-mnemonic', {
-    //         alias: 'a',
-    //         type: 'string',
-    //         describe: 'Attester mnemonic string or json file',
-    //         demandOption: true
-    //       });
-    //   },
-    //   (argv) => {}
-    // )
+    })
     .demandCommand(1, 'You must provide a valid command.')
     .help()
     .strict().argv;

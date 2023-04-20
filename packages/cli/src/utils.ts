@@ -9,6 +9,8 @@ import qs from 'qs';
 
 import { CType } from '@zcloak/ctype/types';
 import { Did, keys } from '@zcloak/did';
+import { restore } from '@zcloak/did/keys';
+import { DidKeys$Json } from '@zcloak/did/keys/types';
 import { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
 import { Keyring } from '@zcloak/keyring';
 import { Raw, VerifiableCredentialBuilder } from '@zcloak/vc';
@@ -127,6 +129,23 @@ export async function getDidDoc(baseUrl: string, didUrl: string): Promise<DidDoc
   const holderDidDoc: DidDocument = didRes.data.data.rawData;
 
   return holderDidDoc;
+}
+
+export async function getDidFromKeys(json: DidKeys$Json): Promise<Did | false> {
+  const keyring = new Keyring();
+
+  const password = await passwordPrompt('Enter the password to decrypt the DID-keys file:');
+  const repeatPassword = await passwordPrompt('Enter the password Again:', (input) => input === password);
+
+  try {
+    return restore(keyring, json, repeatPassword);
+  } catch (error: any) {
+    if (error.message === 'Unable to decode using the supplied passphrase') {
+      console.log('Wrong password !!!');
+    }
+
+    return false;
+  }
 }
 
 export function getDidFromMnemonic(mnemonic: string): Did {

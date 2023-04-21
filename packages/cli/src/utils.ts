@@ -37,14 +37,21 @@ export async function passwordPrompt(description: string, validate?: (input: str
 }
 
 export function choseResolver(resolver: string): string | undefined {
-  if (resolver === 'prod') {
-    return 'https://did-service.zkid.app';
-  } else if (resolver === 'dev') {
-    return 'https://did-service.zkid.xyz';
-  } else {
-    console.log('wrong did resolver');
+  // if (resolver === 'prod') {
+  //   return 'https://did-service.zkid.app';
+  // } else if (resolver === 'dev') {
+  //   return 'https://did-service.zkid.xyz';
+  // } else {
+  //   console.log('wrong did resolver');
+
+  //   return undefined;
+  // }
+  if (resolver === null) {
+    console.log('resolver is null');
 
     return undefined;
+  } else {
+    return resolver;
   }
 }
 
@@ -148,6 +155,19 @@ export async function getDidFromKeys(json: DidKeys$Json): Promise<Did | false> {
   }
 }
 
+export async function publishDidDoc(baseUrl: string, did: Did): Promise<boolean> {
+  try {
+    await axios.post(`${baseUrl}/did`, await did.getPublish());
+
+    return true;
+  } catch (error) {
+    console.log('Publish did document error !!!');
+    console.error(error);
+
+    return false;
+  }
+}
+
 export function getDidFromMnemonic(mnemonic: string): Did {
   const keyring = new Keyring();
   const did: Did = keys.fromMnemonic(keyring, mnemonic);
@@ -157,7 +177,7 @@ export function getDidFromMnemonic(mnemonic: string): Did {
 
 export async function sendEncryptedMessage(baseUrl: string, message: any) {
   try {
-    await axios.post(`${baseUrl}/message`, message);
+    await axios.post(`${baseUrl}/wxBlockchainEvent/message`, message);
   } catch (err) {
     console.error(err);
   }

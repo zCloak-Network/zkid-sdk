@@ -1,19 +1,21 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import { mnemonicGenerate } from '@zcloak/crypto';
+import { initCrypto, mnemonicGenerate } from '@zcloak/crypto';
 import { keys } from '@zcloak/did';
 import { Keyring } from '@zcloak/keyring';
 
-import { passwordPrompt } from '../utils';
+import { choseResolver, passwordPrompt, publishDidDoc } from '../utils';
 
-export async function generate(
-  deriveIndex: number,
-  mnemonic?: string,
-  showMn = false,
-  dryRun = false,
-  output?: string
-): Promise<void> {
+export async function generate(didResolver: string, deriveIndex: number, mnemonic?: string, showMn = false) {
+  const baseUrl = choseResolver(didResolver);
+
+  if (!baseUrl) {
+    return false;
+  }
+
+  await initCrypto();
+
   const keyring = new Keyring();
 
   if (!mnemonic) {
@@ -22,14 +24,15 @@ export async function generate(
 
   const did = keys.fromMnemonic(keyring, mnemonic, 'ecdsa', deriveIndex);
 
+  // console.log(`did: ${JSON.stringify(did)}`);
+  // console.log(`Doc: ${JSON.stringify(did.getDocument())}`);
+
   const password = await passwordPrompt('Enter the password to encrypt the DID-keys file:');
   const repeatPassword = await passwordPrompt('Enter the password Again:', (input) => input === password);
 
   const json = keys.backup(keyring, did, repeatPassword);
 
-  if (!output) {
-    output = `${json.didUrl}.json`;
-  }
+  await publishDidDoc(baseUrl, did);
 
   const result: { output: any; mnemonic?: string; deriveIndex: number } = { output: json, deriveIndex };
 
@@ -37,22 +40,12 @@ export async function generate(
     result.mnemonic = mnemonic;
   }
 
-  if (dryRun) {
-    console.log(JSON.stringify(result));
-
-    return;
-  }
-
-  // fs.writeJsonSync(output, result.output);
-
-  // console.log(`DID-keys file export to ${output}`);
-
-  // console.log(`DID-keys file: ${JSON.stringify(result.output)}`);
-
   console.log(`${JSON.stringify(result.output)}`);
 
   if (result.mnemonic) {
     console.log();
     console.log('mnemonic phrase:', mnemonic);
   }
+
+  return true;
 }

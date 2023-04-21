@@ -44,7 +44,9 @@ export async function encryptVcMessage(didResolver: string, vc: string, attester
     const claimerDoc: DidDocument = await getDidDoc(baseUrl, claimerDidUrl);
     const claimer: Did = fromDidDocument(claimerDoc);
 
-    console.log(await encryptMessage('Send_issuedVC', vcred, attesterDid, claimer.getKeyUrl('keyAgreement')));
+    console.log(
+      JSON.stringify(await encryptMessage('Send_issuedVC', vcred, attesterDid, claimer.getKeyUrl('keyAgreement')))
+    );
 
     return true;
   } else {

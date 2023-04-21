@@ -80,10 +80,9 @@ export async function signRawVC(
     vc = await signRawVcFlow(baseUrl, rawCred, attesterDid, isPublic);
   } else {
     // rawCredential is json file file
-    const fileContent = fs.readFileSync(rawCredential, { encoding: 'utf-8' });
-    const rawCred = JSON.parse(fileContent);
+    console.log('rawCredential only support string input');
 
-    vc = await signRawVcFlow(baseUrl, rawCred, attesterDid, isPublic);
+    return false;
   }
 
   if (vc === false) {

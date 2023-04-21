@@ -1,31 +1,24 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-import fs from 'fs';
+import { choseResolver, getDidDoc } from '../utils';
 
-import { getDidDoc } from '../utils';
+export const queryDidDoc = async (didResolver: string, didUrl: string | undefined) => {
+  const baseUrl = choseResolver(didResolver);
 
-export const queryDidDoc = async (didResolver: string, didUrl: string, output?: string) => {
-  let baseUrl: string;
+  if (!baseUrl) {
+    return false;
+  }
 
-  if (didResolver === 'dev') {
-    baseUrl = 'https://did-service.zkid.xyz';
-  } else if (didResolver === 'prod') {
-    baseUrl = 'https://did-service.zkid.app';
-  } else {
-    console.log('wrong did resolver !!!');
+  if (didUrl === undefined) {
+    console.log('did url flag is undefiend');
 
-    return;
+    return false;
   }
 
   const holderDidDoc = await getDidDoc(baseUrl, didUrl);
 
-  if (output === undefined) {
-    console.log(`${JSON.stringify(holderDidDoc)}`);
-  } else {
-    console.log(`output did object into: ${output}`);
-    fs.writeFileSync(output, JSON.stringify(holderDidDoc));
-  }
+  console.log(`${JSON.stringify(holderDidDoc)}`);
 
   return holderDidDoc;
 };

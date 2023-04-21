@@ -1,0 +1,156 @@
+// Copyright 2021-2023 zcloak authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+import csv from 'csv-parser';
+import fs from 'fs';
+
+import { initCrypto } from '@zcloak/crypto';
+import { Did } from '@zcloak/did';
+import { fromDidDocument } from '@zcloak/did/did/helpers';
+import { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
+import { encryptMessage } from '@zcloak/message';
+import { VerifiableCredential } from '@zcloak/vc/types';
+
+import {
+  createVC,
+  getDidDoc,
+  getDidFromMnemonic,
+  isValidDidUrl,
+  isValidPath,
+  sendEncryptedMessage,
+  writeFileOfJsonArray
+} from '../utils';
+
+export const issueVC = async (
+  didResolver: string,
+  attesterMnemonic: string,
+  claimerDid: string | undefined,
+  ctypeHash: string | undefined,
+  content: string | undefined,
+  rawHashType?: string,
+  rawCredHashType?: string,
+  isPublic?: number,
+  output?: string,
+  multiClaimers = false
+) => {
+  let baseUrl: string;
+
+  if (claimerDid === undefined || ctypeHash === undefined || content === undefined || isPublic === undefined) {
+    console.log('your flag has undefined value');
+
+    return;
+  }
+
+  if (didResolver === 'dev') {
+    baseUrl = 'https://did-service.zkid.xyz';
+  } else if (didResolver === 'prod') {
+    baseUrl = 'https://did-service.zkid.app';
+  } else {
+    console.log('wrong did resolver !!!');
+
+    return;
+  }
+
+  // initCrypto for wasm
+  await initCrypto();
+
+  // step 0_0: get claimer DID obj
+  const claimerDidUrl = claimerDid as DidUrl;
+  const claimerDoc: DidDocument = await getDidDoc(baseUrl, claimerDidUrl);
+  const claimer: Did = fromDidDocument(claimerDoc);
+
+  // step 0_1: get attester DID obj
+  const mnemonicContent = fs.readFileSync(attesterMnemonic, { encoding: 'utf-8' });
+  const mnemonicObj = JSON.parse(mnemonicContent);
+  const attester: Did = getDidFromMnemonic(mnemonicObj.mnemonic);
+
+  // step 2: create VC
+  const rawContent = fs.readFileSync(content, { encoding: 'utf-8' });
+  const vc: VerifiableCredential<false | true> | false = await createVC(
+    baseUrl,
+    attester,
+    claimerDid,
+    ctypeHash,
+    rawContent,
+    isPublic,
+    rawHashType,
+    rawCredHashType
+  );
+
+  if (output === undefined) {
+    console.log(`${JSON.stringify(vc)}`);
+  } else {
+    if (multiClaimers === true) {
+      console.log(`output one VC object into ${output}`);
+      writeFileOfJsonArray(output, vc);
+    } else {
+      console.log(`output VC object into: ${output}`);
+      fs.writeFileSync(output, JSON.stringify(vc));
+    }
+  }
+
+  // step 3: encrypt message and send it to server
+  if (vc) {
+    const message = await encryptMessage('Send_issuedVC', vc, attester, claimer.getKeyUrl('keyAgreement'));
+
+    await sendEncryptedMessage(baseUrl, message);
+  }
+
+  return true;
+};
+
+export const issueVCs = async (
+  didResolver: string,
+  attesterMnemonic: string,
+  claimerDid: string | undefined,
+  ctypeHash: string | undefined,
+  content: string | undefined,
+  rawHashType?: string,
+  rawCredHashType?: string,
+  isPublic?: number,
+  output?: string
+) => {
+  if (claimerDid === undefined) {
+    console.error('claimerDid undefined !!!');
+
+    return false;
+  } else if (isValidDidUrl(claimerDid)) {
+    return await issueVC(
+      didResolver,
+      attesterMnemonic,
+      claimerDid,
+      ctypeHash,
+      content,
+      rawHashType,
+      rawCredHashType,
+      isPublic,
+      output
+    );
+  } else if (isValidPath(claimerDid)) {
+    const results: any = [];
+
+    fs.createReadStream(claimerDid)
+      .pipe(csv())
+      .on('data', (data) => results.push(data))
+      .on('end', async () => {
+        for (let i = 0; i < results.length; i++) {
+          await issueVC(
+            didResolver,
+            attesterMnemonic,
+            results[i].DID,
+            ctypeHash,
+            content,
+            rawHashType,
+            rawCredHashType,
+            isPublic,
+            output,
+            true
+          );
+        }
+      });
+
+    return true;
+  } else {
+    return false;
+  }
+};

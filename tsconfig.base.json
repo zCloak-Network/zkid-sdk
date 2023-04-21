@@ -24,6 +24,8 @@
       "@zcloak/vc": ["protocol/vc/src"],
       "@zcloak/vc/*": ["protocol/vc/src/*"],
       /** packages */
+      "@zcloak/cli": ["packages/cli/src"],
+      "@zcloak/cli/*": ["packages/cli/src/*"],
       "@zcloak/message": ["packages/message/src"],
       "@zcloak/message/*": ["packages/message/src/*"],
       "@zcloak/verify": ["packages/verify/src"],

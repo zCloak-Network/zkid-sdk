@@ -1,5 +1,14 @@
 # @zcloak/message
 
+## 1.0.10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @zcloak/crypto@1.2.5
+  - @zcloak/did@1.3.5
+  - @zcloak/vc@1.2.8
+
 ## 1.0.9
 
 ### Patch Changes

@@ -8,9 +8,5 @@
   "exclude": [
     "**/*.spec.ts",
     "**/test/**/*"
-  ],
-  "references": [
-    { "path": "../cross/tsconfig.build.json" },
-    { "path": "../wasm-bridge/tsconfig.build.json" }
   ]
 }

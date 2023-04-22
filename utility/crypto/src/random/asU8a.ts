@@ -3,6 +3,8 @@
 
 import { u8aToHex } from '@polkadot/util';
 
+import { getRandomValues } from '@zcloak/cross';
+
 import { HexString } from '../types';
 
 /**
@@ -20,13 +22,7 @@ import { HexString } from '../types';
  * ```
  */
 export function randomAsU8a(length = 32): Uint8Array {
-  const value = new Uint8Array(length);
-
-  value.forEach((_, i) => {
-    value[i] = Math.floor(Math.random() * 256);
-  });
-
-  return value;
+  return getRandomValues(new Uint8Array(length));
 }
 
 /**
@@ -34,5 +30,5 @@ export function randomAsU8a(length = 32): Uint8Array {
  * @description Creates a hex string filled with random bytes.
  */
 export function randomAsHex(length = 32): HexString {
-  return u8aToHex(randomAsU8a(length));
+  return u8aToHex(getRandomValues(new Uint8Array(length)));
 }

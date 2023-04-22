@@ -1,5 +1,12 @@
 # @zcloak/keyring
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [[`b7987d7`](https://github.com/zCloak-Network/zkid-sdk/commit/b7987d7ce3923226f607d8fe1bf7e5529730e8e3)]:
+  - @zcloak/crypto@1.2.4
+
 ## 1.1.3
 
 ### Patch Changes

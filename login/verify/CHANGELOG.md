@@ -1,5 +1,14 @@
 # @zcloak/login-verify
 
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @zcloak/verify@1.3.4
+  - @zcloak/did@1.3.4
+  - @zcloak/vc@1.2.7
+
 ## 1.1.6
 
 ### Patch Changes

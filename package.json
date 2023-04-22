@@ -28,7 +28,7 @@
     "clean": "zcloak-dev-clean-build",
     "clean:test": "zcloak-dev-run-test --clearCache",
     "lint": "yarn lint:ts && yarn lint:dependencies",
-    "lint:dependencies": "zcloak-dev-lint-dependencies --fix",
+    "lint:dependencies": "zcloak-dev-lint-dependencies",
     "lint:ts": "zcloak-dev-run-lint",
     "postinstall": "zcloak-dev-yarn-only",
     "test": "zcloak-dev-run-test --coverage --forceExit --runInBand --testPathIgnorePatterns e2e",

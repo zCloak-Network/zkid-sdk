@@ -4,6 +4,7 @@
   },
   "files": [],
   "references": [
+    { "path": "./utility/cross/tsconfig.build.json" },
     { "path": "./utility/crypto/tsconfig.build.json" },
     { "path": "./utility/keyring/tsconfig.build.json" },
     { "path": "./utility/wasm/tsconfig.build.json" },

@@ -1,5 +1,15 @@
 # @zcloak/verify
 
+## 1.3.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @zcloak/crypto@1.2.5
+  - @zcloak/ctype@1.2.7
+  - @zcloak/did@1.3.5
+  - @zcloak/vc@1.2.8
+
 ## 1.3.4
 
 ### Patch Changes

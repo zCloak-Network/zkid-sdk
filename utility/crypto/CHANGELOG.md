@@ -1,5 +1,12 @@
 # @zcloak/crypto
 
+## 1.2.5
+
+### Patch Changes
+
+- Updated dependencies [[`ea426de`](https://github.com/zCloak-Network/zkid-sdk/commit/ea426def192cb6762ed8c6a3bf97b5738c3b1f37)]:
+  - @zcloak/cross@1.0.1
+
 ## 1.2.4
 
 ### Patch Changes

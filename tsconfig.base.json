@@ -4,6 +4,8 @@
     "composite": true,
     "paths": {
       /** utility */
+      "@zcloak/cross": ["utility/cross/src"],
+      "@zcloak/cross/*": ["utility/cross/src/*"],
       "@zcloak/crypto": ["utility/crypto/src"],
       "@zcloak/crypto/*": ["utility/crypto/src/*"],
       "@zcloak/keyring": ["utility/keyring/src"],

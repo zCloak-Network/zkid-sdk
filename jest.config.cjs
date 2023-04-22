@@ -5,6 +5,7 @@ const config = require('@zcloak/dev/config/jest.cjs');
 
 module.exports = Object.assign({}, config, {
   moduleNameMapper: {
+    '@zcloak/cross(.*)$': '<rootDir>/utility/cross/src/$1',
     '@zcloak/crypto(.*)$': '<rootDir>/utility/crypto/src/$1',
     '@zcloak/keyring(.*)$': '<rootDir>/utility/keyring/src/$1',
     '@zcloak/wasm-asm(.*)$': '<rootDir>/utility/wasm-asm/src/$1',

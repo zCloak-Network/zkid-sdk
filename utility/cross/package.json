@@ -1,0 +1,27 @@
+{
+  "author": "zCloak",
+  "bugs": "https://github.com/zCloak-Network/zkid-sdk/issues",
+  "contributors": [],
+  "description": "zCloak cross package",
+  "homepage": "https://github.com/zCloak-Network/zkid-sdk/tree/master/utility/cross#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@zcloak/cross",
+  "publishConfig": {
+    "directory": "build"
+  },
+  "repository": {
+    "directory": "utility/cross",
+    "type": "git",
+    "url": "https://github.com/zCloak-Network/zkid-sdk.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "1.2.3",
+  "browser": "browser.js",
+  "main": "index.js",
+  "react-native": "react-native.js",
+  "devDependencies": {
+    "@types/react-native": "^0.71.6"
+  }
+}

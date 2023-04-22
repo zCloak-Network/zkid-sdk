@@ -4,7 +4,7 @@
     "composite": true,
     "paths": {
       /** utility */
-      "@zcloak/cross": ["utility/cross/src"],
+      "@zcloak/cross": ["utility/cross/src/node.ts"],
       "@zcloak/cross/*": ["utility/cross/src/*"],
       "@zcloak/crypto": ["utility/crypto/src"],
       "@zcloak/crypto/*": ["utility/crypto/src/*"],

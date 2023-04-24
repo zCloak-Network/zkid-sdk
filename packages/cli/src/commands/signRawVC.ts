@@ -10,7 +10,7 @@ import { DidKeys$Json } from '@zcloak/did/keys/types';
 import { VerifiableCredentialBuilder } from '@zcloak/vc';
 import { RawCredential, VerifiableCredential } from '@zcloak/vc/types';
 
-import { choseResolver, getCType, getDidFromKeys, getDidFromMnemonic, isValidPath, passwordPrompt } from '../utils';
+import { choseResolver, getCType, getDidFromKeys, isValidPath } from '../utils';
 
 export async function signRawVcFlow(
   baseUrl: string,
@@ -45,11 +45,11 @@ export async function signRawVC(
   didResolver: string,
   attesterIdentity: string,
   rawCredential: string,
-  isPublic?: boolean
+  isPublic = false
 ): Promise<boolean> {
   const baseUrl = choseResolver(didResolver);
 
-  if (!baseUrl || isPublic === undefined) {
+  if (!baseUrl) {
     return false;
   }
 
@@ -59,7 +59,9 @@ export async function signRawVC(
 
   if (!isValidPath(attesterIdentity)) {
     // attesterIdentity is string
-    attesterDid = getDidFromMnemonic(attesterIdentity);
+    console.log('invalid keys-file path');
+
+    return false;
   } else {
     // attesterIdentity is json file
     const didKeys = JSON.parse(fs.readFileSync(attesterIdentity, { encoding: 'utf-8' })) as DidKeys$Json;

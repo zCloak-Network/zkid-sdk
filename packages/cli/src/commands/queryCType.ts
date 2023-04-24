@@ -12,7 +12,7 @@ export const queryCType = async (didResolver: string, ctypeHash: string) => {
     return false;
   }
 
-  if (ctypeHash === null) {
+  if (ctypeHash === undefined) {
     console.log('your ctype hash input is null !!!');
 
     return false;

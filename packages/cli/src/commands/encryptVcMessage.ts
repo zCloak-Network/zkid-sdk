@@ -10,7 +10,7 @@ import { DidDocument } from '@zcloak/did-resolver/types';
 import { encryptMessage } from '@zcloak/message';
 import { VerifiableCredential } from '@zcloak/vc/types';
 
-import { choseResolver, getDidDoc, getDidFromKeys, getDidFromMnemonic, isValidPath } from '../utils';
+import { choseResolver, getDidDoc, getDidFromKeys, isValidPath } from '../utils';
 
 export async function encryptVcMessage(didResolver: string, vc: string, attesterIdentity: string) {
   const baseUrl = choseResolver(didResolver);
@@ -23,7 +23,9 @@ export async function encryptVcMessage(didResolver: string, vc: string, attester
 
   if (!isValidPath(attesterIdentity)) {
     // attesterIdentity is string
-    attesterDid = getDidFromMnemonic(attesterIdentity);
+    console.log('invalid keys-file path');
+
+    return false;
   } else {
     // attesterIdentity is json file
     const didKeys = JSON.parse(fs.readFileSync(attesterIdentity, { encoding: 'utf-8' })) as DidKeys$Json;
@@ -41,7 +43,12 @@ export async function encryptVcMessage(didResolver: string, vc: string, attester
     // vc is string
     const vcred = JSON.parse(vc) as VerifiableCredential<false | true>;
     const { holder: claimerDidUrl } = vcred;
-    const claimerDoc: DidDocument = await getDidDoc(baseUrl, claimerDidUrl);
+    const claimerDoc: DidDocument | false = await getDidDoc(baseUrl, claimerDidUrl);
+
+    if (claimerDoc === false) {
+      return false;
+    }
+
     const claimer: Did = fromDidDocument(claimerDoc);
 
     console.log(

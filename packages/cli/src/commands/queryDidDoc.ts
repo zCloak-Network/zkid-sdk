@@ -18,6 +18,10 @@ export const queryDidDoc = async (didResolver: string, didUrl: string | undefine
 
   const holderDidDoc = await getDidDoc(baseUrl, didUrl);
 
+  if (!holderDidDoc) {
+    return false;
+  }
+
   console.log(`${JSON.stringify(holderDidDoc)}`);
 
   return holderDidDoc;

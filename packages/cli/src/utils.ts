@@ -126,26 +126,29 @@ export async function getCType(baseUrl: string, ctypeHash: string): Promise<CTyp
   return ctype;
 }
 
-export async function getDidDoc(baseUrl: string, didUrl: string): Promise<DidDocument> {
-  const didRes = await axios.get(`${baseUrl}/did/${didUrl}`);
+export async function getDidDoc(baseUrl: string, didUrl: string): Promise<DidDocument | false> {
+  try {
+    const didRes = await axios.get(`${baseUrl}/did/${didUrl}`);
 
-  if (didRes.status !== 200) {
-    throw new Error(`get ${didUrl} did document failed`);
+    const holderDidDoc: DidDocument = didRes.data.data.rawData;
+
+    return holderDidDoc;
+  } catch (error: any) {
+    if (error.message === "Cannot read properties of null (reading 'rawData')") {
+      console.log('Wrong did url parameter !!!');
+    }
+
+    return false;
   }
-
-  const holderDidDoc: DidDocument = didRes.data.data.rawData;
-
-  return holderDidDoc;
 }
 
 export async function getDidFromKeys(json: DidKeys$Json): Promise<Did | false> {
   const keyring = new Keyring();
 
   const password = await passwordPrompt('Enter the password to decrypt the DID-keys file:');
-  const repeatPassword = await passwordPrompt('Enter the password Again:', (input) => input === password);
 
   try {
-    return restore(keyring, json, repeatPassword);
+    return restore(keyring, json, password);
   } catch (error: any) {
     if (error.message === 'Unable to decode using the supplied passphrase') {
       console.log('Wrong password !!!');

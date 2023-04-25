@@ -1,59 +1,48 @@
 # @zcloak/cli
 
-## Usage
+🤓 Sweet method to be an attester.
 
-**Get claimer Did object**
+- 🎩 Generate a DID account
+- 🔍 Query DID Document and cType
+- ✍️  Build and sign VC
+- 📮 Send an encrypted message using our message communication channel
 
-Using this command to generate a did object json file, if using the `--dry-run` flag, it will print output to console.
-```bash
-zkid-cli did --did did:zk:0x1234abcd...67890fghl --dry-run
-```
+## Tutorial
 
-**Get ctype**
+In this section, I would show you how to issue a credential with CLI.
 
-This command will return a ctype object json file when giving a ctype hash. If using the `--dry-run` flag, it will print output to console.
-```bash
-zkid-cli ctype --ctypeHash 0x123abcd...67890kjsne --dry-run
-```
+### Step 1
+Create a ctype on our [credential platform](https://cred.zkid.app).
 
-**Build Raw**
-
-This command can help you build a raw object.
-```bash
-zkid-cli raw --contents name claimer age 24 ... --ctypeHash 0x123abcd...67890rtyu --owner did:zk:0x1234abcd...67890hjkl --hashType Blake3
-```
-
-**Build VC from Raw and Send it to Claimer**
-
-Using this command, you can build a VC from raw object and send VC to claimer.
-
-Required:
-1. `--attester did:zk:0x1234abcd...5678defg` This flag indicates who will execute sending credential operation
-2. `--raw /path/to/raw.json ( or raw object {...})` This flag indicates what raw object will be uesed
-
-Options:
-1. `--rawCredHashType` This flag indicates what crypto method will use when building a raw credential. The default is keccak256
-2. `--isPublic` This flag indicates what type of credential you will create. The default is false, that is private credential
+### Step 2
+Use the `zkid vc raw` command to build a raw credential.
 
 ```bash
-zkid-cli sendVCFromRaw --attester did:zk:0x1234abcd...5678defg --raw /path/to/raw.json ( or raw object {...})
+zkid vc raw -c CTYPE_HASH --content CTYPE_CONTENT --claimer CLAIMER_DID_URL
 ```
+This command can return a raw credential of type string.
 
-**Send VC to Claimer**
-
-Build a VC (default is private vc) and then send it to claimer. We need the following flags:
-
-Required:
-1. `--attester did:zk:0x1234abcd...5678defg` This flag indicates who will execute sending credential operation
-2. `--claimer did:zk:0x5678defg...1234abcd` This flag indicates who can receive credential
-3. `--ctypeHash 0x123abcd...67890rtyu` This flag indicates what credential type attetser will use
-4. `--content /path/to/content.csv ( or name john age 24 ...)` This flag indicates that what raw content will include, you can pass a csv file or a content string.
-
-Options:
-1. `--rawHashType Blake3` This flag indicates what crypto method will use when building a raw. The default is blake3
-2. `--rawCredHashType` This flag indicates what crypto method will use when building a raw credential. The default is keccak256
-3. `--isPublic` This flag indicates what type of credential you will create. The default is false, that is private credential
+### Step 3
+Use the `zkid vc sign` command to build a verifiable credential (VC).
 
 ```bash
-zkid-cli sendVC --attester did:zk:0x1234abcd...5678defg --claimer did:zk:0x5678defg...1234abcd --ctypeHash 0x123abcd...67890rtyu --content /path/to/content.csv ( or name john age 24 ...)
+zkid vc sign -k /path/to/DID_KEYS_FILE.json  -r 'RAW_CREDENTIAL'
 ```
+This command can return a signed VC.
+
+### Step 4
+Use the `zkid vc encrypt` command to encrypt VC.
+
+```bash
+zkid vc encrypt -k /path/to/DID_KEYS_FILE.json  -v 'VC'
+```
+This command can return an encrypted message, with the signed VC being a part of the message.
+
+### Step 5
+Use the `zkid message` command to send an encrypted message.
+
+```bash
+zkid message -s 'MESSAGE'
+```
+This command can send the encrypted message to our server, and our back-end service can push the message to the credential platform.
+The claimer can decrypt this message and get your issued credential.

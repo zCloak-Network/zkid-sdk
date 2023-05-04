@@ -3942,6 +3942,8 @@ __metadata:
     "@types/ed2curve": "npm:^0.2.2"
     "@types/ethereumjs-abi": "npm:^0.6.3"
     "@zcloak/cross": "workspace:^"
+    "@zcloak/wasm": "workspace:^"
+    "@zcloak/wasm-asm": "workspace:^"
     "@zcloak/wasm-bridge": "workspace:^"
     bip39: "npm:^3.1.0"
     canonicalize: "npm:^2.0.0"
@@ -4172,6 +4174,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@zcloak/miden@workspace:utility/miden":
+  version: 0.0.0-use.local
+  resolution: "@zcloak/miden@workspace:utility/miden"
+  dependencies:
+    "@zcloak/wasm-bridge": "workspace:^"
+  languageName: unknown
+  linkType: soft
+
 "@zcloak/vc@workspace:^, @zcloak/vc@workspace:protocol/vc":
   version: 0.0.0-use.local
   resolution: "@zcloak/vc@workspace:protocol/vc"
@@ -4198,7 +4208,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/wasm-asm@workspace:utility/wasm-asm":
+"@zcloak/wasm-asm@workspace:^, @zcloak/wasm-asm@workspace:utility/wasm-asm":
   version: 0.0.0-use.local
   resolution: "@zcloak/wasm-asm@workspace:utility/wasm-asm"
   languageName: unknown
@@ -4209,13 +4219,10 @@ __metadata:
   resolution: "@zcloak/wasm-bridge@workspace:utility/wasm-bridge"
   dependencies:
     "@polkadot/util": "npm:^11.1.3"
-  peerDependencies:
-    "@zcloak/wasm": 1.0.2
-    "@zcloak/wasm-asm": 1.0.2
   languageName: unknown
   linkType: soft
 
-"@zcloak/wasm@workspace:utility/wasm":
+"@zcloak/wasm@workspace:^, @zcloak/wasm@workspace:utility/wasm":
   version: 0.0.0-use.local
   resolution: "@zcloak/wasm@workspace:utility/wasm"
   languageName: unknown

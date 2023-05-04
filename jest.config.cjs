@@ -8,6 +8,7 @@ module.exports = Object.assign({}, config, {
     '@zcloak/cross(.*)$': '<rootDir>/utility/cross/src/node',
     '@zcloak/crypto(.*)$': '<rootDir>/utility/crypto/src/$1',
     '@zcloak/keyring(.*)$': '<rootDir>/utility/keyring/src/$1',
+    '@zcloak/miden(.*)$': '<rootDir>/utility/miden/src/$1',
     '@zcloak/wasm-asm(.*)$': '<rootDir>/utility/wasm-asm/src/$1',
     '@zcloak/wasm-bridge(.*)$': '<rootDir>/utility/wasm-bridge/src/$1',
     '@zcloak/wasm(.*)$': '<rootDir>/utility/wasm/src/$1',

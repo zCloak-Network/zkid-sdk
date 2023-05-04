@@ -12,7 +12,7 @@ pub fn ext_execute_zk_program(program_code: String, stack_init: String, advice_t
 
 /// miden generate program hash
 #[wasm_bindgen]
-pub fn ext_execute_zk_program(program_in_assembly: String) -> String {
+pub fn ext_generate_program_hash(program_in_assembly: String) -> String {
 	return generate_program_hash(program_in_assembly)
 }
 

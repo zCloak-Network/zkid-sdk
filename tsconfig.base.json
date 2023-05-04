@@ -10,6 +10,8 @@
       "@zcloak/crypto/*": ["utility/crypto/src/*"],
       "@zcloak/keyring": ["utility/keyring/src"],
       "@zcloak/keyring/*": ["utility/keyring/src/*"],
+      "@zcloak/miden": ["utility/miden/src"],
+      "@zcloak/miden/*": ["utility/miden/src/*"],
       "@zcloak/wasm": ["utility/wasm/src"],
       "@zcloak/wasm/*": ["utility/wasm/src/*"],
       "@zcloak/wasm-asm": ["utility/wasm-asm/src"],

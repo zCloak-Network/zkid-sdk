@@ -4,9 +4,8 @@
 import { utils as utilsNobleSecp256k1 } from '@noble/secp256k1';
 import { u8aConcat } from '@polkadot/util';
 
-import { initWasm } from '@zcloak/wasm-bridge';
-
 import { hmacSha256AsU8a } from './hmac';
+import { initWasm } from './wasm';
 
 export function initCrypto(onlyAsm?: boolean) {
   // Set overrides on the secp256k1 utils

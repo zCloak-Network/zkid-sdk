@@ -1,5 +1,12 @@
 # @zcloak/login-did
 
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @zcloak/did@1.3.6
+
 ## 1.1.6
 
 ### Patch Changes

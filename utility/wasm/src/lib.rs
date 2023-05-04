@@ -3,5 +3,6 @@
 
 #[path = "rs/hashing.rs"]
 pub mod hashing;
+
 #[path = "rs/miden.rs"]
 pub mod miden;

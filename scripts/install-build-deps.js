@@ -5,10 +5,10 @@ import { execSync } from 'child_process';
 import fs from 'fs-extra';
 
 const BINDGEN_REPO = 'https://github.com/rustwasm/wasm-bindgen';
-const BINDGEN_VER = '0.2.83';
+const BINDGEN_VER = '0.2.84';
 
 const BINARYEN_REPO = 'https://github.com/WebAssembly/binaryen';
-const BINARYEN_VER = 'version_111';
+const BINARYEN_VER = 'version_112';
 
 let bindgen_zip;
 let binaryen_zip;

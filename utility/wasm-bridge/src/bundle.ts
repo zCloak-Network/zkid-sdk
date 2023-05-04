@@ -54,3 +54,9 @@ export const rescuePrimeHash = withWasm(([wasm, retptr], values: BigUint64Array)
 
   return resultU64a(retptr);
 });
+
+export const rescuePrimeOptimizedHash = withWasm(([wasm, retptr], values: BigUint64Array): BigUint64Array => {
+  wasm.ext_rescue_prime_optimized_hash(retptr, ...allocU64a(values));
+
+  return resultU64a(retptr);
+});

@@ -4,9 +4,9 @@ version = 3
 
 [[package]]
 name = "arrayref"
-version = "0.3.6"
+version = "0.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4c527152e37cf757a3f78aae5a06fbeefdb07ccc535c980a3208ee3060dd544"
+checksum = "6b4930d2cb77ce62f89ee5d5289b4ac049559b1c45539271f5ed4fdc7db34545"
 
 [[package]]
 name = "arrayvec"
@@ -20,7 +20,7 @@ version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d9b39be18770d11421cdb1b9947a45dd3f37e93092cbf377614828a319d5fee8"
 dependencies = [
- "hermit-abi",
+ "hermit-abi 0.1.19",
  "libc",
  "winapi",
 ]
@@ -53,30 +53,18 @@ dependencies = [
 
 [[package]]
 name = "block-buffer"
-version = "0.10.3"
+version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "69cce20737498f97b993470a6e536b8523f0af7892a4f928cceb1ac5e52ebe7e"
+checksum = "3078c7629b62d3f0439517fa394996acacc5cbc91c5a20d8c658e77abd503a71"
 dependencies = [
  "generic-array",
 ]
 
 [[package]]
-name = "bstr"
-version = "0.2.17"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ba3569f383e8f1598449f1a423e72e99569137b47740b1da11ef19af3d5c3223"
-dependencies = [
- "lazy_static",
- "memchr",
- "regex-automata",
- "serde",
-]
-
-[[package]]
 name = "bumpalo"
-version = "3.11.1"
+version = "3.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "572f695136211188308f16ad2ca5c851a712c464060ae6974944458eb83880ba"
+checksum = "9b1ce199063694f33ffb7dd4e0ee620741495c32833cde5aa08f02a0bf96f0c8"
 
 [[package]]
 name = "cast"
@@ -86,9 +74,9 @@ checksum = "37b2a672a2cb129a2e41c10b1224bb368f9f37a2b16b612598138befd7b37eb5"
 
 [[package]]
 name = "cc"
-version = "1.0.77"
+version = "1.0.79"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e9f73505338f7d905b19d18738976aae232eb46b8efc15554ffc56deb5d9ebe4"
+checksum = "50d30906286121d95be3d479533b458f87493b30a4b5f79a607db8f5d11aa91f"
 
 [[package]]
 name = "cfg-if"
@@ -119,15 +107,15 @@ dependencies = [
 
 [[package]]
 name = "constant_time_eq"
-version = "0.2.4"
+version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f3ad85c1f65dc7b37604eb0e89748faf0b9653065f2a8ef69f96a687ec1e9279"
+checksum = "13418e745008f7349ec7e449155f419a61b92b58a99cc3616942b926825ec76b"
 
 [[package]]
 name = "cpufeatures"
-version = "0.2.5"
+version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "28d997bd5e24a5928dd43e46dc529867e207907fe0b239c3477d924f7f2ca320"
+checksum = "3e4c1eaa2012c47becbbad2ab175484c2a84d1185b566fb2cc5b8707343dfe58"
 dependencies = [
  "libc",
 ]
@@ -170,9 +158,9 @@ dependencies = [
 
 [[package]]
 name = "crossbeam-channel"
-version = "0.5.6"
+version = "0.5.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c2dd04ddaf88237dc3b8d8f9a3c1004b506b54b3313403944054d23c0870c521"
+checksum = "a33c2bf77f2df06183c3aa30d1e96c0695a313d4f9c453cc3762a6db39f99200"
 dependencies = [
  "cfg-if",
  "crossbeam-utils",
@@ -180,9 +168,9 @@ dependencies = [
 
 [[package]]
 name = "crossbeam-deque"
-version = "0.8.2"
+version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "715e8152b692bba2d374b53d4875445368fdf21a94751410af607a5ac677d1fc"
+checksum = "ce6fd6f855243022dcecf8702fef0c297d4338e226845fe067f6341ad9fa0cef"
 dependencies = [
  "cfg-if",
  "crossbeam-epoch",
@@ -191,9 +179,9 @@ dependencies = [
 
 [[package]]
 name = "crossbeam-epoch"
-version = "0.9.13"
+version = "0.9.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01a9af1f4c2ef74bb8aa1f7e19706bc72d03598c8a570bb5de72243c7a9d9d5a"
+checksum = "46bd5f3f85273295a9d14aedfb86f6aadbff6d8f5295c4a9edb08e819dcf5695"
 dependencies = [
  "autocfg",
  "cfg-if",
@@ -204,9 +192,9 @@ dependencies = [
 
 [[package]]
 name = "crossbeam-utils"
-version = "0.8.14"
+version = "0.8.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4fb766fa798726286dbbb842f174001dab8abc7b627a1dd86e0b7222a95d929f"
+checksum = "3c063cd8cc95f5c377ed0d4b49a4b21f632396ff690e8470c29b3359b346984b"
 dependencies = [
  "cfg-if",
 ]
@@ -223,13 +211,12 @@ dependencies = [
 
 [[package]]
 name = "csv"
-version = "1.1.6"
+version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22813a6dc45b335f9bade10bf7271dc477e81113e89eb251a0bc2a8a81c536e1"
+checksum = "0b015497079b9a9d69c02ad25de6c0a6edef051ea6360a327d0bd05802ef64ad"
 dependencies = [
- "bstr",
  "csv-core",
- "itoa 0.4.8",
+ "itoa",
  "ryu",
  "serde",
 ]
@@ -256,9 +243,9 @@ dependencies = [
 
 [[package]]
 name = "either"
-version = "1.8.0"
+version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "90e5c1c8368803113bf0c9584fc495a58b86dc8a29edbf8fe877d21d9507e797"
+checksum = "7fcaabb2fef8c910e7f4c7ce9f67a1283a1715879a7c230ca9d6d1ae31f16d91"
 
 [[package]]
 name = "env_logger"
@@ -271,9 +258,9 @@ dependencies = [
 
 [[package]]
 name = "generic-array"
-version = "0.14.6"
+version = "0.14.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bff49e947297f3312447abdca79f45f4738097cc82b06e72054d2223f601f1b9"
+checksum = "85649ca51fd72272d7821adaf274ad91c288277713d9c18820d8499a7ff69e9a"
 dependencies = [
  "typenum",
  "version_check",
@@ -310,6 +297,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "hermit-abi"
+version = "0.2.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ee512640fe35acbfb4bb779db6f0d80704c2cacfa2e39b601ef3e3f47d1ae4c7"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "hex"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -336,21 +332,15 @@ dependencies = [
 
 [[package]]
 name = "itoa"
-version = "0.4.8"
+version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b71991ff56294aa922b450139ee08b3bfc70982c6b2c7562771375cf73542dd4"
-
-[[package]]
-name = "itoa"
-version = "1.0.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4217ad341ebadf8d8e724e264f13e593e0648f5b3e94b3896a5df283be015ecc"
+checksum = "453ad9f582a441959e5f0d088b02ce04cfe8d51a8eaf077f12ac6d3e94164ca6"
 
 [[package]]
 name = "js-sys"
-version = "0.3.60"
+version = "0.3.61"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "49409df3e3bf0856b916e2ceaca09ee28e6871cf7d9ce97a692cacfdb2a25a47"
+checksum = "445dde2150c55e483f3d8416706b97ec8e8237c307e5b7b4b8dd15e6af2a0730"
 dependencies = [
  "wasm-bindgen",
 ]
@@ -372,9 +362,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "libc"
-version = "0.2.138"
+version = "0.2.142"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db6d7e329c562c5dfab7a46a2afabc8b987ab9a4834c9d1ca04dc54c1546cef8"
+checksum = "6a987beff54b60ffa6d51982e1aa1146bc42f19bd26be28b0586f252fccf5317"
 
 [[package]]
 name = "log"
@@ -393,9 +383,9 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 
 [[package]]
 name = "memoffset"
-version = "0.7.1"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5de893c32cde5f383baa4c04c5d6dbdd735cfd4a794b0debdb2bb1b421da5ff4"
+checksum = "d61c719bcfbcf5d62b3a09efa6088de8c54bc0bfcd3ea7ae39fcc186108b8de1"
 dependencies = [
  "autocfg",
 ]
@@ -403,7 +393,7 @@ dependencies = [
 [[package]]
 name = "miden-air"
 version = "0.5.0"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "miden-core",
  "serde",
@@ -413,7 +403,7 @@ dependencies = [
 [[package]]
 name = "miden-assembly"
 version = "0.5.0"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "miden-core",
  "num_enum",
@@ -422,31 +412,31 @@ dependencies = [
 [[package]]
 name = "miden-core"
 version = "0.5.0"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "miden-crypto",
  "serde",
- "winter-crypto 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-math 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-crypto 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-math 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-utils 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
 ]
 
 [[package]]
 name = "miden-crypto"
 version = "0.2.0"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "blake3",
  "serde",
- "winter-crypto 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-math 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-crypto 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-math 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-utils 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
 ]
 
 [[package]]
 name = "miden-processor"
 version = "0.5.0"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "log",
  "miden-core",
@@ -457,7 +447,7 @@ dependencies = [
 [[package]]
 name = "miden-prover"
 version = "0.5.0"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "log",
  "miden-air",
@@ -468,7 +458,7 @@ dependencies = [
 [[package]]
 name = "miden-stdlib"
 version = "0.4.0"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "miden-assembly",
 ]
@@ -476,7 +466,7 @@ dependencies = [
 [[package]]
 name = "miden-verifier"
 version = "0.5.0"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "miden-air",
  "miden-core",
@@ -486,7 +476,7 @@ dependencies = [
 [[package]]
 name = "miden-vm"
 version = "0.5.0"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "console_error_panic_hook",
  "env_logger",
@@ -539,11 +529,11 @@ dependencies = [
 
 [[package]]
 name = "num_cpus"
-version = "1.14.0"
+version = "1.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f6058e64324c71e02bc2b150e4f3bc8286db6c83092132ffa3f6b1eab0f9def5"
+checksum = "0fac9e2da13b5eb447a6ce3d392f23a29d8694bff781bf03a16cd9ac8697593b"
 dependencies = [
- "hermit-abi",
+ "hermit-abi 0.2.6",
  "libc",
 ]
 
@@ -565,14 +555,14 @@ dependencies = [
  "proc-macro-crate",
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
 ]
 
 [[package]]
 name = "once_cell"
-version = "1.16.0"
+version = "1.17.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "86f0b0d4bf799edbc74508c1e8bf170ff5f41238e5f8225603ca7caaae2b7860"
+checksum = "b7e5500299e16ebb147ae15a00a942af264cf3688f47923b8fc2cd5858f23ad3"
 
 [[package]]
 name = "oorandom"
@@ -627,7 +617,7 @@ dependencies = [
  "proc-macro-error-attr",
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
  "version_check",
 ]
 
@@ -644,38 +634,37 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.47"
+version = "1.0.56"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5ea3d908b0e36316caf9e9e2c4625cdde190a7e6f440d794667ed17a1855e725"
+checksum = "2b63bdb0cd06f1f4dedf69b254734f9b45af66e4a031e42a7480257d9898b435"
 dependencies = [
  "unicode-ident",
 ]
 
 [[package]]
 name = "quote"
-version = "1.0.21"
+version = "1.0.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bbe448f377a7d6961e30f5955f9b8d106c3f5e449d493ee1b125c1d43c2b5179"
+checksum = "4424af4bf778aae2051a77b60283332f386554255d722233d09fbfc7e30da2fc"
 dependencies = [
  "proc-macro2",
 ]
 
 [[package]]
 name = "rayon"
-version = "1.6.0"
+version = "1.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e060280438193c554f654141c9ea9417886713b7acd75974c85b18a69a88e0b"
+checksum = "1d2df5196e37bcc87abebc0053e20787d73847bb33134a69841207dd0a47f03b"
 dependencies = [
- "crossbeam-deque",
  "either",
  "rayon-core",
 ]
 
 [[package]]
 name = "rayon-core"
-version = "1.10.1"
+version = "1.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cac410af5d00ab6884528b4ab69d1e8e146e8d471201800fa1b4524126de6ad3"
+checksum = "4b8f95bd6966f5c87776639160a66bd8ab9895d9d4ab01ddba9fc60661aebe8d"
 dependencies = [
  "crossbeam-channel",
  "crossbeam-deque",
@@ -685,32 +674,26 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.7.0"
+version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e076559ef8e241f2ae3479e36f97bd5741c0330689e217ad51ce2c76808b868a"
+checksum = "af83e617f331cc6ae2da5443c602dfa5af81e517212d9d611a5b3ba1777b5370"
 dependencies = [
  "regex-syntax",
 ]
 
 [[package]]
-name = "regex-automata"
-version = "0.1.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c230d73fb8d8c1b9c0b3135c5142a8acee3a0558fb8db5cf1cb65f8d7862132"
-
-[[package]]
 name = "regex-syntax"
-version = "0.6.28"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "456c603be3e8d448b072f410900c09faf164fbce2d480456f50eea6e25f9c848"
+checksum = "a5996294f19bd3aae0453a862ad728f60e6600695733dd5df01da90c54363a3c"
 
 [[package]]
 name = "rescue"
 version = "0.1.0"
-source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#ecc9c9cd3c08c2002d15051e4680fa42c9d60322"
+source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#00f63fdab07fcdfdab5f0bef9ee15c8e23d5ae36"
 dependencies = [
  "rescue-prime-optimized",
- "sp-std 4.0.0-dev",
+ "sp-std",
  "wasm-bindgen",
  "winter-crypto 0.4.0",
  "winter-math 0.4.0",
@@ -720,23 +703,23 @@ dependencies = [
 [[package]]
 name = "rescue-prime-optimized"
 version = "0.4.0"
-source = "git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git#93e320fa1a9448812a1f0de57cef3930eacb4cbc"
+source = "git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git#e31d6d0b7e5afd570ecb49e5ea0c4b1cc2ca11e3"
 dependencies = [
  "blake3",
  "console_error_panic_hook",
- "sp-std 5.0.0",
+ "sp-std",
  "wasm-bindgen",
  "wasm-bindgen-test",
- "winter-crypto 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "winter-math 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "winter-utils 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winter-crypto 0.6.2 (git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git)",
+ "winter-math 0.6.2 (git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git)",
+ "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git)",
 ]
 
 [[package]]
 name = "ryu"
-version = "1.0.11"
+version = "1.0.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4501abdff3ae82a1c1b477a17252eb69cee9e66eb915c1abaa4f44d873df9f09"
+checksum = "f91339c0467de62360649f8d3e185ca8de4224ff281f66000de5eb2a77a79041"
 
 [[package]]
 name = "same-file"
@@ -761,9 +744,9 @@ checksum = "d29ab0c6d3fc0ee92fe66e2d99f700eab17a8d57d1c1d3b748380fb20baa78cd"
 
 [[package]]
 name = "serde"
-version = "1.0.148"
+version = "1.0.160"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e53f64bb4ba0191d6d0676e1b141ca55047d83b74f5607e6d8eb88126c52c2dc"
+checksum = "bb2f3770c8bce3bcda7e149193a069a0f4365bda1fa5cd88e03bca26afc1216c"
 dependencies = [
  "serde_derive",
 ]
@@ -780,31 +763,31 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.148"
+version = "1.0.160"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a55492425aa53521babf6137309e7d34c20bbfbbfcfe2c7f3a047fd1f6b92c0c"
+checksum = "291a097c63d8497e00160b166a967a4a79c64f3facdd01cbd7502231688d77df"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn",
+ "syn 2.0.15",
 ]
 
 [[package]]
 name = "serde_json"
-version = "1.0.89"
+version = "1.0.96"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "020ff22c755c2ed3f8cf162dbb41a7268d934702f3ed3631656ea597e08fc3db"
+checksum = "057d394a50403bcac12672b2b18fb387ab6d289d957dab67dd201875391e52f1"
 dependencies = [
- "itoa 1.0.4",
+ "itoa",
  "ryu",
  "serde",
 ]
 
 [[package]]
 name = "sha3"
-version = "0.10.6"
+version = "0.10.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bdf0c33fae925bdc080598b84bc15c55e7b9a4a43b3c704da051f977469691c9"
+checksum = "54c2bb1a323307527314a36bfb73f24febb08ce2b8a554bf4ffd6f51ad15198c"
 dependencies = [
  "digest",
  "keccak",
@@ -812,13 +795,8 @@ dependencies = [
 
 [[package]]
 name = "sp-std"
-version = "4.0.0-dev"
-source = "git+https://github.com/zCloak-Network/substrate#6699fccb942eb61734dfdbc9b970dd8784d455ab"
-
-[[package]]
-name = "sp-std"
 version = "5.0.0"
-source = "git+https://github.com/paritytech/substrate.git#16b2e644487f7f767eeefd4debf11a7948bfa4db"
+source = "git+https://github.com/paritytech/substrate.git#71d749c74e43c7a840c94fcbbdd2b0172a21d473"
 
 [[package]]
 name = "structopt"
@@ -841,7 +819,7 @@ dependencies = [
  "proc-macro-error",
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -852,9 +830,20 @@ checksum = "6bdef32e8150c2a081110b42772ffe7d7c9032b606bc226c8260fd97e0976601"
 
 [[package]]
 name = "syn"
-version = "1.0.105"
+version = "1.0.109"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "60b9b43d45702de4c839cb9b51d9f529c5dd26a4aff255b42b1ebc03e88ee908"
+checksum = "72b64191b275b66ffe2469e8af2c1cfe3bafa67b529ead792a6d0160888b4237"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "unicode-ident",
+]
+
+[[package]]
+name = "syn"
+version = "2.0.15"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a34fcf3e8b60f57e6a14301a2e916d323af98b0ea63c599441eec8558660c822"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -899,15 +888,15 @@ dependencies = [
 
 [[package]]
 name = "typenum"
-version = "1.15.0"
+version = "1.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dcf81ac59edc17cc8697ff311e8f5ef2d99fcbd9817b34cec66f90b6c3dfd987"
+checksum = "497961ef93d974e23eb6f433eb5fe1b7930b659f06d12dec6fc44a8f554c0bba"
 
 [[package]]
 name = "unicode-ident"
-version = "1.0.5"
+version = "1.0.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6ceab39d59e4c9499d4e5a8ee0e2735b891bb7308ac83dfb4e80cad195c9f6f3"
+checksum = "e5464a87b239f13a63a501f2701565754bae92d243d4bb7eb12f6d57d2269bf4"
 
 [[package]]
 name = "unicode-segmentation"
@@ -929,12 +918,11 @@ checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 
 [[package]]
 name = "walkdir"
-version = "2.3.2"
+version = "2.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "808cf2735cd4b6866113f648b791c6adc5714537bc222d9347bb203386ffda56"
+checksum = "36df944cda56c7d8d8b7496af378e6b16de9284591917d307c9b4d313c44e698"
 dependencies = [
  "same-file",
- "winapi",
  "winapi-util",
 ]
 
@@ -951,9 +939,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen"
-version = "0.2.83"
+version = "0.2.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eaf9f5aceeec8be17c128b2e93e031fb8a4d469bb9c4ae2d7dc1888b26887268"
+checksum = "31f8dcbc21f30d9b8f2ea926ecb58f6b91192c17e9d33594b3df58b2007ca53b"
 dependencies = [
  "cfg-if",
  "wasm-bindgen-macro",
@@ -961,24 +949,24 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-backend"
-version = "0.2.83"
+version = "0.2.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4c8ffb332579b0557b52d268b91feab8df3615f265d5270fec2a8c95b17c1142"
+checksum = "95ce90fd5bcc06af55a641a86428ee4229e44e07033963a2290a8e241607ccb9"
 dependencies = [
  "bumpalo",
  "log",
  "once_cell",
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
  "wasm-bindgen-shared",
 ]
 
 [[package]]
 name = "wasm-bindgen-futures"
-version = "0.4.33"
+version = "0.4.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "23639446165ca5a5de86ae1d8896b737ae80319560fbaa4c2887b7da6e7ebd7d"
+checksum = "f219e0d211ba40266969f6dbdd90636da12f75bee4fc9d6c23d1260dadb51454"
 dependencies = [
  "cfg-if",
  "js-sys",
@@ -988,9 +976,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-macro"
-version = "0.2.83"
+version = "0.2.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "052be0f94026e6cbc75cdefc9bae13fd6052cdcaf532fa6c45e7ae33a1e6c810"
+checksum = "4c21f77c0bedc37fd5dc21f897894a5ca01e7bb159884559461862ae90c0b4c5"
 dependencies = [
  "quote",
  "wasm-bindgen-macro-support",
@@ -998,28 +986,28 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-macro-support"
-version = "0.2.83"
+version = "0.2.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "07bc0c051dc5f23e307b13285f9d75df86bfdf816c5721e573dec1f9b8aa193c"
+checksum = "2aff81306fcac3c7515ad4e177f521b5c9a15f2b08f4e32d823066102f35a5f6"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn",
+ "syn 1.0.109",
  "wasm-bindgen-backend",
  "wasm-bindgen-shared",
 ]
 
 [[package]]
 name = "wasm-bindgen-shared"
-version = "0.2.83"
+version = "0.2.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1c38c045535d93ec4f0b4defec448e4291638ee608530863b1e2ba115d4fff7f"
+checksum = "0046fef7e28c3804e5e38bfa31ea2a0f73905319b677e57ebe37e49358989b5d"
 
 [[package]]
 name = "wasm-bindgen-test"
-version = "0.3.33"
+version = "0.3.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "09d2fff962180c3fadf677438054b1db62bee4aa32af26a45388af07d1287e1d"
+checksum = "6db36fc0f9fb209e88fb3642590ae0205bb5a56216dabd963ba15879fe53a30b"
 dependencies = [
  "console_error_panic_hook",
  "js-sys",
@@ -1031,9 +1019,9 @@ dependencies = [
 
 [[package]]
 name = "wasm-bindgen-test-macro"
-version = "0.3.33"
+version = "0.3.34"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4683da3dfc016f704c9f82cf401520c4f1cb3ee440f7f52b3d6ac29506a49ca7"
+checksum = "0734759ae6b3b1717d661fe4f016efcfb9828f5edb4520c18eaee05af3b43be9"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1041,9 +1029,9 @@ dependencies = [
 
 [[package]]
 name = "web-sys"
-version = "0.3.60"
+version = "0.3.61"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bcda906d8be16e728fd5adc5b729afad4e444e106ab28cd1c7256e54fa61510f"
+checksum = "e33b99f4b23ba3eec1a53ac264e35a755f00e966e0065077d6027c0f575b0b97"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
@@ -1082,9 +1070,9 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 
 [[package]]
 name = "winnow"
-version = "0.4.1"
+version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ae8970b36c66498d8ff1d66685dc86b91b29db0c7739899012f63a63814b4b28"
+checksum = "61de7bac303dc551fe038e2b3cef0f571087a47571ea6e79a87692ac99b99699"
 dependencies = [
  "memchr",
 ]
@@ -1092,19 +1080,19 @@ dependencies = [
 [[package]]
 name = "winter-air"
 version = "0.6.2"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "serde",
- "winter-crypto 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-crypto 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
  "winter-fri",
- "winter-math 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-math 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-utils 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
 ]
 
 [[package]]
 name = "winter-crypto"
 version = "0.4.0"
-source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#ecc9c9cd3c08c2002d15051e4680fa42c9d60322"
+source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#00f63fdab07fcdfdab5f0bef9ee15c8e23d5ae36"
 dependencies = [
  "blake3",
  "serde",
@@ -1116,41 +1104,40 @@ dependencies = [
 [[package]]
 name = "winter-crypto"
 version = "0.6.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9b8e5f1652641d2febd5eafb0d0bbc5b70825daac82f1be1c1a2eca3656f7679"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "blake3",
  "sha3",
- "winter-math 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "winter-utils 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winter-math 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-utils 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
 ]
 
 [[package]]
 name = "winter-crypto"
 version = "0.6.2"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git#e31d6d0b7e5afd570ecb49e5ea0c4b1cc2ca11e3"
 dependencies = [
  "blake3",
  "sha3",
- "winter-math 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-math 0.6.2 (git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git)",
+ "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git)",
 ]
 
 [[package]]
 name = "winter-fri"
 version = "0.6.2"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "serde",
- "winter-crypto 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-math 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-crypto 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-math 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-utils 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
 ]
 
 [[package]]
 name = "winter-math"
 version = "0.4.0"
-source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#ecc9c9cd3c08c2002d15051e4680fa42c9d60322"
+source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#00f63fdab07fcdfdab5f0bef9ee15c8e23d5ae36"
 dependencies = [
  "serde",
  "serde_json",
@@ -1160,58 +1147,57 @@ dependencies = [
 [[package]]
 name = "winter-math"
 version = "0.6.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "820dcf1695fb6f63abd67d5ecc529ac97db44dba539611be707a85e13739abac"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
- "winter-utils 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde",
+ "winter-utils 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
 ]
 
 [[package]]
 name = "winter-math"
 version = "0.6.2"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git#e31d6d0b7e5afd570ecb49e5ea0c4b1cc2ca11e3"
 dependencies = [
  "serde",
- "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git)",
 ]
 
 [[package]]
 name = "winter-prover"
 version = "0.6.2"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "log",
  "winter-air",
- "winter-crypto 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-crypto 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
  "winter-fri",
- "winter-math 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-math 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-utils 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
 ]
 
 [[package]]
 name = "winter-utils"
 version = "0.4.0"
-source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#ecc9c9cd3c08c2002d15051e4680fa42c9d60322"
+source = "git+https://github.com/zCloak-Network/rescue-hash?branch=main#00f63fdab07fcdfdab5f0bef9ee15c8e23d5ae36"
 
 [[package]]
 name = "winter-utils"
 version = "0.6.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08bee31f43e1dfbba3428f77fa110096af386b77cfb790ccee1b084fc093fd7c"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 
 [[package]]
 name = "winter-utils"
 version = "0.6.2"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/jonathanxuu/RescuePrimeOptimiezd.git#e31d6d0b7e5afd570ecb49e5ea0c4b1cc2ca11e3"
 
 [[package]]
 name = "winter-verifier"
 version = "0.6.2"
-source = "git+https://github.com/jonathanxuu/miden?branch=dev#add0c47faa36b985209ae3448cef84358c038324"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#4e609022168f6c69c56c42f72a55160278361bd1"
 dependencies = [
  "winter-air",
- "winter-crypto 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-crypto 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
  "winter-fri",
- "winter-math 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
- "winter-utils 0.6.2 (git+https://github.com/jonathanxuu/miden?branch=dev)",
+ "winter-math 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
+ "winter-utils 0.6.2 (git+https://github.com/zCloak-Network/miden?branch=dev)",
 ]

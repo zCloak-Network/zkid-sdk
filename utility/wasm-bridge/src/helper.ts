@@ -13,6 +13,8 @@ export let wasm: WasmInstance;
 let cacheU8a = new Uint8Array();
 let cachedBigUint64 = new BigUint64Array();
 let cachedInt32 = new Int32Array();
+const heap = new Array(32).fill(undefined);
+let heapNext = heap.length;
 
 export async function initWasm(onlyAsm?: boolean) {
   if (wasm) return;
@@ -106,4 +108,33 @@ export function resultU64a(retptr: number): BigUint64Array {
   wasm.__wbindgen_free(r0, r1 * 8);
 
   return v1;
+}
+
+export function addHeapObject(obj: any) {
+  if (heapNext === heap.length) heap.push(heap.length + 1);
+  const idx = heapNext;
+
+  heapNext = heap[idx];
+
+  heap[idx] = obj;
+
+  return idx;
+}
+
+export function getObject(idx: number) {
+  return heap[idx];
+}
+
+export function dropObject(idx: number) {
+  if (idx < 36) return;
+  heap[idx] = heapNext;
+  heapNext = idx;
+}
+
+export function takeObject(idx: number) {
+  const ret = getObject(idx);
+
+  dropObject(idx);
+
+  return ret;
 }

@@ -2,3 +2,4 @@
 // SPDX-License-Identifier: Apache-2.0
 
 export { rescuePrimeAsHex, rescuePrimeAsU8a } from './asU8a';
+export { rescuePrimeOptimizedAsHex, rescuePrimeOptimizedAsU8a } from './optimized';

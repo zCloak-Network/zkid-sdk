@@ -96,4 +96,28 @@ describe('calcRoothash', (): void => {
       expect(rootHash).toEqual('0x4bf37b064a4c0063f0af05f53be10c1daaa1135ff656a02b326d8dfbf57879ff');
     });
   });
+
+  describe('calcRoothash with RescuePrimeOptimized', () => {
+    it('calcRoothash', (): void => {
+      const input = {
+        name: 'zCloakzCloakzCloakzCloakzCloakzCloakzCloakzCloak',
+        age: 19,
+        birthday: '2022.10.31',
+        isUser: true
+      };
+
+      const { rootHash } = calcRoothash(input, 'RescuePrimeOptimized', {
+        '0x011eed5f2e2321069b83e2bdd38c790948231cd1d49ed6c4dd09bb0f16b0661c':
+          '0xfd766e5717ae2ae09abee1268d6a653dc50c2067d9efd665e7b52d8f0f597d2b',
+        '0x7f8a33bf3f50ca9b84d1dc5561c8f71d48d6256763fd8d0f5e5e902dce5dfb88':
+          '0x9600f4e358fdfd60181ba5cbe7480e9a2878baf1fe5ed1a6cf92df60de4b42f7',
+        '0x6c56eda1ac0c148d682bc4c36d0457fcc4fa511871bd170c63596acd0f779aba':
+          '0xb0b621cfb6794b164f362f02ada2c63be098a34097bedfe13954f4b62484917e',
+        '0xfb20ae03df36661b746c4f247181eebd15850f6af189995ccbf8aa62223fd5ed':
+          '0xd6739bc7b71a5a03642d4eed491cfd55c736e5a3fcf60c02ec4690ec56eff60c'
+      });
+
+      expect(rootHash).toEqual('0x2cbd72a75cf5797fb6893b222a45de60eaa2ddf2e5d435d67e5ed8067efb76e3');
+    });
+  });
 });

@@ -174,6 +174,49 @@ describe('VerifiableCredential', (): void => {
         ]
       });
     });
+
+    it('build VC from RawCredential', async (): Promise<void> => {
+      const raw = new Raw({
+        contents: CONTENTS,
+        owner: holder.id,
+        ctype,
+        hashType: 'RescuePrimeOptimized'
+      });
+
+      const now = Date.now();
+
+      const vcBuilder = VerifiableCredentialBuilder.fromRawCredential(raw.toRawCredential('Keccak256'), ctype)
+        .setExpirationDate(null)
+        .setIssuanceDate(now);
+
+      expect(vcBuilder).toMatchObject({
+        raw,
+        '@context': DEFAULT_CONTEXT,
+        issuanceDate: now,
+        digestHashType: 'Keccak256'
+      });
+
+      const vc = await vcBuilder.build(issuer);
+
+      expect(isPrivateVC(vc)).toBe(true);
+
+      expect(vc).toMatchObject({
+        '@context': DEFAULT_CONTEXT,
+        version: DEFAULT_VC_VERSION,
+        ctype: ctype.$id,
+        issuanceDate: now,
+        credentialSubject: CONTENTS,
+        issuer: issuer.id,
+        holder: holder.id,
+        hasher: ['RescuePrimeOptimized', 'Keccak256'],
+        proof: [
+          {
+            type: 'EcdsaSecp256k1SignatureEip191',
+            proofPurpose: 'assertionMethod'
+          }
+        ]
+      });
+    });
   });
 
   describe('PublicVerifiableCredential', () => {

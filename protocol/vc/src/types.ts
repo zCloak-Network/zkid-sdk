@@ -15,6 +15,7 @@ export type CredentialSubject = AnyJson | HexString;
 
 // Important NOTE: if you want to add new item, you will also add to [[ALL_HASH_TYPES]], and add function to [[HASHER]] map
 export type HashType =
+  | 'RescuePrimeOptimized'
   | 'RescuePrime'
   | 'Blake3'
   | 'Blake32to1'

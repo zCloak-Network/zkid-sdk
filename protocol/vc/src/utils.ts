@@ -19,8 +19,8 @@ import { HASHER } from './hasher';
 export function rlpEncode(input: NativeType | NativeTypeWithOutNull[], hashType: HashType): Uint8Array {
   const result = rlpEncodeFn(input);
 
-  if (hashType === 'RescuePrime') {
-    return HASHER.RescuePrime(result, true);
+  if (hashType === 'RescuePrime' || hashType === 'RescuePrimeOptimized') {
+    return HASHER[hashType](result, true);
   } else {
     return HASHER[hashType](result);
   }

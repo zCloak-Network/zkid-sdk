@@ -22,6 +22,7 @@ export const DEFAULT_ROOT_HASH_TYPE: HashType = 'RescuePrime';
 export const DEFAULT_VP_HASH_TYPE: HashType = 'Keccak256';
 
 export const ALL_HASH_TYPES: HashType[] = [
+  'RescuePrimeOptimized',
   'RescuePrime',
   'Blake3',
   'Blake32to1',

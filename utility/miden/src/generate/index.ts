@@ -14,7 +14,8 @@ import {
 } from './prepare';
 import { PROGRAM } from './program';
 
-export function generateProgram(leavesCounts: number, constraints: ProgramConstraints[]) {
+// eslint-disable-next-line camelcase
+export function unstable_generateProgram(leavesCounts: number, constraints: ProgramConstraints[]) {
   let wholeProgram = PROGRAM;
 
   for (const constraint of constraints) {

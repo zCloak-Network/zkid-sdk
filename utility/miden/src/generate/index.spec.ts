@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { ProgramConstraints } from '../types';
-import { generateProgram } from '.';
+// eslint-disable-next-line camelcase
+import { unstable_generateProgram } from '.';
 
 describe('generate miden program', (): void => {
   it('generateProgram number lt and leavesCounts = 4', () => {
@@ -14,7 +15,7 @@ describe('generate miden program', (): void => {
       }
     ];
 
-    expect(() => generateProgram(4, constraints)).not.toThrow();
+    expect(() => unstable_generateProgram(4, constraints)).not.toThrow();
   });
 
   it('generateProgram number membership_in and leavesCounts = 4', () => {
@@ -29,7 +30,7 @@ describe('generate miden program', (): void => {
       }
     ];
 
-    expect(() => generateProgram(4, constraints)).not.toThrow();
+    expect(() => unstable_generateProgram(4, constraints)).not.toThrow();
   });
 
   it('generateProgram number membership_in throw error when value not array', () => {
@@ -41,6 +42,6 @@ describe('generate miden program', (): void => {
       }
     ];
 
-    expect(() => generateProgram(4, constraints)).toThrow('error number compare operation');
+    expect(() => unstable_generateProgram(4, constraints)).toThrow('error number compare operation');
   });
 });

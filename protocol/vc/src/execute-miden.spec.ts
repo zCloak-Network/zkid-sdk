@@ -472,5 +472,6 @@ describe('execute miden', (): void => {
     const result = executeZkProgram(program2, stackInputs, toMidenInput(credential, [1, 2]));
 
     expect(verifyZkProgram(generateProgramHash(program2), stackInputs, result)).toBe(96);
+    expect(() => verifyZkProgram(generateProgramHash(program2), '', result)).toThrow();
   });
 });

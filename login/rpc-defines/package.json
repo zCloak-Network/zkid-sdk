@@ -17,7 +17,7 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "index.js",
   "dependencies": {
     "@zcloak/login-rpc": "workspace:^"

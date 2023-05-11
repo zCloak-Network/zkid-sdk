@@ -1,5 +1,15 @@
 # @zcloak/did
 
+## 1.3.7
+
+### Patch Changes
+
+- [#76](https://github.com/zCloak-Network/zkid-sdk/pull/76) [`46b3ef0`](https://github.com/zCloak-Network/zkid-sdk/commit/46b3ef0598ae1c1251572a235dd1bbce3011d12f) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - update @polkadot/util to 12.1.2
+
+- Updated dependencies [[`46b3ef0`](https://github.com/zCloak-Network/zkid-sdk/commit/46b3ef0598ae1c1251572a235dd1bbce3011d12f), [`0faffb9`](https://github.com/zCloak-Network/zkid-sdk/commit/0faffb9b9da035d20684cd37cde31dd82d234cac)]:
+  - @zcloak/keyring@1.1.7
+  - @zcloak/crypto@1.4.0
+
 ## 1.3.6
 
 ### Patch Changes

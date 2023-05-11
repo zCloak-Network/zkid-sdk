@@ -1,5 +1,11 @@
 # @zcloak/login-rpc
 
+## 1.1.3
+
+### Patch Changes
+
+- [#76](https://github.com/zCloak-Network/zkid-sdk/pull/76) [`46b3ef0`](https://github.com/zCloak-Network/zkid-sdk/commit/46b3ef0598ae1c1251572a235dd1bbce3011d12f) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - update @polkadot/util to 12.1.2
+
 ## 1.1.2
 
 ### Patch Changes

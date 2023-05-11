@@ -23,7 +23,7 @@
     "@kiltprotocol/core": "^0.28.2",
     "@kiltprotocol/did": "^0.28.2",
     "@kiltprotocol/types": "^0.28.2",
-    "@polkadot/util": "^11.1.3",
+    "@polkadot/util": "^12.1.2",
     "@zcloak/did": "workspace:^",
     "@zcloak/did-resolver": "workspace:^",
     "@zcloak/login-rpc": "workspace:^",

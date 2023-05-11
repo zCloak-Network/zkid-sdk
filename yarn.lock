@@ -2782,18 +2782,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/util@npm:^11.1.3":
-  version: 11.1.3
-  resolution: "@polkadot/util@npm:11.1.3"
+"@polkadot/util@npm:^12.1.2":
+  version: 12.1.2
+  resolution: "@polkadot/util@npm:12.1.2"
   dependencies:
-    "@polkadot/x-bigint": "npm:11.1.3"
-    "@polkadot/x-global": "npm:11.1.3"
-    "@polkadot/x-textdecoder": "npm:11.1.3"
-    "@polkadot/x-textencoder": "npm:11.1.3"
+    "@polkadot/x-bigint": "npm:12.1.2"
+    "@polkadot/x-global": "npm:12.1.2"
+    "@polkadot/x-textdecoder": "npm:12.1.2"
+    "@polkadot/x-textencoder": "npm:12.1.2"
     "@types/bn.js": "npm:^5.1.1"
     bn.js: "npm:^5.2.1"
     tslib: "npm:^2.5.0"
-  checksum: 157de19ce97a7270867d186908a63b982c01a02815a5c303d1ea6ae36bd89eaa659c72bc8baeb0d2c6c9258b21cd8a0a76104d86bbf1f1aca6a10c3c2fc92661
+  checksum: 20836770f8cf2277891b1fa56f4f1106c710ef65ba7d856de85fd8b4c42ec1a366d47d60796a837a6b0539640ac908ed693811b6cb7171fd39b9fa7b9fdf47e2
   languageName: node
   linkType: hard
 
@@ -2885,13 +2885,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-bigint@npm:11.1.3":
-  version: 11.1.3
-  resolution: "@polkadot/x-bigint@npm:11.1.3"
+"@polkadot/x-bigint@npm:12.1.2":
+  version: 12.1.2
+  resolution: "@polkadot/x-bigint@npm:12.1.2"
   dependencies:
-    "@polkadot/x-global": "npm:11.1.3"
+    "@polkadot/x-global": "npm:12.1.2"
     tslib: "npm:^2.5.0"
-  checksum: b9ef5f615e742448e9e92d2968fdf215f9815f8be6273abe2da791441c166b264233e8700d5298ee1442c11e185df2c7c6a534b7d2d8c09f5bdada85cb68e0f5
+  checksum: d1e6c1a6820279c1451ee2300951711bb4a8088d9a40ac14cab20159604ee73da13064d4fedca6bf3b5c0f602d909c2ca2ce53ab4d597ee220d7d429f08abcb3
   languageName: node
   linkType: hard
 
@@ -2916,12 +2916,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-global@npm:11.1.3":
-  version: 11.1.3
-  resolution: "@polkadot/x-global@npm:11.1.3"
+"@polkadot/x-global@npm:12.1.2":
+  version: 12.1.2
+  resolution: "@polkadot/x-global@npm:12.1.2"
   dependencies:
     tslib: "npm:^2.5.0"
-  checksum: 643ac47c8d1e1dd8e92fd7f0602f2d1ab71c364d970a677bbea183ae63974368217cbc3af0b8bdb1b37e2a83a05ec197a5133647be3a9d5032cdbfd0e20f59a5
+  checksum: 507e57ca8c3ea26db9b2e8e3accab34fc736be823ee2b111dfa7a8ca2cf7eedb2a2dd5ac2c2faf18156bc729dc6e8a96d89a6001508b2180c4a17a20447651a5
   languageName: node
   linkType: hard
 
@@ -2945,13 +2945,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-textdecoder@npm:11.1.3":
-  version: 11.1.3
-  resolution: "@polkadot/x-textdecoder@npm:11.1.3"
+"@polkadot/x-textdecoder@npm:12.1.2":
+  version: 12.1.2
+  resolution: "@polkadot/x-textdecoder@npm:12.1.2"
   dependencies:
-    "@polkadot/x-global": "npm:11.1.3"
+    "@polkadot/x-global": "npm:12.1.2"
     tslib: "npm:^2.5.0"
-  checksum: 32fa44056d2ba7308523fd9fe59ed6f9e0669afc7ced84b409504a2d55e1ce1bced800cc4060323786ba07be049678b07a83b4d3a331ce640968b15e79b8526f
+  checksum: 0dafff9fa53e7ed28e6811b85961869cd2025ed7001c8eadab17d028caab76b678a4b2a525b61ab83393043f777fa2e4ee5567c02160505c474a1f48499b818e
   languageName: node
   linkType: hard
 
@@ -2965,13 +2965,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-textencoder@npm:11.1.3":
-  version: 11.1.3
-  resolution: "@polkadot/x-textencoder@npm:11.1.3"
+"@polkadot/x-textencoder@npm:12.1.2":
+  version: 12.1.2
+  resolution: "@polkadot/x-textencoder@npm:12.1.2"
   dependencies:
-    "@polkadot/x-global": "npm:11.1.3"
+    "@polkadot/x-global": "npm:12.1.2"
     tslib: "npm:^2.5.0"
-  checksum: 14ca87c62a0bdfb0e9a6fee3a99a8b5560c6e09f189a521614134c38090e3782eeba613d0fa39eb86054433a33d7dfba4156a1585e2fa91acb559922dfd64959
+  checksum: 1b771d1882257291f0573959b763fa6d14e4e557e299781809ecbfec2082cac0960e8b4ab5d1d2eb54c385a09a6320515f9377337c3364c7ba6937a053cfa993
   languageName: node
   linkType: hard
 
@@ -2998,6 +2998,15 @@ __metadata:
   version: 1.1.1
   resolution: "@scure/base@npm:1.1.1"
   checksum: 660e4a6c9ad3104c05c8bb3dd4c9f19a0ec1a6d45d68c3e7f418414660e13fe7d389201f347c1a1eefb19ec10ef09e32920e503f48d85b445aa8d43f419907bd
+  languageName: node
+  linkType: hard
+
+"@settlemint/merkle-tools@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "@settlemint/merkle-tools@npm:1.0.7"
+  dependencies:
+    js-sha3: "npm:^0.8.0"
+  checksum: 5f27d5f25421d2a1a00591ce2c1dac5ca7fe0852643a150667dc3cc6dd6e93d84ba1ae15b42aa9a36133e66fb44b7985970c0952efa05026a197d6cc853367e2
   languageName: node
   linkType: hard
 
@@ -3937,7 +3946,7 @@ __metadata:
   dependencies:
     "@noble/hashes": "npm:^1.2.0"
     "@noble/secp256k1": "npm:^1.7.1"
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@scure/base": "npm:^1.1.1"
     "@types/ed2curve": "npm:^0.2.2"
     "@types/ethereumjs-abi": "npm:^0.6.3"
@@ -3957,7 +3966,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/ctype@workspace:protocol/ctype"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@zcloak/crypto": "workspace:^"
     "@zcloak/did": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
@@ -4076,7 +4085,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/did@workspace:protocol/did"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@zcloak/crypto": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
     "@zcloak/keyring": "workspace:^"
@@ -4087,7 +4096,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/keyring@workspace:utility/keyring"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@zcloak/crypto": "workspace:^"
     ethers: "npm:^6.0.2"
   languageName: unknown
@@ -4109,7 +4118,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/login-did@workspace:login/did"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@zcloak/did": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
     "@zcloak/login-providers": "workspace:^"
@@ -4120,7 +4129,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/login-providers@workspace:login/providers"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@zcloak/login-rpc": "workspace:^"
     "@zcloak/login-rpc-defines": "workspace:^"
     eventemitter3: "npm:^5.0.0"
@@ -4140,7 +4149,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/login-rpc@workspace:login/rpc"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
   languageName: unknown
   linkType: soft
 
@@ -4151,7 +4160,7 @@ __metadata:
     "@kiltprotocol/core": "npm:^0.28.2"
     "@kiltprotocol/did": "npm:^0.28.2"
     "@kiltprotocol/types": "npm:^0.28.2"
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@zcloak/did": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
     "@zcloak/login-rpc": "workspace:^"
@@ -4165,7 +4174,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/message@workspace:packages/message"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@zcloak/crypto": "workspace:^"
     "@zcloak/ctype": "workspace:^"
     "@zcloak/did": "workspace:^"
@@ -4178,6 +4187,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/miden@workspace:utility/miden"
   dependencies:
+    "@polkadot/util": "npm:^12.1.2"
+    "@settlemint/merkle-tools": "npm:^1.0.7"
     "@zcloak/wasm-bridge": "workspace:^"
   languageName: unknown
   linkType: soft
@@ -4186,7 +4197,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/vc@workspace:protocol/vc"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@zcloak/crypto": "workspace:^"
     "@zcloak/ctype": "workspace:^"
     "@zcloak/did": "workspace:^"
@@ -4199,7 +4210,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/verify@workspace:packages/verify"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
     "@zcloak/crypto": "workspace:^"
     "@zcloak/ctype": "workspace:^"
     "@zcloak/did": "workspace:^"
@@ -4218,7 +4229,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/wasm-bridge@workspace:utility/wasm-bridge"
   dependencies:
-    "@polkadot/util": "npm:^11.1.3"
+    "@polkadot/util": "npm:^12.1.2"
   languageName: unknown
   linkType: soft
 
@@ -13183,6 +13194,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rlp@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "rlp@npm:3.0.0"
+  bin:
+    rlp: bin/rlp
+  checksum: c6b0e954821c88047cb77b20a302191ca6e55026701fa89192315faceeeb3383a48ed612dd77001ebb9d04431882bf902deaffc7285cb6d74dbd58dc26113bd3
+  languageName: node
+  linkType: hard
+
 "root-workspace-0b6124@workspace:.":
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
@@ -13190,6 +13210,7 @@ __metadata:
     "@types/jest": "npm:^29.4.0"
     "@zcloak/dev": "npm:^0.27.3"
     fs-extra: "npm:^11.1.0"
+    rlp: "npm:^3.0.0"
   bin:
     build-wasm: scripts/build-wasm.js
     install-build-deps: scripts/install-build-deps.js

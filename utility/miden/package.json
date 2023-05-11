@@ -20,6 +20,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@polkadot/util": "^12.1.2",
+    "@settlemint/merkle-tools": "^1.0.7",
     "@zcloak/wasm-bridge": "workspace:^"
   }
 }

@@ -1,5 +1,16 @@
 # @zcloak/ctype
 
+## 1.2.10
+
+### Patch Changes
+
+- [`8f3f43f`](https://github.com/zCloak-Network/zkid-sdk/commit/8f3f43f285c7e785396055accffc60f706b4a0a4) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - remove babel helper require for cjs
+
+- Updated dependencies [[`8f3f43f`](https://github.com/zCloak-Network/zkid-sdk/commit/8f3f43f285c7e785396055accffc60f706b4a0a4)]:
+  - @zcloak/did@1.3.8
+  - @zcloak/did-resolver@1.1.3
+  - @zcloak/crypto@1.4.1
+
 ## 1.2.9
 
 ### Patch Changes

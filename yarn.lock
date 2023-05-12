@@ -3974,9 +3974,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zcloak/dev@npm:^0.27.3":
-  version: 0.27.3
-  resolution: "@zcloak/dev@npm:0.27.3"
+"@zcloak/dev@npm:^0.31.0":
+  version: 0.31.0
+  resolution: "@zcloak/dev@npm:0.31.0"
   dependencies:
     "@babel/cli": "npm:^7.21.0"
     "@babel/core": "npm:^7.21.3"
@@ -4043,6 +4043,7 @@ __metadata:
     mkdirp: "npm:^2.1.5"
     prettier: "npm:^2.8.4"
     rimraf: "npm:^4.4.0"
+    semver: "npm:^7.4.0"
     typescript: "npm:^5.0.4"
     webpack: "npm:^5.76.1"
     webpack-cli: "npm:^5.0.1"
@@ -4051,7 +4052,7 @@ __metadata:
     webpack-subresource-integrity: "npm:^5.2.0-rc.1"
     yargs: "npm:^17.7.1"
   bin:
-    zcloak-ci-ghact-build: scripts/zcloak-ci-ghact-build.mjs
+    zcloak-ci-ghact-app: scripts/zcloak-ci-ghact-app.mjs
     zcloak-ci-ghact-release: scripts/zcloak-ci-ghact-release.mjs
     zcloak-dev-build-ts: scripts/zcloak-dev-build-ts.mjs
     zcloak-dev-bump-version: scripts/zcloak-dev-bump-version.mjs
@@ -4069,7 +4070,7 @@ __metadata:
     zcloak-exec-prettier: scripts/zcloak-exec-prettier.mjs
     zcloak-exec-tsc: scripts/zcloak-exec-tsc.mjs
     zcloak-exec-webpack: scripts/zcloak-exec-webpack.mjs
-  checksum: b45d93d8dc3f6999c17289254b64b145844cc9f4b5c2344eb02195cd8dcb2f7cbb121667ff0bf8fa714e4215dd14194720daf173d15a785428c39095a37aed41
+  checksum: 3447439de55f6bbfefd4cdbf4e020668106cb66108f2c4b8d416f179de6003b5ec8b7a73e47f31822003b4adc779071a2568265d87fd8594b698ac1d0b9e43e5
   languageName: node
   linkType: hard
 
@@ -13208,7 +13209,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@types/jest": "npm:^29.4.0"
-    "@zcloak/dev": "npm:^0.27.3"
+    "@zcloak/dev": "npm:^0.31.0"
     fs-extra: "npm:^11.1.0"
     rlp: "npm:^3.0.0"
   bin:
@@ -13387,6 +13388,17 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 0ba4e8c5446278311c29de48f8cfebedea84d93c5d4c33d6d1e5996e4bba66dfab8d30f77c2c9a3877eb0296552c1f54fd3a29f00e0290e03569040a0dead105
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.4.0":
+  version: 7.5.0
+  resolution: "semver@npm:7.5.0"
+  dependencies:
+    lru-cache: "npm:^6.0.0"
+  bin:
+    semver: bin/semver.js
+  checksum: 4cc7856258319d36c441fb969fa2ee622fa3761ce1b04013ed5d05979adfcf3079f4fc4dff11f9b2588802620d579da2c209a4e26803d9adfbf44b78244b683b
   languageName: node
   linkType: hard
 

@@ -1,5 +1,19 @@
 # @zcloak/login-verify
 
+## 1.1.11
+
+### Patch Changes
+
+- [`8f3f43f`](https://github.com/zCloak-Network/zkid-sdk/commit/8f3f43f285c7e785396055accffc60f706b4a0a4) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - remove babel helper require for cjs
+
+- Updated dependencies [[`8f3f43f`](https://github.com/zCloak-Network/zkid-sdk/commit/8f3f43f285c7e785396055accffc60f706b4a0a4)]:
+  - @zcloak/login-rpc@1.1.4
+  - @zcloak/login-rpc-defines@1.2.4
+  - @zcloak/verify@1.3.8
+  - @zcloak/did@1.3.8
+  - @zcloak/did-resolver@1.1.3
+  - @zcloak/vc@1.3.1
+
 ## 1.1.10
 
 ### Patch Changes

@@ -226,6 +226,7 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 [[package]]
 name = "miden-air"
 version = "0.5.0"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "miden-core",
  "serde",
@@ -235,6 +236,7 @@ dependencies = [
 [[package]]
 name = "miden-assembly"
 version = "0.5.0"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "miden-core",
  "num_enum",
@@ -243,6 +245,7 @@ dependencies = [
 [[package]]
 name = "miden-core"
 version = "0.5.0"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "miden-crypto",
  "serde",
@@ -254,6 +257,7 @@ dependencies = [
 [[package]]
 name = "miden-crypto"
 version = "0.2.0"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "blake3",
  "serde",
@@ -265,6 +269,7 @@ dependencies = [
 [[package]]
 name = "miden-processor"
 version = "0.5.0"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "log",
  "miden-core",
@@ -275,6 +280,7 @@ dependencies = [
 [[package]]
 name = "miden-prover"
 version = "0.5.0"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "log",
  "miden-air",
@@ -285,6 +291,7 @@ dependencies = [
 [[package]]
 name = "miden-stdlib"
 version = "0.4.0"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "miden-assembly",
 ]
@@ -292,6 +299,7 @@ dependencies = [
 [[package]]
 name = "miden-verifier"
 version = "0.5.0"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "miden-air",
  "miden-core",
@@ -301,6 +309,7 @@ dependencies = [
 [[package]]
 name = "miden-vm"
 version = "0.5.0"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "console_error_panic_hook",
  "env_logger",
@@ -675,6 +684,7 @@ dependencies = [
 [[package]]
 name = "winter-air"
 version = "0.6.2"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "serde",
  "winter-crypto",
@@ -686,6 +696,7 @@ dependencies = [
 [[package]]
 name = "winter-crypto"
 version = "0.6.2"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "blake3",
  "sha3",
@@ -696,6 +707,7 @@ dependencies = [
 [[package]]
 name = "winter-fri"
 version = "0.6.2"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "serde",
  "winter-crypto",
@@ -706,6 +718,7 @@ dependencies = [
 [[package]]
 name = "winter-math"
 version = "0.6.2"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "serde",
  "winter-utils",
@@ -714,6 +727,7 @@ dependencies = [
 [[package]]
 name = "winter-prover"
 version = "0.6.2"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "log",
  "winter-air",
@@ -726,10 +740,12 @@ dependencies = [
 [[package]]
 name = "winter-utils"
 version = "0.6.2"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 
 [[package]]
 name = "winter-verifier"
 version = "0.6.2"
+source = "git+https://github.com/zCloak-Network/miden?branch=dev#a320599866c5731d77d57d16b56687acabd6e8ba"
 dependencies = [
  "winter-air",
  "winter-crypto",

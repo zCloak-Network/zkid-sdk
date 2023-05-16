@@ -1,5 +1,13 @@
 # @zcloak/crypto
 
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [[`fe10dfb`](https://github.com/zCloak-Network/zkid-sdk/commit/fe10dfb6fe841409993ca6360f5746dde0f93fc9)]:
+  - @zcloak/wasm-asm@1.2.0
+  - @zcloak/wasm@1.2.0
+
 ## 1.4.1
 
 ### Patch Changes

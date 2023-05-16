@@ -1,5 +1,11 @@
 # @zcloak/wasm
 
+## 1.2.0
+
+### Minor Changes
+
+- [#79](https://github.com/zCloak-Network/zkid-sdk/pull/79) [`fe10dfb`](https://github.com/zCloak-Network/zkid-sdk/commit/fe10dfb6fe841409993ca6360f5746dde0f93fc9) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - update wasm deps, and remove verify function for miden
+
 ## 1.1.1
 
 ### Patch Changes

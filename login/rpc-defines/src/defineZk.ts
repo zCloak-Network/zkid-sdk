@@ -31,13 +31,7 @@ export type DidEncrypted = {
   data: HexString;
 };
 
-export type ZkpGenResponse = {
-  outputs: number[];
-  starkproof: unknown;
-  programHash: HexString;
-  ctype: HexString;
-  attester: DidUrl;
-};
+export type ZkpGenResponse = string;
 
 export type RequestCredentialDigestParams = {
   challenge: string;
@@ -74,6 +68,7 @@ export type DidDecryptParams = {
 export type ZkpGenRequest = {
   ctype?: HexString;
   attester?: DidUrl;
+  leaves: number[];
   program: string;
 };
 

@@ -1,5 +1,11 @@
 # @zcloak/login-rpc-defines
 
+## 1.3.0
+
+### Minor Changes
+
+- [`037ef97`](https://github.com/zCloak-Network/zkid-sdk/commit/037ef97e3980195b42faa26c8bf4f996d368845e) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - zkid-login add zkp request define
+
 ## 1.2.4
 
 ### Patch Changes

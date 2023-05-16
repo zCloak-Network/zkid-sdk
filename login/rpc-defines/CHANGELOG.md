@@ -1,5 +1,11 @@
 # @zcloak/login-rpc-defines
 
+## 1.3.1
+
+### Patch Changes
+
+- [`91acea2`](https://github.com/zCloak-Network/zkid-sdk/commit/91acea2504a81057f3920d7858e6d596ea9f72bf) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - fix zkp params not include publicInput
+
 ## 1.3.0
 
 ### Minor Changes

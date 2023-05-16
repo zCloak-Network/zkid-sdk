@@ -1,5 +1,14 @@
 # @zcloak/vc
 
+## 1.3.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @zcloak/crypto@1.4.2
+  - @zcloak/ctype@1.2.11
+  - @zcloak/did@1.3.9
+
 ## 1.3.1
 
 ### Patch Changes

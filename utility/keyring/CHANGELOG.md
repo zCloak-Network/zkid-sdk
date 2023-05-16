@@ -1,5 +1,12 @@
 # @zcloak/keyring
 
+## 1.1.9
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @zcloak/crypto@1.4.2
+
 ## 1.1.8
 
 ### Patch Changes

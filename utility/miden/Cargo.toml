@@ -12,12 +12,8 @@ version = "1.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-miden-vm = {git = "https://github.com/zCloak-Network/miden", branch = "dev", default-features = false}
+miden-vm = {path="../../../miden/miden", default-features = false}
 wasm-bindgen = "=0.2.84"
-
-[dev-dependencies]
-criterion = "0.3.3"
-num-bigint = "0.3.0"
 
 [profile.release]
 codegen-units = 1

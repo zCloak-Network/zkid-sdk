@@ -70,6 +70,7 @@ export type ZkpGenRequest = {
   attester?: DidUrl;
   leaves: number[];
   program: string;
+  publicInput?: string;
 };
 
 declare module '@zcloak/login-rpc/rpcs' {

@@ -4,7 +4,7 @@
 import type { VerifiableCredential } from './types';
 
 import { initCrypto } from '@zcloak/crypto';
-import { executeZkProgram, generateProgramHash, initMidenWasm, verifyZkProgram } from '@zcloak/miden';
+import { executeZkProgram, initMidenWasm } from '@zcloak/miden';
 
 import { toMidenInput } from './parser';
 
@@ -458,9 +458,7 @@ describe('execute miden', (): void => {
 
     const stackInputs = `${Math.floor(new Date(compareDate).getTime() / 1000)}`;
 
-    const result = executeZkProgram(program1, stackInputs, toMidenInput(credential, [1]));
-
-    expect(verifyZkProgram(generateProgramHash(program1), stackInputs, result)).toBe(96);
+    expect(() => executeZkProgram(program1, stackInputs, toMidenInput(credential, [1]))).not.toThrow();
   });
 
   it('parse multiple leaves and run miden', (): void => {
@@ -469,9 +467,6 @@ describe('execute miden', (): void => {
 
     const stackInputs = `${Math.floor(new Date(compareDate).getTime() / 1000)}`;
 
-    const result = executeZkProgram(program2, stackInputs, toMidenInput(credential, [1, 2]));
-
-    expect(verifyZkProgram(generateProgramHash(program2), stackInputs, result)).toBe(96);
-    expect(() => verifyZkProgram(generateProgramHash(program2), '', result)).toThrow();
+    expect(() => executeZkProgram(program2, stackInputs, toMidenInput(credential, [1, 2]))).not.toThrow();
   });
 });

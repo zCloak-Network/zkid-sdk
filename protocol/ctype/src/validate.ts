@@ -5,7 +5,15 @@ import type { BaseCType } from './types';
 
 import { Validator, ValidatorResult } from 'jsonschema';
 
+import { validateDid, validateNationalCode, validateTimestamp } from './format';
+
 const validator = new Validator();
+
+validator.customFormats = {
+  did: validateDid,
+  timestamp: validateTimestamp,
+  'national-code': validateNationalCode
+};
 
 /**
  * @name validateSubject

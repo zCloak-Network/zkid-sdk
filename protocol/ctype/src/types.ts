@@ -25,7 +25,10 @@ export type InstanceFormat =
   | 'double'
   | 'bytes'
   | 'hex'
-  | 'did';
+  | 'did'
+  | 'timestamp'
+  | 'national-code'
+  | string;
 
 export type CTypeSchema = {
   type?: InstanceType;

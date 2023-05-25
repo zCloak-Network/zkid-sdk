@@ -1,5 +1,12 @@
 # @zcloak/vc
 
+## 1.3.3
+
+### Patch Changes
+
+- Updated dependencies [[`aed4dad`](https://github.com/zCloak-Network/zkid-sdk/commit/aed4dadfe729a5abc7db2733e899ec2b080afd77)]:
+  - @zcloak/ctype@1.3.0
+
 ## 1.3.2
 
 ### Patch Changes

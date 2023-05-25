@@ -1,5 +1,12 @@
 # @zcloak/message
 
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @zcloak/vc@1.3.3
+
 ## 1.0.14
 
 ### Patch Changes

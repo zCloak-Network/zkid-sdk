@@ -1,5 +1,11 @@
 # @zcloak/ctype
 
+## 1.3.0
+
+### Minor Changes
+
+- [`aed4dad`](https://github.com/zCloak-Network/zkid-sdk/commit/aed4dadfe729a5abc7db2733e899ec2b080afd77) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - add instance format for ctype, also custom format validate.
+
 ## 1.2.11
 
 ### Patch Changes

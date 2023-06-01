@@ -1,5 +1,11 @@
 # @zcloak/vc
 
+## 1.3.4
+
+### Patch Changes
+
+- [`ae012e8`](https://github.com/zCloak-Network/zkid-sdk/commit/ae012e80d03d0b27efdf37492da5ca2b7132ae1a) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - fix if there are multiple same subject values in `vc`, the nonces will be empty when parse `vc` to `miden_input`.
+
 ## 1.3.3
 
 ### Patch Changes

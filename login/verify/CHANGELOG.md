@@ -1,5 +1,13 @@
 # @zcloak/login-verify
 
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies [[`ae012e8`](https://github.com/zCloak-Network/zkid-sdk/commit/ae012e80d03d0b27efdf37492da5ca2b7132ae1a)]:
+  - @zcloak/vc@1.3.4
+  - @zcloak/verify@1.3.11
+
 ## 1.1.15
 
 ### Patch Changes

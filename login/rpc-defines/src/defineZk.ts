@@ -37,6 +37,7 @@ export type RequestCredentialDigestParams = {
   challenge: string;
   ctypehash?: HexString;
   attester?: DidUrl;
+  digest?: HexString;
 };
 
 export type RequestCredentialContentParams = {
@@ -44,6 +45,7 @@ export type RequestCredentialContentParams = {
   contentKeys?: string[];
   ctypehash?: HexString;
   attester?: DidUrl;
+  digest?: HexString;
 };
 
 export type DidLoginParams = {
@@ -68,6 +70,7 @@ export type DidDecryptParams = {
 export type ZkpGenRequest = {
   ctype?: HexString;
   attester?: DidUrl;
+  digest?: HexString;
   leaves: number[];
   program: string;
   publicInput?: string;

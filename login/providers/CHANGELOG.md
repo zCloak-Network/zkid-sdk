@@ -1,5 +1,12 @@
 # @zcloak/login-providers
 
+## 1.2.7
+
+### Patch Changes
+
+- Updated dependencies [[`4fb4d99`](https://github.com/zCloak-Network/zkid-sdk/commit/4fb4d995da2d41b625ed2cde00e566b5281e2972)]:
+  - @zcloak/login-rpc-defines@1.4.0
+
 ## 1.2.6
 
 ### Patch Changes

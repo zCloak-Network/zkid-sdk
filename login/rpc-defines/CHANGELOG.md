@@ -1,5 +1,11 @@
 # @zcloak/login-rpc-defines
 
+## 1.4.0
+
+### Minor Changes
+
+- [`4fb4d99`](https://github.com/zCloak-Network/zkid-sdk/commit/4fb4d995da2d41b625ed2cde00e566b5281e2972) Thanks [@zzcwoshizz](https://github.com/zzcwoshizz)! - [zkid-login] add digest param for select vs
+
 ## 1.3.1
 
 ### Patch Changes

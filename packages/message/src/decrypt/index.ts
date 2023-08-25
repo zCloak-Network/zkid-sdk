@@ -35,7 +35,10 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
 
     case 'Response_Approve_Attestation':
       assert(isVC(data), `Expected message data with msgType:${msgType} is VerifiableCredential object`);
-      assert(isSameUri(sender, data.issuer), 'Message sender is not the issuer of VerifiableCredential');
+      assert(
+        data.issuer.every((issuer) => isSameUri(sender, issuer)),
+        'Message sender is not the issuer of VerifiableCredential'
+      );
 
       break;
 
@@ -73,7 +76,10 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
 
     case 'Send_issuedVC':
       assert(isVC(data), `Expected message data with msgType:${msgType} is VerifiableCredential object`);
-      assert(isSameUri(sender, data.issuer), 'Message sender is not the issuer of VerifiableCredential');
+      assert(
+        data.issuer.every((issuer) => isSameUri(sender, issuer)),
+        'Message sender is not the issuer of VerifiableCredential'
+      );
 
       break;
 

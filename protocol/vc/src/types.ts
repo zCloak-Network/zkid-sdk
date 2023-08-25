@@ -27,7 +27,7 @@ export type HashType =
 
 export type VerifiablePresentationType = 'VP' | 'VP_Digest' | 'VP_SelectiveDisclosure';
 
-export type VerifiableCredentialVersion = '0' | '1';
+export type VerifiableCredentialVersion = '0' | '1' | '2';
 
 export type VerifiablePresentationVersion = '0' | '1';
 
@@ -52,7 +52,7 @@ interface PublicVerifiableCredential extends RawCredential {
   version: VerifiableCredentialVersion;
   issuanceDate: number;
   expirationDate?: number;
-  issuer: DidUrl;
+  issuer: DidUrl[];
   digest: HexString;
   proof: Proof[];
 }
@@ -62,7 +62,7 @@ interface PrivateVerifiableCredential extends Omit<RawCredential, 'credentialSub
   version: VerifiableCredentialVersion;
   issuanceDate: number;
   expirationDate?: number;
-  issuer: DidUrl;
+  issuer: DidUrl[];
   digest: HexString;
   proof: Proof[];
   // when CredentialSubject is HexString, it means [[rootHash]]

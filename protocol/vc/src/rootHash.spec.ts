@@ -1,9 +1,11 @@
 // Copyright 2021-2023 zcloak authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import { HexString } from '@polkadot/util/types';
 import { initCrypto } from '@zcloak/crypto';
 
 import { calcRoothash } from './rootHash';
+import { encodeAsSol } from './utils';
 
 describe('calcRoothash', (): void => {
   beforeAll(async (): Promise<void> => {
@@ -118,6 +120,22 @@ describe('calcRoothash', (): void => {
       });
 
       expect(rootHash).toEqual('0x2cbd72a75cf5797fb6893b222a45de60eaa2ddf2e5d435d67e5ed8067efb76e3');
+    });
+  });
+  describe('calcContentAsSolidity', () => {
+    it('calcRoothash', (): void => {
+      const input = {
+        name: 'zCloak',
+        age: 111,
+        number_array: [11, 12, 13],
+        isUser: true,
+        string_array: ["zCloak", "database"]
+      };
+      const values = Object.values(input);
+      const encodedClaimHashes: HexString[] = values.map((values) => encodeAsSol(values));
+
+      expect(encodedClaimHashes).toEqual(["0x28cb5b00333a3266fa3d92f3426ad4ef1d20018b44dd64913578d43438b4051a", "0x39f2babe526038520877fc7c33d81accf578af4a06c5fa6b0d038cae36e12711", "0x8d20824cd86ad1c5673537a4b5d1ee68bd9265b7d357e82bc76483ae879322c2", "0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2", "0x69ab0c29dcf9256886435d72272bceee1f0a0b2cee41865d3b56f9726e7fe0a3",
+      ]);
     });
   });
 });

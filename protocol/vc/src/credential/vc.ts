@@ -81,14 +81,25 @@ export class VerifiableCredentialBuilder {
   /**
    * Build to [[PublicVerifiableCredential]]
    */
-  public async build(issuer: Did, isPublic: true): Promise<VerifiableCredential<true>>;
+  public async build(issuer: Did, isPublic: true, moreIssuers?: DidUrl[]): Promise<VerifiableCredential<true>>;
 
   /**
    * Build to [[PrivateVerifiableCredential]]
    */
-  public async build(issuer: Did, isPublic?: false): Promise<VerifiableCredential<false>>;
+  public async build(issuer: Did, isPublic: false, moreIssuers?: DidUrl[]): Promise<VerifiableCredential<false>>;
 
-  public async build(issuer: Did, isPublic?: boolean): Promise<VerifiableCredential<boolean>> {
+  /**
+   *
+   * @param issuer this is Did type, because we need to sign vc to fulfill the proof field
+   * @param isPublic
+   * @param moreIssuers this is only DidUrl type, because we just add them to the issuer field( not proof field)
+   * @returns
+   */
+  public async build(
+    issuer: Did,
+    isPublic = false,
+    moreIssuers: DidUrl[] = []
+  ): Promise<VerifiableCredential<boolean>> {
     assert(this.raw.checkSubject(), `Subject check failed when use ctype ${this.raw.ctype}`);
 
     if (
@@ -118,13 +129,15 @@ export class VerifiableCredentialBuilder {
 
       const proof = await this._signDigest(issuer, digest, this.version);
 
+      // NOTE: at this moment, the first proof is fullfiled, this maybe not enough because of multiple issuers
+      // Use addIssuerProof() to add more proofs
       let vc: VerifiableCredential<boolean> = {
         '@context': this['@context'],
         version: this.version,
         ctype: this.raw.ctype.$id,
         issuanceDate: this.issuanceDate,
         credentialSubject: this.raw.contents,
-        issuer: issuer.id,
+        issuer: [issuer.id, ...moreIssuers],
         holder: this.raw.owner,
         hasher: [rootHashResult.type, digestHashType],
         digest,

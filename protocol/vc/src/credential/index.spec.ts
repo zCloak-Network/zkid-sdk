@@ -110,8 +110,8 @@ describe('VerifiableCredential', (): void => {
         digestHashType: 'Keccak256'
       });
 
-      const vc = await vcBuilder.build(issuer);
-
+      const vc = await vcBuilder.build(issuer, false);
+      console.log(vc)
       expect(isPrivateVC(vc)).toBe(true);
 
       expect(vc).toMatchObject({
@@ -120,7 +120,7 @@ describe('VerifiableCredential', (): void => {
         ctype: ctype.$id,
         issuanceDate: now,
         credentialSubject: CONTENTS,
-        issuer: issuer.id,
+        issuer: [issuer.id],
         holder: holder.id,
         hasher: ['RescuePrime', 'Keccak256'],
         proof: [
@@ -153,7 +153,7 @@ describe('VerifiableCredential', (): void => {
         digestHashType: 'Keccak256'
       });
 
-      const vc = await vcBuilder.build(issuer);
+      const vc = await vcBuilder.build(issuer, false);
 
       expect(isPrivateVC(vc)).toBe(true);
 
@@ -163,7 +163,7 @@ describe('VerifiableCredential', (): void => {
         ctype: ctype.$id,
         issuanceDate: now,
         credentialSubject: CONTENTS,
-        issuer: issuer.id,
+        issuer: [issuer.id],
         holder: holder.id,
         hasher: ['RescuePrime', 'Keccak256'],
         proof: [
@@ -196,9 +196,9 @@ describe('VerifiableCredential', (): void => {
         digestHashType: 'Keccak256'
       });
 
-      const vc = await vcBuilder.build(issuer);
-
-      expect(isPrivateVC(vc)).toBe(true);
+      const vc = await vcBuilder.build(issuer, false,["did:zk:0xFeDE01Ff4402e35c6f6d20De9821d64bDF4Ba563"]);
+      console.log(vc)
+      expect(isPrivateVC(vc)).toBe(false);
 
       expect(vc).toMatchObject({
         '@context': DEFAULT_CONTEXT,
@@ -206,7 +206,7 @@ describe('VerifiableCredential', (): void => {
         ctype: ctype.$id,
         issuanceDate: now,
         credentialSubject: CONTENTS,
-        issuer: issuer.id,
+        issuer: [issuer.id, "did:zk:0xFeDE01Ff4402e35c6f6d20De9821d64bDF4Ba563"],
         holder: holder.id,
         hasher: ['RescuePrimeOptimized', 'Keccak256'],
         proof: [
@@ -256,7 +256,7 @@ describe('VerifiableCredential', (): void => {
         ctype: ctype.$id,
         issuanceDate: now,
         credentialSubject: CONTENTS,
-        issuer: issuer.id,
+        issuer: [issuer.id],
         holder: holder.id,
         hasher: ['RescuePrime', 'Keccak256'],
         proof: [

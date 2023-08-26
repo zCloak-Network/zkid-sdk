@@ -49,8 +49,7 @@ export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexStr
         return web3.utils.soliditySha3({ type: 'int256[]', value: input });
       } else throw new Error(`This object can not be encoded ${input}`);
     default:
-      const check: never = input;
-      return check;
+      throw new Error(`Can not encode this type: ${input}`)
   }
 }
 

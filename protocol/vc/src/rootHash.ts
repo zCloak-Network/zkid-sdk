@@ -53,7 +53,6 @@ export function rootHashFromMerkle(
     }
 
     const leave = HASHER[hashType](nonceMap ? u8aConcat(encode, nonceMap[encode]) : encode);
-
     leaves.push(leave);
   }
 

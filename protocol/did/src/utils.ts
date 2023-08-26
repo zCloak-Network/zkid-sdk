@@ -4,7 +4,7 @@
 import type { DidUrl, VerificationMethodType } from '@zcloak/did-resolver/types';
 import type { KeypairType } from '@zcloak/keyring/types';
 
-import { stringToU8a, u8aConcat } from '@polkadot/util';
+import { isArray, stringToU8a, u8aConcat } from '@polkadot/util';
 
 import { parseDid } from '@zcloak/did-resolver/parseDid';
 
@@ -17,6 +17,20 @@ export function isSameUri(didUrl1: DidUrl, didUrl2: DidUrl): boolean {
   const { did: did2 } = parseDid(didUrl2);
 
   return did1 === did2;
+}
+
+export function isAttester(value: unknown, version: string): boolean {
+  if (typeof value === 'string' && (version === '0' || version === '1')) {
+    return isDidUrl(value)
+  } else if (isArray(value) && value.length !== 0 && version === '2'){
+    let check = true;
+    for (const item of value) {
+      check = isDidUrl(item) && check;
+    }
+    return check;
+  } else {
+    throw new Error(`The attester is not valid`);
+  }
 }
 
 export function isDidUrl(value: unknown): value is DidUrl {

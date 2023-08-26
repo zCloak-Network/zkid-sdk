@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import type { HexString } from '@zcloak/crypto/types';
-import type { AnyJson, HashType } from './types';
+import type { AnyJson, HashType, VerifiableCredentialVersion } from './types';
 
 import { assert, bufferToU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { MerkleTree } from 'merkletreejs';
@@ -10,7 +10,7 @@ import { MerkleTree } from 'merkletreejs';
 import { randomAsHex } from '@zcloak/crypto';
 
 import { HASHER } from './hasher';
-import { rlpEncode } from './utils';
+import { encodeAsSol, rlpEncode } from './utils';
 
 export type RootHashResult = {
   rootHash: HexString;
@@ -53,7 +53,6 @@ export function rootHashFromMerkle(
     }
 
     const leave = HASHER[hashType](nonceMap ? u8aConcat(encode, nonceMap[encode]) : encode);
-
     leaves.push(leave);
   }
 
@@ -71,7 +70,7 @@ export function rootHashFromMerkle(
  * @description
  * calc rootHash with supplied `input` and `hashType`. Returns [[RootHashResult]].
  */
-export function calcRoothash(input: AnyJson, hashType: HashType): RootHashResult;
+export function calcRoothash(input: AnyJson, hashType: HashType, version: VerifiableCredentialVersion): RootHashResult;
 /**
  * @name calcRoothash
  * @summary calc rootHash from any json.
@@ -83,16 +82,27 @@ export function calcRoothash(input: AnyJson, hashType: HashType): RootHashResult
 export function calcRoothash(
   input: AnyJson,
   hashType: HashType,
-  nonceMap: Record<HexString, HexString>
+  version: VerifiableCredentialVersion,
+  nonceMap: Record<HexString, HexString>,
 ): RootHashResult;
 
 export function calcRoothash(
   input: AnyJson,
   hashType: HashType,
-  nonceMap?: Record<HexString, HexString>
+  version: VerifiableCredentialVersion,
+  nonceMap?: Record<HexString, HexString>,
 ): RootHashResult {
   const values = Object.values(input);
-  const encoded: HexString[] = values.map((value) => rlpEncode(value, hashType)).map((value) => u8aToHex(value));
+  let encoded: HexString[] = [];
+
+  // if the version is `2` and the hash in merkletree is Keccak256, we assume this vc aims to be used on chain.
+  if (version === '2' && hashType === 'Keccak256') {
+    encoded = values.map((values) => encodeAsSol(values));
+  } else if (version === '0' || version === '1' || version === '2') {
+    encoded = values.map((value) => rlpEncode(value, hashType)).map((value) => u8aToHex(value));
+  } else {
+    throw new Error('The Version is not supported for calc roothash');
+  }
 
   if (nonceMap) {
     for (const encode of encoded) {

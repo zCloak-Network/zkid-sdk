@@ -81,7 +81,7 @@ export async function vcVerify(
   let rootHash: HexString;
 
   if (isPublicVC(vc)) {
-    rootHash = calcRoothash(vc.credentialSubject, vc.hasher[0]).rootHash;
+    rootHash = calcRoothash(vc.credentialSubject, vc.hasher[0], vc.version).rootHash;
   } else {
     const { credentialSubject, credentialSubjectHashes, credentialSubjectNonceMap, hasher } = vc;
 

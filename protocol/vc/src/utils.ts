@@ -30,7 +30,6 @@ export function rlpEncode(input: NativeType | NativeTypeWithOutNull[], hashType:
 
 export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexString {
   const web3 = new Web3() as any;
-  console.log("this type is: ", typeof input)
   switch (typeof input) {
     case "string":
       return web3.utils.soliditySha3({ type: 'string', value: input })
@@ -50,7 +49,8 @@ export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexStr
         return web3.utils.soliditySha3({ type: 'int256[]', value: input });
       } else throw new Error(`This object can not be encoded ${input}`);
     default:
-      throw new Error(`This input can not be encoded ${input}`);
+      const check: never = input;
+      return check;
   }
 }
 

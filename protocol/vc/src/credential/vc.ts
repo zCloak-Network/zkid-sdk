@@ -112,9 +112,9 @@ export class VerifiableCredentialBuilder {
       let rootHashResult: RootHashResult;
 
       if (isPublic) {
-        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType);
+        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType, this.version);
       } else {
-        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType, {});
+        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType, this.version,{});
       }
 
       const digestPayload: DigestPayload<VerifiableCredentialVersion> = {

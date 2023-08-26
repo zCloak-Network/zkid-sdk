@@ -21,7 +21,7 @@ describe('calcRoothash', (): void => {
         isUser: true
       };
 
-      const { rootHash } = calcRoothash(input, 'RescuePrime', {
+      const { rootHash } = calcRoothash(input, 'RescuePrime', '1', {
         '0x88af5a7ba28c1de54ebd589dea81d30caa3f467646f6d714c0d2604599d63e1e':
           '0x357d50aac640931f9976477de30b3b476be4a14ae367b045496670d7a23c457d',
         '0x9ad57aefa90d9473f855c14221f330fe959a554b3d86c9d701db11c7559ce107':
@@ -44,7 +44,7 @@ describe('calcRoothash', (): void => {
         types: ['1', '2', '5']
       };
 
-      const { rootHash } = calcRoothash(input, 'RescuePrime', {
+      const { rootHash } = calcRoothash(input, 'RescuePrime', '1', {
         '0x88af5a7ba28c1de54ebd589dea81d30caa3f467646f6d714c0d2604599d63e1e':
           '0x42ecebd0acae94843f906a9fe69e5c672c60d8d688b71aa85948d8e60becf082',
         '0x9ad57aefa90d9473f855c14221f330fe959a554b3d86c9d701db11c7559ce107':
@@ -69,7 +69,7 @@ describe('calcRoothash', (): void => {
         types: ['1', '2', '5']
       };
 
-      const { rootHash } = calcRoothash(input, 'RescuePrime');
+      const { rootHash } = calcRoothash(input, 'RescuePrime', '1');
 
       expect(rootHash).toEqual('0x9579c93741b6979500bca88dcb104da424c2c3bb0e2fa85f13d76cd00637e46f');
     });
@@ -84,7 +84,7 @@ describe('calcRoothash', (): void => {
         isUser: true
       };
 
-      const { rootHash } = calcRoothash(input, 'Blake32to1', {
+      const { rootHash } = calcRoothash(input, 'Blake32to1', '1', {
         '0x6b90277e3f4ab97b83b3fc61ecffa4ec063f70d7255233ef5afdf418dcec3b75':
           '0x25807968a4c5f3ce2f116c5914991c97e33020408146406a36e4fa4826dd6c7d',
         '0x1300000000000000000000000000000000000000000000000000000000000000':
@@ -108,7 +108,7 @@ describe('calcRoothash', (): void => {
         isUser: true
       };
 
-      const { rootHash } = calcRoothash(input, 'RescuePrimeOptimized', {
+      const { rootHash } = calcRoothash(input, 'RescuePrimeOptimized', '1', {
         '0x011eed5f2e2321069b83e2bdd38c790948231cd1d49ed6c4dd09bb0f16b0661c':
           '0xfd766e5717ae2ae09abee1268d6a653dc50c2067d9efd665e7b52d8f0f597d2b',
         '0x7f8a33bf3f50ca9b84d1dc5561c8f71d48d6256763fd8d0f5e5e902dce5dfb88':

@@ -53,7 +53,7 @@ function transformVC(
       vc.credentialSubjectNonceMap[encode] = nonceMap[encode];
     }
   } else {
-    const { rootHash } = calcRoothash(vc.credentialSubject, vc.hasher[0], vc.credentialSubjectNonceMap);
+    const { rootHash } = calcRoothash(vc.credentialSubject, vc.hasher[0], vc.version, vc.credentialSubjectNonceMap);
 
     vc.credentialSubject = rootHash;
     vc.credentialSubjectHashes = [];

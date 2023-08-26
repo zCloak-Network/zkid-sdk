@@ -258,6 +258,7 @@ describe('vc verify', (): void => {
             credentialSubject: calcRoothash(
               fullVC.credentialSubject as AnyJson,
               fullVC.hasher[0],
+              fullVC.version,
               fullVC.credentialSubjectNonceMap || {}
             ).rootHash,
             credentialSubjectNonceMap: {},

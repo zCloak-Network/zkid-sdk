@@ -161,7 +161,6 @@ describe('calcRoothash', (): void => {
       '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2': '0xddb361f768d83f2f8eabd4f51517adb8d92aef33ce627127311bad01bac41710',
       '0x69ab0c29dcf9256886435d72272bceee1f0a0b2cee41865d3b56f9726e7fe0a3': '0x51c09e0512047698103565fc9c2aca963eb3af6cf99b9201fc6be1331e4649e5'
       });
-      console.log(rootHash)
       expect(rootHash).toEqual('0x8e94d639398a25f0484ba8f40feff5e694b084164118af84ffece25c68be4342');
     });
   });

@@ -111,7 +111,6 @@ describe('VerifiableCredential', (): void => {
       });
 
       const vc = await vcBuilder.build(issuer, false);
-      console.log(vc)
       expect(isPrivateVC(vc)).toBe(true);
 
       expect(vc).toMatchObject({
@@ -197,7 +196,6 @@ describe('VerifiableCredential', (): void => {
       });
 
       const vc = await vcBuilder.build(issuer, false,["did:zk:0xFeDE01Ff4402e35c6f6d20De9821d64bDF4Ba563"]);
-      console.log(vc)
       expect(isPrivateVC(vc)).toBe(false);
 
       expect(vc).toMatchObject({

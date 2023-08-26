@@ -14,7 +14,7 @@ import type {
 import { isArray, isHex, isJsonObject, isNull, isNumber, isString, isUndefined } from '@polkadot/util';
 
 import { isBase32, isBase58, isBase64 } from '@zcloak/crypto';
-import { isAttester, isDidUrl } from '@zcloak/did/utils';
+import { isDidUrl } from '@zcloak/did/utils';
 
 import { ALL_HASH_TYPES, ALL_SIG_TYPES, ALL_VP_TYPES } from './defaults';
 import { parseDid } from '@zcloak/did-resolver/parseDid';
@@ -93,6 +93,21 @@ export function isAttesterProof(issuer: unknown, proof: unknown): boolean {
     return false;
   }
 }
+
+export function isAttester(value: unknown, version: unknown): boolean {
+  if (typeof value === 'string' && (version === '0' || version === '1')) {
+    return isDidUrl(value)
+  } else if (isArray(value) && value.length !== 0 && version === '2'){
+    let check = true;
+    for (const item of value) {
+      check = isDidUrl(item) && check;
+    }
+    return check;
+  } else {
+    return false;
+  }
+}
+
 /**
  * @name isRawCredential
  * @description
@@ -150,7 +165,7 @@ export function isVC(input: unknown): input is VerifiableCredential<boolean> {
     isString(input.version) &&
     isNumber(input.issuanceDate) &&
     (isUndefined(input.expirationDate) || isNull(input.expirationDate) || isNumber(input.expirationDate)) &&
-    isAttester(input.issuer, input.version as string) &&
+    isAttester(input.issuer, input.version) &&
     isHex(input.digest) &&
     isArray(input.proof) &&
     isAttesterProof(input.issuer, input.proof) &&

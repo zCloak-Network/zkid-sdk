@@ -4,12 +4,14 @@
 import type { HexString } from '@polkadot/util/types';
 import type { CType } from '@zcloak/ctype/types';
 import type { Did } from '@zcloak/did';
-import type { DidUrl } from '@zcloak/did-resolver/types';
+import type { DidResolver } from '@zcloak/did-resolver';
+import type { DidDocument, DidUrl } from '@zcloak/did-resolver/types';
 import type { HashType, Proof, RawCredential, VerifiableCredential, VerifiableCredentialVersion } from '../types';
 
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
+import { vcVerify } from '@zcloak/verify/vcVerify';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest, DigestPayload } from '../digest';
@@ -81,12 +83,12 @@ export class VerifiableCredentialBuilder {
   /**
    * Build to [[PublicVerifiableCredential]]
    */
-  public async build(issuer: Did, isPublic: true, moreIssuers?: DidUrl[]): Promise<VerifiableCredential<true>>;
+  public async build(issuer: Did, isPublic: true): Promise<VerifiableCredential<true>>;
 
   /**
    * Build to [[PrivateVerifiableCredential]]
    */
-  public async build(issuer: Did, isPublic: false, moreIssuers?: DidUrl[]): Promise<VerifiableCredential<false>>;
+  public async build(issuer: Did, isPublic: false): Promise<VerifiableCredential<false>>;
 
   /**
    *
@@ -95,11 +97,7 @@ export class VerifiableCredentialBuilder {
    * @param moreIssuers this is only DidUrl type, because we just add them to the issuer field( not proof field)
    * @returns
    */
-  public async build(
-    issuer: Did,
-    isPublic = false,
-    moreIssuers: DidUrl[] = []
-  ): Promise<VerifiableCredential<boolean>> {
+  public async build(issuer: Did, isPublic = false): Promise<VerifiableCredential<boolean>> {
     assert(this.raw.checkSubject(), `Subject check failed when use ctype ${this.raw.ctype}`);
 
     if (
@@ -127,7 +125,7 @@ export class VerifiableCredentialBuilder {
 
       const { digest, type: digestHashType } = calcDigest(this.version, digestPayload, this.digestHashType);
 
-      const proof = await this._signDigest(issuer, digest, this.version);
+      const proof = await VerifiableCredentialBuilder._signDigest(issuer, digest, this.version);
 
       // NOTE: at this moment, the first proof is fullfiled, this maybe not enough because of multiple issuers
       // Use addIssuerProof() to add more proofs
@@ -137,7 +135,7 @@ export class VerifiableCredentialBuilder {
         ctype: this.raw.ctype.$id,
         issuanceDate: this.issuanceDate,
         credentialSubject: this.raw.contents,
-        issuer: [issuer.id, ...moreIssuers],
+        issuer: [issuer.id],
         holder: this.raw.owner,
         hasher: [rootHashResult.type, digestHashType],
         digest,
@@ -160,6 +158,38 @@ export class VerifiableCredentialBuilder {
     }
 
     throw new Error('Can not to build an VerifiableCredential');
+  }
+
+  /**
+   * since @2.0.0
+   * @param issuer
+   * @param vc
+   * @returns
+   */
+  public static async addProof(
+    issuer: Did,
+    vc: VerifiableCredential<boolean>,
+    resolverOrDidDocument?: DidResolver | DidDocument
+  ): Promise<VerifiableCredential<boolean>> {
+    const existedIssuer = vc.issuer;
+    const existedProof = vc.proof;
+    const exitedDigest = vc.digest;
+
+    // Must have  proof
+    assert(existedIssuer.length > 0 && existedProof.length > 0, 'field issuer or proof is empty');
+
+    // TODO: verify proof that already exists, then add new issuer
+
+    // addProof available since vc@2.0.0
+    const version = '2';
+    const proof = await VerifiableCredentialBuilder._signDigest(issuer, exitedDigest, version);
+    const modifiedVC: VerifiableCredential<boolean> = {
+      ...vc,
+      issuer: [...existedIssuer, issuer.id],
+      proof: [...existedProof, proof]
+    };
+
+    return modifiedVC;
   }
 
   /**
@@ -218,7 +248,7 @@ export class VerifiableCredentialBuilder {
   }
 
   // sign digest by did, the signed message is `concat('CredentialVersionedDigest', version, digest)`
-  private async _signDigest(did: Did, digest: HexString, version: VerifiableCredentialVersion): Promise<Proof> {
+  private static async _signDigest(did: Did, digest: HexString, version: VerifiableCredentialVersion): Promise<Proof> {
     let message: Uint8Array | HexString;
 
     if (version === '1') {

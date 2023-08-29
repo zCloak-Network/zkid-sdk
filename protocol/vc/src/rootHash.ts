@@ -96,12 +96,17 @@ export function calcRoothash(
   let encoded: HexString[] = [];
 
   // if the version is `2` and the hash in merkletree is Keccak256, we assume this vc aims to be used on chain.
-  if (version === '2' && hashType === 'Keccak256') {
-    encoded = values.map((values) => encodeAsSol(values));
-  } else if (version === '0' || version === '1' || version === '2') {
+  if (version === '2') {
+    if (hashType == 'Keccak256'){
+      encoded = values.map((values) => encodeAsSol(values));
+    } else {
+      encoded = values.map((value) => rlpEncode(value, hashType)).map((value) => u8aToHex(value));
+    }
+  } else if (version === '0' || version === '1') {
     encoded = values.map((value) => rlpEncode(value, hashType)).map((value) => u8aToHex(value));
   } else {
-    throw new Error('The Version is not supported for calc roothash');
+    const check: never = version;
+    return check;
   }
 
   if (nonceMap) {

@@ -195,7 +195,7 @@ describe('VerifiableCredential', (): void => {
         digestHashType: 'Keccak256'
       });
 
-      const vc = await vcBuilder.build(issuer, false,["did:zk:0xFeDE01Ff4402e35c6f6d20De9821d64bDF4Ba563"]);
+      const vc = await vcBuilder.build(issuer, true);
       expect(isPrivateVC(vc)).toBe(false);
 
       expect(vc).toMatchObject({
@@ -204,7 +204,7 @@ describe('VerifiableCredential', (): void => {
         ctype: ctype.$id,
         issuanceDate: now,
         credentialSubject: CONTENTS,
-        issuer: [issuer.id, "did:zk:0xFeDE01Ff4402e35c6f6d20De9821d64bDF4Ba563"],
+        issuer: [issuer.id],
         holder: holder.id,
         hasher: ['RescuePrimeOptimized', 'Keccak256'],
         proof: [

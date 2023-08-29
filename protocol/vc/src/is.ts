@@ -82,7 +82,7 @@ export function isAttesterMapping(issuer: unknown, proof: unknown): boolean {
 export function isAttesterProof(issuer: unknown, proof: unknown): boolean {
   // version 0 & version 1, only one attester and one proof
   if (typeof issuer === 'string' && isArray(proof) && proof.length === 1) {
-    return isAttesterMapping(issuer, proof);
+    return isAttesterMapping(issuer, proof[0]);
   } else if (isArray(issuer) && isArray(proof) && issuer.length === proof.length) {
     const check = issuer.every((issuer, index) => isAttesterMapping(issuer, proof[index]));
     return check;
@@ -94,7 +94,7 @@ export function isAttesterProof(issuer: unknown, proof: unknown): boolean {
 export function isAttester(value: unknown, version: unknown): boolean {
   if (typeof value === 'string' && (version === '0' || version === '1')) {
     return isDidUrl(value)
-  } else if (isArray(value) && value.length !== 0 && version === '2'){
+  } else if (isArray(value) && value.length !== 0 && version === '2') {
     const check = value.every(isDidUrl);
     return check;
   } else {

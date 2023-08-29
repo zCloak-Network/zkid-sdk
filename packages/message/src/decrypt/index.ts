@@ -35,10 +35,17 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
 
     case 'Response_Approve_Attestation':
       assert(isVC(data), `Expected message data with msgType:${msgType} is VerifiableCredential object`);
-      assert(
-        data.issuer.some((issuer) => isSameUri(sender, issuer)),
-        'Message sender is not the issuer of VerifiableCredential'
-      );
+      if (typeof data.issuer === 'object') {
+        assert(
+          data.issuer.some((issuer) => isSameUri(sender, issuer)),
+          'Message sender is not the issuer of VerifiableCredential'
+        );
+      } else if (typeof data.issuer === 'string') {
+        assert(isSameUri(sender, data.issuer), 'Message sender is not the issuer VerifiableCredential');
+      } else {
+        const check: never = data.issuer;
+        return check;
+      }
 
       break;
 
@@ -76,10 +83,17 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
 
     case 'Send_issuedVC':
       assert(isVC(data), `Expected message data with msgType:${msgType} is VerifiableCredential object`);
-      assert(
-        data.issuer.some((issuer) => isSameUri(sender, issuer)),
-        'Message sender is not the issuer of VerifiableCredential'
-      );
+      if (typeof data.issuer === 'object') {
+        assert(
+          data.issuer.some((issuer) => isSameUri(sender, issuer)),
+          'Message sender is not the issuer of VerifiableCredential'
+        );
+      } else if (typeof data.issuer === 'string') {
+        assert(isSameUri(sender, data.issuer), 'Message sender is not the issuer VerifiableCredential');
+      } else {
+        const check: never = data.issuer;
+        return check;
+      }
 
       break;
 

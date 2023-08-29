@@ -185,7 +185,7 @@ export class VerifiableCredentialBuilder {
     const proof = await VerifiableCredentialBuilder._signDigest(issuer, exitedDigest, version);
     const modifiedVC: VerifiableCredential<boolean> = {
       ...vc,
-      issuer: [...existedIssuer, issuer.id],
+      issuer: [...existedIssuer, issuer.id] as any,
       proof: [...existedProof, proof]
     };
 
@@ -253,7 +253,7 @@ export class VerifiableCredentialBuilder {
 
     if (version === '1') {
       message = signedVCMessage(digest, version);
-    } else if (version =='0'|| version =='2'){
+    } else if (version === '0' || version === '2') {
       message = digest;
     } else {
       const check: never = version;

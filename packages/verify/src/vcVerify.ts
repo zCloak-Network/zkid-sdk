@@ -43,7 +43,16 @@ async function verifyShared(
     hasher[1]
   );
 
-  const message = version === '1' ? signedVCMessage(digest, version) : digest;
+  let message: Uint8Array | HexString;
+
+  if (version === '1') {
+    message = signedVCMessage(digest, version);
+  } else if (version === '0' || version === '2') {
+    message = digest;
+  } else {
+    const check: never = version;
+    return check;
+  }
 
   const proofValid = await proofVerify(message, proof[0], resolverOrDidDocument);
 
@@ -96,7 +105,6 @@ export async function vcVerify(
       if (!credentialSubjectHashes.includes(hash)) return false;
     }
   }
-
   return verifyShared(vc, rootHash, resolverOrDidDocument);
 }
 

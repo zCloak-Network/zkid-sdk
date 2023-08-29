@@ -21,7 +21,7 @@ import { DEFAULT_CONTEXT, DEFAULT_VP_HASH_TYPE, DEFAULT_VP_VERSION } from './def
 import { HASHER } from './hasher';
 import { isPublicVC, isVC } from './is';
 import { calcRoothash } from './rootHash';
-import { rlpEncode, signedVPMessage } from './utils';
+import { rlpEncode, encodeAsSol, signedVPMessage } from './utils';
 
 // @internal
 // transform private Verifiable Credential by [[VerifiablePresentationType]]
@@ -48,16 +48,30 @@ function transformVC(
 
     for (const key of selectedAttributes) {
       vc.credentialSubject[key] = subject[key];
-      const encode = u8aToHex(rlpEncode(subject[key], vc.hasher[0]));
-
+      let encode: HexString;
+      if (vc.version === '2') {
+        if (vc.hasher[0] == 'Keccak256') {
+          encode = encodeAsSol(subject[key]);
+        } else {
+          encode = u8aToHex(rlpEncode(subject[key], vc.hasher[0]));
+        }
+      } else if (vc.version === '0' || vc.version === '1') {
+        encode = u8aToHex(rlpEncode(subject[key], vc.hasher[0]));
+      } else {
+        const check: never = vc.version;
+        return check;
+      }
       vc.credentialSubjectNonceMap[encode] = nonceMap[encode];
     }
-  } else {
+  } else if (type === 'VP_Digest') {
     const { rootHash } = calcRoothash(vc.credentialSubject, vc.hasher[0], vc.version, vc.credentialSubjectNonceMap);
 
     vc.credentialSubject = rootHash;
     vc.credentialSubjectHashes = [];
     vc.credentialSubjectNonceMap = {};
+  } else {
+    const check: never = type;
+    return check;
   }
 
   return vc;

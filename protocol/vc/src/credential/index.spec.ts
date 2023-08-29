@@ -30,7 +30,6 @@ describe('VerifiableCredential', (): void => {
     await initCrypto();
     holder = alice;
     issuer = bob;
-
     ctype = await getPublish(
       {
         title: 'Test',
@@ -136,7 +135,7 @@ describe('VerifiableCredential', (): void => {
         contents: CONTENTS,
         owner: holder.id,
         ctype,
-        hashType: 'RescuePrime'
+        hashType: 'Keccak256'
       });
 
       const now = Date.now();
@@ -155,7 +154,6 @@ describe('VerifiableCredential', (): void => {
       const vc = await vcBuilder.build(issuer, false);
 
       expect(isPrivateVC(vc)).toBe(true);
-
       expect(vc).toMatchObject({
         '@context': DEFAULT_CONTEXT,
         version: DEFAULT_VC_VERSION,
@@ -164,7 +162,7 @@ describe('VerifiableCredential', (): void => {
         credentialSubject: CONTENTS,
         issuer: [issuer.id],
         holder: holder.id,
-        hasher: ['RescuePrime', 'Keccak256'],
+        hasher: ['Keccak256', 'Keccak256'],
         proof: [
           {
             type: 'EcdsaSecp256k1SignatureEip191',

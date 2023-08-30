@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { HexString } from '@polkadot/util/types';
+
 import { initCrypto } from '@zcloak/crypto';
 
 import { calcRoothash } from './rootHash';
@@ -130,12 +131,17 @@ describe('calcRoothash', (): void => {
         age: 111,
         number_array: [11, 12, 13],
         isUser: true,
-        string_array: ["zCloak", "database"]
+        string_array: ['zCloak', 'database']
       };
       const values = Object.values(input);
       const encodedClaimHashes: HexString[] = values.map((values) => encodeAsSol(values));
 
-      expect(encodedClaimHashes).toEqual(["0x28cb5b00333a3266fa3d92f3426ad4ef1d20018b44dd64913578d43438b4051a", "0x39f2babe526038520877fc7c33d81accf578af4a06c5fa6b0d038cae36e12711", "0x8d20824cd86ad1c5673537a4b5d1ee68bd9265b7d357e82bc76483ae879322c2", "0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2", "0x69ab0c29dcf9256886435d72272bceee1f0a0b2cee41865d3b56f9726e7fe0a3",
+      expect(encodedClaimHashes).toEqual([
+        '0x28cb5b00333a3266fa3d92f3426ad4ef1d20018b44dd64913578d43438b4051a',
+        '0x39f2babe526038520877fc7c33d81accf578af4a06c5fa6b0d038cae36e12711',
+        '0x8d20824cd86ad1c5673537a4b5d1ee68bd9265b7d357e82bc76483ae879322c2',
+        '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2',
+        '0x69ab0c29dcf9256886435d72272bceee1f0a0b2cee41865d3b56f9726e7fe0a3'
       ]);
     });
   });
@@ -147,20 +153,32 @@ describe('calcRoothash', (): void => {
         age: 111,
         number_array: [11, 12, 13],
         isUser: true,
-        string_array: ["zCloak", "database"]
+        string_array: ['zCloak', 'database']
       };
       const values = Object.values(input);
       const encodedClaimHashes: HexString[] = values.map((values) => encodeAsSol(values));
 
-      expect(encodedClaimHashes).toEqual(["0x28cb5b00333a3266fa3d92f3426ad4ef1d20018b44dd64913578d43438b4051a", "0x39f2babe526038520877fc7c33d81accf578af4a06c5fa6b0d038cae36e12711", "0x8d20824cd86ad1c5673537a4b5d1ee68bd9265b7d357e82bc76483ae879322c2", "0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2", "0x69ab0c29dcf9256886435d72272bceee1f0a0b2cee41865d3b56f9726e7fe0a3",
+      expect(encodedClaimHashes).toEqual([
+        '0x28cb5b00333a3266fa3d92f3426ad4ef1d20018b44dd64913578d43438b4051a',
+        '0x39f2babe526038520877fc7c33d81accf578af4a06c5fa6b0d038cae36e12711',
+        '0x8d20824cd86ad1c5673537a4b5d1ee68bd9265b7d357e82bc76483ae879322c2',
+        '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2',
+        '0x69ab0c29dcf9256886435d72272bceee1f0a0b2cee41865d3b56f9726e7fe0a3'
       ]);
 
-      const { rootHash } = calcRoothash(input, 'Keccak256', '2', {'0x28cb5b00333a3266fa3d92f3426ad4ef1d20018b44dd64913578d43438b4051a': '0xcd769c703ecfdc6798d56711af8b3a7918973524db6c6c0901209fd396f3a61b',
-      '0x39f2babe526038520877fc7c33d81accf578af4a06c5fa6b0d038cae36e12711': '0xc5bd9417c2dd820e8c074086acb0e1a785c5f9aa59022ca74606f4f6f32338bb',
-      '0x8d20824cd86ad1c5673537a4b5d1ee68bd9265b7d357e82bc76483ae879322c2': '0x9895d1010a3c7ae796bfdb2bff52febcfb21d8c71a0fb465a02d8a2a0ad857bd',
-      '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2': '0xddb361f768d83f2f8eabd4f51517adb8d92aef33ce627127311bad01bac41710',
-      '0x69ab0c29dcf9256886435d72272bceee1f0a0b2cee41865d3b56f9726e7fe0a3': '0x51c09e0512047698103565fc9c2aca963eb3af6cf99b9201fc6be1331e4649e5'
+      const { rootHash } = calcRoothash(input, 'Keccak256', '2', {
+        '0x28cb5b00333a3266fa3d92f3426ad4ef1d20018b44dd64913578d43438b4051a':
+          '0xcd769c703ecfdc6798d56711af8b3a7918973524db6c6c0901209fd396f3a61b',
+        '0x39f2babe526038520877fc7c33d81accf578af4a06c5fa6b0d038cae36e12711':
+          '0xc5bd9417c2dd820e8c074086acb0e1a785c5f9aa59022ca74606f4f6f32338bb',
+        '0x8d20824cd86ad1c5673537a4b5d1ee68bd9265b7d357e82bc76483ae879322c2':
+          '0x9895d1010a3c7ae796bfdb2bff52febcfb21d8c71a0fb465a02d8a2a0ad857bd',
+        '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2':
+          '0xddb361f768d83f2f8eabd4f51517adb8d92aef33ce627127311bad01bac41710',
+        '0x69ab0c29dcf9256886435d72272bceee1f0a0b2cee41865d3b56f9726e7fe0a3':
+          '0x51c09e0512047698103565fc9c2aca963eb3af6cf99b9201fc6be1331e4649e5'
       });
+
       expect(rootHash).toEqual('0x8e94d639398a25f0484ba8f40feff5e694b084164118af84ffece25c68be4342');
     });
   });

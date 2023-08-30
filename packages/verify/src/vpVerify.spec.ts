@@ -9,9 +9,9 @@ import { initCrypto, randomAsHex } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype/publish';
 import { Did } from '@zcloak/did';
 import { Raw, VerifiableCredentialBuilder, VerifiablePresentationBuilder } from '@zcloak/vc';
+import { VerifiablePresentation } from '@zcloak/vc/types';
 
 import { vpVerify } from './vpVerify';
-import { VerifiablePresentation } from '@zcloak/vc/types';
 
 const CONTENTS1 = {
   name: 'zCloak',
@@ -51,7 +51,8 @@ const vp1: VerifiablePresentation = {
         '0x6d7154b2efb83c39a5cf81ade1ec18509435c573211301ef3cd45957619d4121'
       ],
       credentialSubjectNonceMap: {
-        '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2': '0x7e40f40af672df4c16ee00317cac4a1b6ab62b68efeecd18940e041472765fc7'
+        '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2':
+          '0x7e40f40af672df4c16ee00317cac4a1b6ab62b68efeecd18940e041472765fc7'
       }
     }
   ],
@@ -73,7 +74,6 @@ describe('VerifiablePresentation', (): void => {
   let ctype: CType;
   let rawCtype: Raw;
   let rawCtype2: Raw;
-
 
   beforeAll(async (): Promise<void> => {
     await initCrypto();
@@ -155,8 +155,6 @@ describe('VerifiablePresentation', (): void => {
       expect(await vpVerify(vp, testResolver)).toBe(true);
     });
   });
-
-
   describe('VerifiablePresentation single vc with Version2 keccak256', (): void => {
     it('verify vp with VPType: VP', async (): Promise<void> => {
       const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCtype2.toRawCredential(), ctype)
@@ -193,6 +191,7 @@ describe('VerifiablePresentation', (): void => {
 
       const challenge = randomAsHex();
       const vp = await vpBuilder.addVC(vc, 'VP_SelectiveDisclosure', ['isUser']).build(undefined, challenge);
+
       expect(await vpVerify(vp, testResolver)).toBe(true);
     });
 

@@ -110,6 +110,7 @@ describe('VerifiableCredential', (): void => {
       });
 
       const vc = await vcBuilder.build(issuer, false);
+
       expect(isPrivateVC(vc)).toBe(true);
 
       expect(vc).toMatchObject({
@@ -194,6 +195,7 @@ describe('VerifiableCredential', (): void => {
       });
 
       const vc = await vcBuilder.build(issuer, true);
+
       expect(isPrivateVC(vc)).toBe(false);
 
       expect(vc).toMatchObject({

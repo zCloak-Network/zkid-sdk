@@ -10,8 +10,8 @@ import type { HashType, Proof, RawCredential, VerifiableCredential, VerifiableCr
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
-// import { vcVerify } from '@zcloak/verify/vcVerify';
 
+// import { vcVerify } from '@zcloak/verify/vcVerify';
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest, DigestPayload } from '../digest';
 import { isRawCredential } from '../is';
@@ -224,6 +224,7 @@ export class VerifiableCredentialBuilder {
       message = digest;
     } else {
       const check: never = version;
+
       throw new Error(`VC Version invalid, the wrong VC Version is ${check}`);
     }
 

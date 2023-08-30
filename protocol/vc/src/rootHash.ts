@@ -106,7 +106,7 @@ export function calcRoothash(
     encoded = values.map((value) => rlpEncode(value, hashType)).map((value) => u8aToHex(value));
   } else {
     const check: never = version;
-    return check;
+    throw new Error(`VC Version invalid, the wrong VC Version is ${check}`);
   }
 
   if (nonceMap) {

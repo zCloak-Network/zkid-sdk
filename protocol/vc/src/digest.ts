@@ -102,8 +102,7 @@ export function calcDigest<Version extends VerifiableCredentialVersion>(
     );
   } else {
     const check: never = version;
-
-    return check;
+        throw new Error(`VC Version invalid, the vcVersionCheckResult is ${check}`);
   }
 
   return {

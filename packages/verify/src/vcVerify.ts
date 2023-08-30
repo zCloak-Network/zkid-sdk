@@ -22,7 +22,7 @@ async function verifyShared(
   rootHash: HexString,
   resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
-  assert(isVC(vc), 'input `vc` is not a VerifiableCredential');
+  assert(isVC(vc), `input 'vc' is not a VerifiableCredential`);
 
   const { ctype, digest, expirationDate, hasher, holder, issuanceDate, proof, version } = vc;
 
@@ -51,7 +51,7 @@ async function verifyShared(
     message = digest;
   } else {
     const check: never = version;
-    return check;
+    throw new Error(`The VC Version is invalid : ${check}`);
   }
 
   const proofValid = await proofVerify(message, proof[0], resolverOrDidDocument);
@@ -94,7 +94,6 @@ export async function vcVerify(
   } else {
     const { credentialSubject, credentialSubjectHashes, credentialSubjectNonceMap, hasher } = vc;
 
-
     const tree = makeMerkleTree(credentialSubjectHashes, hasher[0]);
 
     rootHash = u8aToHex(bufferToU8a(tree.getRoot()));
@@ -112,7 +111,7 @@ export async function vcVerify(
         encoded = u8aToHex(rlpEncode(value, hasher[0]));
       } else {
         const check: never = vc.version;
-        return check;
+        throw new Error(`VC Version invalid, the wrong VC Version is ${check}`);
       }
 
       const hash = u8aToHex(HASHER[hasher[0]](u8aConcat(encoded, credentialSubjectNonceMap[encoded])));

@@ -52,8 +52,8 @@ export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexStr
       throw new Error(`Can not encode this undefined type: ${input}`);
     default:
       const check: never = input;
-      return check;
-  }
+      throw new Error(`The input type to be encodeAsSol is wrong, the type is ${check}`);
+    }
 }
 
 export function signedVCMessage(digest: HexString, version: VerifiableCredentialVersion): Uint8Array {

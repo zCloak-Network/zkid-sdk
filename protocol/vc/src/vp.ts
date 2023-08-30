@@ -59,7 +59,7 @@ function transformVC(
         encode = u8aToHex(rlpEncode(subject[key], vc.hasher[0]));
       } else {
         const check: never = vc.version;
-        return check;
+        throw new Error(`VC Version invalid, the wrong VC Version is ${check}`);
       }
       vc.credentialSubjectNonceMap[encode] = nonceMap[encode];
     }
@@ -71,7 +71,7 @@ function transformVC(
     vc.credentialSubjectNonceMap = {};
   } else {
     const check: never = type;
-    return check;
+    throw new Error(`VP Type invalid, the invalid VP type is: ${check}`);
   }
 
   return vc;

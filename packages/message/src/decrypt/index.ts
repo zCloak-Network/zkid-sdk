@@ -92,7 +92,7 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
         assert(isSameUri(sender, data.issuer), 'Message sender is not the issuer VerifiableCredential');
       } else {
         const check: never = data.issuer;
-        return check;
+        throw new Error(`Message sender type wrong, the wrong issuer is : ${check}`);
       }
 
       break;

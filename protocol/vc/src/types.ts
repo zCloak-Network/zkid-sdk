@@ -52,7 +52,7 @@ interface PublicVerifiableCredential extends RawCredential {
   version: VerifiableCredentialVersion;
   issuanceDate: number;
   expirationDate?: number;
-  issuer: DidUrl[];
+  issuer: DidUrl[] | DidUrl;
   digest: HexString;
   proof: Proof[];
 }
@@ -62,7 +62,7 @@ interface PrivateVerifiableCredential extends Omit<RawCredential, 'credentialSub
   version: VerifiableCredentialVersion;
   issuanceDate: number;
   expirationDate?: number;
-  issuer: DidUrl[];
+  issuer: DidUrl[] | DidUrl;
   digest: HexString;
   proof: Proof[];
   // when CredentialSubject is HexString, it means [[rootHash]]

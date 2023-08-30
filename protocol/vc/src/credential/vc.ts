@@ -11,7 +11,7 @@ import type { HashType, Proof, RawCredential, VerifiableCredential, VerifiableCr
 import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
-import { vcVerify } from '@zcloak/verify/vcVerify';
+// import { vcVerify } from '@zcloak/verify/vcVerify';
 
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest, DigestPayload } from '../digest';
@@ -185,7 +185,7 @@ export class VerifiableCredentialBuilder {
     const proof = await VerifiableCredentialBuilder._signDigest(issuer, exitedDigest, version);
     const modifiedVC: VerifiableCredential<boolean> = {
       ...vc,
-      issuer: [...existedIssuer, issuer.id],
+      issuer: [...existedIssuer, issuer.id] as any,
       proof: [...existedProof, proof]
     };
 
@@ -253,8 +253,11 @@ export class VerifiableCredentialBuilder {
 
     if (version === '1') {
       message = signedVCMessage(digest, version);
-    } else {
+    } else if (version === '0' || version === '2') {
       message = digest;
+    } else {
+      const check: never = version;
+      return check;
     }
 
     const signDidUrl: DidUrl = did.getKeyUrl('assertionMethod');

@@ -11,7 +11,7 @@ import { assert, bufferToU8a, isHex, u8aConcat, u8aToHex } from '@polkadot/util'
 import { calcRoothash, makeMerkleTree } from '@zcloak/vc';
 import { HASHER } from '@zcloak/vc/hasher';
 import { isPublicVC, isVC } from '@zcloak/vc/is';
-import { rlpEncode, signedVCMessage } from '@zcloak/vc/utils';
+import { encodeAsSol, rlpEncode, signedVCMessage } from '@zcloak/vc/utils';
 
 import { digestVerify } from './digestVerify';
 import { proofVerify } from './proofVerify';
@@ -43,7 +43,16 @@ async function verifyShared(
     hasher[1]
   );
 
-  const message = version === '1' ? signedVCMessage(digest, version) : digest;
+  let message: Uint8Array | HexString;
+
+  if (version === '1') {
+    message = signedVCMessage(digest, version);
+  } else if (version === '0' || version === '2') {
+    message = digest;
+  } else {
+    const check: never = version;
+    return check;
+  }
 
   const proofValid = await proofVerify(message, proof[0], resolverOrDidDocument);
 
@@ -85,18 +94,32 @@ export async function vcVerify(
   } else {
     const { credentialSubject, credentialSubjectHashes, credentialSubjectNonceMap, hasher } = vc;
 
+
     const tree = makeMerkleTree(credentialSubjectHashes, hasher[0]);
 
     rootHash = u8aToHex(bufferToU8a(tree.getRoot()));
 
     for (const value of Object.values(credentialSubject)) {
-      const encode = u8aToHex(rlpEncode(value, hasher[0]));
-      const hash = u8aToHex(HASHER[hasher[0]](u8aConcat(encode, credentialSubjectNonceMap[encode])));
+      let encoded: HexString;
+
+      if (vc.version === '2') {
+        if (hasher[0] == 'Keccak256') {
+          encoded = encodeAsSol(value);
+        } else {
+          encoded = u8aToHex(rlpEncode(value, hasher[0]));
+        }
+      } else if (vc.version === '0' || vc.version === '1') {
+        encoded = u8aToHex(rlpEncode(value, hasher[0]));
+      } else {
+        const check: never = vc.version;
+        return check;
+      }
+
+      const hash = u8aToHex(HASHER[hasher[0]](u8aConcat(encoded, credentialSubjectNonceMap[encoded])));
 
       if (!credentialSubjectHashes.includes(hash)) return false;
     }
   }
-
   return verifyShared(vc, rootHash, resolverOrDidDocument);
 }
 

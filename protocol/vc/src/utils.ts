@@ -17,6 +17,7 @@ import { rlpEncode as rlpEncodeFn } from '@zcloak/crypto';
 import { HASHER } from './hasher';
 
 import Web3 from 'web3';
+const web3 = new Web3() as any;
 
 export function rlpEncode(input: NativeType | NativeTypeWithOutNull[], hashType: HashType): Uint8Array {
   const result = rlpEncodeFn(input);
@@ -29,13 +30,12 @@ export function rlpEncode(input: NativeType | NativeTypeWithOutNull[], hashType:
 }
 
 export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexString {
-  const web3 = new Web3() as any;
   switch (typeof input) {
     case "string":
       return web3.utils.soliditySha3({ type: 'string', value: input })
 
     case "number":
-      if (input % 1 !== 0) {
+      if (_isDecimalNumber(input)) {
         throw new Error(`Can not encode number with dot`);
       }
       return web3.utils.soliditySha3({ type: 'int256', value: input });
@@ -48,8 +48,11 @@ export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexStr
       } else if ((Array.isArray(input) && typeof input[0] == 'number')) {
         return web3.utils.soliditySha3({ type: 'int256[]', value: input });
       } else throw new Error(`This object can not be encoded ${input}`);
+    case "undefined":
+      throw new Error(`Can not encode this undefined type: ${input}`);
     default:
-      throw new Error(`Can not encode this type: ${input}`)
+      const check: never = input;
+      return check;
   }
 }
 
@@ -68,4 +71,14 @@ export function signedVPMessage(
     hash,
     challenge || new Uint8Array()
   );
+}
+
+// helper function, check whether the number is an integer or not
+function _isDecimalNumber(num: number): boolean {
+  const numStr = num.toString();
+  if (numStr.includes(".")) {
+      return true;
+  } else {
+      return false;
+  }
 }

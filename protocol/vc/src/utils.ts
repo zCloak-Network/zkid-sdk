@@ -11,12 +11,12 @@ import type {
 } from './types';
 
 import { numberToU8a, stringToU8a, u8aConcat } from '@polkadot/util';
+import Web3 from 'web3';
 
 import { rlpEncode as rlpEncodeFn } from '@zcloak/crypto';
 
 import { HASHER } from './hasher';
 
-import Web3 from 'web3';
 const web3 = new Web3() as any;
 
 export function rlpEncode(input: NativeType | NativeTypeWithOutNull[], hashType: HashType): Uint8Array {
@@ -31,28 +31,32 @@ export function rlpEncode(input: NativeType | NativeTypeWithOutNull[], hashType:
 
 export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexString {
   switch (typeof input) {
-    case "string":
-      return web3.utils.soliditySha3({ type: 'string', value: input })
-    case "number":
+    case 'string':
+      return web3.utils.soliditySha3({ type: 'string', value: input });
+    case 'number':
       if (_isDecimalNumber(input)) {
-        throw new Error(`Can not encode number with dot`);
+        throw new Error('Can not encode number with dot');
       }
+
       return web3.utils.soliditySha3({ type: 'int256', value: input });
-    case "boolean":
+    case 'boolean':
       return web3.utils.soliditySha3({ type: 'bool', value: input });
-    case "object":
-      if (Array.isArray(input) && typeof input[0] == 'string') {
+    case 'object':
+      if (Array.isArray(input) && typeof input[0] === 'string') {
         const encodedParams = web3.eth.abi.encodeParameters(['string[]'], [input]);
+
         return web3.utils.keccak256(encodedParams);
-      } else if ((Array.isArray(input) && typeof input[0] == 'number')) {
+      } else if (Array.isArray(input) && typeof input[0] === 'number') {
         return web3.utils.soliditySha3({ type: 'int256[]', value: input });
       } else throw new Error(`This object can not be encoded ${input}`);
-    case "undefined":
+    case 'undefined':
       throw new Error(`Can not encode this undefined type: ${input}`);
     default:
+      // eslint-disable-next-line no-case-declarations
       const check: never = input;
+
       throw new Error(`The input type to be encodeAsSol is wrong, the type is ${check}`);
-    }
+  }
 }
 
 export function signedVCMessage(digest: HexString, version: VerifiableCredentialVersion): Uint8Array {
@@ -75,9 +79,10 @@ export function signedVPMessage(
 // helper function, check whether the number is an integer or not
 function _isDecimalNumber(num: number): boolean {
   const numStr = num.toString();
-  if (numStr.includes(".")) {
-      return true;
+
+  if (numStr.includes('.')) {
+    return true;
   } else {
-      return false;
+    return false;
   }
 }

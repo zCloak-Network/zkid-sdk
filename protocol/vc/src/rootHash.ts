@@ -53,6 +53,7 @@ export function rootHashFromMerkle(
     }
 
     const leave = HASHER[hashType](nonceMap ? u8aConcat(encode, nonceMap[encode]) : encode);
+
     leaves.push(leave);
   }
 
@@ -83,21 +84,21 @@ export function calcRoothash(
   input: AnyJson,
   hashType: HashType,
   version: VerifiableCredentialVersion,
-  nonceMap: Record<HexString, HexString>,
+  nonceMap: Record<HexString, HexString>
 ): RootHashResult;
 
 export function calcRoothash(
   input: AnyJson,
   hashType: HashType,
   version: VerifiableCredentialVersion,
-  nonceMap?: Record<HexString, HexString>,
+  nonceMap?: Record<HexString, HexString>
 ): RootHashResult {
   const values = Object.values(input);
   let encoded: HexString[] = [];
 
   // if the version is `2` and the hash in merkletree is Keccak256, we assume this vc aims to be used on chain.
   if (version === '2') {
-    if (hashType == 'Keccak256'){
+    if (hashType === 'Keccak256') {
       encoded = values.map((values) => encodeAsSol(values));
     } else {
       encoded = values.map((value) => rlpEncode(value, hashType)).map((value) => u8aToHex(value));
@@ -106,6 +107,7 @@ export function calcRoothash(
     encoded = values.map((value) => rlpEncode(value, hashType)).map((value) => u8aToHex(value));
   } else {
     const check: never = version;
+
     throw new Error(`VC Version invalid, the wrong VC Version is ${check}`);
   }
 

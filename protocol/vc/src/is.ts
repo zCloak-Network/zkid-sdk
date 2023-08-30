@@ -15,9 +15,9 @@ import { isArray, isHex, isJsonObject, isNull, isNumber, isString, isUndefined }
 
 import { isBase32, isBase58, isBase64 } from '@zcloak/crypto';
 import { isDidUrl } from '@zcloak/did/utils';
+import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 import { ALL_HASH_TYPES, ALL_SIG_TYPES, ALL_VP_TYPES } from './defaults';
-import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 /**
  * @name isHashType
@@ -70,6 +70,7 @@ export function isProof(input: unknown): input is Proof {
 export function isAttesterMapping(issuer: unknown, proof: unknown): boolean {
   if (isProof(proof)) {
     const issuerInProof = parseDid(proof.verificationMethod).did;
+
     return issuer === issuerInProof;
   } else return false;
 }
@@ -85,6 +86,7 @@ export function isAttesterProof(issuer: unknown, proof: unknown): boolean {
     return isAttesterMapping(issuer, proof[0]);
   } else if (isArray(issuer) && isArray(proof) && issuer.length === proof.length) {
     const check = issuer.every((issuer, index) => isAttesterMapping(issuer, proof[index]));
+
     return check;
   } else {
     return false;
@@ -93,9 +95,10 @@ export function isAttesterProof(issuer: unknown, proof: unknown): boolean {
 
 export function isAttester(value: unknown, version: unknown): boolean {
   if (typeof value === 'string' && (version === '0' || version === '1')) {
-    return isDidUrl(value)
+    return isDidUrl(value);
   } else if (isArray(value) && value.length !== 0 && version === '2') {
     const check = value.every(isDidUrl);
+
     return check;
   } else {
     return false;

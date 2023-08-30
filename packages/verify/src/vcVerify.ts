@@ -8,7 +8,8 @@ import type { VerifiableCredential } from '@zcloak/vc/types';
 
 import { assert, bufferToU8a, isHex, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { calcRoothash, makeMerkleTree } from '@zcloak/vc';
+import { Did } from '@zcloak/did';
+import { calcRoothash, makeMerkleTree, VerifiableCredentialBuilder } from '@zcloak/vc';
 import { HASHER } from '@zcloak/vc/hasher';
 import { isPublicVC, isVC } from '@zcloak/vc/is';
 import { encodeAsSol, rlpEncode, signedVCMessage } from '@zcloak/vc/utils';
@@ -22,7 +23,7 @@ async function verifyShared(
   rootHash: HexString,
   resolverOrDidDocument?: DidResolver | DidDocument
 ): Promise<boolean> {
-  assert(isVC(vc), `input 'vc' is not a VerifiableCredential`);
+  assert(isVC(vc), "input 'vc' is not a VerifiableCredential");
 
   const { ctype, digest, expirationDate, hasher, holder, issuanceDate, proof, version } = vc;
 
@@ -51,10 +52,19 @@ async function verifyShared(
     message = digest;
   } else {
     const check: never = version;
+
     throw new Error(`The VC Version is invalid : ${check}`);
   }
 
-  const proofValid = await proofVerify(message, proof[0], resolverOrDidDocument);
+  let proofValid = true;
+
+  for (const item of proof) {
+    proofValid = await proofVerify(message, item, resolverOrDidDocument);
+
+    if (!proofValid) {
+      return false;
+    }
+  }
 
   return digestValid && proofValid;
 }
@@ -102,7 +112,7 @@ export async function vcVerify(
       let encoded: HexString;
 
       if (vc.version === '2') {
-        if (hasher[0] == 'Keccak256') {
+        if (hasher[0] === 'Keccak256') {
           encoded = encodeAsSol(value);
         } else {
           encoded = u8aToHex(rlpEncode(value, hasher[0]));
@@ -111,6 +121,7 @@ export async function vcVerify(
         encoded = u8aToHex(rlpEncode(value, hasher[0]));
       } else {
         const check: never = vc.version;
+
         throw new Error(`VC Version invalid, the wrong VC Version is ${check}`);
       }
 
@@ -119,6 +130,7 @@ export async function vcVerify(
       if (!credentialSubjectHashes.includes(hash)) return false;
     }
   }
+
   return verifyShared(vc, rootHash, resolverOrDidDocument);
 }
 
@@ -158,4 +170,40 @@ export async function vcVerifyDigest(
   const rootHash = credentialSubject;
 
   return verifyShared(vc, rootHash, resolverOrDidDocument);
+}
+
+/**
+ * since @2.0.0
+ * @param issuer
+ * @param vc
+ * @returns
+ */
+export async function addProof(
+  issuer: Did,
+  vc: VerifiableCredential<boolean>,
+  resolverOrDidDocument?: DidResolver
+): Promise<VerifiableCredential<boolean>> {
+  const existedIssuer = vc.issuer;
+  const existedProof = vc.proof;
+  const exitedDigest = vc.digest;
+
+  assert(vc.version === '2', 'Only version2 support addProof');
+
+  // Must have  proof
+  assert(existedIssuer.length > 0 && existedProof.length > 0, 'field issuer or proof is empty');
+
+  const vcVerifyResult = await vcVerify(vc, resolverOrDidDocument);
+
+  assert(vcVerifyResult, 'The VC is invalid');
+
+  // addProof available since vc@2.0.0
+  const version = '2';
+  const proof = await VerifiableCredentialBuilder._signDigest(issuer, exitedDigest, version);
+  const modifiedVC: VerifiableCredential<boolean> = {
+    ...vc,
+    issuer: [...existedIssuer, issuer.id] as any,
+    proof: [...existedProof, proof]
+  };
+
+  return modifiedVC;
 }

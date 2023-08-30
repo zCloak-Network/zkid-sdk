@@ -35,6 +35,7 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
 
     case 'Response_Approve_Attestation':
       assert(isVC(data), `Expected message data with msgType:${msgType} is VerifiableCredential object`);
+
       if (typeof data.issuer === 'object') {
         assert(
           data.issuer.some((issuer) => isSameUri(sender, issuer)),
@@ -44,6 +45,7 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
         assert(isSameUri(sender, data.issuer), 'Message sender is not the issuer VerifiableCredential');
       } else {
         const check: never = data.issuer;
+
         return check;
       }
 
@@ -83,6 +85,7 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
 
     case 'Send_issuedVC':
       assert(isVC(data), `Expected message data with msgType:${msgType} is VerifiableCredential object`);
+
       if (typeof data.issuer === 'object') {
         assert(
           data.issuer.some((issuer) => isSameUri(sender, issuer)),
@@ -92,6 +95,7 @@ export function verifyMessageData(message: DecryptedMessage<MessageType>): void 
         assert(isSameUri(sender, data.issuer), 'Message sender is not the issuer VerifiableCredential');
       } else {
         const check: never = data.issuer;
+
         throw new Error(`Message sender type wrong, the wrong issuer is : ${check}`);
       }
 

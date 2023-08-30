@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { HexString } from '@polkadot/util/types';
-import { initCrypto, keccak256AsHex } from '@zcloak/crypto';
+import { initCrypto } from '@zcloak/crypto';
 
 import { calcRoothash } from './rootHash';
 import { encodeAsSol } from './utils';

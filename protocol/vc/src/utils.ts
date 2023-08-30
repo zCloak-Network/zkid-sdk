@@ -33,7 +33,6 @@ export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexStr
   switch (typeof input) {
     case "string":
       return web3.utils.soliditySha3({ type: 'string', value: input })
-
     case "number":
       if (_isDecimalNumber(input)) {
         throw new Error(`Can not encode number with dot`);
@@ -52,8 +51,8 @@ export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexStr
       throw new Error(`Can not encode this undefined type: ${input}`);
     default:
       const check: never = input;
-      return check;
-  }
+      throw new Error(`The input type to be encodeAsSol is wrong, the type is ${check}`);
+    }
 }
 
 export function signedVCMessage(digest: HexString, version: VerifiableCredentialVersion): Uint8Array {

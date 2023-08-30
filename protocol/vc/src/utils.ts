@@ -33,7 +33,6 @@ export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexStr
   switch (typeof input) {
     case "string":
       return web3.utils.soliditySha3({ type: 'string', value: input })
-
     case "number":
       if (_isDecimalNumber(input)) {
         throw new Error(`Can not encode number with dot`);

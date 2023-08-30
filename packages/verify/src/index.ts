@@ -7,3 +7,4 @@ export * from './digestVerify';
 export * from './verifyDidDocumentProof';
 export * from './vcVerify';
 export * from './vpVerify';
+export * from './vcVerifyIssue'

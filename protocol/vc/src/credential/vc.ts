@@ -4,7 +4,6 @@
 import type { HexString } from '@polkadot/util/types';
 import type { CType } from '@zcloak/ctype/types';
 import type { Did } from '@zcloak/did';
-import type { DidResolver } from '@zcloak/did-resolver';
 import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { HashType, Proof, RawCredential, VerifiableCredential, VerifiableCredentialVersion } from '../types';
 
@@ -161,41 +160,6 @@ export class VerifiableCredentialBuilder {
   }
 
   /**
-   * since @2.0.0
-   * @param issuer
-   * @param vc
-   * @returns
-   */
-  public static async addProof(
-    issuer: Did,
-    vc: VerifiableCredential<boolean>,
-    resolverOrDidDocument?: DidResolver
-  ): Promise<VerifiableCredential<boolean>> {
-    const existedIssuer = vc.issuer;
-    const existedProof = vc.proof;
-    const exitedDigest = vc.digest;
-
-    assert(vc.version === '2', 'Only version2 support addProof');
-
-    // Must have  proof
-    assert(existedIssuer.length > 0 && existedProof.length > 0, 'field issuer or proof is empty');
-
-    // const vcVerifyResult = await vcVerify(vc, resolverOrDidDocument);
-    // assert(vcVerifyResult, 'The VC is invalid')
-
-    // addProof available since vc@2.0.0
-    const version = '2';
-    const proof = await VerifiableCredentialBuilder._signDigest(issuer, exitedDigest, version);
-    const modifiedVC: VerifiableCredential<boolean> = {
-      ...vc,
-      issuer: [...existedIssuer, issuer.id] as any,
-      proof: [...existedProof, proof]
-    };
-
-    return modifiedVC;
-  }
-
-  /**
    * set arrtibute `@context`
    */
   public setContext(context: string[]): this {
@@ -251,7 +215,7 @@ export class VerifiableCredentialBuilder {
   }
 
   // sign digest by did, the signed message is `concat('CredentialVersionedDigest', version, digest)`
-  private static async _signDigest(did: Did, digest: HexString, version: VerifiableCredentialVersion): Promise<Proof> {
+  public static async _signDigest(did: Did, digest: HexString, version: VerifiableCredentialVersion): Promise<Proof> {
     let message: Uint8Array | HexString;
 
     if (version === '1') {

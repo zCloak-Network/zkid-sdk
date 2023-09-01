@@ -6,9 +6,10 @@ import type { AnyJson, VerifiableCredential } from '@zcloak/vc/types';
 
 import { alice } from 'test-support';
 
-import { initCrypto } from '@zcloak/crypto';
-import { calcRoothash } from '@zcloak/vc';
+import { base58Decode, initCrypto } from '@zcloak/crypto';
+import { calcDigest, calcRoothash, DigestPayloadV2 } from '@zcloak/vc';
 
+import { didVerify } from './didVerify';
 import { addProof, vcVerify, vcVerifyDigest } from './vcVerify';
 
 const document1: DidDocument = {
@@ -205,6 +206,50 @@ const fullVC3: VerifiableCredential<false> = {
   }
 };
 
+const multiAttesterVC: VerifiableCredential<false> = {
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  version: '2',
+  ctype: '0xc08734bbd035fe0880ba6e469e40b160601a2389d0284f6255a5f0b395d2336c',
+  issuanceDate: 1693299329782,
+  credentialSubject: { name: 'zCloak', age: 19, birthday: '2022.10.31', isUser: true },
+  issuer: ['did:zk:0x57E7b664aaa7C895878DdCa5790526B9659350Ec', 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'],
+  holder: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1',
+  hasher: ['Keccak256', 'Keccak256'],
+  digest: '0x63c8827f7d7e7446772799ccfbc0ae0a57199b679a4ea3682951ccc5c418060d',
+  proof: [
+    {
+      type: 'EcdsaSecp256k1SignatureEip191',
+      created: 1693299329786,
+      verificationMethod: 'did:zk:0x57E7b664aaa7C895878DdCa5790526B9659350Ec#key-0',
+      proofPurpose: 'assertionMethod',
+      proofValue: 'zJaNmsWPNQoJ1Gt58AotgQRoBvSoEibuAL6GBKvZ8fV5gbNCrXxBZkMyZFK6fUwUoFkZi2WZNNdMicwGzTPbzdH1Ep'
+    },
+    {
+      type: 'EcdsaSecp256k1SignatureEip191',
+      created: 1693465100632,
+      verificationMethod: 'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0',
+      proofPurpose: 'assertionMethod',
+      proofValue: 'zMM2jFmT4AdoepwHGNfqxjTxmemRsWpX4b4dVZyB6dLdWunBnLhTwLPYqsxF3nMfP11hQM3HUSLe3tMmiYVpYtCN16'
+    }
+  ],
+  credentialSubjectHashes: [
+    '0x1537556bb6125c231e6e76ec1457b80bf43647fdd0de3f57c2bc3189da55617b',
+    '0x418070cd733fcab053b572eb37f4aea5686ec3485296eb2e517b622c9b59a112',
+    '0xd4be7b980fc8f5d53f99b5cfcfce5633827baff0be83f16f5290190864708f4b',
+    '0x4ddccf029950fee195bcd67df5a46986fea14ff00d47b5d3b9d1929c623c1f32'
+  ],
+  credentialSubjectNonceMap: {
+    '0x28cb5b00333a3266fa3d92f3426ad4ef1d20018b44dd64913578d43438b4051a':
+      '0xc9444e4d54f98aaa9076736432913113f0d6491321cc575ec751208d7f17fb7f',
+    '0x66de8ffda797e3de9c05e8fc57b3bf0ec28a930d40b0d285d93c06501cf6a090':
+      '0x596e356de2ec14369f127afcba1c84441c658687ea9cff7a084af5f1490b8a50',
+    '0x7320ea69771c4eb8c89284d19ce63eb7a788f605b1f3509c17c6f47cc06cc404':
+      '0x8c3e7322bb5fa1421684356dfaa32625e849334fcc34122551b5f8440573c9a2',
+    '0x5fe7f977e71dba2ea1a68e21057beebb9be2ac30c6410aa38d4f3fbe41dcffd2':
+      '0xdc2737abd5c3a6bd9f10ec1211f6d6f973ff671d38f25c1003cd17efe5b44d70'
+  }
+};
+
 const vcWithExpiration: VerifiableCredential<false> = {
   '@context': ['https://www.w3.org/2018/credentials/v1'],
   version: '0',
@@ -246,6 +291,43 @@ const vcWithExpiration: VerifiableCredential<false> = {
     }
   ],
   expirationDate: 1668362768974
+};
+
+const oldvc: VerifiableCredential<false> = {
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  version: '1',
+  ctype: '0x2e0e5ba41f58ffdccb9dba906715b9142e40929d80896310906cde392862fc9e',
+  issuanceDate: 1684486317809,
+  credentialSubject: { Name: 'niubi', DateOfBirth: 737801428, Nationality: 156, RiskLevel: 6 },
+  issuer: 'did:zk:0x0F6fDe944582dd316467288b374c0A2B1bF85FA3',
+  holder: 'did:zk:0x266006D511d5f1D439500F03C2Ec2393c56d2F60',
+  hasher: ['RescuePrimeOptimized', 'Keccak256'],
+  digest: '0x324c0deb43b9b378d8d0fcf4be10515de988071347cd318920a610ff26093a40',
+  proof: [
+    {
+      type: 'EcdsaSecp256k1SignatureEip191',
+      created: 1684486319027,
+      verificationMethod: 'did:zk:0x0F6fDe944582dd316467288b374c0A2B1bF85FA3#key-0',
+      proofPurpose: 'assertionMethod',
+      proofValue: 'zAP6hiSgycNjasu5kbVoSkEDskovCZqLRaGQxfCLo6bU18RVJrMYtuAyG9RBXJBFeTswDuvmsaUfVZ6S3zevkKzkwJ'
+    }
+  ],
+  credentialSubjectHashes: [
+    '0xfc173d471bec19736002e054ae6e88529d2c27865db2501645512267a8472ee3',
+    '0x7510a76897e3c41c1b78d2bda7e627e47fa9914a4637e7fc82da1bcd7f8a7e19',
+    '0x6aa8322e8248cec1d4ad89f31b5f5939f21e20b92746fd21e2ad6d5dbb7e0d66',
+    '0x0b4d26948fea931e7fde139afda4e4bf12cd2d36fa939e268a627d51c420cd54'
+  ],
+  credentialSubjectNonceMap: {
+    '0x84bc66b0b72dfb3947cb8cc246812a198a1d71ad46e9b72bf8aea55efa43fa56':
+      '0xddbc2f87addd89883bc5d6c6fe2796e78706d57bd5de7c88ae0eeda5edbd9e5f',
+    '0xa3da24bd5605af8b631ef43c92e492d59030017db07b36d4efa7ebf970ae4159':
+      '0x4f5f413e553c2449a1aef70d9f1ecafe6ddceb3676dd3f6e51dd16158fafdacf',
+    '0x747e81e49d695483a90dc5193bfbce117649f242c629937926ce312ad8586561':
+      '0xcb82110b48c35a914d632684b0432210fbe7afd65083059779c7ab141122e62a',
+    '0x4c106f339d6f5e9b85bdf2b211fb6999e231aa62d66af41d6e8147be7a8ba305':
+      '0x8bda7aead48651accfcae1a8f81c90a0a390ca4982c275202d65035505c7f75b'
+  }
 };
 
 describe('vc verify', (): void => {
@@ -357,48 +439,125 @@ describe('vc verify', (): void => {
         )
       ).toBe(true);
     });
-  });
 
-  describe('verify vc with digest', (): void => {
-    it('vc verify without expiration', async (): Promise<void> => {
+    it('vc verify old vc', async (): Promise<void> => {
+      expect(await vcVerify(oldvc)).toBe(true);
+    });
+
+    describe('verify vc with digest', (): void => {
+      it('vc verify without expiration', async (): Promise<void> => {
+        expect(
+          await vcVerifyDigest(
+            {
+              ...fullVC,
+              credentialSubject: calcRoothash(
+                fullVC.credentialSubject as AnyJson,
+                fullVC.hasher[0],
+                fullVC.version,
+                fullVC.credentialSubjectNonceMap || {}
+              ).rootHash,
+              credentialSubjectNonceMap: {},
+              credentialSubjectHashes: []
+            },
+            document1
+          )
+        ).toBe(true);
+      });
+    });
+
+    it('vc verify with version 2, without keccak256, add Proof', async (): Promise<void> => {
+      const addProofVC = await addProof(alice, fullVC2);
+
+      expect(addProofVC.issuer).toEqual([
+        'did:zk:0x57E7b664aaa7C895878DdCa5790526B9659350Ec',
+        'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'
+      ]);
+      expect(addProofVC.proof[1].verificationMethod).toEqual('did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0');
+      expect(await vcVerify(addProofVC)).toBe(true);
       expect(
-        await vcVerifyDigest(
-          {
-            ...fullVC,
-            credentialSubject: calcRoothash(
-              fullVC.credentialSubject as AnyJson,
-              fullVC.hasher[0],
-              fullVC.version,
-              fullVC.credentialSubjectNonceMap || {}
-            ).rootHash,
-            credentialSubjectNonceMap: {},
-            credentialSubjectHashes: []
-          },
-          document1
+        await didVerify(
+          addProofVC.digest,
+          base58Decode(addProofVC.proof[0].proofValue),
+          addProofVC.proof[0].type,
+          addProofVC.proof[0].verificationMethod
+        )
+      ).toBe(true);
+      expect(
+        await didVerify(
+          addProofVC.digest,
+          base58Decode(addProofVC.proof[1].proofValue),
+          addProofVC.proof[1].type,
+          addProofVC.proof[1].verificationMethod
         )
       ).toBe(true);
     });
-  });
 
-  it('vc verify with version 2, without keccak256, add Proof', async (): Promise<void> => {
-    const addProofVC = await addProof(alice, fullVC2);
+    it('vc verify with version 2, with keccak256, add Proof', async (): Promise<void> => {
+      const addProofVC = await addProof(alice, fullVC3);
 
-    expect(addProofVC.issuer).toEqual([
-      'did:zk:0x57E7b664aaa7C895878DdCa5790526B9659350Ec',
-      'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'
-    ]);
-    expect(addProofVC.proof[1].verificationMethod).toEqual('did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0');
-    expect(await vcVerify(addProofVC)).toBe(true);
-  });
+      expect(addProofVC.issuer).toEqual([
+        'did:zk:0x57E7b664aaa7C895878DdCa5790526B9659350Ec',
+        'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'
+      ]);
+      expect(addProofVC.proof[1].verificationMethod).toEqual('did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0');
+      expect(await vcVerify(addProofVC)).toBe(true);
+      expect(
+        await didVerify(
+          addProofVC.digest,
+          base58Decode(addProofVC.proof[0].proofValue),
+          addProofVC.proof[0].type,
+          addProofVC.proof[0].verificationMethod
+        )
+      ).toBe(true);
+      expect(
+        await didVerify(
+          addProofVC.digest,
+          base58Decode(addProofVC.proof[1].proofValue),
+          addProofVC.proof[1].type,
+          addProofVC.proof[1].verificationMethod
+        )
+      ).toBe(true);
+    });
 
-  it('vc verify with version 2, with keccak256, add Proof', async (): Promise<void> => {
-    const addProofVC = await addProof(alice, fullVC3);
+    it('vc verify with version 2, with steps', async (): Promise<void> => {
+      expect(await vcVerify(multiAttesterVC)).toBe(true);
+      // console.log(await vcVerify(multiAttesterVC));
+      const rootHash = calcRoothash(
+        multiAttesterVC.credentialSubject as AnyJson,
+        multiAttesterVC.hasher[0],
+        '2',
+        multiAttesterVC.credentialSubjectNonceMap
+      );
+      const payload: DigestPayloadV2 = {
+        rootHash: rootHash.rootHash,
+        holder: multiAttesterVC.holder,
+        expirationDate: multiAttesterVC.expirationDate,
+        issuanceDate: multiAttesterVC.issuanceDate,
+        ctype: multiAttesterVC.ctype
+      };
 
-    expect(addProofVC.issuer).toEqual([
-      'did:zk:0x57E7b664aaa7C895878DdCa5790526B9659350Ec',
-      'did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1'
-    ]);
-    expect(addProofVC.proof[1].verificationMethod).toEqual('did:zk:0x11f8b77F34FCF14B7095BF5228Ac0606324E82D1#key-0');
-    expect(await vcVerify(addProofVC)).toBe(true);
+      // console.log(payload);
+      const digest = calcDigest(multiAttesterVC.version, payload, multiAttesterVC.hasher[1]);
+
+      expect(digest.digest).toEqual(multiAttesterVC.digest);
+
+      expect(
+        await didVerify(
+          digest.digest,
+          base58Decode(multiAttesterVC.proof[0].proofValue),
+          multiAttesterVC.proof[0].type,
+          multiAttesterVC.proof[0].verificationMethod
+        )
+      ).toBe(true);
+
+      expect(
+        await didVerify(
+          digest.digest,
+          base58Decode(multiAttesterVC.proof[1].proofValue),
+          multiAttesterVC.proof[1].type,
+          multiAttesterVC.proof[1].verificationMethod
+        )
+      ).toBe(true);
+    });
   });
 });

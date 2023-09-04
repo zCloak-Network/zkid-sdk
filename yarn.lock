@@ -4493,6 +4493,7 @@ __metadata:
     "@zcloak/did": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
     merkletreejs: "npm:^0.3.9"
+    web3: "npm:^4.1.1"
   languageName: unknown
   linkType: soft
 

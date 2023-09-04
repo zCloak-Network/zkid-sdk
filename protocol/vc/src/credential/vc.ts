@@ -79,6 +79,8 @@ export class VerifiableCredentialBuilder {
     this.raw = raw;
   }
 
+  public async build(issuer: Did, isPublic?: boolean): Promise<VerifiableCredential<boolean>>;
+
   /**
    * Build to [[PublicVerifiableCredential]]
    */

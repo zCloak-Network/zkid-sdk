@@ -51,7 +51,7 @@ function transformVC(
       let encode: HexString;
 
       if (vc.version === '2') {
-        if (vc.hasher[0] == 'Keccak256') {
+        if (vc.hasher[0] === 'Keccak256') {
           encode = encodeAsSol(subject[key]);
         } else {
           encode = u8aToHex(rlpEncode(subject[key], vc.hasher[0]));

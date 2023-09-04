@@ -10,7 +10,7 @@ import type {
   VerifiablePresentationVersion
 } from './types';
 
-import { numberToU8a, stringToU8a, u8aConcat } from '@polkadot/util';
+import { assert, numberToU8a, stringToU8a, u8aConcat } from '@polkadot/util';
 import Web3 from 'web3';
 
 import { rlpEncode as rlpEncodeFn } from '@zcloak/crypto';
@@ -32,6 +32,9 @@ export function rlpEncode(input: NativeType | NativeTypeWithOutNull[], hashType:
 export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexString {
   switch (typeof input) {
     case 'string':
+      // Make sure the input is not empty
+      assert(input.length !== 0, 'The string input is empty!');
+
       return web3.utils.soliditySha3({ type: 'string', value: input });
     case 'number':
       if (_isDecimalNumber(input)) {
@@ -43,10 +46,14 @@ export function encodeAsSol(input: NativeType | NativeTypeWithOutNull[]): HexStr
       return web3.utils.soliditySha3({ type: 'bool', value: input });
     case 'object':
       if (Array.isArray(input) && typeof input[0] === 'string') {
+        assert(input.length !== 0, 'The string array input is empty!');
+
         const encodedParams = web3.eth.abi.encodeParameters(['string[]'], [input]);
 
         return web3.utils.keccak256(encodedParams);
       } else if (Array.isArray(input) && typeof input[0] === 'number') {
+        assert(input.length !== 0, 'The number array input is empty!');
+
         return web3.utils.soliditySha3({ type: 'int256[]', value: input });
       } else throw new Error(`This object can not be encoded ${input}`);
     case 'undefined':

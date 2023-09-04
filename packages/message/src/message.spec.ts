@@ -4,11 +4,12 @@
 import type { CType } from '@zcloak/ctype/types';
 import type { RawCredential } from '@zcloak/vc/types';
 
-import { alice, bob, testResolver } from 'test-support';
+import { alice, bob, charlie, testResolver } from 'test-support';
 
 import { initCrypto } from '@zcloak/crypto';
 import { getPublish } from '@zcloak/ctype';
 import { Raw, VerifiableCredentialBuilder } from '@zcloak/vc';
+import { addProof } from '@zcloak/verify';
 
 import { decryptMessage } from './decrypt';
 import { encryptMessage } from './encrypt';
@@ -110,6 +111,55 @@ describe('message encrypt and decrypt', (): void => {
   });
 
   describe('Send Extends msgType', () => {
+    it('Send vc to be add proof', async () => {
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCredential, ctype)
+        .setExpirationDate(null)
+        .build(alice, false);
+
+      const message = await encryptMessage(
+        'Extends_Request_Comfirmation',
+        vc,
+        alice,
+        bob.getKeyUrl('keyAgreement'),
+        undefined,
+        testResolver
+      );
+      const decrypted = await decryptMessage(message, bob, testResolver);
+
+      expect(decrypted.data).toEqual(vc);
+    });
+
+    it('Send multiAttester VC', async () => {
+      const vc = await VerifiableCredentialBuilder.fromRawCredential(rawCredential, ctype)
+        .setExpirationDate(null)
+        .build(alice, false);
+
+      const message = await encryptMessage(
+        'Extends_Request_Comfirmation',
+        vc,
+        alice,
+        bob.getKeyUrl('keyAgreement'),
+        undefined,
+        testResolver
+      );
+      const decrypted = await decryptMessage(message, bob, testResolver);
+      const multiAttesterVC = await addProof(bob, decrypted.data);
+
+      expect(multiAttesterVC.issuer).toEqual([alice.getDocument().id, bob.getDocument().id]);
+
+      const messageSentToUser = await encryptMessage(
+        'Extends_Response_Approve_Attestation message',
+        multiAttesterVC,
+        bob,
+        charlie.getKeyUrl('keyAgreement'),
+        undefined,
+        testResolver
+      );
+      const decryptedMultiVC = await decryptMessage(messageSentToUser, charlie, testResolver);
+
+      expect(decryptedMultiVC.data).toEqual(multiAttesterVC);
+    });
+
     it('Send string data', async () => {
       const message = await encryptMessage(
         'Extends_send_string',

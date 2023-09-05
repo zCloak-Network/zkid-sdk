@@ -18,7 +18,7 @@ import { rlpEncode as rlpEncodeFn } from '@zcloak/crypto';
 import { HASHER } from './hasher';
 
 // Local mode
-const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545')) as any;
 
 export function rlpEncode(input: NativeType | NativeTypeWithOutNull[], hashType: HashType): Uint8Array {
   const result = rlpEncodeFn(input);

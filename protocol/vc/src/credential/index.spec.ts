@@ -20,6 +20,12 @@ const CONTENTS = {
   birthday: '2022.10.31',
   isUser: true
 };
+const CONTENTS2 = {
+  name: 'zCloak',
+  age: -120,
+  birthday: '2022.10.31',
+  isUser: true
+};
 
 describe('VerifiableCredential', (): void => {
   let holder: Did;
@@ -207,6 +213,48 @@ describe('VerifiableCredential', (): void => {
         issuer: [issuer.id],
         holder: holder.id,
         hasher: ['RescuePrimeOptimized', 'Keccak256'],
+        proof: [
+          {
+            type: 'EcdsaSecp256k1SignatureEip191',
+            proofPurpose: 'assertionMethod'
+          }
+        ]
+      });
+    });
+    it('build VC from RawCredential negtive number', async (): Promise<void> => {
+      const raw = new Raw({
+        contents: CONTENTS2,
+        owner: holder.id,
+        ctype,
+        hashType: 'Keccak256'
+      });
+
+      const now = Date.now();
+
+      const vcBuilder = VerifiableCredentialBuilder.fromRawCredential(raw.toRawCredential('Keccak256'), ctype)
+        .setExpirationDate(null)
+        .setIssuanceDate(now);
+
+      expect(vcBuilder).toMatchObject({
+        raw,
+        '@context': DEFAULT_CONTEXT,
+        issuanceDate: now,
+        digestHashType: 'Keccak256'
+      });
+
+      const vc = await vcBuilder.build(issuer, true);
+
+      expect(isPrivateVC(vc)).toBe(false);
+
+      expect(vc).toMatchObject({
+        '@context': DEFAULT_CONTEXT,
+        version: DEFAULT_VC_VERSION,
+        ctype: ctype.$id,
+        issuanceDate: now,
+        credentialSubject: CONTENTS2,
+        issuer: [issuer.id],
+        holder: holder.id,
+        hasher: ['Keccak256', 'Keccak256'],
         proof: [
           {
             type: 'EcdsaSecp256k1SignatureEip191',

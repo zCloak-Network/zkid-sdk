@@ -1,5 +1,16 @@
 # @zcloak/keyring
 
+## 2.0.0
+
+### Major Changes
+
+- [#87](https://github.com/zCloak-Network/zkid-sdk/pull/87) [`a3263b2`](https://github.com/zCloak-Network/zkid-sdk/commit/a3263b2a64b7c16614e7147d15f90389f24bccef) Thanks [@whgreate](https://github.com/whgreate)! - [ upgrade to 2.0.0 ]
+
+### Patch Changes
+
+- Updated dependencies [[`a3263b2`](https://github.com/zCloak-Network/zkid-sdk/commit/a3263b2a64b7c16614e7147d15f90389f24bccef)]:
+  - @zcloak/crypto@2.0.0
+
 ## 1.1.9
 
 ### Patch Changes

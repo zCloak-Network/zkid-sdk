@@ -35,6 +35,9 @@
     "test:one": "zcloak-dev-run-test --runInBand",
     "test:watch": "zcloak-dev-run-test --watch"
   },
+  "dependencies": {
+    "web3": "^4.1.1"
+  },
   "devDependencies": {
     "@types/jest": "^29.4.0",
     "@zcloak/dev": "^0.31.0",

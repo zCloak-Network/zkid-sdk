@@ -11,6 +11,7 @@ import { assert } from '@polkadot/util';
 
 import { base58Encode } from '@zcloak/crypto';
 
+// import { vcVerify } from '@zcloak/verify/vcVerify';
 import { DEFAULT_CONTEXT, DEFAULT_VC_VERSION } from '../defaults';
 import { calcDigest, DigestPayload } from '../digest';
 import { isRawCredential } from '../is';
@@ -78,6 +79,8 @@ export class VerifiableCredentialBuilder {
     this.raw = raw;
   }
 
+  public async build(issuer: Did, isPublic?: boolean): Promise<VerifiableCredential<boolean>>;
+
   /**
    * Build to [[PublicVerifiableCredential]]
    */
@@ -86,9 +89,16 @@ export class VerifiableCredentialBuilder {
   /**
    * Build to [[PrivateVerifiableCredential]]
    */
-  public async build(issuer: Did, isPublic?: false): Promise<VerifiableCredential<false>>;
+  public async build(issuer: Did, isPublic: false): Promise<VerifiableCredential<false>>;
 
-  public async build(issuer: Did, isPublic?: boolean): Promise<VerifiableCredential<boolean>> {
+  /**
+   *
+   * @param issuer this is Did type, because we need to sign vc to fulfill the proof field
+   * @param isPublic
+   * @param moreIssuers this is only DidUrl type, because we just add them to the issuer field( not proof field)
+   * @returns
+   */
+  public async build(issuer: Did, isPublic = false): Promise<VerifiableCredential<boolean>> {
     assert(this.raw.checkSubject(), `Subject check failed when use ctype ${this.raw.ctype}`);
 
     if (
@@ -101,9 +111,9 @@ export class VerifiableCredentialBuilder {
       let rootHashResult: RootHashResult;
 
       if (isPublic) {
-        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType);
+        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType, this.version);
       } else {
-        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType, {});
+        rootHashResult = calcRoothash(this.raw.contents, this.raw.hashType, this.version, {});
       }
 
       const digestPayload: DigestPayload<VerifiableCredentialVersion> = {
@@ -116,15 +126,17 @@ export class VerifiableCredentialBuilder {
 
       const { digest, type: digestHashType } = calcDigest(this.version, digestPayload, this.digestHashType);
 
-      const proof = await this._signDigest(issuer, digest, this.version);
+      const proof = await VerifiableCredentialBuilder._signDigest(issuer, digest, this.version);
 
+      // NOTE: at this moment, the first proof is fullfiled, this maybe not enough because of multiple issuers
+      // Use addIssuerProof() to add more proofs
       let vc: VerifiableCredential<boolean> = {
         '@context': this['@context'],
         version: this.version,
         ctype: this.raw.ctype.$id,
         issuanceDate: this.issuanceDate,
         credentialSubject: this.raw.contents,
-        issuer: issuer.id,
+        issuer: [issuer.id],
         holder: this.raw.owner,
         hasher: [rootHashResult.type, digestHashType],
         digest,
@@ -205,13 +217,17 @@ export class VerifiableCredentialBuilder {
   }
 
   // sign digest by did, the signed message is `concat('CredentialVersionedDigest', version, digest)`
-  private async _signDigest(did: Did, digest: HexString, version: VerifiableCredentialVersion): Promise<Proof> {
+  public static async _signDigest(did: Did, digest: HexString, version: VerifiableCredentialVersion): Promise<Proof> {
     let message: Uint8Array | HexString;
 
     if (version === '1') {
       message = signedVCMessage(digest, version);
-    } else {
+    } else if (version === '0' || version === '2') {
       message = digest;
+    } else {
+      const check: never = version;
+
+      throw new Error(`VC Version invalid, the wrong VC Version is ${check}`);
     }
 
     const signDidUrl: DidUrl = did.getKeyUrl('assertionMethod');

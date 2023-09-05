@@ -161,7 +161,7 @@ describe('VerifiablePresentation', (): void => {
         verifiableCredential: [
           {
             ...vc,
-            credentialSubject: calcRoothash(CONTENTS1, vc.hasher[0], vc.credentialSubjectNonceMap).rootHash,
+            credentialSubject: calcRoothash(CONTENTS1, vc.hasher[0], vc.version, vc.credentialSubjectNonceMap).rootHash,
             credentialSubjectHashes: [],
             credentialSubjectNonceMap: {}
           }
@@ -260,13 +260,15 @@ describe('VerifiablePresentation', (): void => {
         verifiableCredential: [
           {
             ...vc1,
-            credentialSubject: calcRoothash(CONTENTS2, vc1.hasher[0], vc1.credentialSubjectNonceMap).rootHash,
+            credentialSubject: calcRoothash(CONTENTS2, vc1.hasher[0], vc1.version, vc1.credentialSubjectNonceMap)
+              .rootHash,
             credentialSubjectHashes: [],
             credentialSubjectNonceMap: {}
           },
           {
             ...vc2,
-            credentialSubject: calcRoothash(CONTENTS2, vc2.hasher[0], vc2.credentialSubjectNonceMap).rootHash,
+            credentialSubject: calcRoothash(CONTENTS2, vc2.hasher[0], vc2.version, vc2.credentialSubjectNonceMap)
+              .rootHash,
             credentialSubjectHashes: [],
             credentialSubjectNonceMap: {}
           }
@@ -362,7 +364,8 @@ describe('VerifiablePresentation', (): void => {
         verifiableCredential: [
           {
             ...vc1,
-            credentialSubject: calcRoothash(CONTENTS1, vc1.hasher[0], vc1.credentialSubjectNonceMap).rootHash,
+            credentialSubject: calcRoothash(CONTENTS1, vc1.hasher[0], vc1.version, vc1.credentialSubjectNonceMap)
+              .rootHash,
             credentialSubjectHashes: [],
             credentialSubjectNonceMap: {}
           },

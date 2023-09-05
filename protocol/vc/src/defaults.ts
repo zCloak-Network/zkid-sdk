@@ -9,7 +9,7 @@ import type {
   VerifiablePresentationVersion
 } from './types';
 
-export const DEFAULT_VC_VERSION: VerifiableCredentialVersion = '1';
+export const DEFAULT_VC_VERSION: VerifiableCredentialVersion = '2';
 
 export const DEFAULT_VP_VERSION: VerifiablePresentationVersion = '1';
 

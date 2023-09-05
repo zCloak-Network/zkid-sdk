@@ -15,6 +15,7 @@ import { isArray, isHex, isJsonObject, isNull, isNumber, isString, isUndefined }
 
 import { isBase32, isBase58, isBase64 } from '@zcloak/crypto';
 import { isDidUrl } from '@zcloak/did/utils';
+import { parseDid } from '@zcloak/did-resolver/parseDid';
 
 import { ALL_HASH_TYPES, ALL_SIG_TYPES, ALL_VP_TYPES } from './defaults';
 
@@ -59,6 +60,49 @@ export function isProof(input: unknown): input is Proof {
     isString(input.proofPurpose) &&
     (isBase58(input.proofValue) || isBase64(input.proofValue) || isBase32(input.proofValue))
   );
+}
+
+/**
+ * @name isAttesterMapping
+ * @description
+ * check the `attester` is the same in [[Proof]]
+ */
+export function isAttesterMapping(issuer: unknown, proof: unknown): boolean {
+  if (isProof(proof)) {
+    const issuerInProof = parseDid(proof.verificationMethod).did;
+
+    return issuer === issuerInProof;
+  } else return false;
+}
+
+/**
+ * @name isAttesterProof
+ * @description
+ * check the Proof is qualified or not
+ */
+export function isAttesterProof(issuer: unknown, proof: unknown): boolean {
+  // version 0 & version 1, only one attester and one proof
+  if (typeof issuer === 'string' && isArray(proof) && proof.length === 1) {
+    return isAttesterMapping(issuer, proof[0]);
+  } else if (isArray(issuer) && isArray(proof) && issuer.length === proof.length) {
+    const check = issuer.every((issuer, index) => isAttesterMapping(issuer, proof[index]));
+
+    return check;
+  } else {
+    return false;
+  }
+}
+
+export function isAttester(value: unknown, version: unknown): boolean {
+  if (typeof value === 'string' && (version === '0' || version === '1')) {
+    return isDidUrl(value);
+  } else if (isArray(value) && value.length !== 0 && version === '2') {
+    const check = value.every(isDidUrl);
+
+    return check;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -118,10 +162,10 @@ export function isVC(input: unknown): input is VerifiableCredential<boolean> {
     isString(input.version) &&
     isNumber(input.issuanceDate) &&
     (isUndefined(input.expirationDate) || isNull(input.expirationDate) || isNumber(input.expirationDate)) &&
-    isDidUrl(input.issuer) &&
+    isAttester(input.issuer, input.version) &&
     isHex(input.digest) &&
     isArray(input.proof) &&
-    !input.proof.map((p) => isProof(p)).includes(false) &&
+    isAttesterProof(input.issuer, input.proof) &&
     isHex(input.ctype) &&
     (isJsonObject(input.credentialSubject) || isHex(input.credentialSubject)) &&
     isDidUrl(input.holder) &&

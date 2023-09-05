@@ -46,7 +46,7 @@ describe('digest', (): void => {
         isUser: true
       };
 
-      const { rootHash } = calcRoothash(input, 'Blake32to1', {
+      const { rootHash } = calcRoothash(input, 'Blake32to1', '1', {
         '0x6b90277e3f4ab97b83b3fc61ecffa4ec063f70d7255233ef5afdf418dcec3b75':
           '0x25807968a4c5f3ce2f116c5914991c97e33020408146406a36e4fa4826dd6c7d',
         '0x1300000000000000000000000000000000000000000000000000000000000000':

@@ -33,6 +33,9 @@ export interface DigestPayloadV0 {
   ctype: HexString;
 }
 
+/**
+ * @deprecated
+ */
 export interface DigestPayloadV1 extends DigestPayloadV0 {
   /**
    * @since `@zcloak/vc@1.0.0` and `VerifiableCredential.version is 1`
@@ -41,9 +44,18 @@ export interface DigestPayloadV1 extends DigestPayloadV0 {
   issuanceDate: number;
 }
 
+/**
+ * @since `@zcloak/vc@2.0.0`
+ */
+export interface DigestPayloadV2 extends DigestPayloadV0 {
+  issuanceDate: number;
+}
+
 export type DigestPayload<Version extends VerifiableCredentialVersion> = Version extends '0'
   ? DigestPayloadV0
-  : DigestPayloadV1;
+  : Version extends '1'
+  ? DigestPayloadV1
+  : DigestPayloadV2;
 
 /**
  * @name calcDigest
@@ -72,7 +84,7 @@ export function calcDigest<Version extends VerifiableCredentialVersion>(
       numberToU8a(payload.expirationDate || 0),
       payload.ctype
     );
-  } else {
+  } else if (version === '1') {
     encoded = u8aConcat(
       payload.rootHash,
       encodeDidUrl(payload.holder),
@@ -80,6 +92,18 @@ export function calcDigest<Version extends VerifiableCredentialVersion>(
       numberToU8a(payload.expirationDate || 0),
       payload.ctype
     );
+  } else if (version === '2') {
+    encoded = u8aConcat(
+      payload.rootHash,
+      encodeDidUrl(payload.holder),
+      numberToU8a((payload as DigestPayload<'2'>).issuanceDate),
+      numberToU8a(payload.expirationDate || 0),
+      payload.ctype
+    );
+  } else {
+    const check: never = version;
+
+    throw new Error(`VC Version invalid, the vcVersionCheckResult is ${check}`);
   }
 
   return {

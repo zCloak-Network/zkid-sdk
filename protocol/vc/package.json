@@ -24,7 +24,9 @@
     "@zcloak/crypto": "workspace:^",
     "@zcloak/ctype": "workspace:^",
     "@zcloak/did": "workspace:^",
-    "merkletreejs": "^0.3.9"
+    "@zcloak/did-resolver": "workspace:^",
+    "merkletreejs": "^0.3.9",
+    "web3": "^4.1.1"
   },
   "devDependencies": {
     "@zcloak/did-resolver": "workspace:^"

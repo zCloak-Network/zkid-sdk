@@ -7,7 +7,9 @@ import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { KeyringInstance, KeyringPair } from '@zcloak/keyring/types';
 import type { DidKeys, EncryptedData, IDidKeyring, SignedData } from '../types';
 
-import { assert } from '@polkadot/util';
+import { serialize, UnsignedTransaction } from '@ethersproject/transactions';
+import { assert, hexToU8a, u8aToHex } from '@polkadot/util';
+import { ethers } from 'ethers';
 
 import { eip191HashMessage } from '@zcloak/crypto';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
@@ -80,9 +82,31 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
     return decrypted;
   }
 
+  public async sendTransaction(
+    tx: UnsignedTransaction,
+    providerUrl: string,
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller'
+  ): Promise<any> {
+    // create rpc provider
+    const rpcProvider = new ethers.JsonRpcProvider(providerUrl);
+
+    // sign the unsignedTx
+    const toSign = ethers.keccak256(serialize(tx));
+
+    const signatureU8a = (await this.signWithKey(hexToU8a(toSign), keyOrDidUrl, false)).signature;
+    const signedTxHex = serialize(tx, u8aToHex(signatureU8a));
+
+    // send the signedTx
+    const txResponse = await rpcProvider.send('eth_sendRawTransaction', [signedTxHex]);
+
+    // return the TxHash
+    return txResponse;
+  }
+
   public async signWithKey(
     message: Uint8Array | HexString,
-    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller'
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller',
+    isEIP191 = true
   ): Promise<SignedData> {
     const didUrl = isDidUrl(keyOrDidUrl) ? keyOrDidUrl : this.getKeyUrl(keyOrDidUrl);
     const { type } = this.get(didUrl);
@@ -92,8 +116,10 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
       "sign method only call with key type: 'EcdsaSecp256k1VerificationKey2019', 'Ed25519VerificationKey2020'"
     );
 
-    if (type === 'EcdsaSecp256k1VerificationKey2019') {
-      message = eip191HashMessage(message);
+    if (isEIP191) {
+      if (type === 'EcdsaSecp256k1VerificationKey2019') {
+        message = eip191HashMessage(message);
+      }
     }
 
     const { id, signature } = await this._sign(message, didUrl);

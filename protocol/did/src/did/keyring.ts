@@ -93,7 +93,7 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
     // sign the unsignedTx
     const toSign = ethers.keccak256(serialize(tx));
 
-    const signatureU8a = (await this.signWithKey(hexToU8a(toSign), keyOrDidUrl, false)).signature;
+    const signatureU8a = (await this._signTxWithKey(hexToU8a(toSign), keyOrDidUrl)).signature;
     const signedTxHex = serialize(tx, u8aToHex(signatureU8a));
 
     // send the signedTx
@@ -103,10 +103,9 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
     return txResponse;
   }
 
-  public async signWithKey(
+  private async _signTxWithKey(
     message: Uint8Array | HexString,
-    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller',
-    isEIP191 = true
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller'
   ): Promise<SignedData> {
     const didUrl = isDidUrl(keyOrDidUrl) ? keyOrDidUrl : this.getKeyUrl(keyOrDidUrl);
     const { type } = this.get(didUrl);
@@ -116,10 +115,29 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
       "sign method only call with key type: 'EcdsaSecp256k1VerificationKey2019', 'Ed25519VerificationKey2020'"
     );
 
-    if (isEIP191) {
-      if (type === 'EcdsaSecp256k1VerificationKey2019') {
-        message = eip191HashMessage(message);
-      }
+    const { id, signature } = await this._sign(message, didUrl);
+
+    return {
+      id,
+      signature,
+      type: type === 'EcdsaSecp256k1VerificationKey2019' ? 'EcdsaSecp256k1SignatureEip191' : 'Ed25519Signature2018'
+    };
+  }
+
+  public async signWithKey(
+    message: Uint8Array | HexString,
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller'
+  ): Promise<SignedData> {
+    const didUrl = isDidUrl(keyOrDidUrl) ? keyOrDidUrl : this.getKeyUrl(keyOrDidUrl);
+    const { type } = this.get(didUrl);
+
+    assert(
+      type !== 'X25519KeyAgreementKey2019',
+      "sign method only call with key type: 'EcdsaSecp256k1VerificationKey2019', 'Ed25519VerificationKey2020'"
+    );
+
+    if (type === 'EcdsaSecp256k1VerificationKey2019') {
+      message = eip191HashMessage(message);
     }
 
     const { id, signature } = await this._sign(message, didUrl);

@@ -1,5 +1,11 @@
 # @zcloak/did
 
+## 2.0.1
+
+### Patch Changes
+
+- [#89](https://github.com/zCloak-Network/zkid-sdk/pull/89) [`73e5964`](https://github.com/zCloak-Network/zkid-sdk/commit/73e59640c72a6ae61a5dd6a61bbea1749662348a) Thanks [@jonathanxuu](https://github.com/jonathanxuu)! - Ctype: modify validate function fix bug, Did: accomplish sendTransaction function
+
 ## 2.0.0
 
 ### Major Changes

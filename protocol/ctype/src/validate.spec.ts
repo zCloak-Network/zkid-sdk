@@ -227,4 +227,47 @@ describe('validate', (): void => {
       ).toBe(false);
     });
   });
+
+  describe('validate subject key', () => {
+    const ctype: BaseCType = {
+      title: 'Test',
+      description: 'Test',
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string'
+        },
+        'age ': {
+          type: 'integer'
+        }
+      }
+    };
+
+    it('should validate when all subject keys are present in ctype properties', () => {
+      const subject = {
+        name: 'John',
+        'age ': 25
+      };
+
+      expect(() => validateSubject(ctype, subject)).not.toThrow();
+    });
+
+    it('should throw an error when a subject key is not present in ctype properties', () => {
+      const invalidSubject = {
+        name: 'John',
+        age: 20
+      };
+
+      expect(() => validateSubject(ctype, invalidSubject)).toThrowError("Invalid subject key 'age'.");
+    });
+
+    it('should throw an error when a subject key is not present in ctype properties', () => {
+      const invalidSubject = {
+        name: 'John',
+        gender: 'male'
+      };
+
+      expect(() => validateSubject(ctype, invalidSubject)).toThrowError("Invalid subject key 'gender'.");
+    });
+  });
 });

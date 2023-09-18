@@ -12,6 +12,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@adraffy/ens-normalize@npm:1.9.2":
+  version: 1.9.2
+  resolution: "@adraffy/ens-normalize@npm:1.9.2"
+  checksum: 02c88d34bc8a7feb66e90f8377d35ca82e508d7fb9a687e819fee2a8adbb4a39913215d9eaa46ff18f8dac1636f9a1b2e5662a2153282b146bb16b1142e245bd
+  languageName: node
+  linkType: hard
+
 "@adraffy/ens-normalize@npm:^1.8.8":
   version: 1.9.4
   resolution: "@adraffy/ens-normalize@npm:1.9.4"
@@ -3665,6 +3672,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:18.15.13":
+  version: 18.15.13
+  resolution: "@types/node@npm:18.15.13"
+  checksum: 2f3b73aa4d643fa96c4f83ac1e9077af04257fdd350db76d9b14f7349135ba284a0bf1cfc66aaff29a3d8c103b77d734064e7040ba3e8409eef3177d0ed164fd
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^12.7.1":
   version: 12.20.55
   resolution: "@types/node@npm:12.20.55"
@@ -4375,10 +4389,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/did@workspace:protocol/did"
   dependencies:
+    "@ethersproject/transactions": "npm:^5.7.0"
     "@polkadot/util": "npm:^12.1.2"
     "@zcloak/crypto": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
     "@zcloak/keyring": "workspace:^"
+    ethers: "npm:^6.7.1"
   languageName: unknown
   linkType: soft
 
@@ -4621,6 +4637,13 @@ __metadata:
   version: 4.0.0-beta.3
   resolution: "aes-js@npm:4.0.0-beta.3"
   checksum: 45e1c9fc44a85d4bca644b85e9607b17b939905b91c7202626e287312671b969631977ae3f2dfc53526ca44cdf65ae93b37db0e528fcba443564991e0d99632d
+  languageName: node
+  linkType: hard
+
+"aes-js@npm:4.0.0-beta.5":
+  version: 4.0.0-beta.5
+  resolution: "aes-js@npm:4.0.0-beta.5"
+  checksum: 6bde3370467377c68cbda23efc9fa5d0c1083bdff59b5d37ff2033988209bcc2a5efab6cbafcea61369465f420358318ca3c774138d743c23b3c3eb01d64176c
   languageName: node
   linkType: hard
 
@@ -7977,6 +8000,21 @@ __metadata:
     tslib: "npm:2.4.0"
     ws: "npm:8.5.0"
   checksum: 7152dc7db23d431b674047df83ea113fe343f0848bcd64d1202acba8c4786c83953dde79cca38aeb8239ae5636e9ab6101ebe65c8f64f5648fea91f486247923
+  languageName: node
+  linkType: hard
+
+"ethers@npm:^6.7.1":
+  version: 6.7.1
+  resolution: "ethers@npm:6.7.1"
+  dependencies:
+    "@adraffy/ens-normalize": "npm:1.9.2"
+    "@noble/hashes": "npm:1.1.2"
+    "@noble/secp256k1": "npm:1.7.1"
+    "@types/node": "npm:18.15.13"
+    aes-js: "npm:4.0.0-beta.5"
+    tslib: "npm:2.4.0"
+    ws: "npm:8.5.0"
+  checksum: ee5097b1590aa4d6e9e5be057acab4c564f34eefbb179dc95078350e2bf57395ca6e72a3c702a8f1a77e606322a4eece2cc5e7ee853498b4bbebfd614dadb6c3
   languageName: node
   linkType: hard
 
@@ -13550,7 +13588,6 @@ __metadata:
     "@zcloak/dev": "npm:^0.31.0"
     fs-extra: "npm:^11.1.0"
     rlp: "npm:^3.0.0"
-    web3: "npm:^4.1.1"
   bin:
     build-wasm: scripts/build-wasm.js
     install-build-deps: scripts/install-build-deps.js

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { stringToU8a } from '@polkadot/util';
+// import { ethers } from 'ethers';
 import { alice, bob, DOCUMENTS, testResolver } from 'test-support';
 
 import { decodeMultibase, eip191HashMessage, ethereumEncode, initCrypto, secp256k1Verify } from '@zcloak/crypto';
@@ -9,6 +10,7 @@ import { Keyring } from '@zcloak/keyring';
 
 import { hashDidDocument, signedDidDocumentMessage } from '../hasher';
 import { fromMnemonic } from '../keys';
+// import { keys } from '..';
 
 describe('Did', (): void => {
   let keyring: Keyring;
@@ -132,4 +134,61 @@ describe('Did', (): void => {
       ).toBe(true);
     });
   });
+
+  // describe('sendTransaction demo', (): void => {
+  //   it('send ETH', async (): Promise<void> => {
+  //     // replace this with your acount mnemonic
+  //     const mnemonic = '';
+
+  //     const keyring = new Keyring();
+  //     // the account to send tx(sign and send)
+  //     const attester = keys.fromMnemonic(keyring, mnemonic, 'ecdsa');
+  //     const recipient = {
+  //       address: '0xf4334f7A39B2b789e1c10f5BD081CB52fa9d45c6'
+  //     };
+  //     const providerUrl = 'https://endpoints.omniatech.io/v1/eth/goerli/public';
+  //     const provider = new ethers.JsonRpcProvider(providerUrl);
+  //     const gaslimit = 21000;
+  //     const tx = {
+  //       to: recipient.address,
+  //       value: ethers.parseEther('0.00001'),
+  //       nonce: await provider.getTransactionCount(attester.identifier),
+  //       gasLimit: '0x' + gaslimit.toString(16),
+  //       gasPrice: (await provider.getFeeData()).gasPrice,
+  //       data: '0x',
+  //       chainId: 5
+  //     };
+  //     const txHash = await attester.sendTransaction(tx as any, providerUrl);
+  //   });
+
+  //   it('call contract', async (): Promise<void> => {
+  //     // replace this with your acount mnemonic
+  //     const mnemonic = '';
+
+  //     const keyring = new Keyring();
+  //     // the account to send tx(sign and send)
+  //     const attester = keys.fromMnemonic(keyring, mnemonic, 'ecdsa');
+
+  //     const providerUrl = 'https://endpoints.omniatech.io/v1/eth/goerli/public';
+  //     const provider = new ethers.JsonRpcProvider(providerUrl);
+  //     const gaslimit = 210000;
+
+  //     const contractABI = ['function add() public'];
+  //     const contractAddress = '0x13Ce1AF66D2314BAD518B63D811b950bd6CDb358';
+  //     const contractInterface = new ethers.Interface(contractABI);
+
+  //     const data = contractInterface.encodeFunctionData('function add() public', []);
+
+  //     const unsignedTx = {
+  //       to: contractAddress,
+  //       value: 0,
+  //       nonce: await provider.getTransactionCount(attester.identifier),
+  //       gasLimit: '0x' + gaslimit.toString(16),
+  //       gasPrice: (await provider.getFeeData()).gasPrice,
+  //       data,
+  //       chainId: 5
+  //     };
+  //     const txHash = await attester.sendTransaction(unsignedTx as any, providerUrl);
+  //   });
+  // });
 });

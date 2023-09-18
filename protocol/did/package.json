@@ -20,6 +20,7 @@
   "version": "2.0.0",
   "main": "index.js",
   "dependencies": {
+    "@ethersproject/transactions": "^5.7.0",
     "@polkadot/util": "^12.1.2",
     "@zcloak/crypto": "workspace:^",
     "@zcloak/did-resolver": "workspace:^",

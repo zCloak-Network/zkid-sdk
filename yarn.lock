@@ -4389,6 +4389,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/did@workspace:protocol/did"
   dependencies:
+    "@ethersproject/transactions": "npm:^5.7.0"
     "@polkadot/util": "npm:^12.1.2"
     "@zcloak/crypto": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
@@ -13587,7 +13588,6 @@ __metadata:
     "@zcloak/dev": "npm:^0.31.0"
     fs-extra: "npm:^11.1.0"
     rlp: "npm:^3.0.0"
-    web3: "npm:^4.1.1"
   bin:
     build-wasm: scripts/build-wasm.js
     install-build-deps: scripts/install-build-deps.js

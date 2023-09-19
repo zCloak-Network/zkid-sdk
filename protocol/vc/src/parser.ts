@@ -63,7 +63,7 @@ export function toMidenInput(data: VerifiableCredential<false>, leaves: number[]
     finaResult = finaResult.concat(',', nonce.toString());
 
     // and the corresponding authpath
-    const authPath = merkleTree.getProof(data.credentialSubjectHashes[k]);
+    const authPath = merkleTree.getProof(data.credentialSubjectHashes[k], k);
 
     if (!authPath) throw new Error(`Can not find proof: ${nonces[k]}`);
 

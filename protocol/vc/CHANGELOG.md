@@ -1,5 +1,11 @@
 # @zcloak/vc
 
+## 2.0.2
+
+### Patch Changes
+
+- [#91](https://github.com/zCloak-Network/zkid-sdk/pull/91) [`52a81d0`](https://github.com/zCloak-Network/zkid-sdk/commit/52a81d044ab7a89509bccac3502c24735b000bdb) Thanks [@jonathanxuu](https://github.com/jonathanxuu)! - Fix: fix parse VC bug, avoid two leaves with the same value bug
+
 ## 2.0.1
 
 ### Patch Changes

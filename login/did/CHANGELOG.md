@@ -1,5 +1,16 @@
 # @zcloak/login-did
 
+## 2.1.0
+
+### Minor Changes
+
+- [#93](https://github.com/zCloak-Network/zkid-sdk/pull/93) [`d54d884`](https://github.com/zCloak-Network/zkid-sdk/commit/d54d884da16da2e641ef17280bd6cab96da6b689) Thanks [@linhan-work](https://github.com/linhan-work)! - add send transaction in base provider
+
+### Patch Changes
+
+- Updated dependencies [[`d54d884`](https://github.com/zCloak-Network/zkid-sdk/commit/d54d884da16da2e641ef17280bd6cab96da6b689)]:
+  - @zcloak/login-providers@2.1.0
+
 ## 2.0.1
 
 ### Patch Changes

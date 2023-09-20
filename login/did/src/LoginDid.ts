@@ -5,10 +5,13 @@ import type { DidKeys, EncryptedData, IDidDetails, IDidKeyring, SignedData } fro
 import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { BaseProvider } from '@zcloak/login-providers/base/Provider';
 
+import { UnsignedTransaction } from '@ethersproject/transactions';
 import { hexToU8a } from '@polkadot/util';
 
 import { Did } from '@zcloak/did';
 import { parseDidDocument } from '@zcloak/did/did/helpers';
+
+import { bigNumberishToHex } from './util';
 
 type HexString = `0x${string}`;
 
@@ -77,5 +80,24 @@ export class LoginDid extends Did implements IDidKeyring {
       type,
       signature: hexToU8a(signature)
     };
+  }
+
+  public override async sendTransaction(
+    tx: UnsignedTransaction,
+    providerUrl: string,
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller'
+  ): Promise<any> {
+    const _tx: UnsignedTransaction = {
+      ...tx,
+      gasLimit: tx.gasLimit ? bigNumberishToHex(tx.gasLimit) : undefined,
+      gasPrice: tx.gasPrice ? bigNumberishToHex(tx.gasPrice) : undefined,
+      value: tx.value ? bigNumberishToHex(tx.value) : undefined,
+      maxPriorityFeePerGas: tx.maxPriorityFeePerGas ? bigNumberishToHex(tx.maxPriorityFeePerGas) : undefined,
+      maxFeePerGas: tx.maxFeePerGas ? bigNumberishToHex(tx.maxFeePerGas) : undefined
+    };
+
+    const result = await this.provider.sendTransaction(_tx, providerUrl, keyOrDidUrl);
+
+    return result;
   }
 }

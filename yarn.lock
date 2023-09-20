@@ -4424,10 +4424,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/login-did@workspace:login/did"
   dependencies:
+    "@ethersproject/bignumber": "npm:^5.7.0"
+    "@ethersproject/transactions": "npm:^5.7.0"
     "@polkadot/util": "npm:^12.1.2"
     "@zcloak/did": "workspace:^"
     "@zcloak/did-resolver": "workspace:^"
     "@zcloak/login-providers": "workspace:^"
+    ethers: "npm:^6.7.1"
   languageName: unknown
   linkType: soft
 
@@ -4435,6 +4438,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/login-providers@workspace:login/providers"
   dependencies:
+    "@ethersproject/transactions": "npm:^5.7.0"
     "@polkadot/util": "npm:^12.1.2"
     "@zcloak/login-rpc": "workspace:^"
     "@zcloak/login-rpc-defines": "workspace:^"
@@ -4446,6 +4450,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zcloak/login-rpc-defines@workspace:login/rpc-defines"
   dependencies:
+    "@ethersproject/transactions": "npm:^5.7.0"
     "@kiltprotocol/types": "npm:^0.28.2"
     "@zcloak/login-rpc": "workspace:^"
   languageName: unknown

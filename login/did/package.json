@@ -20,9 +20,12 @@
   "version": "2.0.1",
   "main": "index.js",
   "dependencies": {
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/transactions": "^5.7.0",
     "@polkadot/util": "^12.1.2",
     "@zcloak/did": "workspace:^",
     "@zcloak/did-resolver": "workspace:^",
-    "@zcloak/login-providers": "workspace:^"
+    "@zcloak/login-providers": "workspace:^",
+    "ethers": "^6.7.1"
   }
 }

@@ -7,6 +7,8 @@ import type { DidKeys } from '@zcloak/did/types';
 import type { DidDocument, DidUrl, SignatureType, VerificationMethodType } from '@zcloak/did-resolver/types';
 import type { VerifiablePresentation } from '@zcloak/vc/types';
 
+import { UnsignedTransaction } from '@ethersproject/transactions';
+
 export type HexString = `0x${string}`;
 
 export type DidSignature = {
@@ -76,6 +78,12 @@ export type ZkpGenRequest = {
   publicInput?: string;
 };
 
+export type SendTx = {
+  tx: UnsignedTransaction;
+  providerUrl: string;
+  keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'>;
+};
+
 declare module '@zcloak/login-rpc/rpcs' {
   interface Rpcs {
     wallet_requestAuth: [undefined, boolean];
@@ -90,6 +98,7 @@ declare module '@zcloak/login-rpc/rpcs' {
     did_encrypt: [DidEncryptParams, DidEncrypted];
     did_decrypt: [DidDecryptParams, HexString];
     proof_generate: [ZkpGenRequest, ZkpGenResponse];
+    send_tx: [SendTx, any];
   }
 
   interface RpcEvents {

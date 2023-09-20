@@ -9,6 +9,7 @@ import type { Request, RpcRequest, RpcResponse } from '@zcloak/login-rpc';
 import type { VerifiablePresentation } from '@zcloak/vc/types';
 import type { ProviderEvents } from '../types';
 
+import { UnsignedTransaction } from '@ethersproject/transactions';
 import { isHex, isString, isU8a, numberToHex, stringToHex, u8aToHex } from '@polkadot/util';
 import Events from 'eventemitter3';
 
@@ -151,5 +152,13 @@ export class BaseProvider extends Events<ProviderEvents> {
 
   public generateZkp(params: RpcRequest<'proof_generate'>): Promise<RpcResponse<'proof_generate'>> {
     return this.request('proof_generate', params);
+  }
+
+  public async sendTransaction(
+    tx: UnsignedTransaction,
+    providerUrl: string,
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller'
+  ): Promise<any> {
+    return this.request('send_tx', { tx, providerUrl, keyOrDidUrl });
   }
 }

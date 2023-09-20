@@ -20,6 +20,7 @@
   "version": "2.0.0",
   "main": "index.js",
   "dependencies": {
+    "@ethersproject/transactions": "^5.7.0",
     "@zcloak/login-rpc": "workspace:^"
   },
   "devDependencies": {

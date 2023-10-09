@@ -44,7 +44,7 @@ import { Raw } from './raw';
  *
  *
  * const builder = VerifiableCredentialBuilder.fromRaw(raw)
- *   .setExpirationDate(null); // if you don't want the vc to expirate, set it to `null`
+ *   .setExpirationDate(null); // if you don't want the vc to expiate, set it to `null`
  *
  * const issuer: Did = helpers.createEcdsaFromMnemonic('pass your mnemonic')
  * const vc: VerifiableCredential = builder.build(issuer)
@@ -128,7 +128,7 @@ export class VerifiableCredentialBuilder {
 
       const proof = await VerifiableCredentialBuilder._signDigest(issuer, digest, this.version);
 
-      // NOTE: at this moment, the first proof is fullfiled, this maybe not enough because of multiple issuers
+      // NOTE: at this moment, the first proof is fulfilled, this maybe not enough because of multiple issuers
       // Use addIssuerProof() to add more proofs
       let vc: VerifiableCredential<boolean> = {
         '@context': this['@context'],
@@ -162,7 +162,7 @@ export class VerifiableCredentialBuilder {
   }
 
   /**
-   * set arrtibute `@context`
+   * set attribute `@context`
    */
   public setContext(context: string[]): this {
     this['@context'] = context;
@@ -171,7 +171,7 @@ export class VerifiableCredentialBuilder {
   }
 
   /**
-   * set arrtibute `version`
+   * set attribute `version`
    */
   public setVersion(version: VerifiableCredentialVersion): this {
     this.version = version;
@@ -180,7 +180,7 @@ export class VerifiableCredentialBuilder {
   }
 
   /**
-   * set arrtibute `issuanceDate`
+   * set attribute `issuanceDate`
    */
   public setIssuanceDate(timestamp: number): this {
     this.issuanceDate = timestamp;
@@ -189,7 +189,7 @@ export class VerifiableCredentialBuilder {
   }
 
   /**
-   * set arrtibute `expirationDate`, if you want to set the expiration date, pass `null` to this method.
+   * set attribute `expirationDate`, if you want to set the expiration date, pass `null` to this method.
    */
   public setExpirationDate(timestamp: number | null): this {
     this.expirationDate = timestamp;
@@ -198,7 +198,7 @@ export class VerifiableCredentialBuilder {
   }
 
   /**
-   * set arrtibute `raw`
+   * set attribute `raw`
    * @param rawIn instance of [[Raw]]
    */
   public setRaw(rawIn: Raw): this {
@@ -241,5 +241,119 @@ export class VerifiableCredentialBuilder {
       proofPurpose: 'assertionMethod',
       proofValue: base58Encode(signature)
     };
+  }
+
+  /**
+   *
+   * build batch VerifiableCredential<boolean>
+   * @static
+   * @param {VerifiableCredentialBuilder[]} builders
+   * @param {Did} issuer
+   * @return {*}  {Promise<VerifiableCredential<boolean>[]>}
+   * @memberof VerifiableCredentialBuilder
+   */
+  public static async batchBuild(
+    builders: VerifiableCredentialBuilder[],
+    issuer: Did
+  ): Promise<VerifiableCredential<boolean>[]> {
+    const digests: HexString[] = [];
+    const versions: VerifiableCredentialVersion[] = [];
+    const digestHashTypes: HashType[] = [];
+    const rootHashResults: RootHashResult[] = [];
+
+    for (const builder of builders) {
+      const raw = builder.raw;
+
+      assert(raw.checkSubject(), `Subject check failed when use ctype ${raw.ctype}`);
+      assert(builder.version, 'Unknown vc version.');
+
+      const rootHashResult: RootHashResult = calcRoothash(raw.contents, raw.hashType, builder.version, {});
+
+      const digestPayload: DigestPayload<VerifiableCredentialVersion> = {
+        rootHash: rootHashResult.rootHash,
+        expirationDate: builder.expirationDate || undefined,
+        holder: raw.owner,
+        ctype: raw.ctype.$id,
+        issuanceDate: builder.issuanceDate
+      };
+
+      const { digest, type: digestHashType } = calcDigest(builder.version, digestPayload, builder.digestHashType);
+
+      rootHashResults.push(rootHashResult);
+      versions.push(builder.version);
+      digestHashTypes.push(digestHashType);
+      digests.push(digest);
+    }
+
+    const proofs = await VerifiableCredentialBuilder._batchSignDigest(issuer, digests, versions);
+
+    return proofs.map((proof, index) => {
+      const builder = builders[index];
+      const rootHashResult = rootHashResults[index];
+
+      if (
+        builder['@context'] &&
+        builder.version &&
+        builder.issuanceDate &&
+        builder.digestHashType &&
+        builder.expirationDate !== undefined
+      ) {
+        const vc: VerifiableCredential<boolean> = {
+          '@context': builder['@context'],
+          version: builder.version,
+          ctype: builder.raw.ctype.$id,
+          issuanceDate: builder.issuanceDate,
+          credentialSubject: builder.raw.contents,
+          issuer: [issuer.id],
+          holder: builder.raw.owner,
+          hasher: [rootHashResult.type, digestHashTypes[index]],
+          digest: digests[index],
+          proof: [proof],
+          credentialSubjectHashes: rootHashResult.hashes,
+          credentialSubjectNonceMap: rootHashResult.nonceMap
+        };
+
+        if (builder.expirationDate) {
+          vc.expirationDate = builder.expirationDate;
+        }
+
+        return vc;
+      }
+
+      throw new Error('Can not to build batch VerifiableCredentials');
+    });
+  }
+
+  public static async _batchSignDigest(
+    did: Did,
+    digests: HexString[],
+    versions: VerifiableCredentialVersion[]
+  ): Promise<Proof[]> {
+    const messages = digests.map((digest, index) => {
+      const version = versions[index];
+
+      if (version === '1') {
+        return signedVCMessage(digest, version);
+      } else if (version === '0' || version === '2') {
+        return digest;
+      } else {
+        const check: never = version;
+
+        throw new Error(`VC Version invalid, the wrong VC Version is ${check}`);
+      }
+    });
+    const signDidUrl: DidUrl = did.getKeyUrl('assertionMethod');
+
+    const signedData = await did.batchSignWithKey(messages, signDidUrl);
+
+    return signedData.map(({ id, signature, type: signType }) => {
+      return {
+        type: signType,
+        created: Date.now(),
+        verificationMethod: id,
+        proofPurpose: 'assertionMethod',
+        proofValue: base58Encode(signature)
+      };
+    });
   }
 }

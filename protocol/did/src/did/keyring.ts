@@ -161,4 +161,26 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
       id: _id
     });
   }
+
+  public batchSignWithKey(
+    messages: (Uint8Array | HexString)[] | Uint8Array[] | HexString[],
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'> = 'controller'
+  ): Promise<SignedData[]> {
+    const pendingMessages = messages.map((message) => this.signWithKey(message, keyOrDidUrl));
+
+    return Promise.all(pendingMessages);
+  }
+
+  public batchEncrypt(
+    params: {
+      receiver: DidUrl;
+      message: HexString;
+    }[],
+    senderUrl: DidUrl = this.getKeyUrl('keyAgreement'),
+    resolver: DidResolver = defaultResolver
+  ): Promise<EncryptedData[]> {
+    const encrypts = params.map(({ message, receiver }) => this.encrypt(message, receiver, senderUrl, resolver));
+
+    return Promise.all(encrypts);
+  }
 }

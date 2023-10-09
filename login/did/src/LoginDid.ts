@@ -6,7 +6,7 @@ import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { BaseProvider } from '@zcloak/login-providers/base/Provider';
 
 import { UnsignedTransaction } from '@ethersproject/transactions';
-import { hexToU8a } from '@polkadot/util';
+import { hexToU8a, isU8a, u8aToHex } from '@polkadot/util';
 
 import { Did } from '@zcloak/did';
 import { parseDidDocument } from '@zcloak/did/did/helpers';
@@ -99,5 +99,34 @@ export class LoginDid extends Did implements IDidKeyring {
     const result = await this.provider.sendTransaction(_tx, providerUrl, keyOrDidUrl);
 
     return result;
+  }
+
+  public override async batchSignWithKey(
+    messages: (Uint8Array | `0x${string}`)[] | Uint8Array[] | `0x${string}`[],
+    keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'>
+  ): Promise<SignedData[]> {
+    const payload: HexString[] = messages.map((message) => (isU8a(message) ? u8aToHex(message) : message));
+
+    const result = this.provider.batchSign({ keyId: keyOrDidUrl, payload });
+
+    return result;
+  }
+
+  public override async batchEncrypt(
+    params: {
+      receiver: DidUrl;
+      message: HexString;
+    }[]
+  ): Promise<EncryptedData[]> {
+    const encrypts = await this.provider.batchEncrypt(params);
+
+    return encrypts.map(({ data, receiverUrl, senderUrl, type }) => {
+      return {
+        data: hexToU8a(data),
+        receiverUrl,
+        senderUrl,
+        type
+      };
+    });
   }
 }

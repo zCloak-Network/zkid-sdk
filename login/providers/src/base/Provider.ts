@@ -161,4 +161,12 @@ export class BaseProvider extends Events<ProviderEvents> {
   ): Promise<any> {
     return this.request('send_tx', { tx, providerUrl, keyOrDidUrl });
   }
+
+  public async batchSign(params: RpcRequest<'batch_sign'>): Promise<RpcResponse<'batch_sign'>> {
+    return this.request('batch_sign', params);
+  }
+
+  public async batchEncrypt(params: RpcRequest<'batch_encrypt'>): Promise<RpcResponse<'batch_encrypt'>> {
+    return this.request('batch_encrypt', params);
+  }
 }

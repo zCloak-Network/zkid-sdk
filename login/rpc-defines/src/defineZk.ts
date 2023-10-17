@@ -3,7 +3,7 @@
 
 import '@zcloak/login-rpc/rpcs';
 
-import type { DidKeys } from '@zcloak/did/types';
+import type { DidKeys, SignedData } from '@zcloak/did/types';
 import type { DidDocument, DidUrl, SignatureType, VerificationMethodType } from '@zcloak/did-resolver/types';
 import type { VerifiablePresentation } from '@zcloak/vc/types';
 
@@ -78,11 +78,13 @@ export type ZkpGenRequest = {
   publicInput?: string;
 };
 
-export type SendTx = {
+export type SendTxParams = {
   tx: UnsignedTransaction;
   providerUrl: string;
   keyOrDidUrl: DidUrl | Exclude<DidKeys, 'keyAgreement'>;
 };
+
+export type BatchSignParams = { keyId?: DidUrl | Exclude<DidKeys, 'keyAgreement'>; payload: HexString[] };
 
 declare module '@zcloak/login-rpc/rpcs' {
   interface Rpcs {
@@ -98,7 +100,9 @@ declare module '@zcloak/login-rpc/rpcs' {
     did_encrypt: [DidEncryptParams, DidEncrypted];
     did_decrypt: [DidDecryptParams, HexString];
     proof_generate: [ZkpGenRequest, ZkpGenResponse];
-    send_tx: [SendTx, any];
+    send_tx: [SendTxParams, any];
+    batch_sign: [BatchSignParams, SignedData[]];
+    batch_encrypt: [DidEncryptParams[], DidEncrypted[]];
   }
 
   interface RpcEvents {

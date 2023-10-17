@@ -314,4 +314,57 @@ describe('VerifiableCredential', (): void => {
       });
     });
   });
+
+  describe('Batch PrivateVerifiableCredential', () => {
+    it('build batch VC from Raw instance', async (): Promise<void> => {
+      const raw = new Raw({
+        contents: CONTENTS,
+        owner: holder.id,
+        ctype,
+        hashType: 'RescuePrime'
+      });
+
+      const vcBuilder = new VerifiableCredentialBuilder(raw);
+
+      const now = Date.now();
+
+      vcBuilder
+        .setContext(DEFAULT_CONTEXT)
+        .setVersion(DEFAULT_VC_VERSION)
+        .setIssuanceDate(now)
+        .setDigestHashType('Keccak256')
+        .setExpirationDate(null);
+
+      expect(vcBuilder).toMatchObject({
+        raw,
+        '@context': DEFAULT_CONTEXT,
+        issuanceDate: now,
+        digestHashType: 'Keccak256'
+      });
+
+      const vcs = await VerifiableCredentialBuilder.batchBuild([vcBuilder], issuer);
+      const vc = vcs[0];
+
+      expect(Array.isArray(vcs)).toBe(true);
+
+      expect(isPrivateVC(vc)).toBe(true);
+
+      expect(vc).toMatchObject({
+        '@context': DEFAULT_CONTEXT,
+        version: DEFAULT_VC_VERSION,
+        ctype: ctype.$id,
+        issuanceDate: now,
+        credentialSubject: CONTENTS,
+        issuer: [issuer.id],
+        holder: holder.id,
+        hasher: ['RescuePrime', 'Keccak256'],
+        proof: [
+          {
+            type: 'EcdsaSecp256k1SignatureEip191',
+            proofPurpose: 'assertionMethod'
+          }
+        ]
+      });
+    });
+  });
 });

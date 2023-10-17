@@ -1,5 +1,14 @@
 # @zcloak/verify
 
+## 2.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`da9ff25`](https://github.com/zCloak-Network/zkid-sdk/commit/da9ff25c2c6e9b3b9c2c1cd86e575f509bf325c6)]:
+  - @zcloak/did@2.0.2
+  - @zcloak/vc@2.0.3
+  - @zcloak/ctype@2.0.2
+
 ## 2.0.2
 
 ### Patch Changes

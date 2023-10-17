@@ -1,5 +1,14 @@
 # @zcloak/login-providers
 
+## 2.1.1
+
+### Patch Changes
+
+- [#95](https://github.com/zCloak-Network/zkid-sdk/pull/95) [`da9ff25`](https://github.com/zCloak-Network/zkid-sdk/commit/da9ff25c2c6e9b3b9c2c1cd86e575f509bf325c6) Thanks [@linhan-work](https://github.com/linhan-work)! - add batch sign and batch encrypt
+
+- Updated dependencies [[`da9ff25`](https://github.com/zCloak-Network/zkid-sdk/commit/da9ff25c2c6e9b3b9c2c1cd86e575f509bf325c6)]:
+  - @zcloak/login-rpc-defines@2.1.1
+
 ## 2.1.0
 
 ### Minor Changes

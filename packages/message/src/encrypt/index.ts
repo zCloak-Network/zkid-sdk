@@ -7,9 +7,11 @@ import type { DidResolver } from '@zcloak/did-resolver';
 import type { DidUrl } from '@zcloak/did-resolver/types';
 import type { Message, MessageData, MessageType } from '../types';
 
-import { stringToU8a } from '@polkadot/util';
+import { stringToHex, stringToU8a } from '@polkadot/util';
 
 import { base58Encode, randomAsHex } from '@zcloak/crypto';
+import { Did } from '@zcloak/did';
+import { VerifiableCredential } from '@zcloak/vc/types';
 
 import { DEFAULT_MESSAGE_VERSION } from '../defaults';
 
@@ -79,4 +81,41 @@ export async function encryptMessage<T extends MessageType>(
     ctype,
     encryptedMsg: base58Encode(encrypted.data)
   };
+}
+
+export async function batchEncryptMessage(
+  data: VerifiableCredential<boolean>[],
+  sender: Did,
+  receivers: DidUrl[],
+  reply?: string,
+  resolver?: DidResolver
+): Promise<Message<'Send_issuedVC'>[]> {
+  const createTime = Date.now();
+  const version = DEFAULT_MESSAGE_VERSION;
+
+  const messages = data.map((vc, index) => {
+    return {
+      receiver: receivers[index],
+      message: stringToHex(JSON.stringify(vc))
+    };
+  });
+
+  const results = await sender.batchEncrypt(messages, sender.id, resolver);
+
+  return results.map((result, index) => {
+    const ctype = getCtype('Send_issuedVC', data[index]);
+    const id = randomAsHex(32);
+
+    return {
+      id,
+      reply,
+      createTime,
+      version,
+      msgType: 'Send_issuedVC',
+      sender: result.senderUrl,
+      receiver: result.receiverUrl,
+      ctype,
+      encryptedMsg: base58Encode(result.data)
+    };
+  });
 }

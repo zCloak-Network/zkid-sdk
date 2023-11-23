@@ -1,5 +1,11 @@
 # @zcloak/message
 
+## 2.0.4
+
+### Patch Changes
+
+- [#97](https://github.com/zCloak-Network/zkid-sdk/pull/97) [`31b58d5`](https://github.com/zCloak-Network/zkid-sdk/commit/31b58d5c368bf211d1fc6e8ae49f35e33b8c4f4a) Thanks [@linhan-work](https://github.com/linhan-work)! - add batch encrypt message
+
 ## 2.0.3
 
 ### Patch Changes

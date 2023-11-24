@@ -100,7 +100,7 @@ export async function batchEncryptMessage(
     };
   });
 
-  const results = await sender.batchEncrypt(messages, sender.id, resolver);
+  const results = await sender.batchEncrypt(messages, undefined, resolver);
 
   return results.map((result, index) => {
     const ctype = getCtype('Send_issuedVC', data[index]);

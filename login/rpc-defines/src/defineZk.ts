@@ -103,6 +103,7 @@ declare module '@zcloak/login-rpc/rpcs' {
     send_tx: [SendTxParams, any];
     batch_sign: [BatchSignParams, SignedData[]];
     batch_encrypt: [DidEncryptParams[], DidEncrypted[]];
+    batch_decrypt: [DidDecryptParams[], HexString[]];
   }
 
   interface RpcEvents {

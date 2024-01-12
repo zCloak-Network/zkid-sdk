@@ -1,5 +1,15 @@
 # @zcloak/login-verify
 
+## 2.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`7b2c106`](https://github.com/zCloak-Network/zkid-sdk/commit/7b2c1067f51db8315c3d7ac4fc11cf699bb4546c)]:
+  - @zcloak/login-rpc-defines@2.1.2
+  - @zcloak/did@2.0.3
+  - @zcloak/verify@2.0.4
+  - @zcloak/vc@2.0.4
+
 ## 2.0.4
 
 ### Patch Changes

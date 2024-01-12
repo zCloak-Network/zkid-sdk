@@ -1,5 +1,11 @@
 # @zcloak/did
 
+## 2.0.3
+
+### Patch Changes
+
+- [#101](https://github.com/zCloak-Network/zkid-sdk/pull/101) [`7b2c106`](https://github.com/zCloak-Network/zkid-sdk/commit/7b2c1067f51db8315c3d7ac4fc11cf699bb4546c) Thanks [@linhan-work](https://github.com/linhan-work)! - add batch decrypt
+
 ## 2.0.2
 
 ### Patch Changes

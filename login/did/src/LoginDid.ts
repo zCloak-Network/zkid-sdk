@@ -129,4 +129,12 @@ export class LoginDid extends Did implements IDidKeyring {
       };
     });
   }
+
+  public override async batchDecrypt(
+    params: { sender: `did:zk:${string}`; message: `0x${string}` }[]
+  ): Promise<Uint8Array[]> {
+    const decrypts = await this.provider.batchDecrypt(params);
+
+    return decrypts.map((data) => hexToU8a(data));
+  }
 }

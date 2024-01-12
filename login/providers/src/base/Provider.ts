@@ -169,4 +169,8 @@ export class BaseProvider extends Events<ProviderEvents> {
   public async batchEncrypt(params: RpcRequest<'batch_encrypt'>): Promise<RpcResponse<'batch_encrypt'>> {
     return this.request('batch_encrypt', params);
   }
+
+  public async batchDecrypt(params: RpcRequest<'batch_decrypt'>): Promise<RpcResponse<'batch_decrypt'>> {
+    return this.request('batch_decrypt', params);
+  }
 }

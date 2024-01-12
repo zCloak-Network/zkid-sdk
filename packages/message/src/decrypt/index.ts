@@ -5,9 +5,10 @@ import type { IDidKeyring } from '@zcloak/did/types';
 import type { DidResolver } from '@zcloak/did-resolver';
 import type { BaseMessage, DecryptedMessage, Message, MessageData, MessageType } from '../types';
 
-import { assert, isHex, isNumber, u8aToString } from '@polkadot/util';
+import { assert, isHex, isNumber, u8aToHex, u8aToString } from '@polkadot/util';
 
 import { decodeMultibase } from '@zcloak/crypto';
+import { DidKeyring } from '@zcloak/did/did/keyring';
 import { isDidUrl, isSameUri } from '@zcloak/did/utils';
 import { defaultResolver } from '@zcloak/did-resolver/defaults';
 import { isRawCredential, isVC, isVP } from '@zcloak/vc/is';
@@ -171,4 +172,44 @@ export async function decryptMessage<T extends MessageType>(
   verifyMessageData(decryptedMessage);
 
   return decryptedMessage;
+}
+
+export async function batchDecryptMessage<T extends MessageType>(
+  messages: Message<T>[],
+  did: DidKeyring,
+  resolver: DidResolver = defaultResolver
+): Promise<DecryptedMessage<T>[]> {
+  messages.forEach((message) => verifyMessageEnvelope(message));
+
+  const decrypteds = await did.batchDecrypt(
+    messages.map((message) => {
+      return {
+        message: u8aToHex(decodeMultibase(message.encryptedMsg)),
+        sender: message.sender
+      };
+    }),
+    undefined,
+    resolver
+  );
+
+  const decryptedMessages: DecryptedMessage<T>[] = decrypteds.map((decrypted, index) => {
+    const message = messages[index];
+    const data: MessageData[T] = JSON.parse(u8aToString(decrypted));
+
+    return {
+      id: message.id,
+      reply: message.reply,
+      createTime: message.createTime,
+      version: message.version,
+      msgType: message.msgType,
+      sender: message.sender,
+      receiver: message.receiver,
+      ctype: message.ctype,
+      data
+    };
+  });
+
+  decryptedMessages.forEach((decryptedMessage) => verifyMessageData(decryptedMessage));
+
+  return decryptedMessages;
 }

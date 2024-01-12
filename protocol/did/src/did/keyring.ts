@@ -183,4 +183,17 @@ export abstract class DidKeyring extends DidDetails implements IDidKeyring {
 
     return Promise.all(encrypts);
   }
+
+  public batchDecrypt(
+    params: {
+      sender: DidUrl;
+      message: HexString;
+    }[],
+    receiverUrl = this.getKeyUrl('keyAgreement'),
+    resolver: DidResolver = defaultResolver
+  ): Promise<Uint8Array[]> {
+    const decrypts = params.map(({ message, sender }) => this.decrypt(message, sender, receiverUrl, resolver));
+
+    return Promise.all(decrypts);
+  }
 }

@@ -4,3 +4,6 @@
 export * from './ExtensionProvider';
 export * from './PostMessageProvider';
 export * from './zkidWallet';
+
+export * from './PopupProvider';
+export * from './default';

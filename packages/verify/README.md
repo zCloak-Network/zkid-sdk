@@ -1,6 +1,6 @@
 # @zcloak/verify
 
-This repo defined some verifies fucntions to verify Verifiable credential and presentation conveniently and quickly.
+This repo defined some verifies functions to verify Verifiable credential and presentation conveniently and quickly.
 
 ## Usage
 

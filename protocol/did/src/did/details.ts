@@ -73,7 +73,7 @@ export abstract class DidDetails implements IDidDetails {
 
     const method = this.keyRelationship.get(id);
 
-    assert(method, `Not find verficationMethod with id: ${id}`);
+    assert(method, `Not find verificationMethod with id: ${id}`);
 
     return method;
   }
